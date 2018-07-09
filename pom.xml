@@ -1,91 +1,384 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>scau.fenglong</groupId>
-  <artifactId>fenglong</artifactId>
-  <packaging>war</packaging>
-  <version>1.0</version>
+  <groupId>scau.zxck</groupId>
+  <artifactId>ssm-base</artifactId>
+  <version>1.5</version>
+  <packaging>jar</packaging>
 
-  <name>ssm Maven Webapp</name>
+  <name>ssm-base</name>
   <url>http://maven.apache.org</url>
 
-  <properties>
-    <!-- project start -->
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.name>ssm-framework</project.build.name>
-    <project.build.jdk>1.7</project.build.jdk>
-    <!-- project end -->
+    <properties>
+        <!-- project start -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.name>ssm-base</project.build.name>
+        <project.build.jdk>1.7</project.build.jdk>
+        <!-- project end -->
 
-    <ssm-base.version>1.5</ssm-base.version>
+        <!-- spring -->
+        <spring.version>4.1.6.RELEASE</spring.version>
 
-    <!-- maven plugins start -->
-    <!-- compiler setting -->
-    <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
-    <!-- web container jetty -->
-    <jetty-maven-plugin.version>8.1.16.v20140903</jetty-maven-plugin.version>
-    <project.jetty.run.port>8888</project.jetty.run.port>
-    <!-- maven plugins end -->
-  </properties>
+        <!-- web start -->
+        <servlet-api.version>3.1.0</servlet-api.version>
+        <jstl.version>1.2</jstl.version>
+        <standard.version>1.1.2</standard.version>
+        <!-- web end -->
 
-  <dependencies>
-    <dependency>
-      <groupId>scau.zxck</groupId>
-      <artifactId>ssm-base</artifactId>
-      <version>${ssm-base.version}</version>
-    </dependency>
-  </dependencies>
+        <!-- maven plugins start -->
+        <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
+        <!-- maven plugins end -->
 
-  <build>
-    <finalName>${project.build.name}</finalName>
-    <resources>
-      <resource>
-        <directory>src/main/java</directory>
-        <includes>
-          <include>**/*.xml</include>
-        </includes>
-        <filtering>true</filtering>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>**/*.xml</include>
-          <include>**/*.properties</include>
-        </includes>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>
-        <configuration>
-          <source>${project.build.jdk}</source>
-          <target>${project.build.jdk}</target>
-          <encoding>${project.build.sourceEncoding}</encoding>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.mortbay.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <version>${jetty-maven-plugin.version}</version>
-        <configuration>
-          <stopPort>9999</stopPort>
-          <stopKey>foo</stopKey>
-          <scanIntervalSeconds>3</scanIntervalSeconds>
-          <webApp>
-            <contextPath>/</contextPath>
-            <defaultsDescriptor>src/test/resources/webdefault.xml</defaultsDescriptor>
-          </webApp>
-          <!-- 容器的配置 -->
-          <connectors>
-            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-              <port>${project.jetty.run.port}</port>
-              <maxIdleTime>60000</maxIdleTime>
-            </connector>
-          </connectors>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+        <!-- db start -->
+        <!-- orm start -->
+        <mybatis.version>3.2.8</mybatis.version>
+        <mybatis-spring.version>1.2.2</mybatis-spring.version>
+        <!-- orm end -->
+
+        <!-- jdbc-connector driver -->
+        <mysql-connector-java.version>5.1.34</mysql-connector-java.version>
+
+        <!-- dataSource start -->
+        <commons-dbcp.version>1.4</commons-dbcp.version>
+        <c3p0.version>0.9.1.2</c3p0.version>
+        <druid.version>1.0.13</druid.version>
+        <!-- dataSource end -->
+        <!-- db end -->
+
+        <!-- json start -->
+        <fastjson.version>1.2.5</fastjson.version>
+        <jackson.version>2.5.4</jackson.version>
+        <!-- json start -->
+
+        <!-- upload start -->
+        <commons-fileupload.version>1.3.1</commons-fileupload.version>
+        <commons-io.version>2.4</commons-io.version>
+        <commons-codec.version>1.10</commons-codec.version>
+        <!-- upload end -->
+
+        <!-- timer -->
+        <quartz.version>2.2.1</quartz.version>
+
+        <!-- cache start -->
+        <guava.version>18.0</guava.version>
+        <ehcache.version>2.10.0</ehcache.version>
+        <!-- cache end -->
+
+        <!-- log start -->
+        <log4j.version>1.2.17</log4j.version>
+        <jcl-to-slf4j.version>1.7.12</jcl-to-slf4j.version>
+        <!-- log end -->
+
+        <!-- test -->
+        <junit.version>4.12</junit.version>
+
+        <!-- config.spring.security -->
+        <shiro.version>1.2.4</shiro.version>
+    </properties>
+
+    <dependencies>
+        <!-- SPRING start -->
+        <!-- CORE start -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+            <!--排除commons-logging依赖-->
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- CORE end -->
+
+        <!-- AOP start -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- AOP end -->
+
+        <!-- DB start -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- DB end -->
+
+        <!-- WEB start -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- WEB end -->
+
+        <!-- TEST start -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- TEST end -->
+        <!-- spring start -->
+
+        <!-- 日志相关 start -->
+        <!--添加SLF4J-JCL依赖，将对JCL的日志API调用转换为对SLF4J接口的调用-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${jcl-to-slf4j.version}</version>
+        </dependency>
+        <!--添加SLF4J接口依赖-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${jcl-to-slf4j.version}</version>
+        </dependency>
+        <!--添加SLF4J-Log4j依赖，用于将对SLF4J接口的调用转接到具体的日志系统log4j-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${jcl-to-slf4j.version}</version>
+        </dependency>
+        <!--添加log4j依赖，真正实现日志输出-->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <!-- 日志相关 end -->
+
+        <!-- test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+
+
+        <!-- web start -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>${standard.version}</version>
+        </dependency>
+
+        <!-- web end -->
+
+        <!-- DB start -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>${mybatis-spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector-java.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>${commons-dbcp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${c3p0.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+        <!-- DB end -->
+
+        <!-- json start -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <!-- json start -->
+
+        <!-- upload start -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
+        </dependency>
+        <!-- upload end -->
+
+        <!-- cache start-->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+        <!-- cache end-->
+
+        <!-- timer -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${quartz.version}</version>
+        </dependency>
+
+        <!-- config.spring.security start -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-quartz</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <!-- config.spring.security end -->
+    </dependencies>
+    <build>
+        <finalName>${project.build.name}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${project.build.jdk}</source>
+                    <target>${project.build.jdk}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
