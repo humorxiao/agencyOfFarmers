@@ -1,4 +1,6 @@
+pom.xml
 *.iml
 /target/
 /.idea/
 /src/main/resources/config/ds/*.properties
+/src/main/resources/config/log/log4j.properties
