@@ -14,7 +14,7 @@
     <!-- project start -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.name>ssm-framework</project.build.name>
-    <project.build.jdk>1.7</project.build.jdk>
+    <project.build.jdk>1.8</project.build.jdk>
     <!-- project end -->
 
     <ssm-base.version>1.5</ssm-base.version>
@@ -55,7 +55,7 @@
       </resource>
     </resources>
     <plugins>
-      <plugin>
+    <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
