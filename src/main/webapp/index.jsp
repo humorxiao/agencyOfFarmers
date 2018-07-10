@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+﻿<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="WEB-INF/pages/common/base.jsp" %>
 
 <!DOCTYPE html>
@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    123
+    的哈实践活动课教案山东矿机安徽省考的哈萨克
 <script src="${jsPath}/lib/jquery.min.js"></script>
 <script src="${jsPath}/lib/bootstrap.min.js"></script>
 </body>
