@@ -10,15 +10,7 @@
 </head>
 
 <body>
-	<form action="/login" method="POST">
-		用户名:<br>
-		<input type="text" name="userName">
-		<br>
-		密码:<br>
-		<input type="text" name="password">
-		<br><br>
-		<input type="submit" value="登录">
-    </form>
+	登录成功
 </body>
 </html>
 
