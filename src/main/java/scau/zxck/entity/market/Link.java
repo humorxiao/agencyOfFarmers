@@ -8,7 +8,7 @@ import scau.zxck.base.dao.entity.Unique;
  * 友情链接表
  * Created by suruijia on 2016/1/29.
  */
-@Table(name = "lab_link")
+@Table(name="lab_link")
 public class Link extends Unique {
     /**
      * 友情链接名

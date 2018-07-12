@@ -1,6 +1,5 @@
 package scau.zxck.service.market;
 
-import scau.zxck.base.dao.utils.Page;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.UnionStaff;
 

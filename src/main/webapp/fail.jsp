@@ -1,5 +1,5 @@
 ﻿<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<%--<%@include file="common/base.jsp" %>--%>
+<%@include file="common/base.jsp" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,15 +10,7 @@
 </head>
 
 <body>
-	<form action="/login" method="POST">
-		用户名:<br>
-		<input type="text" name="userName">
-		<br>
-		密码:<br>
-		<input type="text" name="password">
-		<br><br>
-		<input type="submit" value="登录">
-    </form>
+	登录失败
 </body>
 </html>
 
