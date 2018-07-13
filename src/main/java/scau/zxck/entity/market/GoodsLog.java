@@ -25,7 +25,11 @@ public class GoodsLog extends Unique {
   @Column(name = "remark")
   private String remark;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+  private GoodsInfo goodsinfo;
+>>>>>>> Stashed changes
 =======
   private GoodsInfo goodsinfo;
 >>>>>>> Stashed changes
@@ -39,8 +43,11 @@ public class GoodsLog extends Unique {
   }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   private GoodsInfo goodsinfo;
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   public String getGoods_info_id() {

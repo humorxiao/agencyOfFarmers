@@ -1,11 +1,14 @@
 package scau.zxck.dao.market;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import scau.zxck.base.dao.BaseDao;
 import scau.zxck.entity.market.Login;
 
 public class LoginDao extends BaseDao<Login> {
 =======
+=======
+>>>>>>> Stashed changes
 import org.springframework.stereotype.Repository;
 import scau.zxck.base.constants.ErrorCode;
 import scau.zxck.base.dao.BaseDao;
@@ -18,5 +21,8 @@ import scau.zxck.entity.market.Login;
 @Repository
 public class LoginDao extends BaseDao<Login> {
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }

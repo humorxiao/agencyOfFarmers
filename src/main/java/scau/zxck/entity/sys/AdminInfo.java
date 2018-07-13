@@ -7,6 +7,7 @@ import scau.zxck.base.dao.entity.Unique;
 @Table(name = "admin_info")
 public class AdminInfo extends Unique {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   @Column(name = "admin_password")
   private String admin_password;
   @Column(name = "admin_name")
@@ -58,6 +59,8 @@ public class AdminInfo extends Unique {
     this.remark = remark;
   }
 =======
+=======
+>>>>>>> Stashed changes
     @Column(name = "admin_password")
     private String admin_password;
     @Column(name = "admin_name")
@@ -108,5 +111,8 @@ public class AdminInfo extends Unique {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }

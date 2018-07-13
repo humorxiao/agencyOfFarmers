@@ -1,8 +1,12 @@
 package scau.zxck.web.admin;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import java.util.List;
 
+=======
+import com.alibaba.fastjson.JSON;
+>>>>>>> Stashed changes
 =======
 import com.alibaba.fastjson.JSON;
 >>>>>>> Stashed changes
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 
 import com.alibaba.fastjson.JSON;
@@ -23,6 +28,8 @@ import scau.zxck.service.market.ILoginService;
 import scau.zxck.utils.HtmlRegexpUtil;
 
 =======
+=======
+>>>>>>> Stashed changes
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.Login;
 import scau.zxck.entity.sys.AdminInfo;
@@ -33,6 +40,9 @@ import scau.zxck.utils.HtmlRegexpUtil;
 
 import java.util.List;
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 /**
  * Created by suruijia on 2016/2/6.
@@ -42,7 +52,11 @@ import java.util.List;
 public class LoginAction {
     @Autowired
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private ILoginService loginService;
+=======
+    private LoginService loginService;
+>>>>>>> Stashed changes
 =======
     private LoginService loginService;
 >>>>>>> Stashed changes
@@ -50,6 +64,7 @@ public class LoginAction {
 
     /**
      * 获取分类
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
      * @return
      * @throws BaseException
@@ -63,6 +78,8 @@ public class LoginAction {
         else return "fail";
     }
 =======
+=======
+>>>>>>> Stashed changes
      *
      * @return
      * @throws BaseException
@@ -87,5 +104,8 @@ public class LoginAction {
     }
 
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }

@@ -14,6 +14,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import com.alibaba.fastjson.JSON;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 import org.apache.log4j.Logger;
 import org.apache.shiro.session.Session;
@@ -98,6 +101,20 @@ public class UnionStaffServiceTest {
       System.out.println("ID:" + student.getId() + ",NAME:" + student.getName());
     }
   }
+=======
+    public static void main(String[] args) throws Exception {
+        AdminInfo adminInfo=new AdminInfo();
+        adminInfo.setAdmin_cell("12345");
+        adminInfo.setAdmin_email("1769969562@qq.com");
+        adminInfo.setAdmin_name("yhx");
+        adminInfo.setAdmin_password("123456");
+        adminInfo.setRemark("aaaaa");
+        AdminInfoDao adminInfoDao=new AdminInfoDao();
+        adminInfoDao.add(adminInfo);
+    }
+
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 =======
     public static void main(String[] args) throws Exception {
         AdminInfo adminInfo=new AdminInfo();

@@ -1,7 +1,10 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ﻿<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%--<%@include file="common/base.jsp" %>--%>
 =======
+=======
+>>>>>>> Stashed changes
 <%@ page import="scau.zxck.entity.sys.AdminInfo" %>
 <%@ page import="scau.zxck.dao.sys.AdminInfoDao" %>
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
@@ -18,6 +21,7 @@
 
 <body>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	<form action="/login" method="POST">
 		用户名:<br>
 		<input type="text" name="userName">
@@ -28,6 +32,8 @@
 		<input type="submit" value="登录">
     </form>
 =======
+=======
+>>>>>>> Stashed changes
   <form action="/login2" method="post">
       goods_list:<input type="text" name="goods_list">
       <br>

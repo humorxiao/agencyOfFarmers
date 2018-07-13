@@ -9,6 +9,7 @@ import javax.naming.Name;
 @Table(name = "cart_info")
 public class CartInfo extends Unique {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     @Column(name = "good_list")
     private String goods_list;
     @Column(name = "goods_num")
@@ -60,6 +61,8 @@ public class CartInfo extends Unique {
         this.remark = remark;
     }
 =======
+=======
+>>>>>>> Stashed changes
   @Column(name = "goods_list")
   private String goods_list;
   @Column(name = "goods_num")
@@ -110,5 +113,8 @@ public class CartInfo extends Unique {
   public void setRemark(String remark) {
     this.remark = remark;
   }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
