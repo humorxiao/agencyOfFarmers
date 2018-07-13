@@ -24,7 +24,11 @@ public class GoodsLog extends Unique {
   private String gl_reserve_2;
   @Column(name = "remark")
   private String remark;
+<<<<<<< Updated upstream
 
+=======
+  private GoodsInfo goodsinfo;
+>>>>>>> Stashed changes
 
   public GoodsInfo getGoodsinfo() {
     return goodsinfo;
@@ -34,8 +38,11 @@ public class GoodsLog extends Unique {
     this.goodsinfo = goodsinfo;
   }
 
+<<<<<<< Updated upstream
   private GoodsInfo goodsinfo;
 
+=======
+>>>>>>> Stashed changes
   public String getGoods_info_id() {
     return goods_info_id;
   }

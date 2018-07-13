@@ -20,13 +20,13 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `admin_info`;
 CREATE TABLE `admin_info` (
-  `Admin_PK` int(11) NOT NULL AUTO_INCREMENT,
-  `Admin_Password` varchar(32) NOT NULL,
-  `Admin_Name` varchar(10) NOT NULL,
-  `Admin_Cell` varchar(11) NOT NULL COMMENT '必须为11位',
-  `Admin_email` varchar(30) DEFAULT NULL,
-  `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Admin_PK`)
+  `id` varchar (255) NOT NULL ,
+  `admin_password` varchar(32) NOT NULL,
+  `admin_name` varchar(10) NOT NULL,
+  `admin_cell` varchar(11) NOT NULL COMMENT '必须为11位',
+  `admin_email` varchar(30) DEFAULT NULL,
+  `remark` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 COMMENT='管理员账户';
 
 -- ----------------------------
@@ -41,14 +41,14 @@ INSERT INTO `admin_info` VALUES ('102', '0122101542565455442', '', '', '', null)
 -- ----------------------------
 DROP TABLE IF EXISTS `cart_info`;
 CREATE TABLE `cart_info` (
-  `Cart_PK` int(11) NOT NULL,
-  `Goods_List` varchar(5000) DEFAULT NULL COMMENT '记录商品的主键号，用特殊符号#分隔',
-  `Goods_Num` varchar(5000) DEFAULT NULL COMMENT '记录和商品列表对应的商品的数量，用特殊符号分隔',
-  `Cart_Reserve_1` char(10) DEFAULT NULL,
-  `Cart_Reserve_2` char(10) DEFAULT NULL,
+  `id` varchar (255) NOT NULL,
+  `goods_list` varchar(5000) DEFAULT NULL COMMENT '记录商品的主键号，用特殊符号#分隔',
+  `goods_num` varchar(5000) DEFAULT NULL COMMENT '记录和商品列表对应的商品的数量，用特殊符号分隔',
+  `cart_reserve_1` char(10) DEFAULT NULL,
+  `cart_reserve_2` char(10) DEFAULT NULL,
   `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Cart_PK`),
-  CONSTRAINT `FK_User_Cart2` FOREIGN KEY (`Cart_PK`) REFERENCES `user_info` (`User_PK`)
+  PRIMARY KEY (`id`),
+  CONSTRAINT `FK_User_Cart2` FOREIGN KEY (`id`) REFERENCES `user_info` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户的唯一购物车，主键与用户相同，唯一绑定。';
 
 -- ----------------------------
@@ -70,14 +70,14 @@ INSERT INTO `cart_info` VALUES ('100017', '', '', null, null, null);
 -- ----------------------------
 DROP TABLE IF EXISTS `delivery_address`;
 CREATE TABLE `delivery_address` (
-  `Deliv_PK` int(11) NOT NULL,
-  `Deliv_Cell` varchar(11) NOT NULL COMMENT '必须为11位',
-  `Deliv_Name` varchar(10) NOT NULL,
-  `Deliv_Address` varchar(200) NOT NULL,
-  `Deliv_Zipcode` varchar(6) NOT NULL COMMENT '必须为6位',
-  `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Deliv_PK`),
-  CONSTRAINT `FK_User_Delivery_Address2` FOREIGN KEY (`Deliv_PK`) REFERENCES `user_info` (`User_PK`)
+  `id` varchar (255) NOT NULL,
+  `deliv_cell` varchar(11) NOT NULL COMMENT '必须为11位',
+  `deliv_name` varchar(10) NOT NULL,
+  `deliv_address` varchar(200) NOT NULL,
+  `deliv_zipcode` varchar(6) NOT NULL COMMENT '必须为6位',
+  `remark` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `FK_User_Delivery_Address2` FOREIGN KEY (`id`) REFERENCES `user_info` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户的唯一记录的收货地址，主键与用户相同，唯一绑定。';
 
 -- ----------------------------
@@ -99,23 +99,23 @@ INSERT INTO `delivery_address` VALUES ('100017', '', '', '', '', null);
 -- ----------------------------
 DROP TABLE IF EXISTS `goods_info`;
 CREATE TABLE `goods_info` (
-  `Goods_PK` int(11) NOT NULL AUTO_INCREMENT,
-  `Goods_Name` varchar(100) DEFAULT NULL,
-  `Goods_Type` int(11) NOT NULL COMMENT '商品类别，1为水果，2为加工品，3为粮蔬，4为水产，5为禽畜。若有补充累加1。',
-  `Goods_Num` int(11) NOT NULL,
-  `Goods_Price` float NOT NULL COMMENT '保留2位小数',
-  `Goods_Mark` varchar(1) DEFAULT NULL,
-  `Goods_Show` varchar(1) DEFAULT NULL,
-  `Goods_Picture` varchar(200) DEFAULT NULL,
-  `Goods_Season` int(11) NOT NULL,
-  `Goods_Blossom` varchar(50) NOT NULL,
-  `Goods_Fruit` varchar(50) NOT NULL,
-  `Goods_Mature` varchar(50) NOT NULL,
-  `Goods_Expiration` varchar(50) NOT NULL,
-  `Goods_Reserve_1` varchar(255) DEFAULT NULL,
-  `Goods_Reserve_2` text,
-  `Remark` text,
-  PRIMARY KEY (`Goods_PK`)
+  `id` varchar (255) NOT NULL ,
+  `goods_name` varchar(100) DEFAULT NULL,
+  `goods_type` int(11) NOT NULL COMMENT '商品类别，1为水果，2为加工品，3为粮蔬，4为水产，5为禽畜。若有补充累加1。',
+  `goods_num` int(11) NOT NULL,
+  `goods_price` float NOT NULL COMMENT '保留2位小数',
+  `goods_mark` varchar(1) DEFAULT NULL,
+  `goods_show` varchar(1) DEFAULT NULL,
+  `goods_picture` varchar(200) DEFAULT NULL,
+  `goods_season` int(11) NOT NULL,
+  `goods_blossom` varchar(50) NOT NULL,
+  `goods_fruit` varchar(50) NOT NULL,
+  `goods_mature` varchar(50) NOT NULL,
+  `goods_expiration` varchar(50) NOT NULL,
+  `goods_reserve_1` varchar(255) DEFAULT NULL,
+  `goods_reserve_2` text,
+  `remark` text,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100032 DEFAULT CHARSET=utf8 COMMENT='商品的相关信息';
 
 -- ----------------------------
@@ -159,18 +159,18 @@ INSERT INTO `goods_info` VALUES ('100031', '鹰嘴桃(省外)', '1', '11999', '1
 -- ----------------------------
 DROP TABLE IF EXISTS `goods_log`;
 CREATE TABLE `goods_log` (
-  `GL_PK` int(11) NOT NULL AUTO_INCREMENT,
-  `Goods_PK` int(11) NOT NULL,
-  `Goods_In` int(11) DEFAULT NULL,
-  `Goods_Out` int(11) DEFAULT NULL,
-  `Goods_PriceChange` float DEFAULT NULL COMMENT '保留2位小数',
-  `GL_Time` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
-  `GL_Reserve_1` varchar(5) DEFAULT NULL,
-  `GL_Reserve_2` varchar(5) DEFAULT NULL,
+  `id` varchar (255) NOT NULL ,
+  `goods_info_id` varchar (255) NOT NULL,
+  `goods_in` int(11) DEFAULT NULL,
+  `goods_out` int(11) DEFAULT NULL,
+  `goods_priceChange` float DEFAULT NULL COMMENT '保留2位小数',
+  `gL_time` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
+  `gL_reserve_1` varchar(5) DEFAULT NULL,
+  `gL_reserve_2` varchar(5) DEFAULT NULL,
   `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`GL_PK`),
-  KEY `FK_Goods_NumLog` (`Goods_PK`),
-  CONSTRAINT `FK_Goods_NumLog` FOREIGN KEY (`Goods_PK`) REFERENCES `goods_info` (`Goods_PK`)
+  PRIMARY KEY (`id`),
+  KEY `FK_Goods_NumLog` (`goods_info_id`),
+  CONSTRAINT `FK_Goods_NumLog` FOREIGN KEY (`goods_info_id`) REFERENCES `goods_info` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100063 DEFAULT CHARSET=utf8 COMMENT='商品的进货，出售，存储量的记录。供管理员统计，记录。';
 
 -- ----------------------------
@@ -245,29 +245,29 @@ INSERT INTO `goods_log` VALUES ('100062', '100005', '1', '0', '0', '2018-06-14 1
 -- ----------------------------
 DROP TABLE IF EXISTS `order_info`;
 CREATE TABLE `order_info` (
-  `Order_PK` int(11) NOT NULL AUTO_INCREMENT,
-  `User_PK` int(11) NOT NULL,
-  `Order_ID` varchar(20) DEFAULT NULL,
-  `Order_No` varchar(255) DEFAULT NULL,
-  `Goods_List` varchar(5000) DEFAULT NULL,
-  `Goods_Num` varchar(5000) DEFAULT NULL,
-  `Goods_Prices` varchar(5000) DEFAULT NULL,
-  `Order_Time` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
-  `Order_IsPay` tinyint(1) NOT NULL,
-  `Order_PayTime` datetime DEFAULT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
-  `Order_PayPrice` float NOT NULL COMMENT '保留2位小数',
-  `Order_State` int(11) DEFAULT NULL COMMENT '1，未完成。2，取消。3，用户已支付，快递正在路上。4，用户已签收。5，用户已确认收货，订单完成。\r\n            （待定）',
-  `Order_TrackNum` varchar(50) DEFAULT NULL,
-  `Order_Company` varchar(255) DEFAULT NULL,
-  `Order_Website` varchar(255) DEFAULT NULL,
-  `Order_Aftersale` int(11) DEFAULT NULL COMMENT '商品若出现问题，提供售后服务的状态。由对应数字表示状态。\r\n            如1为无售后记录。2为正在退货。3为退货成功，已退款，售后完成。\r\n            （待定）',
-  `Order_Reserve_1` varchar(1000) DEFAULT NULL,
-  `Order_Reserve_2` varchar(5) DEFAULT NULL,
-  `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Order_PK`),
-  UNIQUE KEY `AK_Key_2` (`Order_ID`),
-  KEY `FK_User_Order` (`User_PK`),
-  CONSTRAINT `FK_User_Order` FOREIGN KEY (`User_PK`) REFERENCES `user_info` (`User_PK`)
+  `id` varchar (255) NOT NULL,
+  `user_info_id` varchar (255) NOT NULL,
+  `order_id` varchar(20) DEFAULT NULL,
+  `order_no` varchar(255) DEFAULT NULL,
+  `goods_list` varchar(5000) DEFAULT NULL,
+  `goods_num` varchar(5000) DEFAULT NULL,
+  `goods_prices` varchar(5000) DEFAULT NULL,
+  `order_time` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
+  `order_isPay` tinyint(1) NOT NULL,
+  `order_payTime` datetime DEFAULT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
+  `order_payPrice` float NOT NULL COMMENT '保留2位小数',
+  `order_state` int(11) DEFAULT NULL COMMENT '1，未完成。2，取消。3，用户已支付，快递正在路上。4，用户已签收。5，用户已确认收货，订单完成。\r\n            （待定）',
+  `order_trackNum` varchar(50) DEFAULT NULL,
+  `order_company` varchar(255) DEFAULT NULL,
+  `order_website` varchar(255) DEFAULT NULL,
+  `order_aftersale` int(11) DEFAULT NULL COMMENT '商品若出现问题，提供售后服务的状态。由对应数字表示状态。\r\n            如1为无售后记录。2为正在退货。3为退货成功，已退款，售后完成。\r\n            （待定）',
+  `order_reserve_1` varchar(1000) DEFAULT NULL,
+  `order_reserve_2` varchar(5) DEFAULT NULL,
+  `remark` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `AK_Key_2` (`order_id`),
+  KEY `FK_User_Order` (`user_info_id`),
+  CONSTRAINT `FK_User_Order` FOREIGN KEY (`user_info_id`) REFERENCES `user_info` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100066 DEFAULT CHARSET=utf8 COMMENT='订单日志。供用户查询，管理员查询及管理，统计等。';
 
 -- ----------------------------
@@ -323,19 +323,19 @@ INSERT INTO `order_info` VALUES ('100065', '100006', '20180611170642100006', '20
 -- ----------------------------
 DROP TABLE IF EXISTS `sign_in_log`;
 CREATE TABLE `sign_in_log` (
-  `SignIn_PK` int(11) NOT NULL AUTO_INCREMENT,
-  `SignIn_IsAdmin` tinyint(1) NOT NULL,
-  `User_Pk` int(11) DEFAULT NULL,
-  `Admin_Pk` int(11) DEFAULT NULL,
-  `SignIn_Time` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
-  `SignIn_Reserve_1` varchar(5) DEFAULT NULL,
-  `SignIn_Reserve_2` varchar(5) DEFAULT NULL,
-  `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`SignIn_PK`),
-  KEY `FK_User_login` (`User_Pk`),
-  KEY `FK_admin_login` (`Admin_Pk`),
-  CONSTRAINT `FK_admin_login` FOREIGN KEY (`Admin_Pk`) REFERENCES `admin_info` (`Admin_PK`),
-  CONSTRAINT `FK_User_login` FOREIGN KEY (`User_Pk`) REFERENCES `user_info` (`User_PK`)
+  `id` varchar (255) NOT NULL ,
+  `signIn_isAdmin` tinyint(1) NOT NULL,
+  `user_info_id` varchar (255) DEFAULT NULL,
+  `admin_info_id` varchar (255) DEFAULT NULL,
+  `signIn_time` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
+  `signIn_reserve_1` varchar(5) DEFAULT NULL,
+  `signIn_reserve_2` varchar(5) DEFAULT NULL,
+  `remark` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_User_login` (`user_info_id`),
+  KEY `FK_admin_login` (`admin_info_id`),
+  CONSTRAINT `FK_admin_login` FOREIGN KEY (`admin_info_id`) REFERENCES `admin_info` (`id`),
+  CONSTRAINT `FK_User_login` FOREIGN KEY (`user_info_id`) REFERENCES `user_info` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100055 DEFAULT CHARSET=utf8 COMMENT='系统的用户登录日志。';
 
 -- ----------------------------
@@ -398,97 +398,82 @@ INSERT INTO `sign_in_log` VALUES ('100054', '0', '100006', '0', '2018-06-23 16:4
 -- ----------------------------
 DROP TABLE IF EXISTS `union_goods_info`;
 CREATE TABLE `union_goods_info` (
-  `Union_PK` int(11) NOT NULL,
-  `Goods_PK` int(11) NOT NULL,
-  `Have_Area` int(11) NOT NULL,
-  `Have_Num` int(11) NOT NULL,
-  `Have_Yield` varchar(50) NOT NULL,
-  `Have_Time` varchar(50) NOT NULL,
-  `Have_Price` varchar(50) NOT NULL,
-  `Union_Goods_Mark` varchar(1) DEFAULT NULL,
-  `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Union_PK`,`Goods_PK`),
-  KEY `FK_Goods_Union_Relation_1` (`Goods_PK`) USING BTREE,
-  CONSTRAINT `union_goods_info_ibfk_1` FOREIGN KEY (`Union_PK`) REFERENCES `union_info` (`Union_PK`),
-  CONSTRAINT `union_goods_info_ibfk_2` FOREIGN KEY (`Goods_PK`) REFERENCES `goods_info` (`Goods_PK`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='记录每家合作社所生产的农产品信息';
+  `id` varchar (255) NOT NULL ,
+  `union_info_id` varchar (255) NOT NULL,
+  `goods_info_id` varchar (255) NOT NULL,
+  `union_name` varchar(200) NOT NULL,
+  `goods_name` varchar(100) DEFAULT NULL,
+  `goods_price` int(11) NOT NULL,
+  `union_master` varchar(10) NOT NULL,
+  `union_cell` varchar(11) NOT NULL COMMENT '必须为11位',
+  `goods_type` int(11) NOT NULL COMMENT '商品类别，1为水果，2为加工品，3为粮蔬，4为水产，5为禽畜。若有补充累加1。',
+  `goods_num` int(11) NOT NULL,
+  `reserved_1` varchar(5) DEFAULT NULL,
+  `reserved_2` varchar(5) DEFAULT NULL,
+  `remark` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_Goods_Union_Relation_1` (`goods_info_id`),
+  KEY `FK_Goods_Union_Relation_2` (`union_info_id`),
+  CONSTRAINT `FK_Goods_Union_Relation_1` FOREIGN KEY (`goods_info_id`) REFERENCES `goods_info` (`id`),
+  CONSTRAINT `FK_Goods_Union_Relation_2` FOREIGN KEY (`union_info_id`) REFERENCES `union_info` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100034 DEFAULT CHARSET=utf8 COMMENT='记录每家合作社所生产的商品信息';
 
 -- ----------------------------
 -- Records of union_goods_info
 -- ----------------------------
-INSERT INTO `union_goods_info` VALUES ('100000', '100000', '100', '2000', '按丰欠年产量不等', '7月', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100000', '100001', '5', '-1', '按丰欠年产量不等', '3/10月', '300-900元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100000', '100002', '20', '100', '按丰欠年产量不等', '9月', '5-10元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100001', '100000', '500', '10000', '依丰欠收年产量不定', '7月', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100002', '100017', '-1', '3000', '3000', '一年四季', '15-25元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100002', '100020', '15', '10000', '10000', '无', '12-20元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100003', '100022', '100', '100', '1000公斤', '不定', '150-250元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100004', '100022', '50', '1500', '丰欠年产量不定', '10月份', '70-100元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100005', '100000', '50', '1000', '丰欠年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100005', '100004', '20', '400', '丰欠年产量不定', '6月份', '7-10元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100006', '100000', '30', '600', '丰欠收年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100007', '100005', '50', '30000', '60000公斤', '不定期', '9-15元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100008', '100021', '10', '-1', '10000只', '常年供应', '70-100元/500g', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100009', '100022', '300', '12000', '丰欠年产量不定', '10月份', '70-100元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100010', '100006', '200', '-1', '600-1200kg', '每年每月', '2-20元（品种不同价格不同）', '0', '1');
-INSERT INTO `union_goods_info` VALUES ('100010', '100017', '8000', '15000', '15000', '到达出栏标准即可', '15-25元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100011', '100000', '100', '2000', '依丰欠收年不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100011', '100004', '100', '2000', '依丰欠收年不定', '6月份', '7-10元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100012', '100000', '200', '4000', '丰欠收年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100013', '100001', '200', '-1', '2000公斤', '3/10月份', '300-900元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100014', '100009', '10', '100', '100头', '无', '8-15元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100014', '100010', '60', '1800', '丰欠收年产量不定', '10月份', '7-10元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100015', '100004', '30', '600', '丰欠收年不定', '6月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100015', '100011', '100', '-1', '5000公斤', '6/10月份', '5-10元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100015', '100012', '100', '-1', '2500公斤', '7/12月份', '3-6元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100016', '100001', '150', '-1', '1500公斤', '3/10月', '300-900元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100017', '100022', '50', '1500', '依丰欠收产量不定', '11月份', '70-100元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100018', '100010', '1000', '50000', '3000000公斤', '12月份', '5-10元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100019', '100014', '200', '6000', '丰欠收年不定', '10,11,12,1,2月份', '12-20元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100020', '100019', '500', '-1', '无', '2/3/4月份', '果苗品种不同价格不同', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100021', '100004', '50', '1000', '丰欠收年产量不定', '6月份', '7-10元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100022', '100000', '30', '600', '丰欠年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100023', '100000', '25', '500', '丰欠收年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100024', '100000', '70', '1400', '丰欠年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100025', '100000', '150', '3000', '丰欠收年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100026', '100000', '100', '2000', '丰欠收年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100027', '100000', '50', '1000', '丰欠年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100028', '100000', '500', '10000', '丰欠年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100029', '100000', '150', '3000', '丰欠收年不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100029', '100011', '50', '-1', '丰欠收年不定', '5/11月份', '4-8元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100030', '100000', '50', '1000', '丰欠收年不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100031', '100000', '20', '400', '丰欠收年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100032', '100000', '20', '400', '依丰欠收年不等', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100032', '100004', '20', '600', '依丰欠收年不等', '6月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100032', '100006', '10', '300', '依丰欠收年不等', '3-4月份', '5-10元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100033', '100000', '50', '1000', '丰欠收年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100034', '100000', '80', '1600', '丰欠收年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100035', '100001', '30', '-1', '300', '3/10月份', '300-900元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100036', '100000', '100', '2000', '丰欠收年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100037', '100000', '50', '1000', '丰欠收年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100038', '100000', '80', '1600', '丰欠年产量不定', '7月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100038', '100004', '50', '1000', '丰欠年产量不定', '6月份', '7-12元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100038', '100022', '100', '5000', '丰欠年产量不定', '10月份', '70-100元', '0', null);
-INSERT INTO `union_goods_info` VALUES ('100039', '100017', '20', '3000', '按重量计', '按季度出货', '20-40元', '0', null);
+INSERT INTO `union_goods_info` VALUES ('100000', '100000', '100000', '连平县丰隆种植专业合作社', '鹰嘴桃', '8', '谢衍生', '13553227856', '1', '998', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100001', '100000', '100001', '连平县丰隆种植专业合作社', '茶叶', '500', '谢衍生', '13553227856', '2', '998', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100002', '100000', '100002', '连平县丰隆种植专业合作社', '板栗', '18', '谢衍生', '13553227856', '3', '1000', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100003', '100001', '100000', '连平县连兴种植专业合作社', '鹰嘴桃', '8', '谢海根', '13435513908', '1', '998', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100004', '100002', '100000', '连平县金生种养专业合作社', '鹰嘴桃', '8', '谢金坚', '13750237498', '1', '998', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100005', '100002', '100001', '连平县金生种养专业合作社', '茶叶', '500', '谢金坚', '13750237498', '2', '998', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100006', '100002', '100002', '连平县金生种养专业合作社', '板栗', '18', '谢金坚', '13750237498', '3', '1000', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100007', '100002', '100003', '连平县金生种养专业合作社', '蜂蜜', '100', '谢金坚', '13750237498', '2', '1000', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100008', '100002', '100004', '连平县金生种养专业合作社', '三华李', '3', '谢金坚', '13750237498', '1', '998', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100009', '100002', '100017', '连平县金生种养专业合作社', '山地鸡', '20', '谢金坚', '13750237498', '5', '200', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100010', '100003', '100004', '连平县连宏达种养专业合作社', '三华李', '3', '周志平', '13650668213', '1', '998', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100011', '100003', '100005', '连平县连宏达种养专业合作社', '水鱼', '500', '周志平', '13650668213', '4', '26', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100012', '100003', '100006', '连平县连宏达种养专业合作社', '早李', '2', '周志平', '13650668213', '1', '995', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100013', '100004', '100005', '连平县连生态种养专业合作社', '水鱼', '500', '周文达', '13435514020', '4', '26', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100014', '100004', '100008', '连平县连生态种养专业合作社', '贡柑', '7', '周文达', '13435514020', '1', '1000', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100015', '100004', '100010', '连平县连生态种养专业合作社', '砂糖桔', '5', '周文达', '13435514020', '1', '998', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100016', '100005', '100001', '连平县炜森种养专业合作社', '茶叶', '500', '谢房栋', '13553287443', '2', '998', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100017', '100005', '100017', '连平县炜森种养专业合作社', '山地鸡', '20', '谢房栋', '13553287443', '5', '200', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100018', '100005', '100018', '连平县炜森种养专业合作社', '火蒜', '20', '谢房栋', '13553287443', '3', '500', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100019', '100006', '100012', '连平县陂头塔下种植专业合作社', '水稻', '2', '廖彩坤', '13690926063', '3', '1000', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100020', '100006', '100013', '连平县陂头塔下种植专业合作社', '玉米', '5', '廖彩坤', '13690926063', '3', '1000', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100021', '100006', '100014', '连平县陂头塔下种植专业合作社', '百香果', '10', '廖彩坤', '13690926063', '1', '1000', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100022', '100007', '100011', '连平县陂头跃丰种养专业合作社', '番薯', '10', '曾超和', '13435328821', '3', '994', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100023', '100007', '100012', '连平县陂头跃丰种养专业合作社', '水稻', '2', '曾超和', '13435328821', '3', '1000', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100024', '100007', '100014', '连平县陂头跃丰种养专业合作社', '百香果', '10', '曾超和', '13435328821', '1', '1000', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100025', '100008', '100009', '连平县隆街镇龙埔竹鼠养殖专业合作社', '生猪', '2000', '李国雄', '13829325433', '5', '98', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100026', '100008', '100016', '连平县隆街镇龙埔竹鼠养殖专业合作社', '生羊', '100', '李国雄', '13829325433', '5', '200', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100027', '100008', '100017', '连平县隆街镇龙埔竹鼠养殖专业合作社', '山地鸡', '20', '李国雄', '13829325433', '5', '200', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100028', '100009', '100002', '连平县众联兴种植专业合作社', '板栗', '18', '邱志增', '13827804970', '3', '1000', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100029', '100009', '100003', '连平县众联兴种植专业合作社', '蜂蜜', '100', '邱志增', '13827804970', '2', '1000', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100030', '100009', '100004', '连平县众联兴种植专业合作社', '三华李', '3', '邱志增', '13827804970', '1', '998', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100031', '100010', '100011', '连平县绿强种养专业合作社', '番薯', '10', '谢冠强', '13509271567', '3', '994', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100032', '100010', '100015', '连平县绿强种养专业合作社', '薯干', '20', '谢冠强', '13509271567', '2', '500', null, null, null);
+INSERT INTO `union_goods_info` VALUES ('100033', '100010', '100017', '连平县绿强种养专业合作社', '山地鸡', '20', '谢冠强', '13509271567', '5', '200', null, null, null);
 
 -- ----------------------------
 -- Table structure for union_info
 -- ----------------------------
 DROP TABLE IF EXISTS `union_info`;
 CREATE TABLE `union_info` (
-  `Union_PK` int(11) NOT NULL AUTO_INCREMENT,
-  `Union_Name` varchar(200) NOT NULL,
-  `Union_Master` varchar(10) NOT NULL,
-  `Union_License` varchar(30) NOT NULL,
-  `Union_Address` varchar(200) NOT NULL,
-  `Union_Establish` date NOT NULL COMMENT '格式为YYYY-MM-DD',
-  `Union_Asset` int(11) NOT NULL,
-  `Union_Tele` varchar(20) NOT NULL,
-  `Union_Cell` varchar(11) NOT NULL COMMENT '必须为11位',
-  `Union_Email` varchar(30) NOT NULL,
-  `Union_Mark` varchar(1) DEFAULT NULL,
-  `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Union_PK`)
+  `id` varchar (255) NOT NULL ,
+  `union_name` varchar(200) NOT NULL,
+  `union_master` varchar(10) NOT NULL,
+  `union_license` varchar(30) NOT NULL,
+  `union_address` varchar(200) NOT NULL,
+  `union_establish` date NOT NULL COMMENT '格式为YYYY-MM-DD',
+  `union_asset` int(11) NOT NULL,
+  `union_tele` varchar(20) NOT NULL,
+  `union_cell` varchar(11) NOT NULL COMMENT '必须为11位',
+  `union_email` varchar(30) NOT NULL,
+  `union_mark` varchar(1) DEFAULT NULL,
+  `remark` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100040 DEFAULT CHARSET=utf8 COMMENT='记录合作社的相关信息';
 
 -- ----------------------------
@@ -540,13 +525,13 @@ INSERT INTO `union_info` VALUES ('100039', '连平县新龙绿野康种养专业
 -- ----------------------------
 DROP TABLE IF EXISTS `union_news`;
 CREATE TABLE `union_news` (
-  `News_PK` int(11) NOT NULL AUTO_INCREMENT,
-  `News_Title` varchar(200) DEFAULT NULL,
-  `News_Text` text,
-  `News_Time` datetime DEFAULT NULL,
-  `News_Mark` int(11) DEFAULT NULL,
-  `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`News_PK`)
+  `id` varchar (255) NOT NULL ,
+  `news_title` varchar(200) DEFAULT NULL,
+  `news_text` text,
+  `news_time` datetime DEFAULT NULL,
+  `news_mark` int(11) DEFAULT NULL,
+  `remark` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -560,19 +545,19 @@ INSERT INTO `union_news` VALUES ('2', '第二条公告', '<h2>\r\n	第二条公�
 -- ----------------------------
 DROP TABLE IF EXISTS `union_staff`;
 CREATE TABLE `union_staff` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Union_PK` int(11) DEFAULT NULL,
-  `Staff_Name` varchar(10) NOT NULL,
-  `Staff_Sex` int(11) NOT NULL COMMENT '1为男，2为女，3为保密',
-  `Staff_Birthday` date NOT NULL COMMENT '格式为YYYY-MM-DD',
-  `Staff_Address` varchar(200) NOT NULL,
-  `Staff_Phone` varchar(11) NOT NULL COMMENT '必须为11位',
-  `Staff_ID` varchar(18) NOT NULL COMMENT '必须为18位',
-  `Staff_Email` varchar(30) NOT NULL,
-  `Remark` varchar(50) DEFAULT NULL,
+  `id` varchar (255) NOT NULL ,
+  `union_info_id` varchar (255) DEFAULT NULL,
+  `staff_name` varchar(10) NOT NULL,
+  `staff_sex` int(11) NOT NULL COMMENT '1为男，2为女，3为保密',
+  `staff_birthday` date NOT NULL COMMENT '格式为YYYY-MM-DD',
+  `staff_address` varchar(200) NOT NULL,
+  `staff_phone` varchar(11) NOT NULL COMMENT '必须为11位',
+  `staff_iD` varchar(18) NOT NULL COMMENT '必须为18位',
+  `staff_email` varchar(30) NOT NULL,
+  `remark` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_Union_Staff_Relationship` (`Union_PK`),
-  CONSTRAINT `FK_Union_Staff_Relationship` FOREIGN KEY (`Union_PK`) REFERENCES `union_info` (`Union_PK`)
+  KEY `FK_Union_Staff_Relationship` (`union_info_id`),
+  CONSTRAINT `FK_Union_Staff_Relationship` FOREIGN KEY (`union_info_id`) REFERENCES `union_info` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100040 DEFAULT CHARSET=utf8 COMMENT='记录各合作社员工个人信息';
 
 -- ----------------------------
@@ -624,18 +609,18 @@ INSERT INTO `union_staff` VALUES ('100039', '100039', '余房淦', '1', '1979-10
 -- ----------------------------
 DROP TABLE IF EXISTS `user_collection`;
 CREATE TABLE `user_collection` (
-  `Collect_PK` int(11) NOT NULL AUTO_INCREMENT,
-  `User_PK` int(11) NOT NULL,
-  `Goods_PK` int(11) NOT NULL,
-  `Collect_Time` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
-  `Collect_Reserve_1` varchar(5) DEFAULT NULL,
-  `Collect_Reserve_2` varchar(5) DEFAULT NULL,
-  `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Collect_PK`),
-  KEY `FK_Collection_Goods` (`Goods_PK`),
-  KEY `FK_User_Collection` (`User_PK`),
-  CONSTRAINT `FK_Collection_Goods` FOREIGN KEY (`Goods_PK`) REFERENCES `goods_info` (`Goods_PK`),
-  CONSTRAINT `FK_User_Collection` FOREIGN KEY (`User_PK`) REFERENCES `user_info` (`User_PK`)
+  `id` varchar (255) NOT NULL ,
+  `user_info_id` varchar (255) NOT NULL,
+  `goods_info_id` varchar (255) NOT NULL,
+  `collect_time` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
+  `collect_reserve_1` varchar(5) DEFAULT NULL,
+  `collect_reserve_2` varchar(5) DEFAULT NULL,
+  `remark` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_Collection_Goods` (`goods_info_id`),
+  KEY `FK_User_Collection` (`user_info_id`),
+  CONSTRAINT `FK_Collection_Goods` FOREIGN KEY (`goods_info_id`) REFERENCES `goods_info` (`id`),
+  CONSTRAINT `FK_User_Collection` FOREIGN KEY (`user_info_id`) REFERENCES `user_info` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100007 DEFAULT CHARSET=utf8 COMMENT='用户对商品的收藏';
 
 -- ----------------------------
@@ -652,20 +637,20 @@ INSERT INTO `user_collection` VALUES ('100006', '100000', '100000', '2018-06-28 
 -- ----------------------------
 DROP TABLE IF EXISTS `user_comments`;
 CREATE TABLE `user_comments` (
-  `Comm_PK` int(11) NOT NULL AUTO_INCREMENT,
-  `User_PK` int(11) NOT NULL,
-  `Goods_PK` int(11) NOT NULL,
-  `Comm_Rank` int(11) NOT NULL COMMENT '1到5',
-  `Comm_Text` text NOT NULL,
-  `Comm_Time` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
-  `Comm_Reserve_1` varchar(5) DEFAULT NULL,
-  `Comm_Reserve_2` varchar(5) DEFAULT NULL,
-  `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Comm_PK`),
-  KEY `FK_Goods_Comment` (`Goods_PK`),
-  KEY `FK_User_Comment` (`User_PK`),
-  CONSTRAINT `FK_Goods_Comment` FOREIGN KEY (`Goods_PK`) REFERENCES `goods_info` (`Goods_PK`),
-  CONSTRAINT `FK_User_Comment` FOREIGN KEY (`User_PK`) REFERENCES `user_info` (`User_PK`)
+  `id` varchar (255) NOT NULL ,
+  `user_info_id` varchar (255) NOT NULL,
+  `goods_info_id` varchar (255) NOT NULL,
+  `comm_rank` int(11) NOT NULL COMMENT '1到5',
+  `comm_text` text NOT NULL,
+  `comm_time` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
+  `comm_reserve_1` varchar(5) DEFAULT NULL,
+  `comm_reserve_2` varchar(5) DEFAULT NULL,
+  `remark` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_Goods_Comment` (`goods_info_id`),
+  KEY `FK_User_Comment` (`user_info_id`),
+  CONSTRAINT `FK_Goods_Comment` FOREIGN KEY (`goods_info_id`) REFERENCES `goods_info` (`id`),
+  CONSTRAINT `FK_User_Comment` FOREIGN KEY (`user_info_id`) REFERENCES `user_info` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100003 DEFAULT CHARSET=utf8 COMMENT='用户对某一商品的评价。';
 
 -- ----------------------------
@@ -678,24 +663,24 @@ INSERT INTO `user_comments` VALUES ('100002', '100003', '100000', '4', '123', '2
 -- ----------------------------
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (
-  `User_PK` int(11) NOT NULL AUTO_INCREMENT,
-  `User_Password` varchar(32) NOT NULL COMMENT '密码应不低于8位，不高于16位。',
-  `User_Name` varchar(20) DEFAULT NULL,
-  `User_Cell` varchar(11) DEFAULT NULL COMMENT '必须为11位',
-  `User_Email` varchar(30) DEFAULT NULL,
-  `User_Sex` int(11) NOT NULL COMMENT '1为男，2为女，3为保密',
-  `User_RegTime` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
-  `User_Realname` varchar(10) DEFAULT NULL,
-  `User_ID` varchar(18) DEFAULT NULL COMMENT '必须为18位',
-  `User_Mark` varchar(1) DEFAULT NULL,
-  `User_Reserve_1` varchar(5) DEFAULT NULL,
-  `User_Reserve_2` varchar(5) DEFAULT NULL,
-  `Remark` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`User_PK`),
-  UNIQUE KEY `UNQ_User_user_name` (`User_Name`),
-  UNIQUE KEY `UNQ_User_user_cell` (`User_Cell`),
-  UNIQUE KEY `UNQ_User_user_email` (`User_Email`),
-  UNIQUE KEY `UNQ_User_user_ID` (`User_ID`)
+  `id` varchar (255) NOT NULL ,
+  `user_password` varchar(32) NOT NULL COMMENT '密码应不低于8位，不高于16位。',
+  `user_name` varchar(20) DEFAULT NULL,
+  `user_cell` varchar(11) DEFAULT NULL COMMENT '必须为11位',
+  `user_email` varchar(30) DEFAULT NULL,
+  `user_sex` int(11) NOT NULL COMMENT '1为男，2为女，3为保密',
+  `user_regTime` datetime NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
+  `user_realname` varchar(10) DEFAULT NULL,
+  `user_id` varchar(18) DEFAULT NULL COMMENT '必须为18位',
+  `user_mark` varchar(1) DEFAULT NULL,
+  `user_reserve_1` varchar(5) DEFAULT NULL,
+  `user_reserve_2` varchar(5) DEFAULT NULL,
+  `remark` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNQ_User_user_name` (`user_name`),
+  UNIQUE KEY `UNQ_User_user_cell` (`user_cell`),
+  UNIQUE KEY `UNQ_User_user_email` (`user_email`),
+  UNIQUE KEY `UNQ_User_user_ID` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100019 DEFAULT CHARSET=utf8 COMMENT='注册用户信息';
 
 -- ----------------------------

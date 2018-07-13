@@ -35,6 +35,9 @@
 		<property name="typeAliasesPackage" value="scau.zxck.entity" />
 		<property name="typeAliases" value="scau.zxck.base.dao.entity.SQLAdapter" />
 	</bean>
+	<!--<bean class="org.mybatis.spring.support.SqlSessionDaoSupport">-->
+		<!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+	<!--</bean>-->
 
 	<!-- DAO接口所在包名， Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
