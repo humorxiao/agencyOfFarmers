@@ -5,137 +5,110 @@ import scau.zxck.base.dao.annotation.Table;
 import scau.zxck.base.dao.entity.Unique;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
-/**
- * 导航栏表
- * Created by suruijia on 2016/1/29.
- */
 @Table(name = "union_staff")
 public class UnionStaff extends Unique {
-    /**
-     * 合作社id
-     */
-    @Column(name = "Union_PK")
-    private Integer unionPK;
+  @Column(name = "union_info_id")
+  private String union_info_id;
+  @Column(name = "staff_name")
+  private String staff_name;
+  @Column(name = "staff_sex")
+  private int staff_sex;
+  @Column(name = "staff_birthday")
+  private Date staff_birthday;
+  @Column(name = "staff_address")
+  private String staff_address;
+  @Column(name = "staff_phone")
+  private String staff_phone;
+  @Column(name = "staff_id")
+  private String staff_id;
+  @Column(name = "staff_email")
+  private String staff_email;
+  @Column(name = "remark")
+  private String remark;
 
-    /**
-     * 姓名
-     */
-    @Column(name = "Staff_Name")
-    private String staffName;
+  private UnionInfo unioninfo;
 
-    /**
-     * 性别
-     */
-    @Column(name = "Staff_Sex")
-    private Integer staffSex;
 
-    /**
-     * 出生日期
-     */
-    @Column(name = "Staff_Birthday")
-    private Date staffBirthday;
 
-    /**
-     * 住址
-     */
-    @Column(name = "Staff_Address")
-    private String staffAddress;
+  public UnionInfo getUnioninfo() {
+    return unioninfo;
+  }
 
-    /**
-     * 电话
-     */
-    @Column(name = "Staff_Phone")
-    private String staffPhone;
+  public void setUnioninfo(UnionInfo unioninfo) {
+    this.unioninfo = unioninfo;
+  }
 
-    /**
-     * 工号id
-     */
-    @Column(name = "Staff_ID")
-    private String staffID;
+  public String getStaff_name() {
+    return staff_name;
+  }
 
-    /**
-     * 邮箱
-     */
-    @Column(name = "Staff_Email")
-    private String staffEmail;
+  public void setStaff_name(String staff_name) {
+    this.staff_name = staff_name;
+  }
 
-    /**
-     * 备注
-     */
-    @Column(name = "Remark")
-    private String remark;
+  public int getStaff_sex() {
+    return staff_sex;
+  }
 
-    public String getRemark() {
-        return remark;
-    }
+  public void setStaff_sex(int staff_sex) {
+    this.staff_sex = staff_sex;
+  }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+  public Date getStaff_birthday() {
+    return staff_birthday;
+  }
 
-    public Integer getUnionPK() {
-        return unionPK;
-    }
+  public void setStaff_birthday(Date staff_birthday) {
+    this.staff_birthday = staff_birthday;
+  }
 
-    public void setUnionPK(Integer unionPK) {
-        this.unionPK = unionPK;
-    }
+  public String getStaff_address() {
+    return staff_address;
+  }
 
-    public String getStaffName() {
-        return staffName;
-    }
+  public void setStaff_address(String staff_address) {
+    this.staff_address = staff_address;
+  }
 
-    public void setStaffName(String staffName) {
-        this.staffName = staffName;
-    }
+  public String getStaff_phone() {
+    return staff_phone;
+  }
 
-    public Integer getStaffSex() {
-        return staffSex;
-    }
+  public void setStaff_phone(String staff_phone) {
+    this.staff_phone = staff_phone;
+  }
 
-    public void setStaffSex(Integer staffSex) {
-        this.staffSex = staffSex;
-    }
+  public String getStaff_id() {
+    return staff_id;
+  }
 
-    public Date getStaffBirthday() {
-        return staffBirthday;
-    }
+  public void setStaff_id(String staff_id) {
+    this.staff_id = staff_id;
+  }
 
-    public void setStaffBirthday(Date staffBirthday) {
-        this.staffBirthday = staffBirthday;
-    }
+  public String getStaff_email() {
+    return staff_email;
+  }
 
-    public String getStaffAddress() {
-        return staffAddress;
-    }
+  public void setStaff_email(String staff_email) {
+    this.staff_email = staff_email;
+  }
 
-    public void setStaffAddress(String staffAddress) {
-        this.staffAddress = staffAddress;
-    }
+  public String getUnion_info_id() {
+    return union_info_id;
+  }
 
-    public String getStaffPhone() {
-        return staffPhone;
-    }
+  public void setUnion_info_id(String union_info_id) {
+    this.union_info_id = union_info_id;
+  }
 
-    public void setStaffPhone(String staffPhone) {
-        this.staffPhone = staffPhone;
-    }
+  public String getRemark() {
+    return remark;
+  }
 
-    public String getStaffID() {
-        return staffID;
-    }
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
 
-    public void setStaffID(String staffID) {
-        this.staffID = staffID;
-    }
-
-    public String getStaffEmail() {
-        return staffEmail;
-    }
-
-    public void setStaffEmail(String staffEmail) {
-        this.staffEmail = staffEmail;
-    }
 }
