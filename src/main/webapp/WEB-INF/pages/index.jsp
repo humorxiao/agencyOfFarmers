@@ -10,21 +10,12 @@
 </head>
 
 <body>
-	<form action="/login1" method="POST">
-		用户名:<br>
-		<input type="text" name="admin_name">
-		<br>
-		密码:<br>
-		<input type="text" name="admin_password">
-		<br>
-		cell:<br>
-		<input type="text" name="admin_cell">
-		<br>
-		email:<br>
-		<input type="text" name="admin_email">
+	<form action="/login" method="POST">
+		测试：<input type="text" name="jsonStr">
 		<br><br>
 		<input type="submit" value="登录">
     </form>
+<%--<script src="test-js/login.js"></script>--%>
 </body>
 </html>
 

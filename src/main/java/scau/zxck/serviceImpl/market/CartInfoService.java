@@ -6,13 +6,12 @@ import scau.zxck.base.exception.BaseException;
 import scau.zxck.dao.market.CartInfoDao;
 import scau.zxck.entity.market.CartInfo;
 import scau.zxck.service.market.ICartInfoService;
-
 @Service
-public class CartInfoService implements ICartInfoService{
+public class CartInfoService implements ICartInfoService {
     @Autowired
     private CartInfoDao cartInfoDao;
     @Override
-    public String add(CartInfo entity) throws BaseException {
-        return cartInfoDao.add(entity);
+    public CartInfo findById(String id) throws BaseException {
+        return cartInfoDao.findById(id);
     }
 }
