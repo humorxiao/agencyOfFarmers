@@ -3,6 +3,8 @@ package scau.zxck.entity.sys;
 import scau.zxck.base.dao.annotation.Column;
 import scau.zxck.base.dao.annotation.Table;
 import scau.zxck.base.dao.entity.Unique;
+import scau.zxck.entity.market.CartInfo;
+import scau.zxck.entity.market.DeliveryAddress;
 
 @Table(name = "user_info")
 public class UserInfo extends Unique {
@@ -15,7 +17,7 @@ public class UserInfo extends Unique {
   @Column(name = "user_email")
   private String user_email;
   @Column(name = "user_sex")
-  private char user_sex;
+  private int user_sex;
   @Column(name = "user_regtime")
   private String user_regtime;
   @Column(name = "user_realname")
@@ -30,6 +32,25 @@ public class UserInfo extends Unique {
   private String user_reserve_2;
   @Column(name = "remark")
   private String remark;
+  private CartInfo cart;
+
+  public CartInfo getCart() {
+    return cart;
+  }
+
+  public void setCart(CartInfo cart) {
+    this.cart = cart;
+  }
+
+  public DeliveryAddress getDeliveryaddress() {
+    return deliveryaddress;
+  }
+
+  public void setDeliveryaddress(DeliveryAddress deliveryaddress) {
+    this.deliveryaddress = deliveryaddress;
+  }
+
+  private DeliveryAddress deliveryaddress;
 
   public String getUser_password() {
     return user_password;
@@ -63,11 +84,11 @@ public class UserInfo extends Unique {
     this.user_email = user_email;
   }
 
-  public char getUser_sex() {
+  public int getUser_sex() {
     return user_sex;
   }
 
-  public void setUser_sex(char user_sex) {
+  public void setUser_sex(int user_sex) {
     this.user_sex = user_sex;
   }
 
