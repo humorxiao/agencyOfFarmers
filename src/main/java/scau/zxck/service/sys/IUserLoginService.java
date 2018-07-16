@@ -9,4 +9,6 @@ import java.util.List;
 public interface IUserLoginService {
     <V> List<V> list(Conditions conditions) throws BaseException;
      String add(UserInfo entity)throws BaseException;
+    UserInfo findById(String id) throws BaseException;
+    void update(UserInfo entity, Conditions conditions) throws BaseException;
 }

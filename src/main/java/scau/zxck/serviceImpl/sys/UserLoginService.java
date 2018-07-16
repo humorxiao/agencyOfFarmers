@@ -23,4 +23,14 @@ public class UserLoginService implements IUserLoginService {
     public String add(UserInfo entity) throws BaseException {
         return userInfoDao.add(entity);
     }
+
+    @Override
+    public UserInfo findById(String id) throws BaseException {
+        return userInfoDao.findById(id);
+    }
+
+    @Override
+    public void update(UserInfo entity, Conditions conditions) throws BaseException {
+        userInfoDao.update(entity,conditions);
+    }
 }

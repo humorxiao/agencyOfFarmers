@@ -24,7 +24,13 @@ public class GoodsInfoService implements IGoodsInfoService {
     }
 
     @Override
+    public void updateById(GoodsInfo entity) throws BaseException {
+        goodsInfoDao.updateById(entity);
+    }
+
+    @Override
     public GoodsInfo findById(String id) throws BaseException {
         return goodsInfoDao.findById(id);
     }
+
 }

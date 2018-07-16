@@ -10,4 +10,6 @@ public interface IGoodsInfoService {
     <V> List<V> list(Conditions conditions) throws BaseException;
     GoodsInfo findById(String id) throws BaseException;
     <V> List<V> listAll() throws BaseException;
+    void updateById(GoodsInfo entity) throws BaseException;
+
 }
