@@ -1,9 +1,13 @@
 package scau.zxck.web.admin;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -27,6 +31,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:config/spring/spring.xml")
 public class CommentsAction {
   @Autowired
   private IGoodsInfoService goodsInfoService;
@@ -34,13 +40,15 @@ public class CommentsAction {
   private IUserCommentsService userCommentsService;
 
   @RequestMapping(value = "getGoodsComments", method = RequestMethod.POST)
+ // @Test
   public String getGoodsComments(String jsonStr) throws BaseException {
     String r = "";
+    //String jsonStr = "{\"Goods_PK\":\"100000\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONArray jsonArray = new JSONArray();
     Conditions conditions = new Conditions();
     List list =
-        goodsInfoService.list(conditions.eq("goods_info_id", data.get("Goods_PK").toString()));
+       userCommentsService.list(conditions.eq("goods_info_id", data.get("Goods_PK").toString()));
     if (!list.isEmpty()) {
       for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
         JSONObject temp = new JSONObject();
@@ -58,12 +66,16 @@ public class CommentsAction {
       }
     }
     r = jsonArray.toString();
-    return null;
+   return null;
+  //  System.out.println("getGoodsComments");
   }
 
   @RequestMapping(value = "addComments", method = RequestMethod.POST)
+ // @Test
   public String addComments(String jsonStr) throws BaseException {
     String r = "";
+    //String jsonStr = "{\"User_PK\":\"100003\",\"Goods_PK\":\"100000\"," +
+       //     "\"Comm_Rank\": \"4\",\"Comm_Text\":\"123\",\"Comm_Time\":\"2017-05-25 01:05:35\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     HttpServletRequest request =
         ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -91,11 +103,14 @@ public class CommentsAction {
       r = "{\"status\":0}";
     }
     return null;
+      //System.out.println("addComments");
   }
 
   @RequestMapping(value = "getUserGoodsComments", method = RequestMethod.POST)
+  //@Test
   public String getUserGoodsComments(String jsonStr) throws BaseException {
     Conditions conditions = new Conditions();
+   // String jsonStr = "{\"Goods_PK\":\"100000\",\"User_PK\":\"100003\"}";
     JSONObject temp=new JSONObject();
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
@@ -121,11 +136,14 @@ public class CommentsAction {
           temp.put("Comm_Time", comm.getComm_time().toLocaleString());
       }
       r=temp.toString();
-      return null;
+     return null;
+      //System.out.println("getUserGoodsComments");
   }
   @RequestMapping(value = "deleteComments",method = RequestMethod.POST)
+//  @Test
   public String deleteComments(String jsonStr) throws BaseException{
     String r="";
+   // String jsonStr ="{\"Comm_PK\":\"100002\"}";
     JSONObject data=JSONObject.parseObject(jsonStr);
     try {
       userCommentsService.deleteByIds(data.get("Comm_PK").toString());
@@ -135,5 +153,6 @@ public class CommentsAction {
       r="{\"status\":0}";
     }
     return "success";
+     // System.out.println("deleteComments");
   }
 }

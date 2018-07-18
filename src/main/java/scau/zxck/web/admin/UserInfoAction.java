@@ -1,11 +1,15 @@
 package scau.zxck.web.admin;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.xml.internal.rngom.parse.host.Base;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -29,6 +33,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:config/spring/spring.xml")
 public class UserInfoAction {
   @Autowired
   private IUserLoginService userLoginService;
@@ -36,7 +42,9 @@ public class UserInfoAction {
   private IDeliveryAddressService deliveryAddressService;
 
   @RequestMapping(value = "getUserInfo", method = RequestMethod.POST)
+ // @Test
   public String getUserInfo(String jsonStr) throws BaseException {
+   // String jsonStr = "{\"User_PK\":\"100000\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     String r = "";
@@ -51,10 +59,16 @@ public class UserInfoAction {
     temp.put("User_ID", userInfo.getUser_id());
     r = temp.toString();
     return null;
+   // System.out.println(r);
   }
 
   @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST)
+  //@Test
   public String updateUserInfo(String jsonStr) throws BaseException {
+    /*String jsonStr = "{\"User_PK\":\"100004\",\"User_Password\":\"123\",\"User_Name\":\"yjm\","+
+            "\"User_Cell\": \"12312312312\",\"User_Email\":\"123\"," +
+            "\"User_Sex\":\"2\",\"User_RegTime\":\"2017-03-28 15:03:15\",\"User_Realname\":\"123\"" +
+            ",\"User_ID\":\"123\",\"User_Mark\":\"1\"}";*/
     JSONObject data = JSONObject.parseObject(jsonStr);
     // JSONObject temp=new JSONObject();
     String r = "";
@@ -81,10 +95,13 @@ public class UserInfoAction {
       r = "{\"status\":0}";
     }
     return null;
+  //  System.out.println(r);
   }
 
   @RequestMapping(value = "getUserDeliveryAddress", method = RequestMethod.POST)
+  //@Test
   public String getUserDeliveryAddress(String jsonStr) throws BaseException {
+    //String jsonStr = "{\"User_PK\":\"100006\",}";
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
     HttpServletRequest request =
@@ -106,11 +123,16 @@ public class UserInfoAction {
     temp.put("Deliv_Zipcode", address.getDeliv_zipcode());
     r = temp.toString();
     return "success";
+    //System.out.println(r);
   }
 
   @RequestMapping(value = "updateUserDeliveryAddress", method = RequestMethod.POST)
+  //@Test
   public String updateUserDeliveryAddress(String jsonStr) throws BaseException {
     String r = "";
+ /*   String jsonStr = "{\"Deliv_PK\":\"100006\",\"Deliv_Cell\":\"13421166393\"," +
+            "\"Deliv_Name\":\"杨嘉敏\"," +
+            "\"Deliv_Address\":\"广东省揭阳市某区某街\",\"Deliv_Zipcode\":\"515400\",}";*/
     JSONObject data = JSONObject.parseObject(jsonStr);
     HttpServletRequest request =
         ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -134,12 +156,19 @@ public class UserInfoAction {
       e.printStackTrace();
       r = "{\"status\":0}";
     }
-    return "success";
+   return "success";
+  //  System.out.println(r);
   }
 
   @RequestMapping(value = "getBannedUser", method = RequestMethod.POST)
+ // @Test
   public String getBannedUser(String jsonStr) throws BaseException {
     String r = "";
+   /* String jsonStr = "{\"User_PK\":\"100004\",\"User_Password\":\"123\",\"User_Name\":\"yjm\","+
+            "\"User_Cell\": \"12312312312\",\"User_Email\":\"123\"," +
+            "\"User_Sex\":\"2\",\"User_RegTime\":\"2017-03-28 15:03:15\",\"User_Realname\":\"123\"" +
+            ",\"User_ID\":\"123\",\"User_Mark\":\"1\"}";*/
+
     JSONObject data = JSONObject.parseObject(jsonStr);
     data.put("User_Mark", "");
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
@@ -168,12 +197,19 @@ public class UserInfoAction {
       e.printStackTrace();
       r = "{\"status\":0}";
     }
-    return "success";
+   return "success";
+   // System.out.println(r);
   }
 
   @RequestMapping(value = "addUserBanned", method = RequestMethod.POST)
+  //@Test
   public String addUserBanned(String jsonStr) throws BaseException {
     String r = "";
+    /*String jsonStr = "{\"User_PK\":\"100004\",\"User_Password\":\"123\",\"User_Name\":\"yjm\","+
+            "\"User_Cell\": \"12312312312\",\"User_Email\":\"123\"," +
+            "\"User_Sex\":\"2\",\"User_RegTime\":\"2017-03-28 15:03:15\",\"User_Realname\":\"123\"" +
+            ",\"User_ID\":\"123\"}";*/
+
     JSONObject data = JSONObject.parseObject(jsonStr);
     data.put("User_Mark", "1");
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
@@ -202,11 +238,14 @@ public class UserInfoAction {
       r = "{\"status\":0}";
     }
     return "success";
+    //System.out.println(r);
   }
 
   @RequestMapping(value = "getBannedUserInfo", method = RequestMethod.POST)
+  //@Test
   public String getBannedUserInfo(String jsonStr) throws BaseException {
     String r = "";
+   // String jsonStr = "{\"User_PK\":\"100003\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
 
@@ -221,17 +260,24 @@ public class UserInfoAction {
     temp.put("User_Realname", user.getUser_realname());
     temp.put("User_ID", user.getUser_id());
     r = temp.toString();
-    return "success";
+   return "success";
+   // System.out.println(r);
   }
 
   @RequestMapping(value = "getLikesUser", method = RequestMethod.POST)
+  // @Test
   public String getLikesUser(String jsonStr) throws BaseException, UnsupportedEncodingException {
     HttpServletRequest request =
         ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
+
+   // String likes = "天真";
+   // String jsonStr = "{\"User_Name\":\"likes\"}";
     String likes = request.getParameter("likes");
+    JSONObject data = JSONObject.parseObject(jsonStr);
+
     likes = java.net.URLDecoder.decode(likes, "utf-8");
-      JSONArray jsonarr = new JSONArray();
+    JSONArray jsonarr = new JSONArray();
     if (likes != null) {
       Conditions conditions = new Conditions();
       List list = userLoginService.list(conditions.like("user_name", "%" + likes + "%").or()
@@ -255,6 +301,8 @@ public class UserInfoAction {
       }
     }
     String r=jsonarr.toString();
-    return "success";
+     return "success";
+    //System.out.println(r);
+
   }
 }
