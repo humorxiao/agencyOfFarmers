@@ -4,13 +4,14 @@ package scau.zxck.web.admin;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
@@ -21,6 +22,8 @@ import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.ISignInLogService;
 import scau.zxck.service.sys.IAdminLoginService;
 import scau.zxck.service.sys.IUserLoginService;
+import scau.zxck.utils.JSONclass;
+import scau.zxck.web.test.UserInfoTest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,6 +35,8 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:config/spring/spring.xml")
 public class LoginAction {
   @Autowired
   private IAdminLoginService adminLoginService;
@@ -46,9 +51,10 @@ public class LoginAction {
    * @throws BaseException
    */
   @RequestMapping(value = "login", method = RequestMethod.POST)
-  @ResponseBody
+  @Test
   // 登录(已写入日志)
-  public String login(@RequestParam("jsonStr") String jsonStr) throws BaseException {
+  public void login() throws BaseException {
+    String jsonStr=JSONclass.jsonStr(new UserInfoTest(true,"12345678","","1","")).toString();
     String r = "";
     JSONObject data = JSON.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
@@ -114,7 +120,7 @@ public class LoginAction {
         session.setAttribute("User_PK", temp.get("User_PK"));
       }
     }
-    return "success";
+//    return "success";
   }
 
 }

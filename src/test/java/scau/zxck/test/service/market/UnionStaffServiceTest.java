@@ -1,5 +1,6 @@
 package scau.zxck.test.service.market;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,64 +34,73 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 class ParamObj extends Object {
-  private static Boolean isAdmin=true;
-  private static String admin_Password="12345678";
-  private static String admin_Cell="";
-  private static String admin_Name="1";
-  private static String admin_Email="";
+  private  Boolean isAdmin;
+  private  String admin_Password;
+  private  String admin_Cell;
+  private  String admin_Name;
+  private  String admin_Email;
+  private int status;
+  public Boolean getAdmin() {
+    return isAdmin;
+  }
 
-//  public ParamObj() {
-//    Boolean isAdmin = true;
-//    String admin_Password = "12345678";
-//    String admin_Cell = "";
-//    String admin_Name = "1";
-//    String admin_Email = "";
-//  }
-//
-//  public static Boolean getIsAdmin() {
-//    return isAdmin;
-//  }
-//
-//  public static void setIsAdmin(Boolean isAdmin) {
-//    ParamObj.isAdmin = isAdmin;
-//  }
-//
-//  public static String getAdmin_Password() {
-//    return admin_Password;
-//  }
-//
-//  public static void setAdmin_Password(String admin_Password) {
-//    ParamObj.admin_Password = admin_Password;
-//  }
-//
-//  public static String getAdmin_Cell() {
-//    return admin_Cell;
-//  }
-//
-//  public static void setAdmin_Cell(String admin_Cell) {
-//    ParamObj.admin_Cell = admin_Cell;
-//  }
-//
-//  public static String getAdmin_Name() {
-//    return admin_Name;
-//  }
-//
-//  public static void setAdmin_Name(String admin_Name) {
-//    ParamObj.admin_Name = admin_Name;
-//  }
-//
-//  public static String getAdmin_Email() {
-//    return admin_Email;
-//  }
-//
-//  public static void setAdmin_Email(String admin_Email) {
-//    ParamObj.admin_Email = admin_Email;
-//  }
+  public void setAdmin(Boolean admin) {
+    isAdmin = admin;
+  }
+
+  public String getAdmin_Password() {
+    return admin_Password;
+  }
+
+  public void setAdmin_Password(String admin_Password) {
+    this.admin_Password = admin_Password;
+  }
+
+  public String getAdmin_Cell() {
+    return admin_Cell;
+  }
+
+  public void setAdmin_Cell(String admin_Cell) {
+    this.admin_Cell = admin_Cell;
+  }
+
+  public String getAdmin_Name() {
+    return admin_Name;
+  }
+
+  public void setAdmin_Name(String admin_Name) {
+    this.admin_Name = admin_Name;
+  }
+
+  public String getAdmin_Email() {
+    return admin_Email;
+  }
+
+  public void setAdmin_Email(String admin_Email) {
+    this.admin_Email = admin_Email;
+  }
+
+  public ParamObj(Boolean isAdmin, String admin_Password, String admin_Cell, String admin_Name, String admin_Email,int status) {
+    this.isAdmin = isAdmin;
+    this.admin_Password = admin_Password;
+    this.admin_Cell = admin_Cell;
+    this.admin_Name = admin_Name;
+    this.admin_Email = admin_Email;
+    this.status=status;
+  }
+
+  public int getStatus() {
+    return status;
+  }
+
+  public void setStatus(int status) {
+    this.status = status;
+  }
 }
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration(value = "src/main/webapp")
+@WebAppConfiguration
 @ContextConfiguration(locations = {"classpath:config/spring/spring.xml"})
 public class UnionStaffServiceTest {
   // 记得配置log4j.properties ,的命令行输出水平是debug
@@ -108,16 +118,10 @@ public class UnionStaffServiceTest {
 
   @org.junit.Test
   public void getAllCategoryTest() throws Exception {
-//    String jsonStr =
-//        "{\"isAdmin\":true,\"Admin_Password\":\"12345678\",\"Admin_Cell\":\"\",\"Admin_Name\":\"1\",\"Admin_Email\":\"\"}";
-//    MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/loginx")).andReturn();
-//    MockHttpServletRequest request = mvcResult.getRequest();
-//    System.out.println(request==null);
-//    System.out.println(request.getAttribute("yhx")==null);
-//    String s=request.getAttribute("yhx").toString();
-//    System.out.println(s);
-    ParamObj paramObj=new ParamObj();
-    String str=JSONObject.toJSONString(paramObj);
+    ParamObj paramObj=new ParamObj(true,"12345678","","1","",200);
+    String str=JSON.toJSON(paramObj).toString();
     System.out.println(str);
+    String responseString = mockMvc.perform( post("/login").contentType(MediaType.APPLICATION_JSON).content(str)).andDo(print())
+            .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
   }
 }
