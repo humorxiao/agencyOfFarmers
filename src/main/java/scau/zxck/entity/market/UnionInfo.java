@@ -17,7 +17,7 @@ public class UnionInfo extends Unique {
   @Column(name = "union_address")
   private String union_address;
   @Column(name = "union_establish")
-  private Date union_establish;
+  private String union_establish;
   @Column(name = "union_asset")
   private int union_asset;
   @Column(name = "union_tele")
@@ -63,11 +63,11 @@ public class UnionInfo extends Unique {
     this.union_address = union_address;
   }
 
-  public Date getUnion_establish() {
+  public String getUnion_establish() {
     return union_establish;
   }
 
-  public void setUnion_establish(Date union_establish) {
+  public void setUnion_establish(String union_establish) {
     this.union_establish = union_establish;
   }
 

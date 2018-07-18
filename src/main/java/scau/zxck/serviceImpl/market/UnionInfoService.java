@@ -2,6 +2,7 @@ package scau.zxck.serviceImpl.market;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.dao.market.UnionInfoDao;
 import scau.zxck.dao.market.UnionStaffDao;
@@ -32,6 +33,11 @@ public class UnionInfoService implements IUnionInfoService {
     @Override
     public void deleteUnionInfo(String id) throws BaseException {
         unionInfoDao.deleteByIds(id);
+    }
+    @Override
+    public void update(UnionInfo unionInfo,Conditions condition )throws BaseException
+    {
+        unionInfoDao.update(unionInfo,condition);
     }
 
     @Override

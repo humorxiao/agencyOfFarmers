@@ -15,7 +15,7 @@ public class UnionStaff extends Unique {
   @Column(name = "staff_sex")
   private int staff_sex;
   @Column(name = "staff_birthday")
-  private Date staff_birthday;
+  private String staff_birthday;
   @Column(name = "staff_address")
   private String staff_address;
   @Column(name = "staff_phone")
@@ -28,7 +28,6 @@ public class UnionStaff extends Unique {
   private String remark;
 
   private UnionInfo unioninfo;
-
 
 
   public UnionInfo getUnioninfo() {
@@ -55,11 +54,11 @@ public class UnionStaff extends Unique {
     this.staff_sex = staff_sex;
   }
 
-  public Date getStaff_birthday() {
+  public String getStaff_birthday() {
     return staff_birthday;
   }
 
-  public void setStaff_birthday(Date staff_birthday) {
+  public void setStaff_birthday(String staff_birthday) {
     this.staff_birthday = staff_birthday;
   }
 

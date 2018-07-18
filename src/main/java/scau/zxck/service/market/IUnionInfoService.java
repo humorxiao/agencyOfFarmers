@@ -1,5 +1,6 @@
 package scau.zxck.service.market;
 
+import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.UnionInfo;
 
@@ -19,5 +20,5 @@ public interface IUnionInfoService {
     String addUnionInfo(UnionInfo unionInfo) throws BaseException;
 
     List<UnionInfo> listUnionInfo() throws BaseException;
-
+    void update(UnionInfo unionInfo,Conditions condition )throws BaseException;
 }
