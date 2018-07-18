@@ -10,10 +10,10 @@
 </head>
 
 <body>
-	<form action="/login" method="POST">
+	<form action="/alterCart" method="POST">
 		测试：<input type="text" name="jsonStr">
 		<%--<br><br>--%>
-		<input type="submit" value="登录">
+		<input type="submit" value="test">
     </form>
 </body>
 </html>

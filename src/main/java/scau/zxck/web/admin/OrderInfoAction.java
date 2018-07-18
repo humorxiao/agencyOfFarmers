@@ -314,8 +314,9 @@ public class OrderInfoAction {
     JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
     JSONObject temp = new JSONObject();
-    OrderInfo order = orderInfoService.findById(data.get("Order_ID").toString());
-
+    Conditions conditions=new Conditions();
+    List list=orderInfoService.list(conditions.eq("order_id",data.get("Order_ID").toString()));
+    OrderInfo order = (OrderInfo)list.get(0);
     temp.put("Order_PK", order.getId());
     temp.put("User_PK", order.getUser_info_id());
     temp.put("Order_ID", order.getOrder_id());
