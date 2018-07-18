@@ -4,13 +4,14 @@ package scau.zxck.web.admin;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
@@ -21,6 +22,8 @@ import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.ISignInLogService;
 import scau.zxck.service.sys.IAdminLoginService;
 import scau.zxck.service.sys.IUserLoginService;
+import scau.zxck.utils.JSONclass;
+import scau.zxck.web.test.UserInfoTest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,8 +33,8 @@ import java.util.List;
 /**
  * Created by suruijia on 2016/2/6.
  */
-@Controller
-@RequestMapping("/")
+ @Controller
+ @RequestMapping("/")
 public class LoginAction {
   @Autowired
   private IAdminLoginService adminLoginService;
@@ -39,16 +42,9 @@ public class LoginAction {
   private IUserLoginService userLoginService;
   @Autowired
   private ISignInLogService signInLogService;
-  /**
-   * 获取分类
-   * 
-   * @return
-   * @throws BaseException
-   */
+
   @RequestMapping(value = "login", method = RequestMethod.POST)
-  @ResponseBody
-  // 登录(已写入日志)
-  public String login(@RequestParam("jsonStr") String jsonStr) throws BaseException {
+  public String login(String jsonStr) throws BaseException {
     String r = "";
     JSONObject data = JSON.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
@@ -91,13 +87,13 @@ public class LoginAction {
       temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
       if ((boolean) temp.get("SignIn_IsAdmin") == true) {
         SignInLog temp1 = new SignInLog();
-        temp1.setSignin_isadmin((boolean)temp.get("SignIn_IsAdmin"));
+        temp1.setSignin_isadmin((boolean) temp.get("SignIn_IsAdmin"));
         temp1.setAdmin_info_id(temp.get("Admin_PK").toString());
         temp1.setSignin_time(temp.get("SignIn_Time").toString());
         signInLogService.add(temp1);
       } else {
         SignInLog temp1 = new SignInLog();
-        temp1.setSignin_isadmin((boolean)temp.get("SignIn_IsAdmin"));
+        temp1.setSignin_isadmin((boolean) temp.get("SignIn_IsAdmin"));
         temp1.setUser_info_id(temp.get("User_PK").toString());
         temp1.setSignin_time(temp.get("SignIn_Time").toString());
         signInLogService.add(temp1);
@@ -114,7 +110,7 @@ public class LoginAction {
         session.setAttribute("User_PK", temp.get("User_PK"));
       }
     }
-    return "success";
+     return "success";
   }
 
 }

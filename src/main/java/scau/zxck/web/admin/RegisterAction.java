@@ -1,8 +1,12 @@
 package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSONObject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
@@ -13,6 +17,8 @@ import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.ICartInfoService;
 import scau.zxck.service.market.IDeliveryAddressService;
 import scau.zxck.service.sys.IUserRegisterService;
+import scau.zxck.utils.JSONclass;
+import scau.zxck.web.test.UserInfo2Test;
 
 import javax.xml.crypto.Data;
 import java.sql.Timestamp;
@@ -20,8 +26,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@Controller
-@RequestMapping("/")
+//@Controller
+//@RequestMapping("/")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:config/spring/spring.xml")
 public class RegisterAction {
   @Autowired
   private IUserRegisterService userRegisterService;
@@ -30,11 +38,14 @@ public class RegisterAction {
   @Autowired
   private IDeliveryAddressService deliveryAddressService;
 
-  @RequestMapping(value = "register", method = RequestMethod.POST)
-  public String register(String jsonStr) throws BaseException {
+//  @RequestMapping(value = "register", method = RequestMethod.POST)
+  @Test
+  public void register() throws BaseException {
+    String jsonStr=JSONclass.jsonStr(new UserInfo2Test("12345678","Hachiko","15813360261","1769969562@qq.com",1,"杨华旭","440982199811064099"));
+    System.out.println(jsonStr);
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
-    data.put("User_RegTime", (new SimpleDateFormat("yyy-MM-dd HH:MM:ss").format(new Date())));
+    data.put("User_RegTime", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss").format(new Date())).toString());
     boolean flag;
     UserInfo userInfo = new UserInfo();
     userInfo.setUser_password(data.get("User_Password").toString());
@@ -63,7 +74,7 @@ public class RegisterAction {
             .eq("user_email", data.get("User_Email").toString()).and()
             .eq("user_password", data.get("User_Password").toString()));
     if (list.isEmpty()) {
-      return null;// 原来是return temp
+//      return null;// 原来是return temp
     } else {
       UserInfo user = (UserInfo) list.get(0);
       temp.put("User_PK", user.getId());
@@ -86,7 +97,7 @@ public class RegisterAction {
     }
 
 
-    return null;// 原来是return temp
+//    return "success";// 原来是return temp
   }
 
   @RequestMapping(value = "validateAccount", method = RequestMethod.POST)
@@ -118,6 +129,6 @@ public class RegisterAction {
       } else
         r = "{\"status\":1}";
     }
-    return null;
+    return "success";
   }
 }

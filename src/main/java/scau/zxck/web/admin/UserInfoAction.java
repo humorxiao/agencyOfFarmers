@@ -145,7 +145,7 @@ public class UserInfoAction {
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
     data.put("User_Password", userInfo.getUser_password());
     UserInfo temp = userLoginService.findById(data.get("User_PK").toString());
-    // (UserInfo)session.load(UserInfo.class,
+    // (UserInfoTest)session.load(UserInfoTest.class,
     // (int)Integer.parseInt(json.get("User_PK").toString()));
 
     temp.setUser_password(data.get("User_Password").toString());
@@ -179,7 +179,7 @@ public class UserInfoAction {
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
     data.put("User_Password", userInfo.getUser_password());
     UserInfo temp = userLoginService.findById(data.get("User_PK").toString());
-    // (UserInfo)session.load(UserInfo.class,
+    // (UserInfoTest)session.load(UserInfoTest.class,
     // (int)Integer.parseInt(json.get("User_PK").toString()));
 
     temp.setUser_password(data.get("User_Password").toString());

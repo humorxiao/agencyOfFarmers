@@ -48,7 +48,7 @@ public class CollectInfoAction {
     // userComments.setComm_rank((int)Integer.parseInt(data.get("Comm_Rank").toString()));
     // userComments.setComm_text(data.get("Comm_Text").toString());
     // userComments.setComm_time(Timestamp.valueOf(data.get("Comm_Time").toString()));
-    // userComments.setUserinfo(new UserInfo());
+    // userComments.setUserinfo(new UserInfoTest());
     // userComments.setGoodsinfo(new GoodsInfo());
     UserCollection userCollection = new UserCollection();
     userCollection.setUser_info_id(data.get("User_PK").toString());
