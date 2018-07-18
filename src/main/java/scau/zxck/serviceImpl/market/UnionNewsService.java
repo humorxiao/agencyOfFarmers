@@ -4,23 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
-import scau.zxck.dao.market.UnionStaffDao;
-import scau.zxck.entity.market.UnionStaff;
-import scau.zxck.service.market.IUnionStaffService;
+import scau.zxck.dao.market.UnionNewsDao;
+import scau.zxck.service.market.IUnionNewsService;
 
 import java.util.List;
 
-
-/**
- * Created by suruijia on 2016/1/29.
- */
 @Service
-public class UnionStaffService implements IUnionStaffService {
-  @Autowired
-  private UnionStaffDao unionStaffDao;
+public class UnionNewsService implements IUnionNewsService {
+    @Autowired
+    private UnionNewsDao unionNewsDao;
+
+    @Override
+    public <V> List<V> listAll() throws BaseException {
+        return unionNewsDao.listAll();
+    }
 
     @Override
     public <V> List<V> list(Conditions conditions) throws BaseException {
-        return unionStaffDao.list(conditions);
+        return unionNewsDao.list(conditions);
     }
 }

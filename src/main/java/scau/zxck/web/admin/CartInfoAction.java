@@ -1,6 +1,5 @@
 package scau.zxck.web.admin;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,18 +8,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.exception.BaseException;
-import scau.zxck.dao.market.CartInfoDao;
 import scau.zxck.entity.market.CartInfo;
 import scau.zxck.service.market.ICartInfoService;
+import scau.zxck.service.market.IGoodsInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
-public class GetCartAction {
+public class CartInfoAction {
     @Autowired
     private ICartInfoService cartInfoService;
+    @Autowired
+    private IGoodsInfoService goodsInfoService;
     @RequestMapping(value = "getCart",method = RequestMethod.POST)
     public String getCartAction(String jsonStr) throws BaseException {
         String r="";
@@ -42,6 +43,22 @@ public class GetCartAction {
         temp.put("Goods_List",cartInfo.getGoods_list());
         temp.put("Goods_Num",cartInfo.getGoods_num());
         r=temp.toString();
+        return null;
+    }
+    @RequestMapping(value = "alterCart",method = RequestMethod.POST)
+    public String alterCart(String jsonStr) throws BaseException {
+        String r="";
+        JSONObject data=JSONObject.parseObject(jsonStr);
+        CartInfo cartInfo=cartInfoService.findById(data.get("Cart_PK").toString());
+        cartInfo.setGoods_list(data.get("Goods_List").toString());
+        cartInfo.setGoods_num(data.get("Goods_Num").toString());
+        try {
+            cartInfoService.updateById(cartInfo);
+            r="{\"status\":1}";
+        }catch (Exception e){
+            e.printStackTrace();
+            r="{\"status\":0}";
+        }
         return null;
     }
 }

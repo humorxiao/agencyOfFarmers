@@ -69,7 +69,7 @@
 			<bean class="scau.zxck.web.interceptor.LogInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
-
+	<mvc:default-servlet-handler/>
 
 	<!-- 静态文件处理过滤 过滤static路径下的静态文件 cache-period指定缓存时间 测试环境设置为0，表示不缓存 -->
 	<!-- 配置 mvc:resources，那么指定的请求交给 SimpleUrlHandlerMapping 进行处理 -->

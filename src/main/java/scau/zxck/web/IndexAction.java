@@ -26,11 +26,11 @@ public class IndexAction {
      * @return
      * @throws BaseException
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String Index(Model model) throws BaseException{
-        List<UnionStaff> unionStaffList = unionStaffService.listUnionStaff();
-        model.addAttribute("unionStaffList", unionStaffList);
-        return "index";
-    }
+//    @RequestMapping(value = "/", method = RequestMethod.GET)
+//    public String Index(Model model) throws BaseException{
+//        List<UnionStaff> unionStaffList = unionStaffService.listUnionStaff();
+//        model.addAttribute("unionStaffList", unionStaffList);
+//        return "index";
+//    }
 
 }

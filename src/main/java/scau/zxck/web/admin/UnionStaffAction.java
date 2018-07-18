@@ -32,7 +32,7 @@ public class UnionStaffAction {
     private IUnionStaffService unionStaffService;
 
     /**
-     * 鑾峰彇鍒嗙被
+     * 获取分类
      *
      * @return
      * @throws BaseException

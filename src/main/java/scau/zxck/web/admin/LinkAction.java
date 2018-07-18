@@ -17,7 +17,7 @@ import java.util.List;
  * Created by suruijia on 2016/2/6.
  */
 @Controller
-@RequestMapping("/admin/LinkAction")
+@RequestMapping("/")
 public class LinkAction {
     @Autowired
     private ILinkService linkService;
