@@ -10,11 +10,30 @@
 </head>
 
 <body>
-	<form action="/login" method="POST">
-		测试：<input type="text" name="jsonStr">
+	<form action="/getAllUnionInfo" method="POST">
+		测试getAllUnionInfo：<input type="text" name="jsonStr">
 		<br><br>
 		<input type="submit" value="登录">
     </form>
+    <br><br>
+    <form action="/addUnionInfo" method="POST">
+        测试addUnionInfo：<input type="text" name="jsonStr">
+        <br><br>
+        <input type="submit" value="登录">
+    </form>
+    <br><br>
+    <form action="/deleteUnionStaff" method="POST">
+        测试deleteUnionInfo：<input type="text" name="jsonStr">
+        <br><br>
+        <input type="submit" value="登录">
+    </form>
+    <br><br>
+    <form action="/updateUnionInfo" method="POST">
+        测试updateUnionInfo：<input type="text" name="jsonStr">
+        <br><br>
+        <input type="submit" value="登录">
+    </form>
+    <br><br>
 <%--<script src="test-js/login.js"></script>--%>
 </body>
 </html>

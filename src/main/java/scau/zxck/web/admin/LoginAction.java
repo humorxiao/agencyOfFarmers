@@ -3,8 +3,12 @@ package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,6 +35,8 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:config/spring/spring.xml")
 public class LoginAction {
   @Autowired
   private IAdminLoginService adminLoginService;
@@ -118,5 +124,9 @@ public class LoginAction {
       dataManagerUtil.insertData("SignInLogUser", json);
     }
   }
-
+  @Test
+    public void klhad()
+    {
+      System.out.println("aksfknfklna");
+    }
 }
