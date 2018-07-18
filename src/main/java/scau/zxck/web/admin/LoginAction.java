@@ -33,10 +33,8 @@ import java.util.List;
 /**
  * Created by suruijia on 2016/2/6.
  */
-@Controller
-@RequestMapping("/")
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:config/spring/spring.xml")
+ @Controller
+ @RequestMapping("/")
 public class LoginAction {
   @Autowired
   private IAdminLoginService adminLoginService;
@@ -44,17 +42,9 @@ public class LoginAction {
   private IUserLoginService userLoginService;
   @Autowired
   private ISignInLogService signInLogService;
-  /**
-   * 获取分类
-   * 
-   * @return
-   * @throws BaseException
-   */
+
   @RequestMapping(value = "login", method = RequestMethod.POST)
-  @Test
-  // 登录(已写入日志)
-  public void login() throws BaseException {
-    String jsonStr=JSONclass.jsonStr(new UserInfoTest(true,"12345678","","1","")).toString();
+  public String login(String jsonStr) throws BaseException {
     String r = "";
     JSONObject data = JSON.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
@@ -97,13 +87,13 @@ public class LoginAction {
       temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
       if ((boolean) temp.get("SignIn_IsAdmin") == true) {
         SignInLog temp1 = new SignInLog();
-        temp1.setSignin_isadmin((boolean)temp.get("SignIn_IsAdmin"));
+        temp1.setSignin_isadmin((boolean) temp.get("SignIn_IsAdmin"));
         temp1.setAdmin_info_id(temp.get("Admin_PK").toString());
         temp1.setSignin_time(temp.get("SignIn_Time").toString());
         signInLogService.add(temp1);
       } else {
         SignInLog temp1 = new SignInLog();
-        temp1.setSignin_isadmin((boolean)temp.get("SignIn_IsAdmin"));
+        temp1.setSignin_isadmin((boolean) temp.get("SignIn_IsAdmin"));
         temp1.setUser_info_id(temp.get("User_PK").toString());
         temp1.setSignin_time(temp.get("SignIn_Time").toString());
         signInLogService.add(temp1);
@@ -120,7 +110,7 @@ public class LoginAction {
         session.setAttribute("User_PK", temp.get("User_PK"));
       }
     }
-//    return "success";
+     return "success";
   }
 
 }

@@ -23,6 +23,71 @@ import com.alibaba.fastjson.JSON;
  * Created by lishunpeng on 2015/11/13.
  */
 
+class ParamObj extends Object {
+  private  Boolean isAdmin;
+  private  String admin_Password;
+  private  String admin_Cell;
+  private  String admin_Name;
+  private  String admin_Email;
+  private int status;
+  public Boolean getAdmin() {
+    return isAdmin;
+  }
+
+  public void setAdmin(Boolean admin) {
+    isAdmin = admin;
+  }
+
+  public String getAdmin_Password() {
+    return admin_Password;
+  }
+
+  public void setAdmin_Password(String admin_Password) {
+    this.admin_Password = admin_Password;
+  }
+
+  public String getAdmin_Cell() {
+    return admin_Cell;
+  }
+
+  public void setAdmin_Cell(String admin_Cell) {
+    this.admin_Cell = admin_Cell;
+  }
+
+  public String getAdmin_Name() {
+    return admin_Name;
+  }
+
+  public void setAdmin_Name(String admin_Name) {
+    this.admin_Name = admin_Name;
+  }
+
+  public String getAdmin_Email() {
+    return admin_Email;
+  }
+
+  public void setAdmin_Email(String admin_Email) {
+    this.admin_Email = admin_Email;
+  }
+
+  public ParamObj(Boolean isAdmin, String admin_Password, String admin_Cell, String admin_Name, String admin_Email,int status) {
+    this.isAdmin = isAdmin;
+    this.admin_Password = admin_Password;
+    this.admin_Cell = admin_Cell;
+    this.admin_Name = admin_Name;
+    this.admin_Email = admin_Email;
+    this.status=status;
+  }
+
+  public int getStatus() {
+    return status;
+  }
+
+  public void setStatus(int status) {
+    this.status = status;
+  }
+}
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration

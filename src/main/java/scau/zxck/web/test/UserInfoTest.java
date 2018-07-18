@@ -6,15 +6,16 @@ public class UserInfoTest {
         private  String admin_Cell;
         private  String admin_Name;
         private  String admin_Email;
-        public Boolean getAdmin() {
-            return isAdmin;
-        }
 
-        public void setAdmin(Boolean admin) {
-            isAdmin = admin;
-        }
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
 
-        public String getAdmin_Password() {
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
+    }
+
+    public String getAdmin_Password() {
             return admin_Password;
         }
 
