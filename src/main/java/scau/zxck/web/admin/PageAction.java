@@ -2,8 +2,12 @@ package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
@@ -12,17 +16,20 @@ import scau.zxck.entity.market.OrderInfo;
 import scau.zxck.entity.market.UnionNews;
 import scau.zxck.service.market.IOrderInfoService;
 import scau.zxck.service.market.IUnionNewsService;
+import scau.zxck.service.sys.IUserLoginService;
 
 import java.util.Iterator;
 import java.util.List;
 
-@Controller
-@RequestMapping("/")
+ @Controller
+ @RequestMapping("/")
 public class PageAction {
   @Autowired
   private IUnionNewsService unionNewsService;
   @Autowired
   private IOrderInfoService orderInfoService;
+  @Autowired
+  private IUserLoginService userLoginService;
 
   @RequestMapping(value = "getBulletinNoPage", method = RequestMethod.POST)
   public String getBulletinNoPage(String jsonStr) throws BaseException {
@@ -77,15 +84,15 @@ public class PageAction {
   public String getStateOrderPaging(String jsonStr, String jsonStr2) throws BaseException {
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject pageInfo = JSONObject.parseObject(jsonStr2);
-    int state = (int) data.get("state");
+    int state = (int) Integer.parseInt(data.get("state").toString());
     JSONArray jsonarr = new JSONArray();
 
-    // String hql = "from OrderInfo where order_state=" + state;
     Conditions conditions = new Conditions();
     List list = orderInfoService.list(conditions.eq("order_state", state));
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
       JSONObject temp = new JSONObject();
       OrderInfo order = (OrderInfo) iter.next();
+      // System.out.println(order.getUserInfo()==null);
       temp.put("Order_PK", order.getId());
       temp.put("User_PK", order.getUser_info_id());
       temp.put("Order_ID", order.getOrder_id());
@@ -107,17 +114,20 @@ public class PageAction {
       temp.put("Order_Website", order.getOrder_website());
       temp.put("Order_Aftersale", order.getOrder_aftersale());
       temp.put("Order_Reserve_1", order.getOrder_reserve_1());
-      temp.put("User_Name", order.getUserInfo().getUser_name());
+      temp.put("User_Name",
+          (userLoginService.findById(temp.get("User_PK").toString())).getUser_name());
       jsonarr.add(temp);
     }
     String r = JSONArrayPaging(jsonarr, pageInfo).toString();
     return "success";
+    // System.out.println(r);
   }
 
+  @Test
   @RequestMapping(value = "getAfterSaleOrderPaging", method = RequestMethod.POST)
   public String getAfterSaleOrderPaging(String jsonStr, String jsonStr2) throws BaseException {
     JSONObject data = JSONObject.parseObject(jsonStr);
-    int state = (int) data.get("afterSale");
+    int state = (int) Integer.parseInt(data.get("afterSale").toString());
     JSONObject pageInfo = JSONObject.parseObject(jsonStr2);
     JSONArray jsonarr = new JSONArray();
     Conditions conditions = new Conditions();
@@ -153,7 +163,7 @@ public class PageAction {
       temp.put("Order_Reserve_1", order.getOrder_reserve_1());
       jsonarr.add(temp);
     }
-    String r=JSONArrayPaging(jsonarr,pageInfo).toString();
+    String r = JSONArrayPaging(jsonarr, pageInfo).toString();
     return "success";
   }
 

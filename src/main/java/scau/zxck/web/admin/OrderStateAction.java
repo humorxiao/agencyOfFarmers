@@ -3,8 +3,12 @@ package scau.zxck.web.admin;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.xml.internal.rngom.parse.host.Base;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -26,8 +30,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-@Controller
-@RequestMapping("/")
+// @Controller
+// @RequestMapping("/")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:config/spring/spring.xml")
 public class OrderStateAction {
   @Autowired
   private IOrderInfoService orderInfoService;
@@ -40,9 +46,9 @@ public class OrderStateAction {
   public String changeOrderState(String jsonStr) throws BaseException {
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
-    if ((int) data.get("Order_State") == 2) { // 取消订单
+    if ((int) Integer.parseInt(data.get("Order_State").toString()) == 2) { // 取消订单
       Conditions conditions = new Conditions();
-      List list = orderInfoService.list(conditions.eq("id", data.get("Order_ID").toString()));
+      List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
       JSONObject temp = new JSONObject();
       if (!list.isEmpty()) {
         OrderInfo order = (OrderInfo) list.get(0);
@@ -90,8 +96,9 @@ public class OrderStateAction {
         JSONObject goodspk = new JSONObject();
         goodspk.put("Goods_PK", goodslist[i]);
         JSONObject temp2 = new JSONObject();
-
-        List list1 = goodsInfoService.list(conditions.eq("id", goodspk.get("Goods_PK").toString()));
+        Conditions conditions1 = new Conditions();
+        List list1 =
+            goodsInfoService.list(conditions1.eq("id", goodspk.get("Goods_PK").toString()));
         if (!list1.isEmpty()) {
           GoodsInfo goods = (GoodsInfo) list1.get(0);
 
@@ -169,7 +176,7 @@ public class OrderStateAction {
     tempz.setGoods_num(data.get("Goods_Num").toString());
     tempz.setGoods_prices(data.get("Goods_Prices").toString());
     tempz.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
-    tempz.setOrder_ispay((boolean) data.get("Order_IsPay"));
+    tempz.setOrder_ispay((boolean) Boolean.parseBoolean(data.get("Order_IsPay").toString()));
     if (!data.get("Order_PayTime").equals(new String(""))) {
       tempz.setOrder_paytime(Timestamp.valueOf(data.get("Order_PayTime").toString()).toString());
     }
@@ -182,6 +189,7 @@ public class OrderStateAction {
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(strD))); } catch (ParseException e) {
      * e.printStackTrace(); } }
      */
+
     tempz.setOrder_payprice((float) Float.parseFloat(data.get("Order_PayPrice").toString()));
     tempz.setOrder_state((int) Integer.parseInt(data.get("Order_State").toString()));
     tempz.setOrder_tracknum(data.get("Order_TrackNum").toString());
@@ -196,7 +204,7 @@ public class OrderStateAction {
       e.printStackTrace();
       r = "{\"status\":0}";
     }
-    // boolean ret = access.changeOrderState(data);
+    // System.out.println(r);
     return "success";
   }
 
@@ -206,8 +214,7 @@ public class OrderStateAction {
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     Conditions conditions = new Conditions();
-    // String hql = "from OrderInfo where order_id='" + json.get("Order_ID").toString() + "'";
-    List list = orderInfoService.list(conditions.eq("id", data.get("Order_ID").toString()));
+    List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
 
     if (!list.isEmpty()) {
       OrderInfo order = (OrderInfo) list.get(0);
@@ -278,24 +285,19 @@ public class OrderStateAction {
   public String getOrdersByStateAndUser(String jsonStr) throws BaseException {
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
-    if (session.getAttribute("User_PK") != null) {
-      data.put("User_PK", (int) session.getAttribute("User_PK"));
-    } else {
-      data.put("User_PK", "");
-    }
+    // HttpServletRequest request =
+    // ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    // HttpSession session = request.getSession();
+    // if (session.getAttribute("User_PK") != null) {
+    // data.put("User_PK", (int) session.getAttribute("User_PK"));
+    // } else {
+    // data.put("User_PK", "");
+    // }
     JSONArray jsonarr = new JSONArray();
     Conditions conditions = new Conditions();
-    // String hql = "from OrderInfo where order_state=" +
-    // (int)Integer.parseInt(json.get("Order_State").toString())
-    // + "AND user_pk=" + (int)Integer.parseInt(json.get("User_PK").toString()) ;
     List list =
         orderInfoService.list(conditions.eq("order_state", data.get("Order_State").toString()).and()
             .eq("user_info_id", data.get("User_PK").toString()));
-    // DataSearch.searchByHQL(hql);
-
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
       JSONObject temp = new JSONObject();
 
@@ -325,6 +327,7 @@ public class OrderStateAction {
       jsonarr.add(temp);
     }
     r = jsonarr.toString();
+//    System.out.println(r);
     return "success";
   }
 
@@ -378,7 +381,7 @@ public class OrderStateAction {
       temp.put("Order_Reserve_1", order.getOrder_reserve_1());
       jsonarr.add(temp);
     }
-    r=jsonarr.toString();
+    r = jsonarr.toString();
     return "success";
   }
 

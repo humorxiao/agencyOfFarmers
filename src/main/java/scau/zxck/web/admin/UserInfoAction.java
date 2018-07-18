@@ -137,8 +137,8 @@ public class UserInfoAction {
     return "success";
   }
 
-  @RequestMapping(value = "getBannedUser", method = RequestMethod.POST)
-  public String getBannedUser(String jsonStr) throws BaseException {
+  @RequestMapping(value = "removeBannedUser", method = RequestMethod.POST)
+  public String removeBannedUser(String jsonStr) throws BaseException {
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
     data.put("User_Mark", "");

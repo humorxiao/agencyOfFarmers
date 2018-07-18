@@ -40,7 +40,7 @@ public class CommentsAction {
     JSONArray jsonArray = new JSONArray();
     Conditions conditions = new Conditions();
     List list =
-        goodsInfoService.list(conditions.eq("goods_info_id", data.get("Goods_PK").toString()));
+        userCommentsService.list(conditions.eq("goods_info_id", data.get("Goods_PK").toString()));
     if (!list.isEmpty()) {
       for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
         JSONObject temp = new JSONObject();
