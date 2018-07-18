@@ -1,9 +1,15 @@
 package scau.zxck.web.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
@@ -21,27 +27,28 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:config/spring/spring.xml")
 public class GoodsLogAction {
   @Autowired
   private IGoodsLogService goodsLogService;
   @Autowired
   private IGoodsInfoService goodsInfoService;
   @RequestMapping(value = "getAllGoodsLogPaging", method = RequestMethod.POST)
+
   public String getAllGoodsLogPaging(String jsonStr) throws BaseException {
-    JSONObject pageIanfo = JSONObject.parseObject(jsonStr);
+   JSONObject pageIanfo = JSONObject.parseObject(jsonStr);
     List list = goodsLogService.listAll();
     JSONArray jsonarr = new JSONArray();
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
       JSONObject temp = new JSONObject();
       GoodsLog gl = (GoodsLog) iter.next();
-
       temp.put("GL_PK", gl.getId());
       temp.put("Goods_PK", gl.getGoods_info_id());
       temp.put("Goods_In", gl.getGoods_in());
       temp.put("Goods_Out", gl.getGoods_out());
       temp.put("Goods_PriceChange", gl.getGoods_pricechange());
-      temp.put("GL_Time", gl.getGl_time().toLocaleString());
-
+      temp.put("GL_Time", gl.getGl_time());
       jsonarr.add(temp);
     }
     String r = JSONArrayPaging(jsonarr, pageIanfo).toString();
@@ -49,14 +56,15 @@ public class GoodsLogAction {
   }
 
   @RequestMapping(value = "addGoodsLog",method = RequestMethod.POST)
+  @Test
   public String addGoodsLog(String jsonStr) throws BaseException{
       JSONObject data=JSONObject.parseObject(jsonStr);
+      System.out.println(data);
       JSONObject temp = new JSONObject();
       Conditions conditions=new Conditions();
       List list = goodsInfoService.list(conditions.eq("id",data.get("Goods_PK").toString()));
       if(!list.isEmpty()){
           GoodsInfo goods = (GoodsInfo) list.get(0);
-
           temp.put("Goods_PK", goods.getId());
           temp.put("Goods_Name", goods.getGoods_name());
           temp.put("Goods_Type", goods.getGoods_type());
@@ -73,19 +81,25 @@ public class GoodsLogAction {
           temp.put("Goods_Reserve_1", goods.getGoods_reserve_1());
           temp.put("Goods_Reserve_2", goods.getGoods_reserve_2());
       }
+      //找到进销存的商品并把属性put进temp
       int num=(int)temp.get("Goods_Num");
       float price=(float)temp.get("Goods_Price");
-      if((int)data.get("Goods_In")!=0){
-          num+=(int)data.get("Goods_In");
+      System.out.println( Integer.parseInt(String.valueOf(data.get("Goods_In")))   );
+
+      if(Integer.parseInt(String.valueOf(data.get("Goods_In")))!=0){
+          num+=Integer.parseInt(String.valueOf(data.get("Goods_In")));
       }
-      if((int)data.get("Goods_Out")!=0){
-          num-=(int)data.get("Goods_Out");
+      if(Integer.parseInt(String.valueOf(data.get("Goods_Out")))!=0){
+          num-=Integer.parseInt(String.valueOf(data.get("Goods_Out")));
       }
-      if((float)data.get("Goods_PriceChange")!=0){
-          price=(float)data.get("Goods_PriceChange");
+      if(Float.parseFloat(String.valueOf(data.get("Goods_PriceChange")))!=0) {
+          price = Float.parseFloat(String.valueOf(data.get("Goods_PriceChange")));
       }
+      System.out.println(num+" "+price);
+
       temp.put("Goods_Num", num);
       temp.put("Goods_Price", price);
+      //对商品的数量和价格根据进销存修改
       GoodsInfo tempx=goodsInfoService.findById(temp.get("Goods_PK").toString());
       tempx.setGoods_name(temp.get("Goods_Name").toString());
       tempx.setGoods_type((int)Integer.parseInt(temp.get("Goods_Type").toString()));
@@ -100,13 +114,14 @@ public class GoodsLogAction {
       tempx.setGoods_mature(temp.get("Goods_Mature").toString());
       tempx.setGoods_expiration(temp.get("Goods_Expiration").toString());
       goodsInfoService.updateById(tempx);
+      //由于进销存，更新商品的数据库
       data.put("GL_Time",(new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
       GoodsLog tempy = new GoodsLog();
       tempy.setGoods_info_id(data.get("Goods_PK").toString());
       tempy.setGoods_in((int)Integer.parseInt(data.get("Goods_In").toString()));
       tempy.setGoods_out((int)Integer.parseInt(data.get("Goods_Out").toString()));
       tempy.setGoods_pricechange((float)Float.parseFloat(data.get("Goods_PriceChange").toString()));
-      tempy.setGl_time(Timestamp.valueOf(data.get("GL_Time").toString()));
+      tempy.setGl_time((String) data.get("GL_Time"));
       boolean ret;
       try {
           goodsLogService.add(tempy);
@@ -122,7 +137,9 @@ public class GoodsLogAction {
       else{
           r="{\"status\":0}";
       }
-      return "success";
+
+     return  "success";
+
   }
   public JSONArray JSONArrayPaging(JSONArray arr, JSONObject json) {
     JSONArray temparr = new JSONArray();
@@ -152,4 +169,5 @@ public class GoodsLogAction {
 
     return temparr;
   }
+
 }

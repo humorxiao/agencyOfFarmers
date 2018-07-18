@@ -85,7 +85,7 @@ public class OrderStateAction {
         temp1.setGoods_out((int) Integer.parseInt(log.get("Goods_Out").toString()));
         temp1.setGoods_pricechange(
             (float) Float.parseFloat(log.get("Goods_PriceChange").toString()));
-        temp1.setGl_time(Timestamp.valueOf(log.get("GL_Time").toString()));
+        temp1.setGl_time(log.get("GL_Time").toString());
         goodsLogService.add(temp1);
         JSONObject goodspk = new JSONObject();
         goodspk.put("Goods_PK", goodslist[i]);

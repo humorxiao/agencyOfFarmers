@@ -156,7 +156,7 @@ public class OrderInfoAction {
       tempg.setGoods_in((int) Integer.parseInt(log.get("Goods_In").toString()));
       tempg.setGoods_out((int) Integer.parseInt(log.get("Goods_Out").toString()));
       tempg.setGoods_pricechange((float) Float.parseFloat(log.get("Goods_PriceChange").toString()));
-      tempg.setGl_time(Timestamp.valueOf(log.get("GL_Time").toString()));
+      tempg.setGl_time((log.get("GL_Time").toString()));
       JSONObject goodspk = new JSONObject();
       goodspk.put("Goods_PK", goodslist[i]);
       JSONObject temp = new JSONObject();
