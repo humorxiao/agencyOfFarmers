@@ -32,7 +32,7 @@ public class UnionStaffAction {
     private IUnionStaffService unionStaffService;
 
     /**
-     * 获取分类
+     * ��ȡ����
      *
      * @return
      * @throws BaseException
@@ -49,7 +49,7 @@ public class UnionStaffAction {
         JSONArray jsAry = new JSONArray();
         for (UnionStaff staff : list) {
             JSONObject temp = new JSONObject();
-            temp.put("id", staff.getId());
+            temp.put("Staff_PK", staff.getId());
             temp.put("Union_Info_Id", staff.getUnion_info_id());
             temp.put("Staff_Name", staff.getStaff_name());
             temp.put("Staff_Sex", staff.getStaff_sex());

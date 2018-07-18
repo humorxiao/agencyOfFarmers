@@ -14,4 +14,14 @@ public class CartInfoService implements ICartInfoService {
     public CartInfo findById(String id) throws BaseException {
         return cartInfoDao.findById(id);
     }
+
+    @Override
+    public void updateById(CartInfo entity) throws BaseException {
+        cartInfoDao.updateById(entity);
+    }
+
+    @Override
+    public String add(CartInfo entity) throws BaseException {
+        return cartInfoDao.add(entity);
+    }
 }

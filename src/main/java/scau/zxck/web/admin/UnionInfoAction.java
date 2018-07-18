@@ -79,7 +79,7 @@ public class UnionInfoAction {
 
        for(UnionInfo e:list){
            JSONObject json1=new JSONObject();
-         json1.put("id",e.getId());
+         json1.put("Union_PK",e.getId());
          json1.put("Union_name",e.getUnion_name());
           json1.put("Union_Master",e.getUnion_master());
           json1.put("Union_License",e.getUnion_license());
