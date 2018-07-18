@@ -13,7 +13,7 @@ public class UnionNews extends Unique {
   @Column(name = "news_text")
   private String news_text;
   @Column(name = "news_time")
-  private Timestamp news_time;
+  private String news_time;
   @Column(name = "news_mark")
   private int news_mark;
   @Column(name = "remark")
@@ -35,11 +35,11 @@ public class UnionNews extends Unique {
     this.news_text = news_text;
   }
 
-  public Timestamp getNews_time() {
+  public String getNews_time() {
     return news_time;
   }
 
-  public void setNews_time(Timestamp news_time) {
+  public void setNews_time(String news_time) {
     this.news_time = news_time;
   }
 

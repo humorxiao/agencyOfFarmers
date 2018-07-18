@@ -22,11 +22,11 @@ public class OrderInfo extends Unique {
   @Column(name = "goods_prices")
   private String goods_prices;
   @Column(name = "order_time")
-  private Timestamp order_time;
-  @Column(name = "order_isplay")
+  private String order_time;
+  @Column(name = "order_ispay")
   private boolean order_ispay;
   @Column(name = "order_paytime")
-  private Timestamp order_paytime;
+  private String order_paytime;
   @Column(name = "order_payprice")
   private float order_payprice;
   @Column(name = "order_state")
@@ -131,11 +131,11 @@ public class OrderInfo extends Unique {
     this.goods_prices = goods_prices;
   }
 
-  public Timestamp getOrder_time() {
+  public String getOrder_time() {
     return order_time;
   }
 
-  public void setOrder_time(Timestamp order_time) {
+  public void setOrder_time(String order_time) {
     this.order_time = order_time;
   }
 
@@ -147,11 +147,11 @@ public class OrderInfo extends Unique {
     this.order_ispay = order_ispay;
   }
 
-  public Timestamp getOrder_paytime() {
+  public String getOrder_paytime() {
     return order_paytime;
   }
 
-  public void setOrder_paytime(Timestamp order_paytime) {
+  public void setOrder_paytime(String order_paytime) {
     this.order_paytime = order_paytime;
   }
 
