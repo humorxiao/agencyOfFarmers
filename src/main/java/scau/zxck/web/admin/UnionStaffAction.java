@@ -94,7 +94,7 @@ public class UnionStaffAction {
         temp.put("News_PK", news.getId());
         temp.put("News_Title", news.getNews_title());
         temp.put("News_Text", news.getNews_text());
-        temp.put("News_Time", news.getNews_time().toLocaleString());
+        temp.put("News_Time", news.getNews_time());
         jsonarr.add(temp);
       }
     }

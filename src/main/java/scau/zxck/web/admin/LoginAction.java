@@ -48,7 +48,7 @@ public class LoginAction {
   @RequestMapping(value = "login", method = RequestMethod.POST)
   @ResponseBody
   // 登录(已写入日志)
-  public String login(@RequestParam("jsonStr") String jsonStr) throws BaseException {
+  public String login(String jsonStr) throws BaseException {
     String r = "";
     JSONObject data = JSON.parseObject(jsonStr);
     JSONObject temp = new JSONObject();

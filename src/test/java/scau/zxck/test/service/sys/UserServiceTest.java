@@ -21,7 +21,7 @@ import java.util.Set;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:config/spring/spring.xml"})
+@ContextConfiguration("classpath:config/spring/spring.xml")
 public class UserServiceTest {
     private static Logger logger = Logger.getLogger(UserServiceTest.class);
 
