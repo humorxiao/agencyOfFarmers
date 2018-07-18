@@ -3,8 +3,12 @@ package scau.zxck.web.admin;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.xml.internal.rngom.parse.host.Base;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -28,6 +32,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = {"classpath:config/spring/spring.xml"})
 public class OrderStateAction {
   @Autowired
   private IOrderInfoService orderInfoService;
@@ -201,13 +207,15 @@ public class OrderStateAction {
   }
 
   @RequestMapping(value = "changeOrderAfterSale", method = RequestMethod.POST)
-  public String changeOrderAfterSale(String jsonStr) throws Exception {
+//  @Test
+  public  String changeOrderAfterSale(String jsonStr) throws Exception {
     String r = "";
+//    String jsonStr = "{\"Order_ID\":\"201703302003100003\",\"Order_State\":\"2\",\"Order_PK\":\"100000\",\"User_PK\":\"100003\",\"Order_ID\":\"201703302003100003\",\"Order_No\":\"\",\"Goods_List\":\"100000\",\"Goods_Num\":\"2\",\"Goods_Prices\":\"12\",\"Order_Time\":\"2017-03-30 20:03:46\",\"Order_IsPay\":\"1\",\"Order_PayTime\":\"2017-03-30 20:03:46\",\"Order_PayPrice\":\"24\",\"Order_State\":\"5\",\"Order_TrackNum\":\"11111111111111\",\"Order_Company\":\"\",\"Order_Website\":\"\",\"Order_Aftersale\":\"0\",\"Order_Reserve_1\":\"13421166393;林先生;广东省揭阳市某某区某某街道;522000;\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     Conditions conditions = new Conditions();
     // String hql = "from OrderInfo where order_id='" + json.get("Order_ID").toString() + "'";
-    List list = orderInfoService.list(conditions.eq("id", data.get("Order_ID").toString()));
+    List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
 
     if (!list.isEmpty()) {
       OrderInfo order = (OrderInfo) list.get(0);
@@ -272,6 +280,7 @@ public class OrderStateAction {
       r = "{\"status\":0}";
     }
     return "success";
+//    System.out.println(r);
   }
 
   @RequestMapping(value = "getOrdersByStateAndUser", method = RequestMethod.POST)
@@ -329,8 +338,10 @@ public class OrderStateAction {
   }
 
   @RequestMapping(value = "getOrdersByAftersaleAndUser", method = RequestMethod.POST)
+//  @Test
   public String getOrdersByAftersaleAndUser(String jsonStr) throws BaseException {
     String r = "";
+//    String jsonStr = "{\"User_PK\":\"100003\",\"Order_Aftersale\":\"0\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     HttpServletRequest request =
         ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -380,6 +391,7 @@ public class OrderStateAction {
     }
     r=jsonarr.toString();
     return "success";
+//    System.out.println(r);
   }
 
 }
