@@ -15,7 +15,7 @@ public class SignInLog extends Unique {
   @Column(name = "admin_info_id")
   private String admin_info_id;
   @Column(name = "signin_time")
-  private Timestamp signin_time;
+  private String signin_time;
   @Column(name = "signin_reserve_1")
   private String signin_reserve_1;
   @Column(name = "signin_reserve_2")
@@ -47,11 +47,11 @@ public class SignInLog extends Unique {
     this.signin_isadmin = signin_isadmin;
   }
 
-  public Timestamp getSignin_time() {
+  public String getSignin_time() {
     return signin_time;
   }
 
-  public void setSignin_time(Timestamp signin_time) {
+  public void setSignin_time(String signin_time) {
     this.signin_time = signin_time;
   }
 

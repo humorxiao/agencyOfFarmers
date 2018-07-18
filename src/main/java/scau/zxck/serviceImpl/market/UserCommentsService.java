@@ -21,6 +21,16 @@ public class UserCommentsService implements IUserCommentsService {
     }
 
     @Override
+    public void deleteByIds(Object... ids) throws BaseException {
+        userCommentsDao.deleteByIds(ids);
+    }
+
+    @Override
+    public void delete(Conditions conditions) throws BaseException {
+        userCommentsDao.delete(conditions);
+    }
+
+    @Override
     public <V> List<V> list(Conditions conditions) throws BaseException {
         return userCommentsDao.list(conditions);
     }

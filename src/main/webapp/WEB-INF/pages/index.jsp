@@ -12,10 +12,9 @@
 <body>
 	<form action="/login" method="POST">
 		测试：<input type="text" name="jsonStr">
-		<br><br>
+		<%--<br><br>--%>
 		<input type="submit" value="登录">
     </form>
-<%--<script src="test-js/login.js"></script>--%>
 </body>
 </html>
 

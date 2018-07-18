@@ -11,5 +11,5 @@ public interface IGoodsInfoService {
     GoodsInfo findById(String id) throws BaseException;
     <V> List<V> listAll() throws BaseException;
     void updateById(GoodsInfo entity) throws BaseException;
-
+    String add(GoodsInfo entity) throws BaseException;
 }

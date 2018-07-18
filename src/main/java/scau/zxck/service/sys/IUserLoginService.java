@@ -11,4 +11,5 @@ public interface IUserLoginService {
      String add(UserInfo entity)throws BaseException;
     UserInfo findById(String id) throws BaseException;
     void update(UserInfo entity, Conditions conditions) throws BaseException;
+    void updateById(UserInfo entity) throws BaseException;
 }

@@ -3,11 +3,14 @@ package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
@@ -15,6 +18,7 @@ import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.*;
 import scau.zxck.entity.sys.AdminInfo;
 import scau.zxck.entity.sys.UserInfo;
+import scau.zxck.service.market.ISignInLogService;
 import scau.zxck.service.sys.IAdminLoginService;
 import scau.zxck.service.sys.IUserLoginService;
 
@@ -33,7 +37,8 @@ public class LoginAction {
   private IAdminLoginService adminLoginService;
   @Autowired
   private IUserLoginService userLoginService;
-
+  @Autowired
+  private ISignInLogService signInLogService;
   /**
    * 获取分类
    * 
@@ -41,12 +46,13 @@ public class LoginAction {
    * @throws BaseException
    */
   @RequestMapping(value = "login", method = RequestMethod.POST)
+  @ResponseBody
   // 登录(已写入日志)
-  public String login(String jsonStr) throws BaseException {
+  public String login(@RequestParam("jsonStr") String jsonStr) throws BaseException {
     String r = "";
     JSONObject data = JSON.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
-
+    System.out.println(jsonStr);
     if ((boolean) data.get("isAdmin")) {
       Conditions conditions = new Conditions();
       List list =
@@ -84,27 +90,17 @@ public class LoginAction {
       // 登录日志
       temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
       if ((boolean) temp.get("SignIn_IsAdmin") == true) {
-        AdminInfo adminInfo = new AdminInfo();
-        adminInfo.setAdmin_password(data.get("Admin_Password").toString());
-        adminInfo.setAdmin_name(data.get("Admin_Name").toString());
-        adminInfo.setAdmin_cell(data.get("Admin_Cell").toString());
-        adminInfo.setAdmin_email(data.get("Admin_Email").toString());
-        adminLoginService.add(adminInfo);
+        SignInLog temp1 = new SignInLog();
+        temp1.setSignin_isadmin((boolean)temp.get("SignIn_IsAdmin"));
+        temp1.setAdmin_info_id(temp.get("Admin_PK").toString());
+        temp1.setSignin_time(temp.get("SignIn_Time").toString());
+        signInLogService.add(temp1);
       } else {
-        UserInfo userInfo = new UserInfo();
-
-        userInfo.setUser_password(data.get("User_Password").toString());
-        userInfo.setUser_name(data.get("User_Name").toString());
-        userInfo.setUser_cell(data.get("User_Cell").toString());
-        userInfo.setUser_email(data.get("User_Email").toString());
-        userInfo.setUser_sex((int) Integer.parseInt(temp.get("User_Sex").toString()));
-        userInfo.setUser_regtime(Timestamp.valueOf(temp.get("User_RegTime").toString()).toString());
-        userInfo.setUser_realname(data.get("User_Realname").toString());
-        userInfo.setUser_id(data.get("User_ID").toString());
-
-        userInfo.setCart(new CartInfo());
-        userInfo.setDeliveryaddress(new DeliveryAddress());
-        userLoginService.add(userInfo);
+        SignInLog temp1 = new SignInLog();
+        temp1.setSignin_isadmin((boolean)temp.get("SignIn_IsAdmin"));
+        temp1.setUser_info_id(temp.get("User_PK").toString());
+        temp1.setSignin_time(temp.get("SignIn_Time").toString());
+        signInLogService.add(temp1);
       }
     }
     HttpServletRequest request =
@@ -120,4 +116,5 @@ public class LoginAction {
     }
     return "success";
   }
+
 }

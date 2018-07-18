@@ -30,6 +30,11 @@ public class UserLoginService implements IUserLoginService {
     }
 
     @Override
+    public void updateById(UserInfo entity) throws BaseException {
+        userInfoDao.updateById(entity);
+    }
+
+    @Override
     public void update(UserInfo entity, Conditions conditions) throws BaseException {
         userInfoDao.update(entity,conditions);
     }

@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `admin_info`;
 CREATE TABLE `admin_info` (
   `id` varchar (255) NOT NULL ,
-  分`admin_password` varchar(32) NOT NULL,
+  `admin_password` varchar(32) NOT NULL,
   `admin_name` varchar(10) NOT NULL,
   `admin_cell` varchar(11) NOT NULL COMMENT '必须为11位',
   `admin_email` varchar(30) DEFAULT NULL,

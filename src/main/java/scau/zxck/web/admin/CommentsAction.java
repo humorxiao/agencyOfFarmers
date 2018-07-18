@@ -123,4 +123,17 @@ public class CommentsAction {
       r=temp.toString();
       return null;
   }
+  @RequestMapping(value = "deleteComments",method = RequestMethod.POST)
+  public String deleteComments(String jsonStr) throws BaseException{
+    String r="";
+    JSONObject data=JSONObject.parseObject(jsonStr);
+    try {
+      userCommentsService.deleteByIds(data.get("Comm_PK").toString());
+      r="{\"status\":1}";
+    }catch (Exception e){
+        e.printStackTrace();
+      r="{\"status\":0}";
+    }
+    return "success";
+  }
 }

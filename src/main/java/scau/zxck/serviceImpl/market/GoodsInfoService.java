@@ -19,6 +19,11 @@ public class GoodsInfoService implements IGoodsInfoService {
     }
 
     @Override
+    public String add(GoodsInfo entity) throws BaseException {
+        return goodsInfoDao.add(entity);
+    }
+
+    @Override
     public <V> List<V> listAll() throws BaseException {
         return goodsInfoDao.listAll();
     }

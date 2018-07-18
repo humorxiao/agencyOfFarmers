@@ -10,4 +10,6 @@ import java.util.List;
 public interface IUserCommentsService {
     String add(UserComments entity) throws BaseException;
     <V> List<V> list(Conditions conditions) throws BaseException;
+    void delete(Conditions conditions) throws BaseException;
+    void deleteByIds(Object... ids) throws BaseException;
 }
