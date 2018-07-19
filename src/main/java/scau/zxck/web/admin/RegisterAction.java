@@ -96,7 +96,7 @@ public class RegisterAction {
       deliveryAddress.setDeliv_zipcode("");
       deliveryAddressService.add(deliveryAddress);
     }
-    return "success";
+   // return "success";
   }
 
   @RequestMapping(value = "validateAccount", method = RequestMethod.POST)

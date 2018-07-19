@@ -4,8 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.xml.internal.rngom.parse.host.Base;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -30,6 +34,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = {"classpath:config/spring/spring.xml"})
 public class OrderInfoAction {
   @Autowired
   private IOrderInfoService orderInfoService;
@@ -37,10 +43,12 @@ public class OrderInfoAction {
   private IGoodsInfoService goodsInfoService;
 
   @RequestMapping(value = "getUserOrderListPaging", method = RequestMethod.POST)
+//    @Test
   public String getUserOrderListPaging(String jsonStr) throws BaseException {
     String r = "";
+//        String jsonStr = "{\"User_PK\":\"100003\",\"NumPerPage\":\"5\",\"Page\":\"2\"}";
     HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
     JSONObject pageInfo = JSONObject.parseObject(jsonStr);
     if (session.getAttribute("User_PK") != null) {
@@ -51,8 +59,8 @@ public class OrderInfoAction {
     JSONArray jsonarr = new JSONArray();
     Conditions conditions = new Conditions();
     List list =
-        orderInfoService.list(conditions.eq("user_info_id", pageInfo.get("User_PK").toString()));
-    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
+            orderInfoService.list(conditions.eq("user_info_id", pageInfo.get("User_PK").toString()));
+    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
       JSONObject temp = new JSONObject();
       OrderInfo order = (OrderInfo) iter.next();
 
@@ -63,12 +71,12 @@ public class OrderInfoAction {
       temp.put("Goods_List", order.getGoods_list());
       temp.put("Goods_Num", order.getGoods_num());
       temp.put("Goods_Prices", order.getGoods_prices());
-      temp.put("Order_Time", order.getOrder_time().toLocaleString());
+      temp.put("Order_Time", order.getOrder_time());
       temp.put("Order_IsPay", order.isOrder_ispay());
-      if (order.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
         temp.put("Order_PayTime", "");
       } else {
-        temp.put("Order_PayTime", order.getOrder_paytime().toLocaleString());
+        temp.put("Order_PayTime", order.getOrder_paytime());
       }
       temp.put("Order_PayPrice", order.getOrder_payprice());
       temp.put("Order_State", order.getOrder_state());
@@ -85,11 +93,14 @@ public class OrderInfoAction {
     return "success";
   }
 
-  @RequestMapping(value = "getUStateOrderPaging", method = RequestMethod.POST)
-  public String getUStateOrderPaging(String jsonStr, String jsonStr2) throws BaseException {
+  @RequestMapping(value = "getStateOrderPaging", method = RequestMethod.POST)
+//    @Test
+  public String getStateOrderPaging(String jsonStr, String jsonStr2) throws BaseException {
     String r = "";
+//        String jsonStr = "{\"User_PK\":\"100003\",\"Order_State\":\"3\",\"NumPerPage\":\"2\",\"Page\":\"1\"}";
+//        String jsonStr2 = "{\"NumPerPage\":\"4\"}";
     HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject pageInfo = JSONObject.parseObject(jsonStr);
@@ -101,8 +112,8 @@ public class OrderInfoAction {
     JSONArray jsonarr = new JSONArray();
     Conditions conditions = new Conditions();
     List list = orderInfoService.list(conditions.eq("user_info_id", data.get("User_PK").toString())
-        .and().eq("order_state", data.get("Order_State").toString()));
-    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
+            .and().eq("order_state", data.get("Order_State").toString()));
+    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
       JSONObject temp = new JSONObject();
       OrderInfo order = (OrderInfo) iter.next();
 
@@ -113,12 +124,12 @@ public class OrderInfoAction {
       temp.put("Goods_List", order.getGoods_list());
       temp.put("Goods_Num", order.getGoods_num());
       temp.put("Goods_Prices", order.getGoods_prices());
-      temp.put("Order_Time", order.getOrder_time().toLocaleString());
+      temp.put("Order_Time", order.getOrder_time());
       temp.put("Order_IsPay", order.isOrder_ispay());
-      if (order.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
         temp.put("Order_PayTime", "");
       } else {
-        temp.put("Order_PayTime", order.getOrder_paytime().toLocaleString());
+        temp.put("Order_PayTime", order.getOrder_paytime());
       }
       temp.put("Order_PayPrice", order.getOrder_payprice());
       temp.put("Order_State", order.getOrder_state());
@@ -132,14 +143,17 @@ public class OrderInfoAction {
     }
     JSONArray temparr = JSONArrayPaging(jsonarr, pageInfo);
     r = temparr.toString();
+//        System.out.println(r);
     return "success";
   }
 
   @RequestMapping(value = "addOrder", method = RequestMethod.POST)
+//    @Test
   public String addOrder(String jsonStr) throws BaseException {
     String r = "";
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        String jsonStr = "{\"User_PK\":\"100006\",\"Goods_List\":\"100010#100004#\",\"Goods_Num\":\"2#3#\",\"Goods_Price\":\"5#2.5#\",\"Order_Aftersale\":\"0\",\"Order_Company\":\"韵达速递\",\"Order_ID\":\"201807181710100006\",\"Order_IsPay\":false,\"Order_No\":\"\",\"Order_PayPrice\":\"17.5\",\"Order_PayTime\":\"0001-01-01 01:01:01\",\"Order_Reserve_1\":\"13416137226;65;65;658565\",\"Order_State\":\"3\",\"Order_Time\":\"2018-07-18 16:45:09\",\"Order_Tracknum\":\"1234\",\"Order_Website\":\"http://www.yundaex.com/cn/index.php\"}";
+//        System.out.println(jsonStr);
+    HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
     JSONObject data = JSONObject.parseObject(jsonStr);
     String[] goodslist = ((String) data.get("Goods_List")).split("#");
@@ -156,7 +170,7 @@ public class OrderInfoAction {
       tempg.setGoods_in((int) Integer.parseInt(log.get("Goods_In").toString()));
       tempg.setGoods_out((int) Integer.parseInt(log.get("Goods_Out").toString()));
       tempg.setGoods_pricechange((float) Float.parseFloat(log.get("Goods_PriceChange").toString()));
-      tempg.setGl_time((log.get("GL_Time").toString()));
+      tempg.setGl_time(Timestamp.valueOf(log.get("GL_Time").toString()).toString());
       JSONObject goodspk = new JSONObject();
       goodspk.put("Goods_PK", goodslist[i]);
       JSONObject temp = new JSONObject();
@@ -202,14 +216,14 @@ public class OrderInfoAction {
     // Date date = new Date();
     // String id = (new SimpleDateFormat("yyyyMMddHHMMss")).format(date);
     // System.out.println(id);
-    if (session.getAttribute("User_PK") != null) {
-      String pk = String.valueOf(session.getAttribute("User_PK"));
-      data.put("User_PK", session.getAttribute("User_PK"));
-      // id += pk.substring(pk.length() - 6, pk.length());
-    } else {
-      data.put("User_PK", "");
-      // id += "000000";
-    }
+//        if (session.getAttribute("User_PK") != null) {
+//            String pk = String.valueOf(session.getAttribute("User_PK"));
+//            data.put("User_PK", session.getAttribute("User_PK"));
+//            // id += pk.substring(pk.length() - 6, pk.length());
+//        } else {
+//            data.put("User_PK", "");
+//            // id += "000000";
+//        }
     // data.put("Order_ID", id);
     // data.put("Order_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(date));
     // String date1 = "0001-01-01 01:01:01";
@@ -230,17 +244,17 @@ public class OrderInfoAction {
     orderInfo.setOrder_ispay((boolean) data.get("Order_IsPay"));
     orderInfo.setOrder_no(data.get("Order_No").toString());
     orderInfo.setOrder_payprice((float) Float.parseFloat(data.get("Order_PayPrice").toString()));
-    orderInfo.setOrder_paytime(Timestamp.valueOf(data.get("Order_PayTime").toString()));
+    orderInfo.setOrder_paytime(Timestamp.valueOf(data.get("Order_PayTime").toString()).toString());
     orderInfo.setOrder_reserve_1(data.get("Order_Reserve_1").toString());
     orderInfo.setOrder_state((int) Integer.parseInt(data.get("Order_State").toString()));
-    orderInfo.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()));
+    orderInfo.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
     orderInfo.setOrder_tracknum(data.get("Order_Tracknum").toString());
     orderInfo.setOrder_website(data.get("Order_Website").toString());
     orderInfo.setUserInfo(new UserInfo());
     orderInfoService.add(orderInfo);
     Conditions conditions = new Conditions();
     OrderInfo orderInfo1 =
-        orderInfoService.find(conditions.eq("order_id", data.get("Order_Id").toString()));
+            orderInfoService.find(conditions.eq("order_id", data.get("Order_ID").toString()));
     JSONObject jsonObject = new JSONObject();
     jsonObject.put("Order_PK", orderInfo1.getId());
     jsonObject.put("User_PK", orderInfo1.getUser_info_id());
@@ -249,12 +263,12 @@ public class OrderInfoAction {
     jsonObject.put("Goods_List", orderInfo1.getGoods_list());
     jsonObject.put("Goods_Num", orderInfo1.getGoods_num());
     jsonObject.put("Goods_Prices", orderInfo1.getGoods_prices());
-    jsonObject.put("Order_Time", orderInfo1.getOrder_time().toLocaleString());
+    jsonObject.put("Order_Time", orderInfo1.getOrder_time());
     jsonObject.put("Order_IsPay", orderInfo1.isOrder_ispay());
-    if (orderInfo1.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+    if (orderInfo1.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
       jsonObject.put("Order_PayTime", "");
     } else {
-      jsonObject.put("Order_PayTime", orderInfo1.getOrder_paytime().toLocaleString());
+      jsonObject.put("Order_PayTime", orderInfo1.getOrder_paytime());
     }
     jsonObject.put("Order_PayPrice", orderInfo1.getOrder_payprice());
     jsonObject.put("Order_State", orderInfo1.getOrder_state());
@@ -264,12 +278,16 @@ public class OrderInfoAction {
     jsonObject.put("Order_Aftersale", orderInfo1.getOrder_aftersale());
     jsonObject.put("Order_Reserve_1", orderInfo1.getOrder_reserve_1());
     r = jsonObject.toString();
+//        System.out.println("success");
+//        System.out.println(r);
     return "success";
   }
 
   @RequestMapping(value = "updateOrder", method = RequestMethod.POST)
+//    @Test
   public String updateOrder(String jsonStr) throws BaseException {
     String r = "";
+//        String jsonStr = "{\"Order_PK\":\"6a1df74239db41fa96f32a8c5ecf0f8b\",\"User_PK\":\"100006\",\"Goods_List\":\"100010#100004#\",\"Goods_Num\":\"2#5#\",\"Goods_Price\":\"5#2.5#\",\"Order_Aftersale\":\"0\",\"Order_Company\":\"韵达速递\",\"Order_ID\":\"201807181710100006\",\"Order_IsPay\":false,\"Order_No\":\"\",\"Order_PayPrice\":\"17.5\",\"Order_PayTime\":\"0001-01-01 01:01:01\",\"Order_Reserve_1\":\"13416137226;65;65;658565\",\"Order_State\":\"3\",\"Order_Time\":\"2018-07-18 16:45:09\",\"Order_TrackNum\":\"1234\",\"Order_Website\":\"http://www.yundaex.com/cn/index.php\"}";
     JSONObject json = JSONObject.parseObject(jsonStr);
     OrderInfo temp = orderInfoService.findById(json.get("Order_PK").toString());
     temp.setUser_info_id(json.get("User_PK").toString());
@@ -277,15 +295,15 @@ public class OrderInfoAction {
     temp.setOrder_no(json.get("Order_No").toString());
     temp.setGoods_list(json.get("Goods_List").toString());
     temp.setGoods_num(json.get("Goods_Num").toString());
-    temp.setGoods_prices(json.get("Goods_Prices").toString());
-    temp.setOrder_time(Timestamp.valueOf(json.get("Order_Time").toString()));
+    temp.setGoods_prices(json.get("Goods_Price").toString());
+    temp.setOrder_time(Timestamp.valueOf(json.get("Order_Time").toString()).toString());
     temp.setOrder_ispay((boolean) json.get("Order_IsPay"));
     if (!json.get("Order_PayTime").equals(new String(""))) {
-      temp.setOrder_paytime(Timestamp.valueOf(json.get("Order_PayTime").toString()));
+      temp.setOrder_paytime(Timestamp.valueOf(json.get("Order_PayTime").toString()).toString());
     }
     /*
      * else {
-     * 
+     *
      * try { String date1 = "0001-01-01 01:01:01"; Date strD = (Date) (new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).parse(date1);
      * temp.setOrder_paytime(Timestamp.valueOf((new
@@ -306,16 +324,20 @@ public class OrderInfoAction {
       e.printStackTrace();
       r = "{\"status\":0}";
     }
+//        System.out.println(r);
     return "success";
   }
 
   @RequestMapping(value = "payOrder", method = RequestMethod.POST)
+//    @Test
   public String payOrder(String jsonStr) throws BaseException {
+//        String jsonStr = "{\"Order_PK\":\"6a1df74239db41fa96f32a8c5ecf0f8b\",\"User_PK\":\"100006\",\"Goods_List\":\"100010#100004#\",\"Goods_Num\":\"2#5#\",\"Goods_Price\":\"5#2.5#\",\"Order_Aftersale\":\"0\",\"Order_Company\":\"韵达速递\",\"Order_ID\":\"201807181710100006\",\"Order_IsPay\":false,\"Order_No\":\"\",\"Order_PayPrice\":\"17.5\",\"Order_PayTime\":\"0001-01-01 01:01:01\",\"Order_Reserve_1\":\"13416137226;65;65;658565\",\"Order_State\":\"3\",\"Order_Time\":\"2018-07-18 16:45:09\",\"Order_TrackNum\":\"1234\",\"Order_Website\":\"http://www.yundaex.com/cn/index.php\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
     JSONObject temp = new JSONObject();
-    OrderInfo order = orderInfoService.findById(data.get("Order_ID").toString());
-
+    Conditions conditions=new Conditions();
+    List list = orderInfoService.list(conditions.eq("order_id",data.get("Order_ID").toString()));
+    OrderInfo order=(OrderInfo)list.get(0);
     temp.put("Order_PK", order.getId());
     temp.put("User_PK", order.getUser_info_id());
     temp.put("Order_ID", order.getOrder_id());
@@ -323,12 +345,12 @@ public class OrderInfoAction {
     temp.put("Goods_List", order.getGoods_list());
     temp.put("Goods_Num", order.getGoods_num());
     temp.put("Goods_Prices", order.getGoods_prices());
-    temp.put("Order_Time", order.getOrder_time().toLocaleString());
+    temp.put("Order_Time", order.getOrder_time());
     temp.put("Order_IsPay", order.isOrder_ispay());
-    if (order.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+    if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
       temp.put("Order_PayTime", "");
     } else {
-      temp.put("Order_PayTime", order.getOrder_paytime().toLocaleString());
+      temp.put("Order_PayTime", order.getOrder_paytime());
     }
     temp.put("Order_PayPrice", order.getOrder_payprice());
     temp.put("Order_State", order.getOrder_state());
@@ -348,10 +370,10 @@ public class OrderInfoAction {
     tempx.setGoods_list(temp.get("Goods_List").toString());
     tempx.setGoods_num(temp.get("Goods_Num").toString());
     tempx.setGoods_prices(temp.get("Goods_Prices").toString());
-    tempx.setOrder_time(Timestamp.valueOf(temp.get("Order_Time").toString()));
+    tempx.setOrder_time(Timestamp.valueOf(temp.get("Order_Time").toString()).toString());
     tempx.setOrder_ispay((boolean) temp.get("Order_IsPay"));
     if (!temp.get("Order_PayTime").equals(new String(""))) {
-      tempx.setOrder_paytime(Timestamp.valueOf(temp.get("Order_PayTime").toString()));
+      tempx.setOrder_paytime(Timestamp.valueOf(temp.get("Order_PayTime").toString()).toString());
     }
     /*
      * else {
@@ -376,11 +398,14 @@ public class OrderInfoAction {
       e.printStackTrace();
       r = "{\"status\":0}";
     }
+//        System.out.println(r);
     return "success";
   }
 
   @RequestMapping(value = "getNoPayOrder", method = RequestMethod.POST)
+//    @Test
   public String getNoPayOrder(String jsonStr) throws BaseException {
+//        String jsonStr = "{\"User_PK\":\"100003\",\"Order_State\":\"3\",\"NumPerPage\":\"2\",\"Page\":\"8\"}";
     JSONObject pageInfo = JSONObject.parseObject(jsonStr);
     String r = "";
     JSONArray jsonarr = new JSONArray();
@@ -388,7 +413,7 @@ public class OrderInfoAction {
     List list = orderInfoService.list(conditions.eq("order_isPay", false));
 
 
-    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
+    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
       JSONObject temp = new JSONObject();
 
       OrderInfo order = (OrderInfo) iter.next();
@@ -400,12 +425,12 @@ public class OrderInfoAction {
       temp.put("Goods_List", order.getGoods_list());
       temp.put("Goods_Num", order.getGoods_num());
       temp.put("Goods_Prices", order.getGoods_prices());
-      temp.put("Order_Time", order.getOrder_time().toLocaleString());
+      temp.put("Order_Time", order.getOrder_time());
       temp.put("Order_IsPay", order.isOrder_ispay());
-      if (order.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
         temp.put("Order_PayTime", "");
       } else {
-        temp.put("Order_PayTime", order.getOrder_paytime().toLocaleString());
+        temp.put("Order_PayTime", order.getOrder_paytime());
       }
       temp.put("Order_PayPrice", order.getOrder_payprice());
       temp.put("Order_State", order.getOrder_state());
@@ -417,11 +442,14 @@ public class OrderInfoAction {
       jsonarr.add(temp);
     }
     r = JSONArrayPaging(jsonarr, pageInfo).toString();
+//        System.out.println(r);
     return "success";
   }
 
   @RequestMapping(value = "getIDOrder", method = RequestMethod.POST)
+//    @Test
   public String getIDOrder(String jsonStr) throws BaseException {
+//        String jsonStr = "{\"Order_ID\":\"201703302003100003\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     Conditions conditions = new Conditions();
@@ -436,12 +464,12 @@ public class OrderInfoAction {
       temp.put("Goods_List", order.getGoods_list());
       temp.put("Goods_Num", order.getGoods_num());
       temp.put("Goods_Prices", order.getGoods_prices());
-      temp.put("Order_Time", order.getOrder_time().toLocaleString());
+      temp.put("Order_Time", order.getOrder_time());
       temp.put("Order_IsPay", order.isOrder_ispay());
-      if (order.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
         temp.put("Order_PayTime", "");
       } else {
-        temp.put("Order_PayTime", order.getOrder_paytime().toLocaleString());
+        temp.put("Order_PayTime", order.getOrder_paytime());
       }
       temp.put("Order_PayPrice", order.getOrder_payprice());
       temp.put("Order_State", order.getOrder_state());
@@ -452,28 +480,33 @@ public class OrderInfoAction {
       temp.put("Order_Reserve_1", order.getOrder_reserve_1());
     }
     String r = temp.toString();
+//        System.out.println(r);
     return "success";
   }
 
   @RequestMapping(value = "getSumOfPayedNoFinishedOrder", method = RequestMethod.POST)
-  public String getSumOfPayedNoFinishedOrder(String jsonStr) throws BaseException {
-    JSONObject data = JSONObject.parseObject(jsonStr);
+//    @Test
+  public String getSumOfPayedNoFinishedOrder() throws BaseException {
+
     Conditions conditions = new Conditions();
     List list =
-        orderInfoService.list(conditions.eq("order_state", 1).and().eq("order_isPay", true));
+            orderInfoService.list(conditions.eq("order_state", 1).and().eq("order_isPay", true));
     int sum = list.size();
     String r = r = "{\"sum\":" + sum + "}";
+//        System.out.println(r);
     return "success";
   }
 
   @RequestMapping(value = "getPayedNoFinishedOrder", method = RequestMethod.POST)
+//    @Test
   public String getPayedNoFinishedOrder(String jsonStr) throws BaseException {
+//        String jsonStr = "{\"NumPerPage\":\"2\",\"Page\":\"1\"}";
     JSONObject pageInfo = JSONObject.parseObject(jsonStr);
     JSONArray jsonarr = new JSONArray();
     Conditions conditions = new Conditions();
     List list =
-        orderInfoService.list(conditions.eq("order_state", 1).and().eq("order_isPay", true));
-    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
+            orderInfoService.list(conditions.eq("order_state", 1).and().eq("order_isPay", true));
+    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
       JSONObject temp = new JSONObject();
 
       OrderInfo order = (OrderInfo) iter.next();
@@ -485,12 +518,12 @@ public class OrderInfoAction {
       temp.put("Goods_List", order.getGoods_list());
       temp.put("Goods_Num", order.getGoods_num());
       temp.put("Goods_Prices", order.getGoods_prices());
-      temp.put("Order_Time", order.getOrder_time().toLocaleString());
+      temp.put("Order_Time", order.getOrder_time());
       temp.put("Order_IsPay", order.isOrder_ispay());
-      if (order.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
         temp.put("Order_PayTime", "");
       } else {
-        temp.put("Order_PayTime", order.getOrder_paytime().toLocaleString());
+        temp.put("Order_PayTime", order.getOrder_paytime());
       }
       temp.put("Order_PayPrice", order.getOrder_payprice());
       temp.put("Order_State", order.getOrder_state());
@@ -501,9 +534,11 @@ public class OrderInfoAction {
       temp.put("Order_Reserve_1", order.getOrder_reserve_1());
       jsonarr.add(temp);
     }
-    String r=JSONArrayPaging(jsonarr,pageInfo).toString();
+    String r = JSONArrayPaging(jsonarr, pageInfo).toString();
+//        System.out.println(r);
     return "success";
   }
+
 
   public JSONArray JSONArrayPaging(JSONArray arr, JSONObject json) {
     JSONArray temparr = new JSONArray();
@@ -525,7 +560,7 @@ public class OrderInfoAction {
 
     temparr.add(firstjson);
     for (int i = (json.getInteger("Page") - 1) * json.getIntValue("NumPerPage"); i < arr
-        .size(); i++) {
+            .size(); i++) {
       temparr.add(arr.get(i));
       if (i >= json.getIntValue("Page") * json.getIntValue("NumPerPage") - 1)
         break;

@@ -3,8 +3,12 @@ package scau.zxck.web.admin;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.xml.internal.rngom.parse.host.Base;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -28,6 +32,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = {"classpath:config/spring/spring.xml"})
 public class OrderStateAction {
   @Autowired
   private IOrderInfoService orderInfoService;
@@ -54,12 +60,12 @@ public class OrderStateAction {
         temp.put("Goods_List", order.getGoods_list());
         temp.put("Goods_Num", order.getGoods_num());
         temp.put("Goods_Prices", order.getGoods_prices());
-        temp.put("Order_Time", order.getOrder_time().toLocaleString());
+        temp.put("Order_Time", order.getOrder_time());
         temp.put("Order_IsPay", order.isOrder_ispay());
-        if (order.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+        if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
           temp.put("Order_PayTime", "");
         } else {
-          temp.put("Order_PayTime", order.getOrder_paytime().toLocaleString());
+          temp.put("Order_PayTime", order.getOrder_paytime());
         }
         temp.put("Order_PayPrice", order.getOrder_payprice());
         temp.put("Order_State", order.getOrder_state());
@@ -84,8 +90,8 @@ public class OrderStateAction {
         temp1.setGoods_in((int) Integer.parseInt(log.get("Goods_In").toString()));
         temp1.setGoods_out((int) Integer.parseInt(log.get("Goods_Out").toString()));
         temp1.setGoods_pricechange(
-            (float) Float.parseFloat(log.get("Goods_PriceChange").toString()));
-        temp1.setGl_time(log.get("GL_Time").toString());
+                (float) Float.parseFloat(log.get("Goods_PriceChange").toString()));
+        temp1.setGl_time(Timestamp.valueOf(log.get("GL_Time").toString()).toString());
         goodsLogService.add(temp1);
         JSONObject goodspk = new JSONObject();
         goodspk.put("Goods_PK", goodslist[i]);
@@ -144,12 +150,12 @@ public class OrderStateAction {
       tempy.put("Goods_List", order.getGoods_list());
       tempy.put("Goods_Num", order.getGoods_num());
       tempy.put("Goods_Prices", order.getGoods_prices());
-      tempy.put("Order_Time", order.getOrder_time().toLocaleString());
+      tempy.put("Order_Time", order.getOrder_time());
       tempy.put("Order_IsPay", order.isOrder_ispay());
-      if (order.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
         tempy.put("Order_PayTime", "");
       } else {
-        tempy.put("Order_PayTime", order.getOrder_paytime().toLocaleString());
+        tempy.put("Order_PayTime", order.getOrder_paytime());
       }
       tempy.put("Order_PayPrice", order.getOrder_payprice());
       // 关键
@@ -168,14 +174,14 @@ public class OrderStateAction {
     tempz.setGoods_list(data.get("Goods_List").toString());
     tempz.setGoods_num(data.get("Goods_Num").toString());
     tempz.setGoods_prices(data.get("Goods_Prices").toString());
-    tempz.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()));
+    tempz.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
     tempz.setOrder_ispay((boolean) data.get("Order_IsPay"));
     if (!data.get("Order_PayTime").equals(new String(""))) {
-      tempz.setOrder_paytime(Timestamp.valueOf(data.get("Order_PayTime").toString()));
+      tempz.setOrder_paytime(Timestamp.valueOf(data.get("Order_PayTime").toString()).toString());
     }
     /*
      * else {
-     * 
+     *
      * try { String date1 = "0001-01-01 01:01:01"; Date strD = (Date) (new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).parse(date1);
      * temp.setOrder_paytime(Timestamp.valueOf((new
@@ -201,13 +207,15 @@ public class OrderStateAction {
   }
 
   @RequestMapping(value = "changeOrderAfterSale", method = RequestMethod.POST)
-  public String changeOrderAfterSale(String jsonStr) throws Exception {
+//  @Test
+  public  String changeOrderAfterSale(String jsonStr) throws Exception {
     String r = "";
+//    String jsonStr = "{\"Order_ID\":\"201703302003100003\",\"Order_State\":\"2\",\"Order_PK\":\"100000\",\"User_PK\":\"100003\",\"Order_ID\":\"201703302003100003\",\"Order_No\":\"\",\"Goods_List\":\"100000\",\"Goods_Num\":\"2\",\"Goods_Prices\":\"12\",\"Order_Time\":\"2017-03-30 20:03:46\",\"Order_IsPay\":\"1\",\"Order_PayTime\":\"2017-03-30 20:03:46\",\"Order_PayPrice\":\"24\",\"Order_State\":\"5\",\"Order_TrackNum\":\"11111111111111\",\"Order_Company\":\"\",\"Order_Website\":\"\",\"Order_Aftersale\":\"0\",\"Order_Reserve_1\":\"13421166393;林先生;广东省揭阳市某某区某某街道;522000;\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     Conditions conditions = new Conditions();
     // String hql = "from OrderInfo where order_id='" + json.get("Order_ID").toString() + "'";
-    List list = orderInfoService.list(conditions.eq("id", data.get("Order_ID").toString()));
+    List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
 
     if (!list.isEmpty()) {
       OrderInfo order = (OrderInfo) list.get(0);
@@ -219,12 +227,12 @@ public class OrderStateAction {
       temp.put("Goods_List", order.getGoods_list());
       temp.put("Goods_Num", order.getGoods_num());
       temp.put("Goods_Prices", order.getGoods_prices());
-      temp.put("Order_Time", order.getOrder_time().toLocaleString());
+      temp.put("Order_Time", order.getOrder_time());
       temp.put("Order_IsPay", order.isOrder_ispay());
-      if (order.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
         temp.put("Order_PayTime", "");
       } else {
-        temp.put("Order_PayTime", order.getOrder_paytime().toLocaleString());
+        temp.put("Order_PayTime", order.getOrder_paytime());
       }
       temp.put("Order_PayPrice", order.getOrder_payprice());
       temp.put("Order_State", order.getOrder_state());
@@ -243,14 +251,14 @@ public class OrderStateAction {
     temp1.setGoods_list(temp.get("Goods_List").toString());
     temp1.setGoods_num(temp.get("Goods_Num").toString());
     temp1.setGoods_prices(temp.get("Goods_Prices").toString());
-    temp1.setOrder_time(Timestamp.valueOf(temp.get("Order_Time").toString()));
+    temp1.setOrder_time(Timestamp.valueOf(temp.get("Order_Time").toString()).toString());
     temp1.setOrder_ispay((boolean) temp.get("Order_IsPay"));
     if (!temp.get("Order_PayTime").equals(new String(""))) {
-      temp1.setOrder_paytime(Timestamp.valueOf(temp.get("Order_PayTime").toString()));
+      temp1.setOrder_paytime(Timestamp.valueOf(temp.get("Order_PayTime").toString()).toString());
     }
     /*
      * else {
-     * 
+     *
      * try { String date1 = "0001-01-01 01:01:01"; Date strD = (Date) (new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).parse(date1);
      * temp.setOrder_paytime(Timestamp.valueOf((new
@@ -264,7 +272,7 @@ public class OrderStateAction {
     temp1.setOrder_website(temp.get("Order_Website").toString());
     temp1.setOrder_aftersale((int) Integer.parseInt(temp.get("Order_Aftersale").toString()));
     temp1.setOrder_reserve_1(temp.get("Order_Reserve_1").toString());
-    // temp.setUserInfo(new UserInfoTest());
+    // temp.setUserInfo(new UserInfo());
     try {
       orderInfoService.updateById(temp1);
       r = "{\"status\":1}";
@@ -272,6 +280,7 @@ public class OrderStateAction {
       r = "{\"status\":0}";
     }
     return "success";
+//    System.out.println(r);
   }
 
   @RequestMapping(value = "getOrdersByStateAndUser", method = RequestMethod.POST)
@@ -279,7 +288,7 @@ public class OrderStateAction {
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
     HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
@@ -292,8 +301,8 @@ public class OrderStateAction {
     // (int)Integer.parseInt(json.get("Order_State").toString())
     // + "AND user_pk=" + (int)Integer.parseInt(json.get("User_PK").toString()) ;
     List list =
-        orderInfoService.list(conditions.eq("order_state", data.get("Order_State").toString()).and()
-            .eq("user_info_id", data.get("User_PK").toString()));
+            orderInfoService.list(conditions.eq("order_state", data.get("Order_State").toString()).and()
+                    .eq("user_info_id", data.get("User_PK").toString()));
     // DataSearch.searchByHQL(hql);
 
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
@@ -308,12 +317,12 @@ public class OrderStateAction {
       temp.put("Goods_List", order.getGoods_list());
       temp.put("Goods_Num", order.getGoods_num());
       temp.put("Goods_Prices", order.getGoods_prices());
-      temp.put("Order_Time", order.getOrder_time().toLocaleString());
+      temp.put("Order_Time", order.getOrder_time());
       temp.put("Order_IsPay", order.isOrder_ispay());
-      if (order.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
         temp.put("Order_PayTime", "");
       } else {
-        temp.put("Order_PayTime", order.getOrder_paytime().toLocaleString());
+        temp.put("Order_PayTime", order.getOrder_paytime());
       }
       temp.put("Order_PayPrice", order.getOrder_payprice());
       temp.put("Order_State", order.getOrder_state());
@@ -329,11 +338,13 @@ public class OrderStateAction {
   }
 
   @RequestMapping(value = "getOrdersByAftersaleAndUser", method = RequestMethod.POST)
+//  @Test
   public String getOrdersByAftersaleAndUser(String jsonStr) throws BaseException {
     String r = "";
+//    String jsonStr = "{\"User_PK\":\"100003\",\"Order_Aftersale\":\"0\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
@@ -346,8 +357,8 @@ public class OrderStateAction {
     // (int)Integer.parseInt(json.get("Order_Aftersale").toString())
     // + "AND user_pk=" + (int)Integer.parseInt(json.get("User_PK").toString()) ;
     List list = orderInfoService.list(conditions
-        .eq("order_aftersale", (int) Integer.parseInt(data.get("Order_Aftersale").toString())).and()
-        .eq("user_info_id", data.get("User_PK").toString()));
+            .eq("order_aftersale", (int) Integer.parseInt(data.get("Order_Aftersale").toString())).and()
+            .eq("user_info_id", data.get("User_PK").toString()));
     // DataSearch.searchByHQL(hql);
 
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
@@ -362,12 +373,12 @@ public class OrderStateAction {
       temp.put("Goods_List", order.getGoods_list());
       temp.put("Goods_Num", order.getGoods_num());
       temp.put("Goods_Prices", order.getGoods_prices());
-      temp.put("Order_Time", order.getOrder_time().toLocaleString());
+      temp.put("Order_Time", order.getOrder_time());
       temp.put("Order_IsPay", order.isOrder_ispay());
-      if (order.getOrder_paytime().toLocaleString().equals(new String("0001-1-1 1:01:01"))) {
+      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
         temp.put("Order_PayTime", "");
       } else {
-        temp.put("Order_PayTime", order.getOrder_paytime().toLocaleString());
+        temp.put("Order_PayTime", order.getOrder_paytime());
       }
       temp.put("Order_PayPrice", order.getOrder_payprice());
       temp.put("Order_State", order.getOrder_state());
@@ -380,6 +391,7 @@ public class OrderStateAction {
     }
     r=jsonarr.toString();
     return "success";
+//    System.out.println(r);
   }
 
 }
