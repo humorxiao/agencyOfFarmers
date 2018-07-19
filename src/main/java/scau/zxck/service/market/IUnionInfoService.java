@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IUnionInfoService {
     <V> List<V> list(Conditions conditions) throws BaseException;
+    void delete (Conditions conditions) throws BaseException;
 }

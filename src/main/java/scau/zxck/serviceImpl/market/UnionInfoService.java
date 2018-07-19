@@ -17,4 +17,9 @@ public class UnionInfoService implements IUnionInfoService {
     public <V> List<V> list(Conditions conditions) throws BaseException {
         return unionInfoDao.list(conditions);
     }
+
+    @Override
+    public void delete(Conditions conditions) throws BaseException {
+        unionInfoDao.delete(conditions);
+    }
 }

@@ -3,6 +3,7 @@ package scau.zxck.web.admin;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.sun.xml.internal.rngom.parse.host.Base;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import scau.zxck.base.dao.BaseDao;
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.GoodsInfo;
+import scau.zxck.entity.market.UnionInfo;
 import scau.zxck.service.market.IGoodsInfoService;
+import scau.zxck.service.market.IUnionInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,6 +34,8 @@ import java.util.List;
 public class GoodsInfoAction {
   @Autowired
   private IGoodsInfoService goodsInfoService;
+  @Autowired
+  private IUnionInfoService unionInfoService;
 
   @RequestMapping(value = "getOneGood", method = RequestMethod.POST)
   public String getOneGood(String jsonStr) throws BaseException {
@@ -241,8 +247,8 @@ public class GoodsInfoAction {
   }
 
   @RequestMapping(value = "updateGoodsInfo", method = RequestMethod.POST)
-  @Test
   public String updateGoodsInfo(String jsonStr) throws BaseException {
+
     String r = "";
     JSONObject json = JSONObject.parseObject(jsonStr);
     GoodsInfo temp = goodsInfoService.findById(json.get("Goods_PK").toString());
@@ -267,6 +273,7 @@ public class GoodsInfoAction {
     }
     return "success";
   }
+
   @RequestMapping(value = "deleteGoodsInfo",method = RequestMethod.POST)
     public String deleteGoodsInfo (String jsonStr) throws BaseException{
       String r="";
@@ -293,6 +300,7 @@ public class GoodsInfoAction {
       }
       return "success";
   }
+
   @RequestMapping(value = "getLikesGoods", method = RequestMethod.POST)
   public String getLikesAction(String jsonStr) throws Exception {
     JSONObject data = JSONObject.parseObject(jsonStr);
