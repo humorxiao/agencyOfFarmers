@@ -40,7 +40,7 @@ public class GoodsLogAction {
       temp.put("Goods_In", gl.getGoods_in());
       temp.put("Goods_Out", gl.getGoods_out());
       temp.put("Goods_PriceChange", gl.getGoods_pricechange());
-      temp.put("GL_Time", gl.getGl_time().toLocaleString());
+      temp.put("GL_Time", gl.getGl_time());
 
       jsonarr.add(temp);
     }
@@ -106,7 +106,7 @@ public class GoodsLogAction {
       tempy.setGoods_in((int)Integer.parseInt(data.get("Goods_In").toString()));
       tempy.setGoods_out((int)Integer.parseInt(data.get("Goods_Out").toString()));
       tempy.setGoods_pricechange((float)Float.parseFloat(data.get("Goods_PriceChange").toString()));
-      tempy.setGl_time(Timestamp.valueOf(data.get("GL_Time").toString()));
+      tempy.setGl_time(Timestamp.valueOf(data.get("GL_Time").toString()).toString());
       boolean ret;
       try {
           goodsLogService.add(tempy);

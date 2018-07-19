@@ -1,10 +1,15 @@
 package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSONObject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.exception.BaseException;
@@ -43,9 +48,10 @@ public class CartInfoAction {
         temp.put("Goods_List",cartInfo.getGoods_list());
         temp.put("Goods_Num",cartInfo.getGoods_num());
         r=temp.toString();
-        return null;
+        return "success";
     }
     @RequestMapping(value = "alterCart",method = RequestMethod.POST)
+//    @ResponseBody
     public String alterCart(String jsonStr) throws BaseException {
         String r="";
         JSONObject data=JSONObject.parseObject(jsonStr);
@@ -59,6 +65,6 @@ public class CartInfoAction {
             e.printStackTrace();
             r="{\"status\":0}";
         }
-        return null;
+        return r;
     }
 }

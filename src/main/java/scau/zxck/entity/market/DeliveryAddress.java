@@ -8,7 +8,7 @@ import scau.zxck.base.dao.entity.Unique;
 public class DeliveryAddress extends Unique {
   @Column(name = "deliv_cell")
   private String deliv_cell;
-  @Column(name = "delive_name")
+  @Column(name = "deliv_name")
   private String deliv_name;
   @Column(name = "deliv_address")
   private String deliv_address;

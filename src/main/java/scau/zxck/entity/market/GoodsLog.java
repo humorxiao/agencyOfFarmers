@@ -17,7 +17,7 @@ public class GoodsLog extends Unique {
   @Column(name = "goods_pricechange")
   private float goods_pricechange;
   @Column(name = "gl_time")
-  private Timestamp gl_time;
+  private String gl_time;
   @Column(name = "gl_reserve_1")
   private String gl_reserve_1;
   @Column(name = "gl_reserve_2")
@@ -66,11 +66,11 @@ public class GoodsLog extends Unique {
     this.goods_pricechange = goods_pricechange;
   }
 
-  public Timestamp getGl_time() {
+  public String getGl_time() {
     return gl_time;
   }
 
-  public void setGl_time(Timestamp gl_time) {
+  public void setGl_time(String gl_time) {
     this.gl_time = gl_time;
   }
 

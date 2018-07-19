@@ -8,7 +8,7 @@ import javax.naming.Name;
 
 @Table(name = "cart_info")
 public class CartInfo extends Unique {
-    @Column(name = "good_list")
+    @Column(name = "goods_list")
     private String goods_list;
     @Column(name = "goods_num")
     private String goods_num;
