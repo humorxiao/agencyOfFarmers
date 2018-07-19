@@ -21,4 +21,6 @@ public interface IUnionStaffService {
 
   List<UnionStaff> listUnionStaff() throws BaseException;
 
+  public <V> List<V> list(Conditions conditions) throws BaseException;
+
 }

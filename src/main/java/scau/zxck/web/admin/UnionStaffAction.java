@@ -13,10 +13,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.UnionStaff;
 import scau.zxck.service.market.IUnionStaffService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -37,6 +45,44 @@ public class UnionStaffAction {
      * @return
      * @throws BaseException
      */
+
+
+    @RequestMapping(value = "getLikesStaffs", method = RequestMethod.POST)
+    public String getLikesStaffs(String jsonStr) throws Exception {
+        HttpServletRequest request =
+                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String likes = request.getParameter("likes");
+        likes = java.net.URLDecoder.decode(likes, "utf-8");
+        JSONArray jsonarr = new JSONArray();
+        if (likes != null) {
+            Conditions conditions = new Conditions();
+            List list = unionStaffService.list(conditions.like("staff_name", "%" + likes + "%").or()
+                    .like("staff_address", "%" + likes + "%").or().like("staff_phone", "%" + likes + "%"));
+            for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
+                JSONObject temp = new JSONObject();
+                UnionStaff staff = (UnionStaff) iter.next();
+
+                temp.put("Staff_PK", staff.getId());
+                temp.put("Union_PK", staff.getUnion_info_id());
+                temp.put("Staff_Name", staff.getStaff_name());
+                temp.put("Staff_Sex", staff.getStaff_sex());
+                Date d = Date.valueOf(staff.getStaff_birthday());
+                SimpleDateFormat m1 = new SimpleDateFormat("yyyy-MM-dd");
+
+                temp.put("Staff_Birthday", m1.format(d));
+                temp.put("Staff_Address", staff.getStaff_address());
+                temp.put("Staff_Phone", staff.getStaff_phone());
+                temp.put("Staff_ID", staff.getStaff_id());
+                temp.put("Staff_Email", staff.getStaff_email());
+
+                jsonarr.add(temp);
+            }
+        }
+        String r = jsonarr.toString();
+        return "success";
+    }
+
     @RequestMapping(value = "getAllUnionStaff", method = RequestMethod.POST)
     public String getAllUnionStaff() throws BaseException {
 
@@ -68,7 +114,7 @@ public class UnionStaffAction {
         System.out.println(r);
         if(jsAry!=null){
             //System.out.println("{\"status\":1}");
-             return "{\"status\":1}";
+            return "{\"status\":1}";
         }else
             return "{\"status\":0}";
     }
@@ -87,7 +133,7 @@ public class UnionStaffAction {
         temp.setStaff_email(json.get("Staff_Email").toString());
         try {
             unionStaffService.addUnionStaff(temp);
-           return"{\"status\":1}";
+            return"{\"status\":1}";
         } catch (Exception e) {
             return "{\"status\":0}";
         }
@@ -96,7 +142,7 @@ public class UnionStaffAction {
     @RequestMapping(value = "updateUnionStaff", method = RequestMethod.POST)
     public String updateUnionStaff(String jsonStr) throws BaseException {
 
-       // String jsonStr=new String("{\"id\":\"100000\",\"Staff_Sex\":1}");
+        // String jsonStr=new String("{\"id\":\"100000\",\"Staff_Sex\":1}");
         JSONObject json = JSONObject.parseObject(jsonStr);
         try {
             UnionStaff temp = (UnionStaff) unionStaffService.findOne((String) json.get("id"));

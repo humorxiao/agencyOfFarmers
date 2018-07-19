@@ -20,5 +20,8 @@ public interface IUnionInfoService {
     String addUnionInfo(UnionInfo unionInfo) throws BaseException;
 
     List<UnionInfo> listUnionInfo() throws BaseException;
+
+    public <V> List<V> list(Conditions conditions) throws BaseException;
+
     void update(UnionInfo unionInfo,Conditions condition )throws BaseException;
 }

@@ -49,4 +49,9 @@ public class UnionInfoService implements IUnionInfoService {
     public List<UnionInfo> listUnionInfo() throws BaseException {
         return unionInfoDao.listAll();
     }
+
+    @Override
+    public <V> List<V> list(Conditions conditions) throws BaseException {
+        return unionInfoDao.list(conditions);
+    }
 }

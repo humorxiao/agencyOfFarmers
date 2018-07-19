@@ -13,7 +13,7 @@ public class UnionGoodsInfo extends Unique {
     @Column(name = "union_name")
     private String union_name;
     @Column(name = "goods_name")
-    private int goods_name;
+    private String goods_name;
     @Column(name = "goods_price")
     private float goods_price;
     @Column(name = "union_master")
@@ -49,11 +49,11 @@ public class UnionGoodsInfo extends Unique {
         this.union_name = union_name;
     }
 
-    public int getGoods_name() {
+    public String getGoods_name() {
         return goods_name;
     }
 
-    public void setGoods_name(int goods_name) {
+    public void setGoods_name(String goods_name) {
         this.goods_name = goods_name;
     }
 

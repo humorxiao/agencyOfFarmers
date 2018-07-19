@@ -34,6 +34,32 @@ public class NewsAction {
   @Autowired
   private INewsService newsService;
 
+  @RequestMapping(value = "getLikesNews", method = RequestMethod.POST)
+  public String getLikesNews(String jsonStr) throws Exception {
+    HttpServletRequest request =
+            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    HttpSession session = request.getSession();
+    String likes = request.getParameter("likes");
+    likes = java.net.URLDecoder.decode(likes, "utf-8");
+    JSONArray jsonarr = new JSONArray();
+    if (likes != null) {
+      Conditions conditions = new Conditions();
+      List list = unionNewsService.list(conditions.like("news_title", "%" + likes + "%"));
+      for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
+        JSONObject temp = new JSONObject();
+        UnionNews news = (UnionNews) iter.next();
+
+        temp.put("News_PK", news.getId());
+        temp.put("News_Title", news.getNews_title());
+        temp.put("News_Text", news.getNews_text());
+        temp.put("News_Time", news.getNews_time().toLocaleString());
+        jsonarr.add(temp);
+      }
+    }
+    String r = jsonarr.toString();
+    return "success";
+  }
+
   @RequestMapping(value = "getNews", method = RequestMethod.POST)
   public String getNews(String jsonStr) throws BaseException {
     String r = "";

@@ -17,54 +17,86 @@ import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.UnionInfo;
 import scau.zxck.service.market.IUnionInfoService;
+import scau.zxck.entity.market.UnionStaff;
+import scau.zxck.service.market.IUnionStaffService;
+
+import scau.zxck.entity.market.UnionGoodsInfo;
+import scau.zxck.service.market.IUnionGoodsInfoService;
 
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.List;
 import java.sql.Date;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * Created by suruijia on 2016/2/6.
  */
 
-class parameter extends Object{
-    private String userName;
-    private String password;
-
-    parameter(String userName,String password){
-        this.userName=userName;
-        this.password=password;
-    }
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-}
 @Controller
 @RequestMapping("/")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:config/spring/spring.xml")
-public class UnionInfoAction {
+public class UnionInfoAction  {
   @Autowired
   private IUnionInfoService unionInfoService;
-
+  @Autowired
+  private IUnionStaffService unionStaffService;
+  @Autowired
+  private IUnionGoodsInfoService unionGoodsInfoService;
   /**
    * 获取分类
    * 
    * @return
    * @throws BaseException
    */
-  @RequestMapping(value = "getAllUnionInfo", method = RequestMethod.POST)
+  @RequestMapping(value = "getLikesUnions", method = RequestMethod.POST)
+  public String getLikesUnions(String jsonStr)throws Exception {
+      JSONArray jsonarr = new JSONArray();
+      HttpServletRequest request =
+              ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+      HttpSession session = request.getSession();
+      String likes = request.getParameter("likes");
+     // String likes=new String("谢衍生");
+      likes = java.net.URLDecoder.decode(likes, "utf-8");
+      if (likes != null) {
+          Conditions conditions = new Conditions();
+          List list = unionInfoService.list(conditions.like("union_name", "%" + likes + "%").or()
+                  .like("union_master", "%" + likes + "%").or().like("union_address", "%" + likes + "%")
+                  .or().like("union_cell", "%" + likes + "%"));
+
+          for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
+              JSONObject temp = new JSONObject();
+              UnionInfo union = (UnionInfo) iter.next();
+              temp.put("Union_PK", union.getId());
+              temp.put("Union_Name", union.getUnion_name());
+              temp.put("Union_Master", union.getUnion_master());
+              temp.put("Union_License", union.getUnion_license());
+              temp.put("Union_Address", union.getUnion_address());
+
+              Date d=Date.valueOf(union.getUnion_establish());
+              SimpleDateFormat m1 = new SimpleDateFormat("yyyy-MM-dd");
+              temp.put("Union_Establish", m1.format(d));//格式化字符串
+              temp.put("Union_Asset", union.getUnion_asset());
+              temp.put("Union_Tele", union.getUnion_tele());
+              temp.put("Union_Cell", union.getUnion_cell());
+              temp.put("Union_Email", union.getUnion_email());
+              char c = union.getUnion_mark();
+              temp.put("Union_Mark", c);
+
+              jsonarr.add(temp);
+              //temp.clear();
+          }
+      }
+      String r=jsonarr.toString();
+     // System.out.println(r);
+      return "success";
+  }
+
+    @RequestMapping(value = "getAllUnionInfo", method = RequestMethod.POST)
   public String getAllUnionInfo() throws BaseException {
     String r=new String();
 
@@ -177,14 +209,30 @@ public class UnionInfoAction {
   }
 
     @RequestMapping(value = "deleteUnionInfo", method = RequestMethod.POST)
-    public String deleteUnionInfo(String jsonStr) throws BaseException {
+    @Test
+    public void deleteUnionInfo() throws BaseException {
+      String jsonStr=new String("{\"Union_PK\":\"100000\"}");
         JSONObject json = JSONObject.parseObject(jsonStr);
-        String id = (String) json.get("id");
-        try {
+        String id = (String) json.get("Union_PK");
+        System.out.println(id);
+        Conditions conditions=new Conditions();
+
+            List<UnionStaff> listStaff=unionStaffService.list(conditions.eq("union_info_id",id));
+            if(listStaff!=null) {
+                for (UnionStaff e : listStaff) {
+                    unionStaffService.deleteUnionStaff(e.getId());//把跟他关联的外键全部删除掉
+                }
+            }
+            Conditions conditions1=new Conditions();
+            List<UnionGoodsInfo> listUGoods=unionGoodsInfoService.list(conditions1.eq("union_info_id",id));
+           if(listUGoods!=null) {
+               for (UnionGoodsInfo e : listUGoods) {
+                   unionGoodsInfoService.delete(e.getId());
+               }
+           }
             unionInfoService.deleteUnionInfo(id);
-            return "{\"status\":1}";//success
-        } catch (Exception e) {
-            return "{\"status\":0}";
-        }
+            System.out.println("1");
+            //return "{\"status\":1}";//success
+
     }
 }

@@ -43,4 +43,8 @@ public class UnionStaffService implements IUnionStaffService {
   public List<UnionStaff> listUnionStaff() throws BaseException {
     return unionStaffDao.listAll();
   }
+  @Override
+  public <V> List<V> list(Conditions conditions) throws BaseException {
+    return unionStaffDao.list(conditions);
+  }
 }
