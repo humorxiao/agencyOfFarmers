@@ -35,6 +35,8 @@ import java.util.List;
  */
  @Controller
  @RequestMapping("/")
+ @RunWith(SpringJUnit4ClassRunner.class)
+ @ContextConfiguration("classpath:config/spring/spring.xml")
 public class LoginAction {
   @Autowired
   private IAdminLoginService adminLoginService;
@@ -44,8 +46,10 @@ public class LoginAction {
   private ISignInLogService signInLogService;
 
   @RequestMapping(value = "login", method = RequestMethod.POST)
-  public String login(String jsonStr) throws BaseException {
+  @Test
+  public void login(/*String jsonStr*/) throws BaseException {
     String r = "";
+    String jsonStr = "{\"isAdmin\":false,\"User_Password\":\"12345678\",\"User_Cell\":\"18814167467\",\"User_Name\":\"林莹莹\",\"User_Email\":\"1624471560@qq.com\"}";
     JSONObject data = JSON.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     System.out.println(jsonStr);
@@ -82,7 +86,7 @@ public class LoginAction {
       }
     }
 
-    if ((boolean) temp.get("isCorrect") == true) {
+    /*if ((boolean) temp.get("isCorrect") == true) {
       // 登录日志
       temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
       if ((boolean) temp.get("SignIn_IsAdmin") == true) {
@@ -109,8 +113,12 @@ public class LoginAction {
       } else {
         session.setAttribute("User_PK", temp.get("User_PK"));
       }
-    }
-     return "success";
+    }*/
+    System.out.println("success");
   }
-
+@Test
+  public  void fun()
+{
+  System.out.println("fhiahufiguafiguaiu");
+}
 }
