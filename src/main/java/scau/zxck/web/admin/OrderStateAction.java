@@ -34,6 +34,8 @@ import java.util.List;
 // @RequestMapping("/")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:config/spring/spring.xml")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = {"classpath:config/spring/spring.xml"})
 public class OrderStateAction {
   @Autowired
   private IOrderInfoService orderInfoService;
@@ -209,8 +211,10 @@ public class OrderStateAction {
   }
 
   @RequestMapping(value = "changeOrderAfterSale", method = RequestMethod.POST)
-  public String changeOrderAfterSale(String jsonStr) throws Exception {
+//  @Test
+  public  String changeOrderAfterSale(String jsonStr) throws Exception {
     String r = "";
+//    String jsonStr = "{\"Order_ID\":\"201703302003100003\",\"Order_State\":\"2\",\"Order_PK\":\"100000\",\"User_PK\":\"100003\",\"Order_ID\":\"201703302003100003\",\"Order_No\":\"\",\"Goods_List\":\"100000\",\"Goods_Num\":\"2\",\"Goods_Prices\":\"12\",\"Order_Time\":\"2017-03-30 20:03:46\",\"Order_IsPay\":\"1\",\"Order_PayTime\":\"2017-03-30 20:03:46\",\"Order_PayPrice\":\"24\",\"Order_State\":\"5\",\"Order_TrackNum\":\"11111111111111\",\"Order_Company\":\"\",\"Order_Website\":\"\",\"Order_Aftersale\":\"0\",\"Order_Reserve_1\":\"13421166393;林先生;广东省揭阳市某某区某某街道;522000;\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     Conditions conditions = new Conditions();
@@ -279,6 +283,7 @@ public class OrderStateAction {
       r = "{\"status\":0}";
     }
     return "success";
+//    System.out.println(r);
   }
 
   @RequestMapping(value = "getOrdersByStateAndUser", method = RequestMethod.POST)
@@ -332,8 +337,10 @@ public class OrderStateAction {
   }
 
   @RequestMapping(value = "getOrdersByAftersaleAndUser", method = RequestMethod.POST)
+//  @Test
   public String getOrdersByAftersaleAndUser(String jsonStr) throws BaseException {
     String r = "";
+//    String jsonStr = "{\"User_PK\":\"100003\",\"Order_Aftersale\":\"0\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     HttpServletRequest request =
         ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -383,6 +390,7 @@ public class OrderStateAction {
     }
     r = jsonarr.toString();
     return "success";
+//    System.out.println(r);
   }
 
 }
