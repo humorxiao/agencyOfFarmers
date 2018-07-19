@@ -11,13 +11,12 @@ import scau.zxck.service.market.ISignInLogService;
 import java.util.List;
 
 @Service
-public class SignInLogService implements ISignInLogService {
+public class SignLogService implements ISignInLogService {
     @Autowired
     private SignInLogDao signInLogDao;
-
     @Override
     public <V> List<V> list(Conditions conditions) throws BaseException {
-        return null;
+        return signInLogDao.list(conditions);
     }
 
     @Override

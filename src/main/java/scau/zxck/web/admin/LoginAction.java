@@ -33,6 +33,7 @@ import java.util.List;
 /**
  * Created by suruijia on 2016/2/6.
  */
+
  @Controller
  @RequestMapping("/")
  @RunWith(SpringJUnit4ClassRunner.class)
@@ -46,8 +47,7 @@ public class LoginAction {
   private ISignInLogService signInLogService;
 
   @RequestMapping(value = "login", method = RequestMethod.POST)
-  @Test
-  public void login(/*String jsonStr*/) throws BaseException {
+
     String r = "";
     String jsonStr = "{\"isAdmin\":false,\"User_Password\":\"12345678\",\"User_Cell\":\"18814167467\",\"User_Name\":\"林莹莹\",\"User_Email\":\"1624471560@qq.com\"}";
     JSONObject data = JSON.parseObject(jsonStr);
@@ -86,7 +86,6 @@ public class LoginAction {
       }
     }
 
-    /*if ((boolean) temp.get("isCorrect") == true) {
       // 登录日志
       temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
       if ((boolean) temp.get("SignIn_IsAdmin") == true) {
@@ -97,6 +96,7 @@ public class LoginAction {
         signInLogService.add(temp1);
       } else {
         SignInLog temp1 = new SignInLog();
+
         temp1.setSignin_isadmin((boolean) temp.get("SignIn_IsAdmin"));
         temp1.setUser_info_id(temp.get("User_PK").toString());
         temp1.setSignin_time(temp.get("SignIn_Time").toString());
@@ -113,12 +113,7 @@ public class LoginAction {
       } else {
         session.setAttribute("User_PK", temp.get("User_PK"));
       }
-    }*/
-    System.out.println("success");
+   
   }
-@Test
-  public  void fun()
-{
-  System.out.println("fhiahufiguafiguaiu");
 }
 }
