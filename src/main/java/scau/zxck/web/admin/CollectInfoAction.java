@@ -26,6 +26,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class CollectInfoAction {
+    @Autowired
+    private IUserCollectService userCollectService;
 
     @RequestMapping(value = "addCollect", method = RequestMethod.POST)
     public String addCollection(String jsonStr) throws BaseException {

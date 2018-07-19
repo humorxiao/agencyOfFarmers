@@ -161,38 +161,7 @@ public class NewsAction {
   @Autowired
   private IUnionNewsService unionNewsService;
 
-  @RequestMapping(value = "getLikesNews", method = RequestMethod.POST)
-  public String getLikesNews(String jsonStr) throws BaseException, UnsupportedEncodingException {
-    String r = "";
-    JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpServletResponse response =
-            ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
-    HttpSession session = request.getSession();
-    String likes = request.getParameter("likes");
-    likes = java.net.URLDecoder.decode(likes, "utf-8");
-    if (likes != null) {
-      JSONArray jsonarr = new JSONArray();
-      Conditions conditions = new Conditions();
-//      String hql = "from UnionNews where news_title like '%" + likes + "%'";
-      List list = unionNewsService.list(conditions.like("news_title", "%" + likes + "%"));
-//              DataSearch.searchByHQL(hql);
 
-      for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
-        JSONObject temp = new JSONObject();
-        UnionNews news = (UnionNews) iter.next();
-
-        temp.put("News_PK", news.getId());
-        temp.put("News_Title", news.getNews_title());
-        temp.put("News_Text", news.getNews_text());
-        temp.put("News_Time", news.getNews_time());
-        jsonarr.add(temp);
-      }
-      r = jsonarr.toString();
-    }
-    return "success";
-  }
 
   @RequestMapping(value = "getOneNews", method = RequestMethod.POST)
 //  @Test

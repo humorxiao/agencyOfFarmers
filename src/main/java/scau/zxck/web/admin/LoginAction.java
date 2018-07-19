@@ -47,7 +47,7 @@ public class LoginAction {
   private ISignInLogService signInLogService;
 
   @RequestMapping(value = "login", method = RequestMethod.POST)
-
+  public void login(/*String jsonStr*/) throws BaseException {
     String r = "";
     String jsonStr = "{\"isAdmin\":false,\"User_Password\":\"12345678\",\"User_Cell\":\"18814167467\",\"User_Name\":\"林莹莹\",\"User_Email\":\"1624471560@qq.com\"}";
     JSONObject data = JSON.parseObject(jsonStr);
@@ -102,7 +102,7 @@ public class LoginAction {
         temp1.setSignin_time(temp.get("SignIn_Time").toString());
         signInLogService.add(temp1);
       }
-    }
+
     HttpServletRequest request =
         ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
