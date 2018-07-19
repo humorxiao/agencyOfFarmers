@@ -80,48 +80,48 @@ public class PageAction {
     return "success";
   }
 
-  @RequestMapping(value = "getStateOrderPaging", method = RequestMethod.POST)
-  public String getStateOrderPaging(String jsonStr, String jsonStr2) throws BaseException {
-    JSONObject data = JSONObject.parseObject(jsonStr);
-    JSONObject pageInfo = JSONObject.parseObject(jsonStr2);
-    int state = (int) Integer.parseInt(data.get("state").toString());
-    JSONArray jsonarr = new JSONArray();
-
-    Conditions conditions = new Conditions();
-    List list = orderInfoService.list(conditions.eq("order_state", state));
-    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
-      JSONObject temp = new JSONObject();
-      OrderInfo order = (OrderInfo) iter.next();
-      // System.out.println(order.getUserInfo()==null);
-      temp.put("Order_PK", order.getId());
-      temp.put("User_PK", order.getUser_info_id());
-      temp.put("Order_ID", order.getOrder_id());
-      temp.put("Order_No", order.getOrder_no());
-      temp.put("Goods_List", order.getGoods_list());
-      temp.put("Goods_Num", order.getGoods_num());
-      temp.put("Goods_Prices", order.getGoods_prices());
-      temp.put("Order_Time", order.getOrder_time());
-      temp.put("Order_IsPay", order.isOrder_ispay());
-      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
-        temp.put("Order_PayTime", "");
-      } else {
-        temp.put("Order_PayTime", order.getOrder_paytime());
-      }
-      temp.put("Order_PayPrice", order.getOrder_payprice());
-      temp.put("Order_State", order.getOrder_state());
-      temp.put("Order_TrackNum", order.getOrder_tracknum());
-      temp.put("Order_Company", order.getOrder_company());
-      temp.put("Order_Website", order.getOrder_website());
-      temp.put("Order_Aftersale", order.getOrder_aftersale());
-      temp.put("Order_Reserve_1", order.getOrder_reserve_1());
-      temp.put("User_Name",
-          (userLoginService.findById(temp.get("User_PK").toString())).getUser_name());
-      jsonarr.add(temp);
-    }
-    String r = JSONArrayPaging(jsonarr, pageInfo).toString();
-    return "success";
-    // System.out.println(r);
-  }
+//  @RequestMapping(value = "getStateOrderPaging", method = RequestMethod.POST)
+//  public String getStateOrderPaging(String jsonStr, String jsonStr2) throws BaseException {
+//    JSONObject data = JSONObject.parseObject(jsonStr);
+//    JSONObject pageInfo = JSONObject.parseObject(jsonStr2);
+//    int state = (int) Integer.parseInt(data.get("state").toString());
+//    JSONArray jsonarr = new JSONArray();
+//
+//    Conditions conditions = new Conditions();
+//    List list = orderInfoService.list(conditions.eq("order_state", state));
+//    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
+//      JSONObject temp = new JSONObject();
+//      OrderInfo order = (OrderInfo) iter.next();
+//      // System.out.println(order.getUserInfo()==null);
+//      temp.put("Order_PK", order.getId());
+//      temp.put("User_PK", order.getUser_info_id());
+//      temp.put("Order_ID", order.getOrder_id());
+//      temp.put("Order_No", order.getOrder_no());
+//      temp.put("Goods_List", order.getGoods_list());
+//      temp.put("Goods_Num", order.getGoods_num());
+//      temp.put("Goods_Prices", order.getGoods_prices());
+//      temp.put("Order_Time", order.getOrder_time());
+//      temp.put("Order_IsPay", order.isOrder_ispay());
+//      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
+//        temp.put("Order_PayTime", "");
+//      } else {
+//        temp.put("Order_PayTime", order.getOrder_paytime());
+//      }
+//      temp.put("Order_PayPrice", order.getOrder_payprice());
+//      temp.put("Order_State", order.getOrder_state());
+//      temp.put("Order_TrackNum", order.getOrder_tracknum());
+//      temp.put("Order_Company", order.getOrder_company());
+//      temp.put("Order_Website", order.getOrder_website());
+//      temp.put("Order_Aftersale", order.getOrder_aftersale());
+//      temp.put("Order_Reserve_1", order.getOrder_reserve_1());
+//      temp.put("User_Name",
+//          (userLoginService.findById(temp.get("User_PK").toString())).getUser_name());
+//      jsonarr.add(temp);
+//    }
+//    String r = JSONArrayPaging(jsonarr, pageInfo).toString();
+//    return "success";
+//    // System.out.println(r);
+//  }
 
   @Test
   @RequestMapping(value = "getAfterSaleOrderPaging", method = RequestMethod.POST)
