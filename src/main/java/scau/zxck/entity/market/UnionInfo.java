@@ -18,6 +18,24 @@ public class UnionInfo extends Unique {
   private String union_address;
   @Column(name = "union_establish")
   private String union_establish;
+
+  @Override
+  public String toString() {
+    return "UnionInfo{" +
+            "union_name='" + union_name + '\'' +
+            ", union_master='" + union_master + '\'' +
+            ", union_license='" + union_license + '\'' +
+            ", union_address='" + union_address + '\'' +
+            ", union_establish=" + union_establish +
+            ", union_asset=" + union_asset +
+            ", union_tele='" + union_tele + '\'' +
+            ", union_cell='" + union_cell + '\'' +
+            ", union_email='" + union_email + '\'' +
+            ", union_mark=" + union_mark +
+            ", remark='" + remark + '\'' +
+            '}';
+  }
+
   @Column(name = "union_asset")
   private int union_asset;
   @Column(name = "union_tele")
@@ -63,9 +81,11 @@ public class UnionInfo extends Unique {
     this.union_address = union_address;
   }
 
+
   public String getUnion_establish() {
     return union_establish;
   }
+
 
   public void setUnion_establish(String union_establish) {
     this.union_establish = union_establish;

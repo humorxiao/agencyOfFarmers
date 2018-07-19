@@ -4,12 +4,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.xml.internal.rngom.parse.host.Base;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import scau.zxck.base.dao.BaseDao;
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.CartInfo;
@@ -29,6 +34,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:config/spring/spring.xml")
 public class UserInfoAction {
   @Autowired
   private IUserLoginService userLoginService;
@@ -36,6 +43,7 @@ public class UserInfoAction {
   private IDeliveryAddressService deliveryAddressService;
 
   @RequestMapping(value = "getUserInfo", method = RequestMethod.POST)
+
   public String getUserInfo(String jsonStr) throws BaseException {
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
@@ -136,7 +144,7 @@ public class UserInfoAction {
     }
     return "success";
   }
-
+ 
   @RequestMapping(value = "removeBannedUser", method = RequestMethod.POST)
   public String removeBannedUser(String jsonStr) throws BaseException {
     String r = "";
@@ -181,7 +189,6 @@ public class UserInfoAction {
     UserInfo temp = userLoginService.findById(data.get("User_PK").toString());
     // (UserInfoTest)session.load(UserInfoTest.class,
     // (int)Integer.parseInt(json.get("User_PK").toString()));
-
     temp.setUser_password(data.get("User_Password").toString());
     temp.setUser_name(data.get("User_Name").toString());
     temp.setUser_cell(data.get("User_Cell").toString());
@@ -206,6 +213,8 @@ public class UserInfoAction {
 
   @RequestMapping(value = "getBannedUserInfo", method = RequestMethod.POST)
   public String getBannedUserInfo(String jsonStr) throws BaseException {
+
+
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
