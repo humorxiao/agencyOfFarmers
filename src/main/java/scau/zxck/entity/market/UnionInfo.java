@@ -19,6 +19,24 @@ public class UnionInfo extends Unique {
   @Column(name = "union_establish")
   private String union_establish;
 
+  public UnionInfo() {
+  }
+
+  public UnionInfo(String union_name, String union_master, String union_license, String union_address, String union_establish, int union_asset, String union_tele, String union_cell, String union_email, char union_mark, String remark) {
+
+    this.union_name = union_name;
+    this.union_master = union_master;
+    this.union_license = union_license;
+    this.union_address = union_address;
+    this.union_establish = union_establish;
+    this.union_asset = union_asset;
+    this.union_tele = union_tele;
+    this.union_cell = union_cell;
+    this.union_email = union_email;
+    this.union_mark = union_mark;
+    this.remark = remark;
+  }
+
   @Override
   public String toString() {
     return "UnionInfo{" +

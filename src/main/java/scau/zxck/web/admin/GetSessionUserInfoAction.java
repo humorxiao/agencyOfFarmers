@@ -24,6 +24,7 @@ import scau.zxck.service.sys.IUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,17 +38,25 @@ import java.util.List;
 public class GetSessionUserInfoAction {
   @Autowired
   private IUserLoginService userLoginService;
-
-
+  @Autowired
+  private HttpServletRequest request;
+  @Autowired
+  private HttpSession session;
   @RequestMapping(value = "getSessionUserInfo", method = RequestMethod.POST)
 //  @Test
-  public String getSessionUserInfo(String jsonStr) throws BaseException {
+  public String getSessionUserInfo(String jsonStr) throws Exception {
     String r = "";
 //   String jsonStr ="{\"User_PK\":\"100003\"}";
+//      BufferedReader br = request.getReader();
+//      String str, wholeStr = "";
+//      while((str = br.readLine()) != null){
+//          wholeStr += str;
+//      }
+//      jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
 //      if (data.get("User_PK") != null) {
         Conditions conditions = new Conditions();
@@ -68,7 +77,7 @@ public class GetSessionUserInfoAction {
         r = "{\"User_Name\":\"未登录成功\"}";
       }
 
-      return null;
+      return "success";
 //    System.out.println(r);
     }
 

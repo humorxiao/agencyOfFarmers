@@ -24,6 +24,7 @@ import scau.zxck.service.market.IUnionInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,7 +37,10 @@ public class GoodsInfoAction {
   private IGoodsInfoService goodsInfoService;
   @Autowired
   private IUnionInfoService unionInfoService;
-
+  @Autowired
+  private HttpServletRequest request;
+  @Autowired
+  private HttpSession session;
   @RequestMapping(value = "getOneGood", method = RequestMethod.POST)
   public String getOneGood(String jsonStr) throws BaseException {
     JSONObject data = JSONObject.parseObject(jsonStr);
@@ -59,7 +63,7 @@ public class GoodsInfoAction {
     temp.put("Goods_Reserve_1", goods.getGoods_reserve_1());
     temp.put("Goods_Reserve_2", goods.getGoods_reserve_2());
     r = temp.toString();
-    return null;
+    return "success";
   }
 
   @RequestMapping(value = "getAllTypeGoods", method = RequestMethod.POST)
@@ -94,7 +98,7 @@ public class GoodsInfoAction {
     r = jsonarr.toString();
     long endTime = System.currentTimeMillis();
     System.out.println("Running time: " + (endTime - startTime) + "ms");
-    return null;
+    return "success";
   }
 
   @RequestMapping(value = "getTypeGoods", method = RequestMethod.POST)
@@ -124,7 +128,7 @@ public class GoodsInfoAction {
     r = jsonArray.toString();
     long endTime = System.currentTimeMillis();
     System.out.println("Running time: " + (endTime - startTime) + "ms");
-    return null;
+    return "success";
   }
 
   @RequestMapping(value = "getSpecialGoods", method = RequestMethod.POST)
@@ -154,7 +158,7 @@ public class GoodsInfoAction {
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
     System.out.println("Running time: " + (endtime - starttime) + "ms");
-    return null;
+    return "success";
   }
 
   @RequestMapping(value = "getDiscountGoods", method = RequestMethod.POST)
@@ -184,7 +188,7 @@ public class GoodsInfoAction {
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
     System.out.println("Running time: " + (endtime - starttime) + "ms");
-    return null;
+    return "success";
   }
 
   @RequestMapping(value = "getAllGoods", method = RequestMethod.POST)
@@ -305,9 +309,15 @@ public class GoodsInfoAction {
   public String getLikesAction(String jsonStr) throws Exception {
     JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    jsonStr=wholeStr;
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     String likes = request.getParameter("likes");
     likes = java.net.URLDecoder.decode(likes, "utf-8");
     Conditions conditions = new Conditions();

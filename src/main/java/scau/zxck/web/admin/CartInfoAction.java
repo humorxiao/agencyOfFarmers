@@ -18,7 +18,9 @@ import scau.zxck.service.market.ICartInfoService;
 import scau.zxck.service.market.IGoodsInfoService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 
 @Controller
 @RequestMapping("/")
@@ -27,13 +29,21 @@ public class CartInfoAction {
     private ICartInfoService cartInfoService;
     @Autowired
     private IGoodsInfoService goodsInfoService;
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private HttpSession session;
     @RequestMapping(value = "getCart",method = RequestMethod.POST)
-    public String getCartAction(String jsonStr) throws BaseException {
+    public String getCartAction(String jsonStr) throws Exception {
         String r="";
+        BufferedReader br = request.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        jsonStr=wholeStr;
         JSONObject data=JSONObject.parseObject(jsonStr);
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session=request.getSession();
+//        HttpSession session=request.getSession();
         if(session.getAttribute("User_PK")!=null){
             data.put("User_PK",session.getAttribute("User_PK"));
             data.put("Cart_PK",session.getAttribute("Cart_PK"));
@@ -48,12 +58,19 @@ public class CartInfoAction {
         temp.put("Goods_List",cartInfo.getGoods_list());
         temp.put("Goods_Num",cartInfo.getGoods_num());
         r=temp.toString();
+        System.out.println(r);
         return "success";
     }
     @RequestMapping(value = "alterCart",method = RequestMethod.POST)
 //    @ResponseBody
-    public String alterCart(String jsonStr) throws BaseException {
+    public String alterCart(String jsonStr) throws Exception {
         String r="";
+//        BufferedReader br = request.getReader();
+//        String str, wholeStr = "";
+//        while((str = br.readLine()) != null){
+//            wholeStr += str;
+//        }
+//        jsonStr=wholeStr;
         JSONObject data=JSONObject.parseObject(jsonStr);
         CartInfo cartInfo=cartInfoService.findById(data.get("Cart_PK").toString());
         cartInfo.setGoods_list(data.get("Goods_List").toString());

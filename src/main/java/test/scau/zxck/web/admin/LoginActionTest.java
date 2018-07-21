@@ -1,121 +1,105 @@
-package test.scau.zxck.web.admin; 
+package test.scau.zxck.web.admin;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
-import org.junit.Before; 
+import org.junit.Before;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import scau.zxck.entity.market.CartInfo;
+import scau.zxck.utils.ToJSONString;
+import scau.zxck.web.admin.CartInfoAction;
+import scau.zxck.web.admin.LoginAction;
+import scau.zxck.web.admin.TestAction;
+import scau.zxck.web.test.UserInfoTest;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
-/** 
-* LoginAction Tester. 
-* 
-* @author <Authors name> 
-* @since <pre>���� 18, 2018</pre> 
-* @version 1.0 
-*/
-class ParamObj extends Object {
-    private Boolean isAdmin;
-    private String admin_Password;
-    private String admin_Cell;
-    private String admin_Name;
-    private String admin_Email;
-    private int status;
-
-    public Boolean getAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(Boolean admin) {
-        isAdmin = admin;
-    }
-
-    public String getAdmin_Password() {
-        return admin_Password;
-    }
-
-    public void setAdmin_Password(String admin_Password) {
-        this.admin_Password = admin_Password;
-    }
-
-    public String getAdmin_Cell() {
-        return admin_Cell;
-    }
-
-    public void setAdmin_Cell(String admin_Cell) {
-        this.admin_Cell = admin_Cell;
-    }
-
-    public String getAdmin_Name() {
-        return admin_Name;
-    }
-
-    public void setAdmin_Name(String admin_Name) {
-        this.admin_Name = admin_Name;
-    }
-
-    public String getAdmin_Email() {
-        return admin_Email;
-    }
-
-    public void setAdmin_Email(String admin_Email) {
-        this.admin_Email = admin_Email;
-    }
-
-    public ParamObj(Boolean isAdmin, String admin_Password, String admin_Cell, String admin_Name, String admin_Email, int status) {
-        this.isAdmin = isAdmin;
-        this.admin_Password = admin_Password;
-        this.admin_Cell = admin_Cell;
-        this.admin_Name = admin_Name;
-        this.admin_Email = admin_Email;
-        this.status = status;
-    }
-}
+/**
+ * LoginService Tester.
+ *
+ * @author <Authors name>
+ * @since
+ *
+ *        <pre>
+ * ���� 19, 2018
+ *        </pre>
+ *
+ * @version 1.0
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:config/spring/spring.xml"})
+@ContextConfiguration({"classpath:config/spring/spring.xml","classpath:config/spring/web/spring-mvc.xml"})
 @WebAppConfiguration
 public class LoginActionTest {
+    //  protected Log logger = LogFactory.getLog(LoginAction.class);
+//    @Autowired
+//    private WebApplicationContext wac;
     @Autowired
-    private WebApplicationContext wac;
+    private LoginAction loginAction;
+//    @Autowired
+//    private CartInfoAction cartInfoAction;
+    @Autowired
+    private TestAction testAction;
+    @Autowired
+    private MockHttpServletRequest mockHttpServletRequest;
+    @Autowired
+    private MockHttpServletResponse mockHttpServletResponse;
+    @Autowired
+    private MockHttpSession mockHttpSession;
 
     private MockMvc mockMvc;
+    private static ObjectMapper mapper=new ObjectMapper();
+    @Before
+    public void before() throws Exception {
+//    mockMvc = standaloneSetup(testAction).build();
+//    mockMvc=MockMvcBuilders.webAppContextSetup(wac).build();
+    }
 
-@Before
-public void before() throws Exception {
-    mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-} 
+    @After
+    public void after() throws Exception {
 
-@After
-public void after() throws Exception { 
+    }
+
+    /**
+     *
+     * Method: findOne(String id)
+     *
+     */
+    @Test
+    public void testFindOne() throws Exception {
+        // TODO: Test goes here...
+        mockMvc = standaloneSetup(loginAction).build();
+        UserInfoTest userInfoTest = new UserInfoTest("true","12345678","1","default","1");
+        String jsonStr=mapper.writeValueAsString(userInfoTest);
+        System.out.println(jsonStr);
+        jsonStr=ToJSONString.toJSON(jsonStr);
+        System.out.println(jsonStr);
+//        jsonStr="{\"isAdmin\":true,\"Admin_Password\":\"12345678\",\"Admin_Cell\":\"1\",\"Admin_Name\":\"default\",\"Admin_Email\":\"1\"}";
+//        System.out.println(jsonStr);
+        mockHttpSession.setAttribute("Admin_PK","101");
+        String responseString = mockMvc.perform((post("/login").session(mockHttpSession))
+                .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
+        ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
+        System.out.println(responseString);
+    }
+
+
 }
-
-
-/** 
-* 
-* Method: login(@RequestParam("jsonStr") String jsonStr) 
-* 
-*/ 
-@Test
-public void testLogin() throws Exception {
-    ParamObj paramObj=new ParamObj(true,"12345678","","1","",200);
-    String str=JSON.toJSON(paramObj).toString();
-    System.out.println(str);
-    String responseString = mockMvc.perform(MockMvcRequestBuilders.post("/login", str))
-            .andReturn().getResponse().getContentAsString();
-    System.out.println(responseString);
-} 
-
-
-} 

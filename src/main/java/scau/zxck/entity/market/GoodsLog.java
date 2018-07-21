@@ -22,9 +22,25 @@ public class GoodsLog extends Unique {
   private String gl_reserve_1;
   @Column(name = "gl_reserve_2")
   private String gl_reserve_2;
+
+  public GoodsLog() {
+  }
+
   @Column(name = "remark")
+
   private String remark;
   private GoodsInfo goodsinfo;
+
+  public GoodsLog(String goods_info_id, int goods_in, int goods_out, float goods_pricechange, String gl_time, String gl_reserve_1, String gl_reserve_2, String remark) {
+    this.goods_info_id = goods_info_id;
+    this.goods_in = goods_in;
+    this.goods_out = goods_out;
+    this.goods_pricechange = goods_pricechange;
+    this.gl_time = gl_time;
+    this.gl_reserve_1 = gl_reserve_1;
+    this.gl_reserve_2 = gl_reserve_2;
+    this.remark = remark;
+  }
 
   public GoodsInfo getGoodsinfo() {
     return goodsinfo;

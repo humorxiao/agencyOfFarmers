@@ -1,6 +1,7 @@
 package scau.zxck.web.admin;
 
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,13 +21,18 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/")
 public class VcodeAction {
+
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private HttpSession session;
     @RequestMapping(value = "getVCODE", method = RequestMethod.POST)
-    public String getVCODE() throws IOException {
-        HttpServletResponse response =
-                ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session=request.getSession();
+    public String getVCODE(HttpServletResponse response) throws IOException {
+//        HttpServletResponse response =
+//                ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        HttpSession session=request.getSession();
         response.setHeader("Pragma","No-cache");
         response.setHeader("Cache-Control","no-cache");
         response.setDateHeader("Expires",0);
@@ -45,9 +51,9 @@ public class VcodeAction {
     @RequestMapping(value = "validateVCode",method = RequestMethod.POST)
     public String validateVCode(){
         String r="";
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session=request.getSession();
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        HttpSession session=request.getSession();
         String code=request.getParameter("code");
         boolean ret=code.equals((String) session.getAttribute("authcode"));
         if(ret){

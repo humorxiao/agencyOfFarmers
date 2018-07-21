@@ -20,6 +20,7 @@ import scau.zxck.service.sys.IUserRegisterService;
 import scau.zxck.utils.JSONclass;
 import scau.zxck.web.test.UserInfo2Test;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.crypto.Data;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -27,8 +28,10 @@ import java.util.Date;
 import java.util.List;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:config/spring/spring.xml")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration("classpath:config/spring/spring.xml")
+@Controller
+@RequestMapping("/")
 public class RegisterAction {
   @Autowired
   private IUserRegisterService userRegisterService;
@@ -36,12 +39,13 @@ public class RegisterAction {
   private ICartInfoService cartInfoService;
   @Autowired
   private IDeliveryAddressService deliveryAddressService;
-
-//  @RequestMapping(value = "register", method = RequestMethod.POST)
-  @Test
-  public void register() throws BaseException {
-    String jsonStr=JSONclass.jsonStr(new UserInfo2Test("12345678","Hachiko","15813360261","1769969562@qq.com",1,"杨华旭","440982199811064099"));
-    System.out.println(jsonStr);
+  @Autowired
+  private HttpServletRequest request;
+  @RequestMapping(value = "register", method = RequestMethod.POST)
+//  @Test
+  public String register(String jsonStr) throws BaseException {
+//    String jsonStr=JSONclass.jsonStr(new UserInfo2Test("12345678","Hachiko","15813360261","1769969562@qq.com",1,"杨华旭","440982199811064099"));
+//    System.out.println(jsonStr);
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     
@@ -96,7 +100,7 @@ public class RegisterAction {
       deliveryAddress.setDeliv_zipcode("");
       deliveryAddressService.add(deliveryAddress);
     }
-   // return "success";
+    return "success";
   }
 
   @RequestMapping(value = "validateAccount", method = RequestMethod.POST)

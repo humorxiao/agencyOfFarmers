@@ -18,7 +18,7 @@ public class UserComments extends Unique {
   @Column(name = "comm_text")
   private String comm_text;
   @Column(name = "comm_time")
-  private Timestamp comm_time;
+  private String comm_time;
   @Column(name = "comm_reserve_1")
   private String comm_reserve_1;
   @Column(name = "comm_reserve_2")
@@ -27,6 +27,21 @@ public class UserComments extends Unique {
   private String remark;
 
   private UserInfo userinfo;
+
+  public UserComments() {
+  }
+
+  public UserComments(String user_info_id, String goods_info_id, int comm_rank, String comm_text, String comm_time, String comm_reserve_1, String comm_reserve_2, String remark) {
+
+    this.user_info_id = user_info_id;
+    this.goods_info_id = goods_info_id;
+    this.comm_rank = comm_rank;
+    this.comm_text = comm_text;
+    this.comm_time = comm_time;
+    this.comm_reserve_1 = comm_reserve_1;
+    this.comm_reserve_2 = comm_reserve_2;
+    this.remark = remark;
+  }
 
   private GoodsInfo goodsinfo;
 
@@ -78,11 +93,11 @@ public class UserComments extends Unique {
     this.comm_text = comm_text;
   }
 
-  public Timestamp getComm_time() {
+  public String getComm_time() {
     return comm_time;
   }
 
-  public void setComm_time(Timestamp comm_time) {
+  public void setComm_time(String  comm_time) {
     this.comm_time = comm_time;
   }
 

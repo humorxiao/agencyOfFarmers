@@ -1,19 +1,11 @@
 package scau.zxck.web.admin;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.xml.internal.rngom.parse.host.Base;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.GoodsInfo;
@@ -25,8 +17,8 @@ import scau.zxck.service.market.IOrderInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -41,15 +33,24 @@ public class OrderInfoAction {
   private IOrderInfoService orderInfoService;
   @Autowired
   private IGoodsInfoService goodsInfoService;
-
+  @Autowired
+  private HttpServletRequest request;
+  @Autowired
+  private  HttpSession session;
   @RequestMapping(value = "getUserOrderListPaging", method = RequestMethod.POST)
 //    @Test
-  public String getUserOrderListPaging(String jsonStr) throws BaseException {
+  public String getUserOrderListPaging(String jsonStr) throws Exception {
     String r = "";
+//      BufferedReader br = request.getReader();
+//      String str, wholeStr = "";
+//      while((str = br.readLine()) != null){
+//          wholeStr += str;
+//      }
+//      jsonStr=wholeStr;
 //        String jsonStr = "{\"User_PK\":\"100003\",\"NumPerPage\":\"5\",\"Page\":\"2\"}";
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     JSONObject pageInfo = JSONObject.parseObject(jsonStr);
     if (session.getAttribute("User_PK") != null) {
       pageInfo.put("User_PK", (int) session.getAttribute("User_PK"));
@@ -95,13 +96,19 @@ public class OrderInfoAction {
 
   @RequestMapping(value = "getStateOrderPaging", method = RequestMethod.POST)
 //    @Test
-  public String getStateOrderPaging(String jsonStr, String jsonStr2) throws BaseException {
+  public String getStateOrderPaging(String jsonStr, String jsonStr2) throws Exception {
     String r = "";
 //        String jsonStr = "{\"User_PK\":\"100003\",\"Order_State\":\"3\",\"NumPerPage\":\"2\",\"Page\":\"1\"}";
 //        String jsonStr2 = "{\"NumPerPage\":\"4\"}";
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//      BufferedReader br = request.getReader();
+//      String str, wholeStr = "";
+//      while((str = br.readLine()) != null){
+//          wholeStr += str;
+//      }
+//      jsonStr=wholeStr;
+//      HttpSession session = request.getSession();
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject pageInfo = JSONObject.parseObject(jsonStr);
     if (session.getAttribute("User_PK") != null) {
@@ -149,12 +156,18 @@ public class OrderInfoAction {
 
   @RequestMapping(value = "addOrder", method = RequestMethod.POST)
 //    @Test
-  public String addOrder(String jsonStr) throws BaseException {
+  public String addOrder(String jsonStr) throws Exception {
     String r = "";
 //        String jsonStr = "{\"User_PK\":\"100006\",\"Goods_List\":\"100010#100004#\",\"Goods_Num\":\"2#3#\",\"Goods_Price\":\"5#2.5#\",\"Order_Aftersale\":\"0\",\"Order_Company\":\"韵达速递\",\"Order_ID\":\"201807181710100006\",\"Order_IsPay\":false,\"Order_No\":\"\",\"Order_PayPrice\":\"17.5\",\"Order_PayTime\":\"0001-01-01 01:01:01\",\"Order_Reserve_1\":\"13416137226;65;65;658565\",\"Order_State\":\"3\",\"Order_Time\":\"2018-07-18 16:45:09\",\"Order_Tracknum\":\"1234\",\"Order_Website\":\"http://www.yundaex.com/cn/index.php\"}";
 //        System.out.println(jsonStr);
-    HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//      BufferedReader br = request.getReader();
+//      String str, wholeStr = "";
+//      while((str = br.readLine()) != null){
+//          wholeStr += str;
+//      }
+//      jsonStr=wholeStr;
+//      HttpSession session = request.getSession();
     JSONObject data = JSONObject.parseObject(jsonStr);
     String[] goodslist = ((String) data.get("Goods_List")).split("#");
     String[] goodsnum = ((String) data.get("Goods_Num")).split("#");

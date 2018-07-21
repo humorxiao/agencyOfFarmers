@@ -14,6 +14,16 @@ public class Login extends Unique {
    */
   @Column(name = "username")
   private String username;
+
+  public Login() {
+  }
+
+  public Login(String username, String password) {
+
+    this.username = username;
+    this.password = password;
+  }
+
   /**
    * 链接
    */

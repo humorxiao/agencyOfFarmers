@@ -17,6 +17,7 @@ import scau.zxck.service.market.IUserCollectService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,28 +29,29 @@ import java.util.List;
 public class CollectInfoAction {
     @Autowired
     private IUserCollectService userCollectService;
-
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private HttpSession session;
     @RequestMapping(value = "addCollect", method = RequestMethod.POST)
-    public String addCollection(String jsonStr) throws BaseException {
+    public String addCollection(String jsonStr) throws Exception {
         String r = "";
+        BufferedReader br = request.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession();
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        HttpSession session = request.getSession();
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
             data.put("User_PK", "");
         }
         data.put("Collect_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
-        // UserComments userComments=new UserComments();
-        // userComments.setUser_info_id(data.get("User_PK").toString());
-        // userComments.setGoods_info_id(data.get("Goods_PK").toString());
-        // userComments.setComm_rank((int)Integer.parseInt(data.get("Comm_Rank").toString()));
-        // userComments.setComm_text(data.get("Comm_Text").toString());
-        // userComments.setComm_time(Timestamp.valueOf(data.get("Comm_Time").toString()));
-        // userComments.setUserinfo(new UserInfoTest());
-        // userComments.setGoodsinfo(new GoodsInfo());
         UserCollection userCollection = new UserCollection();
         userCollection.setUser_info_id(data.get("User_PK").toString());
         userCollection.setGoods_info_id(data.get("Goods_PK").toString());
@@ -68,12 +70,18 @@ public class CollectInfoAction {
 
   
     @RequestMapping(value = "removeCollect", method = RequestMethod.POST)
-    public String removeCollect(String jsonStr) {
+    public String removeCollect(String jsonStr) throws Exception {
         String r = "";
+//        BufferedReader br = request.getReader();
+//        String str, wholeStr = "";
+//        while((str = br.readLine()) != null){
+//            wholeStr += str;
+//        }
+//        jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession();
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        HttpSession session = request.getSession();
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -92,11 +100,17 @@ public class CollectInfoAction {
 
  
     @RequestMapping(value = "getCollect", method = RequestMethod.POST)
-    public String getCollect(String jsonStr) throws BaseException {
+    public String getCollect(String jsonStr) throws Exception {
         JSONObject data = JSONObject.parseObject(jsonStr);
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession();
+//        BufferedReader br = request.getReader();
+//        String str, wholeStr = "";
+//        while((str = br.readLine()) != null){
+//            wholeStr += str;
+//        }
+//        jsonStr=wholeStr;
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        HttpSession session = request.getSession();
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {

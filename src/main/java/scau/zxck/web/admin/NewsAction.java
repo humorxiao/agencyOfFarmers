@@ -23,6 +23,7 @@ import scau.zxck.service.market.IUnionNewsService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
@@ -38,7 +39,10 @@ import java.util.List;
 public class NewsAction {
   @Autowired
   private INewsService newsService;
-
+  @Autowired
+  private HttpServletRequest request;
+  @Autowired
+  private HttpSession session;
   @RequestMapping(value = "getNews", method = RequestMethod.POST)
 //  @Test
   public String getNews(String jsonStr) throws BaseException {
@@ -90,15 +94,21 @@ public class NewsAction {
 
   @RequestMapping(value = "addNews", method = RequestMethod.POST)
 //  @Test
-  public String addNews(String jsonStr) throws BaseException, IOException {
+  public String addNews(String jsonStr,HttpServletResponse response) throws Exception {
     String r = "";
 //    String jsonStr = "{\"News_Title\":\"the third title\",\"News_Text\":\"hhh\",\"News_Time\":\"2018-07-18 13:50:25\",\"News_Mark\":\"1\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpServletResponse response =
-            ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
-    HttpSession session = request.getSession();
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    jsonStr=wholeStr;
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpServletResponse response =
+//            ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
+//    HttpSession session = request.getSession();
     String News_Title =
             request.getParameter("News_Title") != null ? request.getParameter("News_Title") : "";
     String htmlData =
@@ -136,14 +146,20 @@ public class NewsAction {
   private IUnionNewsService unionNewsService;
 
   @RequestMapping(value = "getLikesNews", method = RequestMethod.POST)
-  public String getLikesNews(String jsonStr) throws BaseException, UnsupportedEncodingException {
+  public String getLikesNews(String jsonStr,HttpServletResponse response) throws BaseException, UnsupportedEncodingException ,IOException{
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpServletResponse response =
-            ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
-    HttpSession session = request.getSession();
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    jsonStr=wholeStr;
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpServletResponse response =
+//            ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
+//    HttpSession session = request.getSession();
     String likes = request.getParameter("likes");
     likes = java.net.URLDecoder.decode(likes, "utf-8");
     if (likes != null) {
@@ -170,15 +186,21 @@ public class NewsAction {
 
   @RequestMapping(value = "getOneNews", method = RequestMethod.POST)
 //  @Test
-  public String getOneNews(String jsonStr) throws BaseException {
+  public String getOneNews(String jsonStr) throws Exception {
     String r = "";
     //String jsonStr ="{\"News_PK\":\"1\"}";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpServletResponse response =
-            ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
-    HttpSession session = request.getSession();
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpServletResponse response =
+//            ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
       JSONObject temp = new JSONObject();

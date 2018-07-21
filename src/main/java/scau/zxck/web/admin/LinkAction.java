@@ -11,6 +11,7 @@ import scau.zxck.entity.market.Link;
 import scau.zxck.service.market.ILinkService;
 import scau.zxck.utils.HtmlRegexpUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -22,7 +23,8 @@ public class LinkAction {
     @Autowired
     private ILinkService linkService;
 
-
+    @Autowired
+    private HttpServletRequest request;
     /**
      * 获取分类
      * @return

@@ -18,6 +18,7 @@ import scau.zxck.service.market.IOrderInfoService;
 import scau.zxck.service.market.IUnionNewsService;
 import scau.zxck.service.sys.IUserLoginService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,7 +31,8 @@ public class PageAction {
   private IOrderInfoService orderInfoService;
   @Autowired
   private IUserLoginService userLoginService;
-
+   @Autowired
+   private HttpServletRequest request;
   @RequestMapping(value = "getBulletinNoPage", method = RequestMethod.POST)
   public String getBulletinNoPage(String jsonStr) throws BaseException {
     JSONArray jsonarr = new JSONArray();

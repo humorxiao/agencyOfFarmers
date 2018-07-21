@@ -22,6 +22,7 @@ import scau.zxck.service.market.IUnionStaffService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
@@ -38,7 +39,10 @@ import java.util.List;
 public class UnionStaffAction {
     @Autowired
     private IUnionStaffService unionStaffService;
-
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private HttpSession session;
     /**
      * ???????
      *
@@ -49,9 +53,15 @@ public class UnionStaffAction {
 
     @RequestMapping(value = "getLikesStaffs", method = RequestMethod.POST)
     public String getLikesStaffs(String jsonStr) throws Exception {
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession();
+        BufferedReader br = request.getReader();
+//        String str, wholeStr = "";
+//        while((str = br.readLine()) != null){
+//            wholeStr += str;
+//        }
+//        jsonStr=wholeStr;
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        HttpSession session = request.getSession();
         String likes = request.getParameter("likes");
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         JSONArray jsonarr = new JSONArray();
