@@ -6,6 +6,7 @@ import scau.zxck.base.dao.entity.Unique;
 
 @Table(name = "goods_info")
 public class GoodsInfo extends Unique {
+    private String goods_PK;
   @Column(name = "goods_name")
   private String goods_name;
   @Column(name = "goods_type")
@@ -37,8 +38,34 @@ public class GoodsInfo extends Unique {
   @Column(name = "remark")
   private String remark;
 
+    public GoodsInfo(char goods_mark) {
+        this.goods_mark = goods_mark;
+    }
 
-  public String getGoods_name() {
+    public GoodsInfo(int goods_type) {
+        this.goods_type = goods_type;
+    }
+
+    public String getGoods_PK() {
+        return goods_PK;
+    }
+
+    public void setGoods_PK(String goods_PK) {
+        this.goods_PK = goods_PK;
+    }
+//
+//    public GoodsInfo(String goods_PK) {
+//        this.goods_PK = goods_PK;
+//    }
+
+    public GoodsInfo(String goods_name) {
+        this.goods_name = goods_name;
+    }
+
+    public GoodsInfo() {
+    }
+
+   public String getGoods_name() {
     return goods_name;
   }
 
@@ -46,15 +73,15 @@ public class GoodsInfo extends Unique {
     this.goods_name = goods_name;
   }
 
-  public int getGoods_type() {
-    return goods_type;
-  }
+    public int getGoods_type() {
+        return goods_type;
+    }
 
-  public void setGoods_type(int goods_type) {
-    this.goods_type = goods_type;
-  }
+    public void setGoods_type(int goods_type) {
+        this.goods_type = goods_type;
+    }
 
-  public int getGoods_num() {
+    public int getGoods_num() {
     return goods_num;
   }
 
@@ -157,5 +184,6 @@ public class GoodsInfo extends Unique {
   public void setRemark(String remark) {
     this.remark = remark;
   }
+
 
 }

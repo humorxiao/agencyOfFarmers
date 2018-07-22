@@ -24,6 +24,8 @@ import scau.zxck.service.market.IUnionInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,9 +38,17 @@ public class GoodsInfoAction {
   private IGoodsInfoService goodsInfoService;
   @Autowired
   private IUnionInfoService unionInfoService;
+  @Autowired
+  private HttpServletRequest request;
 
   @RequestMapping(value = "getOneGood", method = RequestMethod.POST)
-  public String getOneGood(String jsonStr) throws BaseException {
+  public String getOneGood(String jsonStr) throws Exception {
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+          wholeStr += str;
+      }
+      jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
     GoodsInfo goods = goodsInfoService.findById(data.get("Goods_PK").toString());
@@ -59,12 +69,18 @@ public class GoodsInfoAction {
     temp.put("Goods_Reserve_1", goods.getGoods_reserve_1());
     temp.put("Goods_Reserve_2", goods.getGoods_reserve_2());
     r = temp.toString();
-    return null;
+    return "success";
   }
 
   @RequestMapping(value = "getAllTypeGoods", method = RequestMethod.POST)
-  public String getAllTypesGoods(String jsonStr) throws BaseException {
+  public String getAllTypesGoods(String jsonStr) throws BaseException, IOException {
     long startTime = System.currentTimeMillis();
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
     List list = goodsInfoService.listAll();
@@ -98,8 +114,14 @@ public class GoodsInfoAction {
   }
 
   @RequestMapping(value = "getTypeGoods", method = RequestMethod.POST)
-  public String getTypeGoods(String jsonStr) throws BaseException {
+  public String getTypeGoods(String jsonStr) throws Exception {
     long startTime = System.currentTimeMillis();
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+          wholeStr += str;
+      }
+      jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
     Conditions conditions = new Conditions();
@@ -124,12 +146,18 @@ public class GoodsInfoAction {
     r = jsonArray.toString();
     long endTime = System.currentTimeMillis();
     System.out.println("Running time: " + (endTime - startTime) + "ms");
-    return null;
+    return "success";
   }
 
   @RequestMapping(value = "getSpecialGoods", method = RequestMethod.POST)
-  public String getSpecialGoods(String jsonStr) throws BaseException {
+  public String getSpecialGoods(String jsonStr) throws Exception {
     long starttime = System.currentTimeMillis();
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+          wholeStr += str;
+      }
+      jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
     Conditions conditions = new Conditions();
@@ -154,12 +182,18 @@ public class GoodsInfoAction {
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
     System.out.println("Running time: " + (endtime - starttime) + "ms");
-    return null;
+    return "success";
   }
 
   @RequestMapping(value = "getDiscountGoods", method = RequestMethod.POST)
-  public String getDiscountGoods(String jsonStr) throws BaseException {
+  public String getDiscountGoods(String jsonStr) throws Exception {
     long starttime = System.currentTimeMillis();
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+          wholeStr += str;
+      }
+      jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
     Conditions conditions = new Conditions();
@@ -184,7 +218,7 @@ public class GoodsInfoAction {
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
     System.out.println("Running time: " + (endtime - starttime) + "ms");
-    return null;
+    return "success";
   }
 
   @RequestMapping(value = "getAllGoods", method = RequestMethod.POST)
@@ -304,6 +338,12 @@ public class GoodsInfoAction {
   @RequestMapping(value = "getLikesGoods", method = RequestMethod.POST)
   public String getLikesAction(String jsonStr) throws Exception {
     JSONObject data = JSONObject.parseObject(jsonStr);
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+          wholeStr += str;
+      }
+      jsonStr=wholeStr;
     String r = "";
     HttpServletRequest request =
             ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

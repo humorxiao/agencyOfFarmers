@@ -9,6 +9,9 @@ import java.sql.Timestamp;
 
 @Table(name = "user_collection")
 public class UserCollection extends Unique {
+//  private String user_PK;
+//  private String goods_PK;
+    private String collect_PK;
   @Column(name = "user_info_id")
   private String user_info_id;
   @Column(name = "goods_info_id")
@@ -22,8 +25,30 @@ public class UserCollection extends Unique {
   @Column(name = "remark")
   private String remark;
 
+    public UserCollection(String user_info_id) {
+        this.user_info_id = user_info_id;
+    }
 
-  private UserInfo userinfo;
+    public String getCollect_PK() {
+        return collect_PK;
+    }
+
+    public void setCollect_PK(String collect_PK) {
+        this.collect_PK = collect_PK;
+    }
+
+    public UserCollection(String collect_PK, String user_info_id) {
+        this.collect_PK = collect_PK;
+        this.user_info_id = user_info_id;
+    }
+
+    public UserCollection(String user_info_id, String goods_info_id, String collect_time) {
+        this.user_info_id = user_info_id;
+        this.goods_info_id = goods_info_id;
+        this.collect_time = collect_time;
+    }
+
+    private UserInfo userinfo;
 
   private GoodsInfo goodsinfo;
 
@@ -92,4 +117,6 @@ public class UserCollection extends Unique {
     this.remark = remark;
   }
 
+    public UserCollection() {
+    }
 }

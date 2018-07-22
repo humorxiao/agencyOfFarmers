@@ -51,7 +51,7 @@ public class CommentsAction {
         temp.put("Goods_PK", comm.getGoods_info_id());
         temp.put("Comm_Rank", comm.getComm_rank());
         temp.put("Comm_Text", comm.getComm_text());
-        temp.put("Comm_Time", comm.getComm_time().toLocaleString());
+        temp.put("Comm_Time", comm.getComm_time().toString());
 
 
         jsonArray.add(temp);
@@ -79,7 +79,7 @@ public class CommentsAction {
     temp.setGoods_info_id(data.get("Goods_PK").toString());
     temp.setComm_rank((int) Integer.parseInt(data.get("Comm_Rank").toString()));
     temp.setComm_text(data.get("Comm_Text").toString());
-    temp.setComm_time(Timestamp.valueOf(data.get("Comm_Time").toString()));
+    temp.setComm_time(Timestamp.valueOf(data.get("Comm_Time").toString()).toString());
 
     temp.setUserinfo(new UserInfo());
     temp.setGoodsinfo(new GoodsInfo());
@@ -118,7 +118,7 @@ public class CommentsAction {
           temp.put("Goods_PK", comm.getGoods_info_id());
           temp.put("Comm_Rank", comm.getComm_rank());
           temp.put("Comm_Text", comm.getComm_text());
-          temp.put("Comm_Time", comm.getComm_time().toLocaleString());
+          temp.put("Comm_Time", comm.getComm_time().toString());
       }
       r=temp.toString();
       return null;

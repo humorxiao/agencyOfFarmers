@@ -174,17 +174,17 @@ public class OrderStateAction {
     tempz.setGoods_list(data.get("Goods_List").toString());
     tempz.setGoods_num(data.get("Goods_Num").toString());
     tempz.setGoods_prices(data.get("Goods_Prices").toString());
-    tempz.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
+    tempz.setOrder_time(String.valueOf(data.get("Order_Time").toString()).toString());
     tempz.setOrder_ispay((boolean) data.get("Order_IsPay"));
     if (!data.get("Order_PayTime").equals(new String(""))) {
-      tempz.setOrder_paytime(Timestamp.valueOf(data.get("Order_PayTime").toString()).toString());
+      tempz.setOrder_paytime(String.valueOf(data.get("Order_PayTime").toString()).toString());
     }
     /*
      * else {
      *
      * try { String date1 = "0001-01-01 01:01:01"; Date strD = (Date) (new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).parse(date1);
-     * temp.setOrder_paytime(Timestamp.valueOf((new
+     * temp.setOrder_paytime(String.valueOf((new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(strD))); } catch (ParseException e) {
      * e.printStackTrace(); } }
      */
@@ -251,17 +251,17 @@ public class OrderStateAction {
     temp1.setGoods_list(temp.get("Goods_List").toString());
     temp1.setGoods_num(temp.get("Goods_Num").toString());
     temp1.setGoods_prices(temp.get("Goods_Prices").toString());
-    temp1.setOrder_time(Timestamp.valueOf(temp.get("Order_Time").toString()).toString());
+    temp1.setOrder_time(String.valueOf(temp.get("Order_Time").toString()).toString());
     temp1.setOrder_ispay((boolean) temp.get("Order_IsPay"));
     if (!temp.get("Order_PayTime").equals(new String(""))) {
-      temp1.setOrder_paytime(Timestamp.valueOf(temp.get("Order_PayTime").toString()).toString());
+      temp1.setOrder_paytime(String.valueOf(temp.get("Order_PayTime").toString()).toString());
     }
     /*
      * else {
      *
      * try { String date1 = "0001-01-01 01:01:01"; Date strD = (Date) (new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).parse(date1);
-     * temp.setOrder_paytime(Timestamp.valueOf((new
+     * temp.setOrder_paytime(String.valueOf((new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(strD))); } catch (ParseException e) {
      * e.printStackTrace(); } }
      */

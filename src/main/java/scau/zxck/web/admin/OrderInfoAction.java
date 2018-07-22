@@ -244,10 +244,10 @@ public class OrderInfoAction {
     orderInfo.setOrder_ispay((boolean) data.get("Order_IsPay"));
     orderInfo.setOrder_no(data.get("Order_No").toString());
     orderInfo.setOrder_payprice((float) Float.parseFloat(data.get("Order_PayPrice").toString()));
-    orderInfo.setOrder_paytime(Timestamp.valueOf(data.get("Order_PayTime").toString()).toString());
+    orderInfo.setOrder_paytime(String.valueOf(data.get("Order_PayTime").toString()).toString());
     orderInfo.setOrder_reserve_1(data.get("Order_Reserve_1").toString());
     orderInfo.setOrder_state((int) Integer.parseInt(data.get("Order_State").toString()));
-    orderInfo.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
+    orderInfo.setOrder_time(String.valueOf(data.get("Order_Time").toString()).toString());
     orderInfo.setOrder_tracknum(data.get("Order_Tracknum").toString());
     orderInfo.setOrder_website(data.get("Order_Website").toString());
     orderInfo.setUserInfo(new UserInfo());
@@ -296,17 +296,17 @@ public class OrderInfoAction {
     temp.setGoods_list(json.get("Goods_List").toString());
     temp.setGoods_num(json.get("Goods_Num").toString());
     temp.setGoods_prices(json.get("Goods_Price").toString());
-    temp.setOrder_time(Timestamp.valueOf(json.get("Order_Time").toString()).toString());
+    temp.setOrder_time(String.valueOf(json.get("Order_Time").toString()).toString());
     temp.setOrder_ispay((boolean) json.get("Order_IsPay"));
     if (!json.get("Order_PayTime").equals(new String(""))) {
-      temp.setOrder_paytime(Timestamp.valueOf(json.get("Order_PayTime").toString()).toString());
+      temp.setOrder_paytime(String.valueOf(json.get("Order_PayTime").toString()).toString());
     }
     /*
      * else {
      *
      * try { String date1 = "0001-01-01 01:01:01"; Date strD = (Date) (new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).parse(date1);
-     * temp.setOrder_paytime(Timestamp.valueOf((new
+     * temp.setOrder_paytime(String.valueOf((new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(strD))); } catch (ParseException e) {
      * e.printStackTrace(); } }
      */
@@ -370,17 +370,17 @@ public class OrderInfoAction {
     tempx.setGoods_list(temp.get("Goods_List").toString());
     tempx.setGoods_num(temp.get("Goods_Num").toString());
     tempx.setGoods_prices(temp.get("Goods_Prices").toString());
-    tempx.setOrder_time(Timestamp.valueOf(temp.get("Order_Time").toString()).toString());
+    tempx.setOrder_time(String.valueOf(temp.get("Order_Time").toString()).toString());
     tempx.setOrder_ispay((boolean) temp.get("Order_IsPay"));
     if (!temp.get("Order_PayTime").equals(new String(""))) {
-      tempx.setOrder_paytime(Timestamp.valueOf(temp.get("Order_PayTime").toString()).toString());
+      tempx.setOrder_paytime(String.valueOf(temp.get("Order_PayTime").toString()).toString());
     }
     /*
      * else {
      *
      * try { String date1 = "0001-01-01 01:01:01"; Date strD = (Date) (new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).parse(date1);
-     * temp.setOrder_paytime(Timestamp.valueOf((new
+     * temp.setOrder_paytime(String.valueOf((new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(strD))); } catch (ParseException e) {
      * e.printStackTrace(); } }
      */

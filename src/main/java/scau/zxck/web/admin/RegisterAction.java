@@ -53,7 +53,7 @@ public class RegisterAction {
     userInfo.setUser_cell(data.get("User_Cell").toString());
     userInfo.setUser_email(data.get("User_Email").toString());
     userInfo.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
-    userInfo.setUser_regtime(Timestamp.valueOf(data.get("User_RegTime").toString()).toString());
+    userInfo.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()).toString());
     userInfo.setUser_realname(data.get("User_Realname").toString());
     userInfo.setUser_id(data.get("User_ID").toString());
 

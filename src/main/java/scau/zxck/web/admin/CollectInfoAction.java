@@ -2,8 +2,12 @@ package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -17,7 +21,8 @@ import scau.zxck.service.market.IUserCollectService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.Timestamp;
+import java.io.BufferedReader;
+//import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -25,17 +30,31 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:config/spring/spring.xml")
+@WebAppConfiguration
 public class CollectInfoAction {
     @Autowired
     private IUserCollectService userCollectService;
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private HttpSession session;
 
     @RequestMapping(value = "addCollect", method = RequestMethod.POST)
-    public String addCollection(String jsonStr) throws BaseException {
+    public String addCollection(String jsonStr) throws Exception {
+        BufferedReader br = request.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        jsonStr=wholeStr;
         String r = "";
+        System.out.println(jsonStr);
         JSONObject data = JSONObject.parseObject(jsonStr);
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession();
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        HttpSession session = request.getSession();
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -47,13 +66,13 @@ public class CollectInfoAction {
         // userComments.setGoods_info_id(data.get("Goods_PK").toString());
         // userComments.setComm_rank((int)Integer.parseInt(data.get("Comm_Rank").toString()));
         // userComments.setComm_text(data.get("Comm_Text").toString());
-        // userComments.setComm_time(Timestamp.valueOf(data.get("Comm_Time").toString()));
+        // userComments.setComm_time(String.valueOf(data.get("Comm_Time").toString()));
         // userComments.setUserinfo(new UserInfoTest());
         // userComments.setGoodsinfo(new GoodsInfo());
         UserCollection userCollection = new UserCollection();
         userCollection.setUser_info_id(data.get("User_PK").toString());
         userCollection.setGoods_info_id(data.get("Goods_PK").toString());
-        userCollection.setCollect_time(Timestamp.valueOf(data.get("Collect_Time").toString()).toString());
+        userCollection.setCollect_time(String.valueOf(data.get("Collect_Time").toString()).toString());
         userCollection.setUserinfo(new UserInfo());
         userCollection.setGoodsinfo(new GoodsInfo());
         try {
@@ -68,12 +87,18 @@ public class CollectInfoAction {
 
   
     @RequestMapping(value = "removeCollect", method = RequestMethod.POST)
-    public String removeCollect(String jsonStr) {
+    public String removeCollect(String jsonStr) throws Exception{
+        BufferedReader br = request.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        jsonStr=wholeStr;
         String r = "";
         JSONObject data = JSONObject.parseObject(jsonStr);
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession();
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        HttpSession session = request.getSession();
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -92,7 +117,13 @@ public class CollectInfoAction {
 
  
     @RequestMapping(value = "getCollect", method = RequestMethod.POST)
-    public String getCollect(String jsonStr) throws BaseException {
+    public String getCollect(String jsonStr) throws Exception {
+        BufferedReader br = request.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
         HttpServletRequest request =
                 ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -128,7 +159,7 @@ public class CollectInfoAction {
 }
 
 //测试代码如下
-
+//
 //package scau.zxck.web.admin;
 //
 //import com.alibaba.fastjson.JSON;
@@ -162,7 +193,7 @@ public class CollectInfoAction {
 //
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpSession;
-//import java.sql.Timestamp;
+//import java.sql.String;
 //import java.text.SimpleDateFormat;
 //import java.util.Date;
 //import java.util.Iterator;
@@ -237,7 +268,7 @@ public class CollectInfoAction {
 //    UserCollection userCollection = new UserCollection();
 //    userCollection.setUser_info_id(data.get("User_PK").toString());
 //    userCollection.setGoods_info_id(data.get("Goods_PK").toString());
-//    userCollection.setCollect_time(Timestamp.valueOf(data.get("Collect_Time").toString()).toString());
+//    userCollection.setCollect_time(String.valueOf(data.get("Collect_Time").toString()).toString());
 //    userCollection.setUserinfo(new UserInfo());
 //    userCollection.setGoodsinfo(new GoodsInfo());
 //    try {

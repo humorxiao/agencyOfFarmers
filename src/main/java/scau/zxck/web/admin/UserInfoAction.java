@@ -73,7 +73,7 @@ public class UserInfoAction {
     temp.setUser_cell(data.get("User_Cell").toString());
     temp.setUser_email(data.get("User_Email").toString());
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
-    temp.setUser_regtime(Timestamp.valueOf(data.get("User_RegTime").toString()).toString());
+    temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()));
     temp.setUser_realname(data.get("User_Realname").toString());
     temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();
@@ -161,7 +161,7 @@ public class UserInfoAction {
     temp.setUser_cell(data.get("User_Cell").toString());
     temp.setUser_email(data.get("User_Email").toString());
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
-    temp.setUser_regtime(Timestamp.valueOf(data.get("User_RegTime").toString()).toString());
+    temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()).toString());
     temp.setUser_realname(data.get("User_Realname").toString());
     temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();
@@ -194,7 +194,7 @@ public class UserInfoAction {
     temp.setUser_cell(data.get("User_Cell").toString());
     temp.setUser_email(data.get("User_Email").toString());
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
-    temp.setUser_regtime(Timestamp.valueOf(data.get("User_RegTime").toString()).toString());
+    temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()));
     temp.setUser_realname(data.get("User_Realname").toString());
     temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();

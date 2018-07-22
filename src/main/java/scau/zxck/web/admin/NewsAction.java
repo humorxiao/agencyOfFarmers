@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.sql.Timestamp;
+//import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -113,7 +113,7 @@ public class NewsAction {
     UnionNews temp = new UnionNews();
     temp.setNews_title(data.get("News_Title").toString());
     temp.setNews_text(data.get("News_Text").toString());
-    temp.setNews_time(Timestamp.valueOf(data.get("News_Time").toString()).toString());
+    temp.setNews_time(String.valueOf(data.get("News_Time").toString()));
     temp.setNews_mark((int) Integer.parseInt(data.get("News_Mark").toString()));
     try {
       newsService.add(temp);
