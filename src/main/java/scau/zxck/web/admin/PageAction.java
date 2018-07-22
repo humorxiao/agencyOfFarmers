@@ -123,7 +123,7 @@ public class PageAction {
 //    // System.out.println(r);
 //  }
 
-  @Test
+//  @Test
   @RequestMapping(value = "getAfterSaleOrderPaging", method = RequestMethod.POST)
   public String getAfterSaleOrderPaging(String jsonStr, String jsonStr2) throws BaseException {
     JSONObject data = JSONObject.parseObject(jsonStr);

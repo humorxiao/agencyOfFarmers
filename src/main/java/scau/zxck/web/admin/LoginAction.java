@@ -3,12 +3,8 @@ package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,19 +18,18 @@ import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.ISignInLogService;
 import scau.zxck.service.sys.IAdminLoginService;
 import scau.zxck.service.sys.IUserLoginService;
-import scau.zxck.utils.JSONclass;
-import scau.zxck.web.test.UserInfoTest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.sql.Timestamp;
 import java.util.List;
 
 /**
  * Created by suruijia on 2016/2/6.
  */
- @Controller
- @RequestMapping("/")
+@Controller
+@RequestMapping("/")
 public class LoginAction {
   @Autowired
   private IAdminLoginService adminLoginService;
@@ -42,9 +37,19 @@ public class LoginAction {
   private IUserLoginService userLoginService;
   @Autowired
   private ISignInLogService signInLogService;
-
+  @Autowired
+  private HttpServletRequest request;
   @RequestMapping(value = "login", method = RequestMethod.POST)
-  public String login(String jsonStr) throws BaseException {
+  public String login( String jsonStr) throws Exception {
+//    String jsonStr =
+//        "{\"isAdmin\":false,\"User_Password\":\"12345678\",\"User_Cell\":\"18814167467\",\"User_Name\":\"林莹莹\",\"User_Email\":\"1624471560@qq.com\"}";
+//    HttpSession session=request.getSession();
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    jsonStr=wholeStr;
     String r = "";
     JSONObject data = JSON.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
@@ -99,8 +104,6 @@ public class LoginAction {
         signInLogService.add(temp1);
       }
     }
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
     if ((boolean) temp.get("isCorrect")) {
       session.setAttribute("isAdmin", (boolean) data.get("isAdmin"));
@@ -110,7 +113,7 @@ public class LoginAction {
         session.setAttribute("User_PK", temp.get("User_PK"));
       }
     }
-     return "success";
+    return "success";
   }
 
 }
