@@ -36,12 +36,12 @@ public class CartInfoAction {
     @RequestMapping(value = "getCart",method = RequestMethod.POST)
     public String getCartAction(String jsonStr) throws Exception {
         String r="";
-        BufferedReader br = request.getReader();
-        String str, wholeStr = "";
-        while((str = br.readLine()) != null){
-            wholeStr += str;
-        }
-        jsonStr=wholeStr;
+//        BufferedReader br = request.getReader();
+//        String str, wholeStr = "";
+//        while((str = br.readLine()) != null){
+//            wholeStr += str;
+//        }
+//        jsonStr=wholeStr;
         JSONObject data=JSONObject.parseObject(jsonStr);
 //        HttpSession session=request.getSession();
         if(session.getAttribute("User_PK")!=null){
@@ -58,7 +58,7 @@ public class CartInfoAction {
         temp.put("Goods_List",cartInfo.getGoods_list());
         temp.put("Goods_Num",cartInfo.getGoods_num());
         r=temp.toString();
-        System.out.println(r);
+//        System.out.println(r);
         return "success";
     }
     @RequestMapping(value = "alterCart",method = RequestMethod.POST)

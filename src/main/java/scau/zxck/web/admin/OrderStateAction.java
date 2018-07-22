@@ -299,7 +299,7 @@ public class OrderStateAction {
     JSONObject data = JSONObject.parseObject(jsonStr);
 //    HttpServletRequest request =
 //            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
     } else {

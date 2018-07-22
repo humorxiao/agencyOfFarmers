@@ -50,7 +50,7 @@ public class LoginAction {
     String r = "";
     JSONObject data = JSON.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
-    System.out.println(jsonStr);
+//    System.out.println(jsonStr);
     if ((boolean) data.get("isAdmin")) {
       Conditions conditions = new Conditions();
       List list =

@@ -34,8 +34,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:config/spring/spring.xml")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration("classpath:config/spring/spring.xml")
 public class UnionStaffAction {
     @Autowired
     private IUnionStaffService unionStaffService;
@@ -121,7 +121,7 @@ public class UnionStaffAction {
         }
 
         r = jsAry.toString();
-        System.out.println(r);
+//        System.out.println(r);
         if(jsAry!=null){
             //System.out.println("{\"status\":1}");
             return "{\"status\":1}";

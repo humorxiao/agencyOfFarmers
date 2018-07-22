@@ -36,12 +36,12 @@ public class CollectInfoAction {
     @RequestMapping(value = "addCollect", method = RequestMethod.POST)
     public String addCollection(String jsonStr) throws Exception {
         String r = "";
-        BufferedReader br = request.getReader();
-        String str, wholeStr = "";
-        while((str = br.readLine()) != null){
-            wholeStr += str;
-        }
-        jsonStr=wholeStr;
+//        BufferedReader br = request.getReader();
+//        String str, wholeStr = "";
+//        while((str = br.readLine()) != null){
+//            wholeStr += str;
+//        }
+//        jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
 //        HttpServletRequest request =
 //                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

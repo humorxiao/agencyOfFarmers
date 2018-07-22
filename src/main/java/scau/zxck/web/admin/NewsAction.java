@@ -98,12 +98,12 @@ public class NewsAction {
     String r = "";
 //    String jsonStr = "{\"News_Title\":\"the third title\",\"News_Text\":\"hhh\",\"News_Time\":\"2018-07-18 13:50:25\",\"News_Mark\":\"1\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    jsonStr=wholeStr;
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
 //    HttpServletRequest request =
 //            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 //    HttpServletResponse response =
@@ -149,12 +149,12 @@ public class NewsAction {
   public String getLikesNews(String jsonStr,HttpServletResponse response) throws BaseException, UnsupportedEncodingException ,IOException{
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    jsonStr=wholeStr;
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
 //    HttpServletRequest request =
 //            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 //    HttpServletResponse response =
@@ -189,12 +189,12 @@ public class NewsAction {
   public String getOneNews(String jsonStr) throws Exception {
     String r = "";
     //String jsonStr ="{\"News_PK\":\"1\"}";
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    jsonStr=wholeStr;
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
 //    HttpServletRequest request =
 //            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

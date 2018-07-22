@@ -56,7 +56,6 @@ public class GoodsLogAction {
             temp.put("Goods_In", gl.getGoods_in());
             temp.put("Goods_Out", gl.getGoods_out());
             temp.put("Goods_PriceChange", gl.getGoods_pricechange());
-
             temp.put("GL_Time", gl.getGl_time());
             jsonarr.add(temp);
         }
@@ -67,7 +66,6 @@ public class GoodsLogAction {
     @RequestMapping(value = "addGoodsLog", method = RequestMethod.POST)
     public String addGoodsLog(String jsonStr) throws BaseException {
         JSONObject data = JSONObject.parseObject(jsonStr);
-
         JSONObject temp = new JSONObject();
         Conditions conditions = new Conditions();
         List list = goodsInfoService.list(conditions.eq("id", data.get("Goods_PK").toString()));
@@ -105,7 +103,7 @@ public class GoodsLogAction {
         if (Float.parseFloat(String.valueOf(data.get("Goods_PriceChange"))) != 0) {
             price = Float.parseFloat(String.valueOf(data.get("Goods_PriceChange")));
         }
-        System.out.println(num + " " + price);
+//        System.out.println(num + " " + price);
 
         temp.put("Goods_Num", num);
         temp.put("Goods_Price", price);

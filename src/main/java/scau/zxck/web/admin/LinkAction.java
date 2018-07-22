@@ -33,15 +33,15 @@ public class LinkAction {
     @RequestMapping(value = "getCategory",method = RequestMethod.GET)
     @ResponseBody
     public String getCategory() throws BaseException{
-        System.out.println("in getCategory");
+//        System.out.println("in getCategory");
         List<Link> linkList = linkService.listLinkByParent(0);
         return JSON.toJSONString(linkList);
     }
 
     @RequestMapping(value = "getLinks",method = RequestMethod.GET)
-    @ResponseBody
+//    @ResponseBody
     public String getLinks(int parent) throws BaseException{
-        System.out.println("in getLinks");
+//        System.out.println("in getLinks");
         List<Link> linkList = linkService.listLinkByParent(parent);
         return JSON.toJSONString(linkList);
     }
@@ -53,9 +53,9 @@ public class LinkAction {
      * @throws BaseException
      */
     @RequestMapping(value = "addCategory",method = RequestMethod.GET)
-    @ResponseBody
+//    @ResponseBody
     public String addCategory(String name) throws BaseException{
-        System.out.println("in addCategory");
+//        System.out.println("in addCategory");
         Link linkObj = new Link();
         linkObj.setName(HtmlRegexpUtil.replaceTag(name));
         linkObj.setLink("分类");
@@ -75,9 +75,9 @@ public class LinkAction {
      * @throws BaseException
      */
     @RequestMapping(value = "addLink",method = RequestMethod.GET)
-    @ResponseBody
+//    @ResponseBody
     public String addLink(String name,String link,int parent) throws BaseException{
-        System.out.println("in addLink");
+//        System.out.println("in addLink");
         Link linkObj = new Link();
         linkObj.setName(HtmlRegexpUtil.replaceTag(name));
         linkObj.setLink(link);
@@ -95,9 +95,9 @@ public class LinkAction {
      * @throws BaseException
      */
     @RequestMapping(value = "deleteCategory",method = RequestMethod.GET)
-    @ResponseBody
+//    @ResponseBody
     public String deleteCategory(String id)throws BaseException{
-        System.out.println("in deleteCategory");
+//        System.out.println("in deleteCategory");
         //数据库至少得有一个分类存在
         if(linkService.findCount() == 1){
             return "1";
@@ -117,7 +117,7 @@ public class LinkAction {
     @RequestMapping(value = "deleteLink",method = RequestMethod.GET)
     @ResponseBody
     public String deleteLink(String id)throws BaseException{
-        System.out.println("in deleteLink");
+//        System.out.println("in deleteLink");
         linkService.deleteLink(id);
         return "1";
     }
@@ -125,7 +125,7 @@ public class LinkAction {
     @RequestMapping(value = "modifyCategory",method = RequestMethod.GET)
     @ResponseBody
     public String modifyCategory(String id,String name)throws BaseException{
-        System.out.println("in modifyCategory");
+//        System.out.println("in modifyCategory");
         System.out.println("id:"+id+" name:"+name);
         Link linkObj = new Link();
         linkObj.setId(id);
@@ -137,7 +137,7 @@ public class LinkAction {
     @RequestMapping(value = "modifyLink",method = RequestMethod.GET)
     @ResponseBody
     public String modifyLink(String id,String name,String link,int parent)throws BaseException{
-        System.out.println("in modifyLink");
+//        System.out.println("in modifyLink");
         Link oldLink = linkService.findOne(id);
         Link linkObj = new Link();
         linkObj.setId(id);

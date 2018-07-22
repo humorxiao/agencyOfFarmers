@@ -222,12 +222,12 @@ public class UnionInfoAction {
     }
 
     @RequestMapping(value = "deleteUnionInfo", method = RequestMethod.POST)
-    @Test
+//    @Test
     public String deleteUnionInfo(String jsonStr) throws BaseException {
 //        String jsonStr = new String("{\"Union_PK\":\"100000\"}");
         JSONObject json = JSONObject.parseObject(jsonStr);
         String id = (String) json.get("Union_PK");
-        System.out.println(id);
+//        System.out.println(id);
         Conditions conditions = new Conditions();
 
         List<UnionStaff> listStaff = unionStaffService.list(conditions.eq("union_info_id", id));
@@ -244,7 +244,7 @@ public class UnionInfoAction {
             }
         }
         unionInfoService.deleteUnionInfo(id);
-        System.out.println("1");
+//        System.out.println("1");
         return "{\"status\":1}";//success
     }
 }

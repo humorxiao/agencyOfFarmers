@@ -100,12 +100,12 @@ public class UserInfoAction {
 
   @RequestMapping(value = "getUserDeliveryAddress", method = RequestMethod.POST)
   public String getUserDeliveryAddress(String jsonStr) throws Exception {
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    jsonStr=wholeStr;
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
 //    HttpServletRequest request =
@@ -126,7 +126,7 @@ public class UserInfoAction {
     temp.put("Deliv_Address", address.getDeliv_address());
     temp.put("Deliv_Zipcode", address.getDeliv_zipcode());
     r = temp.toString();
-    System.out.println(r);
+//    System.out.println(r);
     return "success";
 
 //    return r;

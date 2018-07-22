@@ -30,8 +30,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:config/spring/spring.xml")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration("classpath:config/spring/spring.xml")
 public class GoodsInfoAction {
   @Autowired
   private IGoodsInfoService goodsInfoService;
@@ -97,7 +97,7 @@ public class GoodsInfoAction {
     }
     r = jsonarr.toString();
     long endTime = System.currentTimeMillis();
-    System.out.println("Running time: " + (endTime - startTime) + "ms");
+//    System.out.println("Running time: " + (endTime - startTime) + "ms");
     return "success";
   }
 
@@ -127,7 +127,7 @@ public class GoodsInfoAction {
     }
     r = jsonArray.toString();
     long endTime = System.currentTimeMillis();
-    System.out.println("Running time: " + (endTime - startTime) + "ms");
+//    System.out.println("Running time: " + (endTime - startTime) + "ms");
     return "success";
   }
 
@@ -157,7 +157,7 @@ public class GoodsInfoAction {
     }
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
-    System.out.println("Running time: " + (endtime - starttime) + "ms");
+//    System.out.println("Running time: " + (endtime - starttime) + "ms");
     return "success";
   }
 
@@ -187,7 +187,7 @@ public class GoodsInfoAction {
     }
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
-    System.out.println("Running time: " + (endtime - starttime) + "ms");
+//    System.out.println("Running time: " + (endtime - starttime) + "ms");
     return "success";
   }
 
@@ -309,12 +309,12 @@ public class GoodsInfoAction {
   public String getLikesAction(String jsonStr) throws Exception {
     JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    jsonStr=wholeStr;
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
 //    HttpServletRequest request =
 //            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 //    HttpSession session = request.getSession();
