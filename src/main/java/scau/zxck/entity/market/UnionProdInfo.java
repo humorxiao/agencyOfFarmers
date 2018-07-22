@@ -13,6 +13,21 @@ public class UnionProdInfo extends Unique implements Serializable {
   private String goods_info_id;
   @Column(name = "have_area")
   private int have_area;
+
+  public UnionProdInfo() {
+  }
+
+  public UnionProdInfo(String goods_info_id, int have_area, int have_num, String have_yield, String have_time, String have_price, char union_goods_mark, String remark) {
+    this.goods_info_id = goods_info_id;
+    this.have_area = have_area;
+    this.have_num = have_num;
+    this.have_yield = have_yield;
+    this.have_time = have_time;
+    this.have_price = have_price;
+    this.union_goods_mark = union_goods_mark;
+    this.remark = remark;
+  }
+
   @Column(name = "have_num")
   private int have_num;
   @Column(name = "have_yield")

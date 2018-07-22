@@ -14,7 +14,7 @@ public class UserCollection extends Unique {
   @Column(name = "goods_info_id")
   private String goods_info_id;
   @Column(name = "collect_time")
-  private Timestamp collect_time;
+  private String collect_time;
   @Column(name = "collect_reserve_1")
   private String collect_reserve_1;
   @Column(name = "collect_reserve_2")
@@ -27,6 +27,18 @@ public class UserCollection extends Unique {
 
   private GoodsInfo goodsinfo;
 
+  public UserCollection() {
+  }
+
+  public UserCollection(String user_info_id, String goods_info_id, String collect_time, String collect_reserve_1, String collect_reserve_2, String remark) {
+    this.user_info_id = user_info_id;
+    this.goods_info_id = goods_info_id;
+    this.collect_time = collect_time;
+    this.collect_reserve_1 = collect_reserve_1;
+    this.collect_reserve_2 = collect_reserve_2;
+    this.remark = remark;
+
+  }
 
   public UserInfo getUserinfo() {
     return userinfo;
@@ -60,11 +72,11 @@ public class UserCollection extends Unique {
     this.goods_info_id = goods_info_id;
   }
 
-  public Timestamp getCollect_time() {
+  public String getCollect_time() {
     return collect_time;
   }
 
-  public void setCollect_time(Timestamp collect_time) {
+  public void setCollect_time(String collect_time) {
     this.collect_time = collect_time;
   }
 

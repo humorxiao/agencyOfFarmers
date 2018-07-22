@@ -11,6 +11,16 @@ import java.util.List;
  */
 public interface IUnionStaffService {
 
-  <V> List<V> list(Conditions conditions) throws BaseException;
+  UnionStaff findOne(String id) throws BaseException;
+
+  void updateUnionStaff(UnionStaff unionStaff) throws BaseException;
+
+  void deleteUnionStaff(String id) throws BaseException;
+
+  String addUnionStaff(UnionStaff unionStaff) throws BaseException;
+
+  List<UnionStaff> listUnionStaff() throws BaseException;
+
+  public <V> List<V> list(Conditions conditions) throws BaseException;
 
 }

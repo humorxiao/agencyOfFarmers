@@ -24,6 +24,11 @@ public class GoodsInfoService implements IGoodsInfoService {
     }
 
     @Override
+    public void deleteByIds(Object... ids) throws BaseException {
+        goodsInfoDao.deleteByIds(ids);
+    }
+
+    @Override
     public <V> List<V> listAll() throws BaseException {
         return goodsInfoDao.listAll();
     }

@@ -21,6 +21,18 @@ public class DeliveryAddress extends Unique {
     return deliv_cell;
   }
 
+  public DeliveryAddress() {
+  }
+
+  public DeliveryAddress(String deliv_cell, String deliv_name, String deliv_address, String deliv_zipcode, String remark) {
+
+    this.deliv_cell = deliv_cell;
+    this.deliv_name = deliv_name;
+    this.deliv_address = deliv_address;
+    this.deliv_zipcode = deliv_zipcode;
+    this.remark = remark;
+  }
+
   public void setDeliv_cell(String deliv_cell) {
     this.deliv_cell = deliv_cell;
   }

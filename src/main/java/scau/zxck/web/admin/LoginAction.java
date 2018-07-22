@@ -39,21 +39,18 @@ public class LoginAction {
   private ISignInLogService signInLogService;
   @Autowired
   private HttpServletRequest request;
+  @Autowired
+  private HttpSession session;
   @RequestMapping(value = "login", method = RequestMethod.POST)
   public String login( String jsonStr) throws Exception {
 //    String jsonStr =
 //        "{\"isAdmin\":false,\"User_Password\":\"12345678\",\"User_Cell\":\"18814167467\",\"User_Name\":\"林莹莹\",\"User_Email\":\"1624471560@qq.com\"}";
 //    HttpSession session=request.getSession();
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    jsonStr=wholeStr;
+
     String r = "";
     JSONObject data = JSON.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
-    System.out.println(jsonStr);
+//    System.out.println(jsonStr);
     if ((boolean) data.get("isAdmin")) {
       Conditions conditions = new Conditions();
       List list =
@@ -87,10 +84,10 @@ public class LoginAction {
       }
     }
 
-    if ((boolean) temp.get("isCorrect") == true) {
+    if ( temp.get("isCorrect") == "true") {
       // 登录日志
       temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
-      if ((boolean) temp.get("SignIn_IsAdmin") == true) {
+      if ( temp.get("SignIn_IsAdmin") == "true") {
         SignInLog temp1 = new SignInLog();
         temp1.setSignin_isadmin((boolean) temp.get("SignIn_IsAdmin"));
         temp1.setAdmin_info_id(temp.get("Admin_PK").toString());
@@ -104,7 +101,7 @@ public class LoginAction {
         signInLogService.add(temp1);
       }
     }
-    HttpSession session = request.getSession();
+//    HttpSession session = request.getSession();
     if ((boolean) temp.get("isCorrect")) {
       session.setAttribute("isAdmin", (boolean) data.get("isAdmin"));
       if ((boolean) data.get("isAdmin")) {

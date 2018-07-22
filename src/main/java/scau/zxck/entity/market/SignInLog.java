@@ -8,7 +8,22 @@ import java.sql.Timestamp;
 
 @Table(name = "sign_in_log")
 public class SignInLog extends Unique {
+  public SignInLog() {
+  }
+
+  public SignInLog(boolean signin_isadmin, String user_info_id, String admin_info_id, String signin_time, String signin_reserve_1, String signin_reserve_2, String remark) {
+
+    this.signin_isadmin = signin_isadmin;
+    this.user_info_id = user_info_id;
+    this.admin_info_id = admin_info_id;
+    this.signin_time = signin_time;
+    this.signin_reserve_1 = signin_reserve_1;
+    this.signin_reserve_2 = signin_reserve_2;
+    this.remark = remark;
+  }
+
   @Column(name = "signin_isadmin")
+
   private boolean signin_isadmin;
   @Column(name = "user_info_id")
   private String user_info_id;

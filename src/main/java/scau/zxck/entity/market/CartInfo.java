@@ -8,6 +8,17 @@ import javax.naming.Name;
 
 @Table(name = "cart_info")
 public class CartInfo extends Unique {
+    public CartInfo() {
+    }
+
+    public CartInfo(String goods_list, String goods_num, String cart_reserve_1, String cart_reserve_2, String remark) {
+        this.goods_list = goods_list;
+        this.goods_num = goods_num;
+        this.cart_reserve_1 = cart_reserve_1;
+        this.cart_reserve_2 = cart_reserve_2;
+        this.remark = remark;
+    }
+
     @Column(name = "goods_list")
     private String goods_list;
     @Column(name = "goods_num")

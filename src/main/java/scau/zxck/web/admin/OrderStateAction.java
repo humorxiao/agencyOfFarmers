@@ -24,16 +24,17 @@ import scau.zxck.service.market.IOrderInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-// @Controller
-// @RequestMapping("/")
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:config/spring/spring.xml")
+@Controller
+@RequestMapping("/")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = {"classpath:config/spring/spring.xml"})
 public class OrderStateAction {
   @Autowired
   private IOrderInfoService orderInfoService;
@@ -41,14 +42,17 @@ public class OrderStateAction {
   private IGoodsLogService goodsLogService;
   @Autowired
   private IGoodsInfoService goodsInfoService;
-
+  @Autowired
+  private HttpServletRequest request;
+  @Autowired
+  private  HttpSession session;
   @RequestMapping(value = "changeOrderState", method = RequestMethod.POST)
   public String changeOrderState(String jsonStr) throws BaseException {
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
-    if ((int) Integer.parseInt(data.get("Order_State").toString()) == 2) { // 取消订单
+    if ((int) data.get("Order_State") == 2) { // 取消订单
       Conditions conditions = new Conditions();
-      List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
+      List list = orderInfoService.list(conditions.eq("id", data.get("Order_ID").toString()));
       JSONObject temp = new JSONObject();
       if (!list.isEmpty()) {
         OrderInfo order = (OrderInfo) list.get(0);
@@ -90,15 +94,14 @@ public class OrderStateAction {
         temp1.setGoods_in((int) Integer.parseInt(log.get("Goods_In").toString()));
         temp1.setGoods_out((int) Integer.parseInt(log.get("Goods_Out").toString()));
         temp1.setGoods_pricechange(
-            (float) Float.parseFloat(log.get("Goods_PriceChange").toString()));
+                (float) Float.parseFloat(log.get("Goods_PriceChange").toString()));
         temp1.setGl_time(Timestamp.valueOf(log.get("GL_Time").toString()).toString());
         goodsLogService.add(temp1);
         JSONObject goodspk = new JSONObject();
         goodspk.put("Goods_PK", goodslist[i]);
         JSONObject temp2 = new JSONObject();
-        Conditions conditions1 = new Conditions();
-        List list1 =
-            goodsInfoService.list(conditions1.eq("id", goodspk.get("Goods_PK").toString()));
+
+        List list1 = goodsInfoService.list(conditions.eq("id", goodspk.get("Goods_PK").toString()));
         if (!list1.isEmpty()) {
           GoodsInfo goods = (GoodsInfo) list1.get(0);
 
@@ -176,20 +179,19 @@ public class OrderStateAction {
     tempz.setGoods_num(data.get("Goods_Num").toString());
     tempz.setGoods_prices(data.get("Goods_Prices").toString());
     tempz.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
-    tempz.setOrder_ispay((boolean) Boolean.parseBoolean(data.get("Order_IsPay").toString()));
+    tempz.setOrder_ispay((boolean) data.get("Order_IsPay"));
     if (!data.get("Order_PayTime").equals(new String(""))) {
       tempz.setOrder_paytime(Timestamp.valueOf(data.get("Order_PayTime").toString()).toString());
     }
     /*
      * else {
-     * 
+     *
      * try { String date1 = "0001-01-01 01:01:01"; Date strD = (Date) (new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).parse(date1);
      * temp.setOrder_paytime(Timestamp.valueOf((new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(strD))); } catch (ParseException e) {
      * e.printStackTrace(); } }
      */
-
     tempz.setOrder_payprice((float) Float.parseFloat(data.get("Order_PayPrice").toString()));
     tempz.setOrder_state((int) Integer.parseInt(data.get("Order_State").toString()));
     tempz.setOrder_tracknum(data.get("Order_TrackNum").toString());
@@ -204,16 +206,19 @@ public class OrderStateAction {
       e.printStackTrace();
       r = "{\"status\":0}";
     }
-    // System.out.println(r);
+    // boolean ret = access.changeOrderState(data);
     return "success";
   }
 
   @RequestMapping(value = "changeOrderAfterSale", method = RequestMethod.POST)
-  public String changeOrderAfterSale(String jsonStr) throws Exception {
+//  @Test
+  public  String changeOrderAfterSale(String jsonStr) throws Exception {
     String r = "";
+//    String jsonStr = "{\"Order_ID\":\"201703302003100003\",\"Order_State\":\"2\",\"Order_PK\":\"100000\",\"User_PK\":\"100003\",\"Order_ID\":\"201703302003100003\",\"Order_No\":\"\",\"Goods_List\":\"100000\",\"Goods_Num\":\"2\",\"Goods_Prices\":\"12\",\"Order_Time\":\"2017-03-30 20:03:46\",\"Order_IsPay\":\"1\",\"Order_PayTime\":\"2017-03-30 20:03:46\",\"Order_PayPrice\":\"24\",\"Order_State\":\"5\",\"Order_TrackNum\":\"11111111111111\",\"Order_Company\":\"\",\"Order_Website\":\"\",\"Order_Aftersale\":\"0\",\"Order_Reserve_1\":\"13421166393;林先生;广东省揭阳市某某区某某街道;522000;\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     Conditions conditions = new Conditions();
+    // String hql = "from OrderInfo where order_id='" + json.get("Order_ID").toString() + "'";
     List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
 
     if (!list.isEmpty()) {
@@ -257,7 +262,7 @@ public class OrderStateAction {
     }
     /*
      * else {
-     * 
+     *
      * try { String date1 = "0001-01-01 01:01:01"; Date strD = (Date) (new
      * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).parse(date1);
      * temp.setOrder_paytime(Timestamp.valueOf((new
@@ -279,65 +284,22 @@ public class OrderStateAction {
       r = "{\"status\":0}";
     }
     return "success";
+//    System.out.println(r);
   }
 
   @RequestMapping(value = "getOrdersByStateAndUser", method = RequestMethod.POST)
-  public String getOrdersByStateAndUser(String jsonStr) throws BaseException {
+  public String getOrdersByStateAndUser(String jsonStr) throws Exception {
     String r = "";
+//      BufferedReader br = request.getReader();
+//      String str, wholeStr = "";
+//      while((str = br.readLine()) != null){
+//          wholeStr += str;
+//      }
+//      jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
-    // HttpServletRequest request =
-    // ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    // HttpSession session = request.getSession();
-    // if (session.getAttribute("User_PK") != null) {
-    // data.put("User_PK", (int) session.getAttribute("User_PK"));
-    // } else {
-    // data.put("User_PK", "");
-    // }
-    JSONArray jsonarr = new JSONArray();
-    Conditions conditions = new Conditions();
-    List list =
-        orderInfoService.list(conditions.eq("order_state", data.get("Order_State").toString()).and()
-            .eq("user_info_id", data.get("User_PK").toString()));
-    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
-      JSONObject temp = new JSONObject();
-
-      OrderInfo order = (OrderInfo) iter.next();
-
-      temp.put("Order_PK", order.getId());
-      temp.put("User_PK", order.getUser_info_id());
-      temp.put("Order_ID", order.getOrder_id());
-      temp.put("Order_No", order.getOrder_no());
-      temp.put("Goods_List", order.getGoods_list());
-      temp.put("Goods_Num", order.getGoods_num());
-      temp.put("Goods_Prices", order.getGoods_prices());
-      temp.put("Order_Time", order.getOrder_time());
-      temp.put("Order_IsPay", order.isOrder_ispay());
-      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
-        temp.put("Order_PayTime", "");
-      } else {
-        temp.put("Order_PayTime", order.getOrder_paytime());
-      }
-      temp.put("Order_PayPrice", order.getOrder_payprice());
-      temp.put("Order_State", order.getOrder_state());
-      temp.put("Order_TrackNum", order.getOrder_tracknum());
-      temp.put("Order_Company", order.getOrder_company());
-      temp.put("Order_Website", order.getOrder_website());
-      temp.put("Order_Aftersale", order.getOrder_aftersale());
-      temp.put("Order_Reserve_1", order.getOrder_reserve_1());
-      jsonarr.add(temp);
-    }
-    r = jsonarr.toString();
-//    System.out.println(r);
-    return "success";
-  }
-
-  @RequestMapping(value = "getOrdersByAftersaleAndUser", method = RequestMethod.POST)
-  public String getOrdersByAftersaleAndUser(String jsonStr) throws BaseException {
-    String r = "";
-    JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
     } else {
@@ -345,12 +307,12 @@ public class OrderStateAction {
     }
     JSONArray jsonarr = new JSONArray();
     Conditions conditions = new Conditions();
-    // String hql = "from OrderInfo where order_aftersale=" +
-    // (int)Integer.parseInt(json.get("Order_Aftersale").toString())
+    // String hql = "from OrderInfo where order_state=" +
+    // (int)Integer.parseInt(json.get("Order_State").toString())
     // + "AND user_pk=" + (int)Integer.parseInt(json.get("User_PK").toString()) ;
-    List list = orderInfoService.list(conditions
-        .eq("order_aftersale", (int) Integer.parseInt(data.get("Order_Aftersale").toString())).and()
-        .eq("user_info_id", data.get("User_PK").toString()));
+    List list =
+            orderInfoService.list(conditions.eq("order_state", data.get("Order_State").toString()).and()
+                    .eq("user_info_id", data.get("User_PK").toString()));
     // DataSearch.searchByHQL(hql);
 
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
@@ -383,6 +345,69 @@ public class OrderStateAction {
     }
     r = jsonarr.toString();
     return "success";
+  }
+
+  @RequestMapping(value = "getOrdersByAftersaleAndUser", method = RequestMethod.POST)
+//  @Test
+  public String getOrdersByAftersaleAndUser(String jsonStr) throws Exception {
+    String r = "";
+//    String jsonStr = "{\"User_PK\":\"100003\",\"Order_Aftersale\":\"0\"}";
+    JSONObject data = JSONObject.parseObject(jsonStr);
+//      BufferedReader br = request.getReader();
+//      String str, wholeStr = "";
+//      while((str = br.readLine()) != null){
+//          wholeStr += str;
+//      }
+//      jsonStr=wholeStr;
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
+    if (session.getAttribute("User_PK") != null) {
+      data.put("User_PK", (int) session.getAttribute("User_PK"));
+    } else {
+      data.put("User_PK", "");
+    }
+    JSONArray jsonarr = new JSONArray();
+    Conditions conditions = new Conditions();
+    // String hql = "from OrderInfo where order_aftersale=" +
+    // (int)Integer.parseInt(json.get("Order_Aftersale").toString())
+    // + "AND user_pk=" + (int)Integer.parseInt(json.get("User_PK").toString()) ;
+    List list = orderInfoService.list(conditions
+            .eq("order_aftersale", (int) Integer.parseInt(data.get("Order_Aftersale").toString())).and()
+            .eq("user_info_id", data.get("User_PK").toString()));
+    // DataSearch.searchByHQL(hql);
+
+    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
+      JSONObject temp = new JSONObject();
+
+      OrderInfo order = (OrderInfo) iter.next();
+
+      temp.put("Order_PK", order.getId());
+      temp.put("User_PK", order.getUser_info_id());
+      temp.put("Order_ID", order.getOrder_id());
+      temp.put("Order_No", order.getOrder_no());
+      temp.put("Goods_List", order.getGoods_list());
+      temp.put("Goods_Num", order.getGoods_num());
+      temp.put("Goods_Prices", order.getGoods_prices());
+      temp.put("Order_Time", order.getOrder_time());
+      temp.put("Order_IsPay", order.isOrder_ispay());
+      if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
+        temp.put("Order_PayTime", "");
+      } else {
+        temp.put("Order_PayTime", order.getOrder_paytime());
+      }
+      temp.put("Order_PayPrice", order.getOrder_payprice());
+      temp.put("Order_State", order.getOrder_state());
+      temp.put("Order_TrackNum", order.getOrder_tracknum());
+      temp.put("Order_Company", order.getOrder_company());
+      temp.put("Order_Website", order.getOrder_website());
+      temp.put("Order_Aftersale", order.getOrder_aftersale());
+      temp.put("Order_Reserve_1", order.getOrder_reserve_1());
+      jsonarr.add(temp);
+    }
+    r=jsonarr.toString();
+    return "success";
+//    System.out.println(r);
   }
 
 }

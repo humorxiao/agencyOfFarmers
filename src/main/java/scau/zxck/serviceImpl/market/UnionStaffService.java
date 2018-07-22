@@ -19,8 +19,32 @@ public class UnionStaffService implements IUnionStaffService {
   @Autowired
   private UnionStaffDao unionStaffDao;
 
-    @Override
-    public <V> List<V> list(Conditions conditions) throws BaseException {
-        return unionStaffDao.list(conditions);
-    }
+  @Override
+  public UnionStaff findOne(String id) throws BaseException {
+    return unionStaffDao.findById(id);
+  }
+
+  @Override
+  public void updateUnionStaff(UnionStaff unionStaff) throws BaseException {
+    unionStaffDao.updateById(unionStaff);
+  }
+
+  @Override
+  public void deleteUnionStaff(String id) throws BaseException {
+    unionStaffDao.deleteByIds(id);
+  }
+
+  @Override
+  public String addUnionStaff(UnionStaff unionStaff) throws BaseException {
+    return unionStaffDao.add(unionStaff);
+  }
+
+  @Override
+  public List<UnionStaff> listUnionStaff() throws BaseException {
+    return unionStaffDao.listAll();
+  }
+  @Override
+  public <V> List<V> list(Conditions conditions) throws BaseException {
+    return unionStaffDao.list(conditions);
+  }
 }
