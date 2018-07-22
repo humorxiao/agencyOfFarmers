@@ -10,6 +10,23 @@ public class UnionGoodsInfo extends Unique {
     private String union_info_id;
     @Column(name = "goods_info_id")
     private String goods_info_id;
+
+    public UnionGoodsInfo() {
+    }
+
+    public UnionGoodsInfo(String union_info_id, String goods_info_id, String union_name, String goods_name, float goods_price, String union_master, String union_cell, int goods_type, int goods_num) {
+
+        this.union_info_id = union_info_id;
+        this.goods_info_id = goods_info_id;
+        this.union_name = union_name;
+        this.goods_name = goods_name;
+        this.goods_price = goods_price;
+        this.union_master = union_master;
+        this.union_cell = union_cell;
+        this.goods_type = goods_type;
+        this.goods_num = goods_num;
+    }
+
     @Column(name = "union_name")
     private String union_name;
     @Column(name = "goods_name")

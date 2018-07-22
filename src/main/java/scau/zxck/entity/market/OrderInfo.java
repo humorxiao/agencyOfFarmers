@@ -9,7 +9,33 @@ import java.sql.Timestamp;
 
 @Table(name = "order_info")
 public class OrderInfo extends Unique {
+  public OrderInfo() {
+  }
+
+  public OrderInfo(String user_info_id, String order_id, String order_no, String goods_list, String goods_num, String goods_prices, String order_time, boolean order_ispay, String order_paytime, float order_payprice, int order_state, String order_tracknum, String order_company, String order_website, int order_aftersale, String order_reserve_1, String order_reserve_2, String remark) {
+    this.user_info_id = user_info_id;
+    this.order_id = order_id;
+    this.order_no = order_no;
+    this.goods_list = goods_list;
+    this.goods_num = goods_num;
+
+    this.goods_prices = goods_prices;
+    this.order_time = order_time;
+    this.order_ispay = order_ispay;
+    this.order_paytime = order_paytime;
+    this.order_payprice = order_payprice;
+    this.order_state = order_state;
+    this.order_tracknum = order_tracknum;
+    this.order_company = order_company;
+    this.order_website = order_website;
+    this.order_aftersale = order_aftersale;
+    this.order_reserve_1 = order_reserve_1;
+    this.order_reserve_2 = order_reserve_2;
+    this.remark = remark;
+  }
+
   @Column(name = "user_info_id")
+
   private String user_info_id;
   @Column(name = "order_id")
   private String order_id;

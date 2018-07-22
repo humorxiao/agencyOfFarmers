@@ -24,6 +24,7 @@ import scau.zxck.service.market.IOrderInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,7 +42,10 @@ public class OrderStateAction {
   private IGoodsLogService goodsLogService;
   @Autowired
   private IGoodsInfoService goodsInfoService;
-
+  @Autowired
+  private HttpServletRequest request;
+  @Autowired
+  private  HttpSession session;
   @RequestMapping(value = "changeOrderState", method = RequestMethod.POST)
   public String changeOrderState(String jsonStr) throws BaseException {
     String r = "";
@@ -284,12 +288,18 @@ public class OrderStateAction {
   }
 
   @RequestMapping(value = "getOrdersByStateAndUser", method = RequestMethod.POST)
-  public String getOrdersByStateAndUser(String jsonStr) throws BaseException {
+  public String getOrdersByStateAndUser(String jsonStr) throws Exception {
     String r = "";
+//      BufferedReader br = request.getReader();
+//      String str, wholeStr = "";
+//      while((str = br.readLine()) != null){
+//          wholeStr += str;
+//      }
+//      jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
     } else {
@@ -339,13 +349,19 @@ public class OrderStateAction {
 
   @RequestMapping(value = "getOrdersByAftersaleAndUser", method = RequestMethod.POST)
 //  @Test
-  public String getOrdersByAftersaleAndUser(String jsonStr) throws BaseException {
+  public String getOrdersByAftersaleAndUser(String jsonStr) throws Exception {
     String r = "";
 //    String jsonStr = "{\"User_PK\":\"100003\",\"Order_Aftersale\":\"0\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//      BufferedReader br = request.getReader();
+//      String str, wholeStr = "";
+//      while((str = br.readLine()) != null){
+//          wholeStr += str;
+//      }
+//      jsonStr=wholeStr;
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
     } else {

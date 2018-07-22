@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.xml.internal.rngom.parse.host.Base;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ import sun.security.krb5.EncryptedData;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.sound.midi.Soundbank;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -34,14 +38,17 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:config/spring/spring.xml")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration("classpath:config/spring/spring.xml")
 public class UserInfoAction {
   @Autowired
   private IUserLoginService userLoginService;
   @Autowired
   private IDeliveryAddressService deliveryAddressService;
-
+  @Autowired
+  private HttpServletRequest request;
+  @Autowired
+  private HttpSession session;
   @RequestMapping(value = "getUserInfo", method = RequestMethod.POST)
 
   public String getUserInfo(String jsonStr) throws BaseException {
@@ -58,11 +65,11 @@ public class UserInfoAction {
     temp.put("User_Realname", userInfo.getUser_realname());
     temp.put("User_ID", userInfo.getUser_id());
     r = temp.toString();
-    return null;
+    return "success";
   }
 
   @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST)
-  public String updateUserInfo(String jsonStr) throws BaseException {
+  public String updateUserInfo(String jsonStr) throws Exception {
     JSONObject data = JSONObject.parseObject(jsonStr);
     // JSONObject temp=new JSONObject();
     String r = "";
@@ -88,16 +95,22 @@ public class UserInfoAction {
     } catch (Exception e) {
       r = "{\"status\":0}";
     }
-    return null;
+    return "success";
   }
 
   @RequestMapping(value = "getUserDeliveryAddress", method = RequestMethod.POST)
-  public String getUserDeliveryAddress(String jsonStr) throws BaseException {
+  public String getUserDeliveryAddress(String jsonStr) throws Exception {
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    HttpServletRequest request =
+//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("Deliv_PK", session.getAttribute("User_PK"));
       data.put("User_PK", session.getAttribute("User_PK"));
@@ -113,16 +126,25 @@ public class UserInfoAction {
     temp.put("Deliv_Address", address.getDeliv_address());
     temp.put("Deliv_Zipcode", address.getDeliv_zipcode());
     r = temp.toString();
+//    System.out.println(r);
     return "success";
+
+//    return r;
   }
 
   @RequestMapping(value = "updateUserDeliveryAddress", method = RequestMethod.POST)
-  public String updateUserDeliveryAddress(String jsonStr) throws BaseException {
+  public String updateUserDeliveryAddress(String jsonStr) throws Exception {
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
+//    HttpServletRequest request =
+//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("Deliv_PK", (int) session.getAttribute("User_PK"));
       data.put("User_PK", (int) session.getAttribute("User_PK"));
@@ -214,7 +236,6 @@ public class UserInfoAction {
   @RequestMapping(value = "getBannedUserInfo", method = RequestMethod.POST)
   public String getBannedUserInfo(String jsonStr) throws BaseException {
 
-
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
@@ -234,10 +255,16 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "getLikesUser", method = RequestMethod.POST)
-  public String getLikesUser(String jsonStr) throws BaseException, UnsupportedEncodingException {
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+  public String getLikesUser(String jsonStr) throws BaseException, UnsupportedEncodingException,IOException {
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
+//    HttpServletRequest request =
+//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     String likes = request.getParameter("likes");
     likes = java.net.URLDecoder.decode(likes, "utf-8");
       JSONArray jsonarr = new JSONArray();

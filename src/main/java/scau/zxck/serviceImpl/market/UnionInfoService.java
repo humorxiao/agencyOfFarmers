@@ -55,8 +55,5 @@ public class UnionInfoService implements IUnionInfoService {
         return unionInfoDao.list(conditions);
     }
 
-    @Override
-    public void delete(Conditions conditions) throws BaseException {
-        unionInfoDao.delete(conditions);
-    }
+
 }

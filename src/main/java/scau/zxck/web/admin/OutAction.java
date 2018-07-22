@@ -14,6 +14,7 @@ import scau.zxck.entity.market.GoodsInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,14 +22,23 @@ import java.util.List;
 @RequestMapping("/")
 public class OutAction {
 
-
+  @Autowired
+  private HttpServletRequest request;
+  @Autowired
+  private HttpSession session;
   @RequestMapping(value = "out", method = RequestMethod.POST)
   public String OutAction(String jsonStr) throws Exception {
     JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
+//    HttpServletRequest request =
+//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if(session.getAttribute("isAdmin")!=null){
       if((boolean)session.getAttribute("isAdmin")){
         session.removeAttribute("Admin_PK");

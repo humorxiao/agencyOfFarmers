@@ -10,7 +10,25 @@ import java.sql.Date;
 public class UnionStaff extends Unique {
   @Column(name = "union_info_id")
   private String union_info_id;
+
+  public UnionStaff() {
+  }
+
+  public UnionStaff(String union_info_id, String staff_name, int staff_sex, String staff_birthday, String staff_address, String staff_phone, String staff_id, String staff_email, String remark) {
+
+    this.union_info_id = union_info_id;
+    this.staff_name = staff_name;
+    this.staff_sex = staff_sex;
+    this.staff_birthday = staff_birthday;
+    this.staff_address = staff_address;
+    this.staff_phone = staff_phone;
+    this.staff_id = staff_id;
+    this.staff_email = staff_email;
+    this.remark = remark;
+  }
+
   @Column(name = "staff_name")
+
   private String staff_name;
   @Column(name = "staff_sex")
   private int staff_sex;

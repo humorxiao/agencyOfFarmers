@@ -19,6 +19,7 @@ import sun.awt.SunHints;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +33,10 @@ public class CommentsAction {
   private IGoodsInfoService goodsInfoService;
   @Autowired
   private IUserCommentsService userCommentsService;
-
+  @Autowired
+  private HttpServletRequest request;
+  @Autowired
+  private HttpSession session;
   @RequestMapping(value = "getGoodsComments", method = RequestMethod.POST)
   public String getGoodsComments(String jsonStr) throws BaseException {
     String r = "";
@@ -51,7 +55,11 @@ public class CommentsAction {
         temp.put("Goods_PK", comm.getGoods_info_id());
         temp.put("Comm_Rank", comm.getComm_rank());
         temp.put("Comm_Text", comm.getComm_text());
+<<<<<<< HEAD
         temp.put("Comm_Time", comm.getComm_time().toString());
+=======
+        temp.put("Comm_Time", comm.getComm_time());
+>>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
 
 
         jsonArray.add(temp);
@@ -62,12 +70,18 @@ public class CommentsAction {
   }
 
   @RequestMapping(value = "addComments", method = RequestMethod.POST)
-  public String addComments(String jsonStr) throws BaseException {
+  public String addComments(String jsonStr) throws Exception {
     String r = "";
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    HttpServletRequest request =
+//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", session.getAttribute("User_PK"));
     } else {
@@ -94,14 +108,20 @@ public class CommentsAction {
   }
 
   @RequestMapping(value = "getUserGoodsComments", method = RequestMethod.POST)
-  public String getUserGoodsComments(String jsonStr) throws BaseException {
+  public String getUserGoodsComments(String jsonStr) throws Exception {
     Conditions conditions = new Conditions();
     JSONObject temp=new JSONObject();
     String r = "";
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    HttpServletRequest request =
+//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", session.getAttribute("User_PK"));
     } else {
@@ -118,7 +138,11 @@ public class CommentsAction {
           temp.put("Goods_PK", comm.getGoods_info_id());
           temp.put("Comm_Rank", comm.getComm_rank());
           temp.put("Comm_Text", comm.getComm_text());
+<<<<<<< HEAD
           temp.put("Comm_Time", comm.getComm_time().toString());
+=======
+          temp.put("Comm_Time", comm.getComm_time());
+>>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
       }
       r=temp.toString();
       return null;
@@ -126,6 +150,7 @@ public class CommentsAction {
   @RequestMapping(value = "deleteComments",method = RequestMethod.POST)
   public String deleteComments(String jsonStr) throws BaseException{
     String r="";
+
     JSONObject data=JSONObject.parseObject(jsonStr);
     try {
       userCommentsService.deleteByIds(data.get("Comm_PK").toString());

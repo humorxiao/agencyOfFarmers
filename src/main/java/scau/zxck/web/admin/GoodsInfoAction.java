@@ -25,14 +25,17 @@ import scau.zxck.service.market.IUnionInfoService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
+<<<<<<< HEAD
 import java.io.IOException;
+=======
+>>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
 import java.util.Iterator;
 import java.util.List;
 
 @Controller
 @RequestMapping("/")
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:config/spring/spring.xml")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration("classpath:config/spring/spring.xml")
 public class GoodsInfoAction {
   @Autowired
   private IGoodsInfoService goodsInfoService;
@@ -40,7 +43,12 @@ public class GoodsInfoAction {
   private IUnionInfoService unionInfoService;
   @Autowired
   private HttpServletRequest request;
+<<<<<<< HEAD
 
+=======
+  @Autowired
+  private HttpSession session;
+>>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
   @RequestMapping(value = "getOneGood", method = RequestMethod.POST)
   public String getOneGood(String jsonStr) throws Exception {
       BufferedReader br = request.getReader();
@@ -109,8 +117,8 @@ public class GoodsInfoAction {
     }
     r = jsonarr.toString();
     long endTime = System.currentTimeMillis();
-    System.out.println("Running time: " + (endTime - startTime) + "ms");
-    return null;
+//    System.out.println("Running time: " + (endTime - startTime) + "ms");
+    return "success";
   }
 
   @RequestMapping(value = "getTypeGoods", method = RequestMethod.POST)
@@ -145,7 +153,11 @@ public class GoodsInfoAction {
     }
     r = jsonArray.toString();
     long endTime = System.currentTimeMillis();
+<<<<<<< HEAD
     System.out.println("Running time: " + (endTime - startTime) + "ms");
+=======
+//    System.out.println("Running time: " + (endTime - startTime) + "ms");
+>>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
     return "success";
   }
 
@@ -181,7 +193,11 @@ public class GoodsInfoAction {
     }
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
+<<<<<<< HEAD
     System.out.println("Running time: " + (endtime - starttime) + "ms");
+=======
+//    System.out.println("Running time: " + (endtime - starttime) + "ms");
+>>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
     return "success";
   }
 
@@ -217,7 +233,11 @@ public class GoodsInfoAction {
     }
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
+<<<<<<< HEAD
     System.out.println("Running time: " + (endtime - starttime) + "ms");
+=======
+//    System.out.println("Running time: " + (endtime - starttime) + "ms");
+>>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
     return "success";
   }
 
@@ -345,9 +365,15 @@ public class GoodsInfoAction {
       }
       jsonStr=wholeStr;
     String r = "";
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+//    BufferedReader br = request.getReader();
+//    String str, wholeStr = "";
+//    while((str = br.readLine()) != null){
+//      wholeStr += str;
+//    }
+//    jsonStr=wholeStr;
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     String likes = request.getParameter("likes");
     likes = java.net.URLDecoder.decode(likes, "utf-8");
     Conditions conditions = new Conditions();

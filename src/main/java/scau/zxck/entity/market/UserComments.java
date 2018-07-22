@@ -28,6 +28,21 @@ public class UserComments extends Unique {
 
   private UserInfo userinfo;
 
+  public UserComments() {
+  }
+
+  public UserComments(String user_info_id, String goods_info_id, int comm_rank, String comm_text, String comm_time, String comm_reserve_1, String comm_reserve_2, String remark) {
+
+    this.user_info_id = user_info_id;
+    this.goods_info_id = goods_info_id;
+    this.comm_rank = comm_rank;
+    this.comm_text = comm_text;
+    this.comm_time = comm_time;
+    this.comm_reserve_1 = comm_reserve_1;
+    this.comm_reserve_2 = comm_reserve_2;
+    this.remark = remark;
+  }
+
   private GoodsInfo goodsinfo;
 
   public UserInfo getUserinfo() {
@@ -82,7 +97,11 @@ public class UserComments extends Unique {
     return comm_time;
   }
 
+<<<<<<< HEAD
   public void setComm_time(String comm_time) {
+=======
+  public void setComm_time(String  comm_time) {
+>>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
     this.comm_time = comm_time;
   }
 
