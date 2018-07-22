@@ -21,8 +21,8 @@
     session.setAttribute("ILYJL","520");
     session.setAttribute("YJLIL","530");
 %>
-	<form action="/test" method="POST">
-		<%--测试：<input type="text" name="jsonStr">--%>
+	<form action="/login" method="POST">
+		测试：<input type="text" name="jsonStr">
 		<%--&lt;%&ndash;<br><br>&ndash;%&gt;--%>
 		<input type="submit" value="test">
     </form>
