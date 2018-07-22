@@ -50,6 +50,6 @@ public class OutAction {
 
     }
     session.removeAttribute("isAdmin");
-    return null;
+    return "success";
   }
 }
