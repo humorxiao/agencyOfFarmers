@@ -62,7 +62,7 @@ public class CommentsAction {
       }
     }
     r = jsonArray.toString();
-    return "success";
+    return null;
   }
 
   @RequestMapping(value = "addComments", method = RequestMethod.POST)
@@ -100,7 +100,7 @@ public class CommentsAction {
       e.printStackTrace();
       r = "{\"status\":0}";
     }
-    return "success";
+    return null;
   }
 
   @RequestMapping(value = "getUserGoodsComments", method = RequestMethod.POST)
@@ -137,7 +137,7 @@ public class CommentsAction {
           temp.put("Comm_Time", comm.getComm_time());
       }
       r=temp.toString();
-      return "success";
+      return null;
   }
   @RequestMapping(value = "deleteComments",method = RequestMethod.POST)
   public String deleteComments(String jsonStr) throws BaseException{
