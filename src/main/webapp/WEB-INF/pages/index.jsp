@@ -11,11 +11,7 @@
 </head>
 
 <body>
-	<ul>
-		<c:forEach begin="0" var="unionStaffItem" items="${unionStaffList}">
-			<li>${unionStaffItem.staffName}</li>
-		</c:forEach>
-	</ul>
+	ggygygi
 	
 <script src="${jsPath}/lib/jquery.min.js"></script>
 <script src="${jsPath}/lib/bootstrap.min.js"></script>
