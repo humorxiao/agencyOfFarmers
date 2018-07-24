@@ -97,11 +97,7 @@ public class UserComments extends Unique {
     return comm_time;
   }
 
-<<<<<<< HEAD
   public void setComm_time(String comm_time) {
-=======
-  public void setComm_time(String  comm_time) {
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
     this.comm_time = comm_time;
   }
 

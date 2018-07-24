@@ -15,7 +15,7 @@ import scau.zxck.entity.market.UserComments;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IUserCommentsService;
-import sun.awt.SunHints;
+//import sun.awt.SunHints;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -55,11 +55,7 @@ public class CommentsAction {
         temp.put("Goods_PK", comm.getGoods_info_id());
         temp.put("Comm_Rank", comm.getComm_rank());
         temp.put("Comm_Text", comm.getComm_text());
-<<<<<<< HEAD
         temp.put("Comm_Time", comm.getComm_time().toString());
-=======
-        temp.put("Comm_Time", comm.getComm_time());
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
 
 
         jsonArray.add(temp);
@@ -138,11 +134,8 @@ public class CommentsAction {
           temp.put("Goods_PK", comm.getGoods_info_id());
           temp.put("Comm_Rank", comm.getComm_rank());
           temp.put("Comm_Text", comm.getComm_text());
-<<<<<<< HEAD
           temp.put("Comm_Time", comm.getComm_time().toString());
-=======
           temp.put("Comm_Time", comm.getComm_time());
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
       }
       r=temp.toString();
       return "success";

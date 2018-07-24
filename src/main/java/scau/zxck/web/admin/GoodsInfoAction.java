@@ -25,10 +25,7 @@ import scau.zxck.service.market.IUnionInfoService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
-<<<<<<< HEAD
 import java.io.IOException;
-=======
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,12 +40,9 @@ public class GoodsInfoAction {
   private IUnionInfoService unionInfoService;
   @Autowired
   private HttpServletRequest request;
-<<<<<<< HEAD
 
-=======
   @Autowired
   private HttpSession session;
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
   @RequestMapping(value = "getOneGood", method = RequestMethod.POST)
   public String getOneGood(String jsonStr) throws Exception {
       BufferedReader br = request.getReader();
@@ -153,11 +147,8 @@ public class GoodsInfoAction {
     }
     r = jsonArray.toString();
     long endTime = System.currentTimeMillis();
-<<<<<<< HEAD
     System.out.println("Running time: " + (endTime - startTime) + "ms");
-=======
 //    System.out.println("Running time: " + (endTime - startTime) + "ms");
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
     return "success";
   }
 
@@ -193,11 +184,7 @@ public class GoodsInfoAction {
     }
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
-<<<<<<< HEAD
     System.out.println("Running time: " + (endtime - starttime) + "ms");
-=======
-//    System.out.println("Running time: " + (endtime - starttime) + "ms");
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
     return "success";
   }
 
@@ -233,11 +220,7 @@ public class GoodsInfoAction {
     }
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
-<<<<<<< HEAD
     System.out.println("Running time: " + (endtime - starttime) + "ms");
-=======
-//    System.out.println("Running time: " + (endtime - starttime) + "ms");
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
     return "success";
   }
 

@@ -47,22 +47,15 @@
 
 package scau.zxck.web.admin;
 
-<<<<<<< HEAD
-=======
 import org.apache.shiro.session.Session;
->>>>>>> fb70ba0225735121f672e487323c4274d8ac6d5c
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-=======
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
->>>>>>> fb70ba0225735121f672e487323c4274d8ac6d5c
 
 @Controller
 @RequestMapping("/")
@@ -70,14 +63,11 @@ public class TestAction {
     @Autowired
     private HttpServletRequest request;
 
-<<<<<<< HEAD
-    @RequestMapping(value = "test", method = RequestMethod.POST)
     @ResponseBody
     public String s(String string) throws Exception{
         return "success "+string;
     }
-}
-=======
+
   @RequestMapping(value = "test", method = RequestMethod.POST)
   public String s() throws Exception {
     HttpSession session=request.getSession();
@@ -89,4 +79,3 @@ public class TestAction {
     return "success";
   }
 }
->>>>>>> fb70ba0225735121f672e487323c4274d8ac6d5c

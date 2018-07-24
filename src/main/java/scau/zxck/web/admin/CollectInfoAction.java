@@ -22,11 +22,8 @@ import scau.zxck.service.market.IUserCollectService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
-<<<<<<< HEAD
 //import java.sql.Timestamp;
-=======
 import java.sql.Timestamp;
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -38,26 +35,14 @@ import java.util.List;
 @ContextConfiguration("classpath:config/spring/spring.xml")
 @WebAppConfiguration
 public class CollectInfoAction {
-<<<<<<< HEAD
     @Autowired
     private IUserCollectService userCollectService;
     @Autowired
     private HttpServletRequest request;
     @Autowired
     private HttpSession session;
-<<<<<<< HEAD
 
-    @RequestMapping(value = "addCollect", method = RequestMethod.POST)
-    public String addCollection(String jsonStr) throws Exception {
-        BufferedReader br = request.getReader();
-        String str, wholeStr = "";
-        while((str = br.readLine()) != null){
-            wholeStr += str;
-        }
-        jsonStr=wholeStr;
-        String r = "";
-        System.out.println(jsonStr);
-=======
+
     @RequestMapping(value = "addCollect", method = RequestMethod.POST)
     public String addCollection(String jsonStr) throws Exception {
         String r = "";
@@ -67,7 +52,6 @@ public class CollectInfoAction {
 //            wholeStr += str;
 //        }
 //        jsonStr=wholeStr;
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
         JSONObject data = JSONObject.parseObject(jsonStr);
 //        HttpServletRequest request =
 //                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -78,7 +62,6 @@ public class CollectInfoAction {
             data.put("User_PK", "");
         }
         data.put("Collect_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
-<<<<<<< HEAD
         // UserComments userComments=new UserComments();
         // userComments.setUser_info_id(data.get("User_PK").toString());
         // userComments.setGoods_info_id(data.get("Goods_PK").toString());
@@ -87,8 +70,6 @@ public class CollectInfoAction {
         // userComments.setComm_time(String.valueOf(data.get("Comm_Time").toString()));
         // userComments.setUserinfo(new UserInfoTest());
         // userComments.setGoodsinfo(new GoodsInfo());
-=======
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
         UserCollection userCollection = new UserCollection();
         userCollection.setUser_info_id(data.get("User_PK").toString());
         userCollection.setGoods_info_id(data.get("Goods_PK").toString());
@@ -102,92 +83,12 @@ public class CollectInfoAction {
             e.printStackTrace();
             r = "{\"status\":0}";
         }
-        return "success";
-=======
-  @Autowired
-  private IUserCollectService userCollectService;
-  @Autowired
-  private HttpServletRequest request;
-  @Autowired
-  private HttpSession session;
-
-  @RequestMapping(value = "addCollect", method = RequestMethod.POST)
-  public String addCollection(String jsonStr) throws Exception {
-    String r = "";
-    // BufferedReader br = request.getReader();
-    // String str, wholeStr = "";
-    // while((str = br.readLine()) != null){
-    // wholeStr += str;
-    // }
-    // jsonStr=wholeStr;
-    JSONObject data = JSONObject.parseObject(jsonStr);
-    // HttpServletRequest request =
-    // ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    // HttpSession session = request.getSession();
-    if (session.getAttribute("User_PK") != null) {
-      data.put("User_PK", session.getAttribute("User_PK"));
-    } else {
-      data.put("User_PK", "");
-    }
-    data.put("Collect_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
-    UserCollection userCollection = new UserCollection();
-    userCollection.setUser_info_id(data.get("User_PK").toString());
-    userCollection.setGoods_info_id(data.get("Goods_PK").toString());
-    userCollection
-        .setCollect_time(Timestamp.valueOf(data.get("Collect_Time").toString()).toString());
-    userCollection.setUserinfo(new UserInfo());
-    userCollection.setGoodsinfo(new GoodsInfo());
-    try {
-      userCollectService.add(userCollection);
-      r = "{\"status\":1}";
-    } catch (Exception e) {
-      e.printStackTrace();
-      r = "{\"status\":0}";
->>>>>>> fb70ba0225735121f672e487323c4274d8ac6d5c
-    }
-    return "success";
-  }
+        return "success"; }
 
 
-<<<<<<< HEAD
-  
-    @RequestMapping(value = "removeCollect", method = RequestMethod.POST)
-<<<<<<< HEAD
-    public String removeCollect(String jsonStr) throws Exception{
-        BufferedReader br = request.getReader();
-        String str, wholeStr = "";
-        while((str = br.readLine()) != null){
-            wholeStr += str;
-        }
-        jsonStr=wholeStr;
-=======
-    public String removeCollect(String jsonStr) throws Exception {
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
-        String r = "";
-//        BufferedReader br = request.getReader();
-//        String str, wholeStr = "";
-//        while((str = br.readLine()) != null){
-//            wholeStr += str;
-//        }
-//        jsonStr=wholeStr;
-        JSONObject data = JSONObject.parseObject(jsonStr);
-//        HttpServletRequest request =
-//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session = request.getSession();
-        if (session.getAttribute("User_PK") != null) {
-            data.put("User_PK", session.getAttribute("User_PK"));
-        } else {
-            data.put("User_PK", "");
-        }
-        try {
-            userCollectService.deleteByIds(data.get("Collect_PK").toString());
-            r = "{\"status\":1}";
-        } catch (BaseException e) {
-            e.printStackTrace();
-            r = "{\"status\":0}";
-        }
-        return "success";
-=======
+
+
+
   @RequestMapping(value = "removeCollect", method = RequestMethod.POST)
   public String removeCollect(String jsonStr) throws Exception {
     String r = "";
@@ -205,7 +106,6 @@ public class CollectInfoAction {
       data.put("User_PK", session.getAttribute("User_PK"));
     } else {
       data.put("User_PK", "");
->>>>>>> fb70ba0225735121f672e487323c4274d8ac6d5c
     }
     try {
       userCollectService.deleteByIds(data.get("Collect_PK").toString());
@@ -216,42 +116,6 @@ public class CollectInfoAction {
     }
     return "success";
   }
-
-<<<<<<< HEAD
- 
-    @RequestMapping(value = "getCollect", method = RequestMethod.POST)
-    public String getCollect(String jsonStr) throws Exception {
-<<<<<<< HEAD
-        BufferedReader br = request.getReader();
-        String str, wholeStr = "";
-        while((str = br.readLine()) != null){
-            wholeStr += str;
-        }
-        jsonStr=wholeStr;
-=======
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
-        JSONObject data = JSONObject.parseObject(jsonStr);
-//        BufferedReader br = request.getReader();
-//        String str, wholeStr = "";
-//        while((str = br.readLine()) != null){
-//            wholeStr += str;
-//        }
-//        jsonStr=wholeStr;
-//        HttpServletRequest request =
-//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session = request.getSession();
-        if (session.getAttribute("User_PK") != null) {
-            data.put("User_PK", session.getAttribute("User_PK"));
-        } else {
-            data.put("User_PK", "");
-        }
-        JSONArray jsonarr = new JSONArray();
-        Conditions conditions = new Conditions();
-        List list =
-                userCollectService.list(conditions.eq("user_info_id", data.get("User_PK").toString()));
-        // DataSearch.collectByID((int)Integer.parseInt(json.get("User_PK").toString()));
-=======
->>>>>>> fb70ba0225735121f672e487323c4274d8ac6d5c
 
 
   @RequestMapping(value = "getCollect", method = RequestMethod.POST)
@@ -296,15 +160,10 @@ public class CollectInfoAction {
 
 }
 
-<<<<<<< HEAD
-//测试代码如下
-//
-//package scau.zxck.web.admin;
-=======
+
 // 测试代码如下
 
 // package scau.zxck.web.admin;
->>>>>>> fb70ba0225735121f672e487323c4274d8ac6d5c
 //
 // import com.alibaba.fastjson.JSON;
 // import com.alibaba.fastjson.JSONArray;
@@ -335,15 +194,7 @@ public class CollectInfoAction {
 // import scau.zxck.service.market.IUserCollectService;
 // import scau.zxck.web.test.UserInfoTest;
 //
-<<<<<<< HEAD
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpSession;
-//import java.sql.String;
-//import java.text.SimpleDateFormat;
-//import java.util.Date;
-//import java.util.Iterator;
-//import java.util.List;
-=======
+
 // import javax.servlet.http.HttpServletRequest;
 // import javax.servlet.http.HttpSession;
 // import java.sql.Timestamp;
@@ -351,7 +202,6 @@ public class CollectInfoAction {
 // import java.util.Date;
 // import java.util.Iterator;
 // import java.util.List;
->>>>>>> fb70ba0225735121f672e487323c4274d8ac6d5c
 //
 // import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 // import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -419,24 +269,7 @@ public class CollectInfoAction {
 // 16:17:56\",\"Goods_PK\":\"100017\",\"User_PK\":\"100003\"}";
 // JSONObject data = JSONObject.parseObject(jsonStr);
 // System.out.println(jsonStr);
-//
-<<<<<<< HEAD
-//    UserCollection userCollection = new UserCollection();
-//    userCollection.setUser_info_id(data.get("User_PK").toString());
-//    userCollection.setGoods_info_id(data.get("Goods_PK").toString());
-//    userCollection.setCollect_time(String.valueOf(data.get("Collect_Time").toString()).toString());
-//    userCollection.setUserinfo(new UserInfo());
-//    userCollection.setGoodsinfo(new GoodsInfo());
-//    try {
-//      userCollectService.add(userCollection);
-//      r = "{\"status\":1}";
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//      r = "{\"status\":0}";
-//    }
-//    System.out.println(r);
-//  }
-=======
+
 // UserCollection userCollection = new UserCollection();
 // userCollection.setUser_info_id(data.get("User_PK").toString());
 // userCollection.setGoods_info_id(data.get("Goods_PK").toString());
@@ -452,7 +285,6 @@ public class CollectInfoAction {
 // }
 // System.out.println(r);
 // }
->>>>>>> fb70ba0225735121f672e487323c4274d8ac6d5c
 //
 // @org.junit.Test
 // @RequestMapping(value = "removeCollect", method = RequestMethod.POST)

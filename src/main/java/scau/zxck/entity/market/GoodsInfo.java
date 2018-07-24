@@ -38,13 +38,10 @@ public class GoodsInfo extends Unique {
   @Column(name = "remark")
   private String remark;
 
-<<<<<<< HEAD
     public GoodsInfo(char goods_mark) {
         this.goods_mark = goods_mark;
     }
-=======
-  public GoodsInfo() {
-  }
+
 
   public GoodsInfo(String goods_name, int goods_type, int goods_num, float goods_price, char goods_mark, char goods_show, String goods_picture, int goods_season, String goods_blossom, String goods_fruit, String goods_mature, String goods_expiration, String goods_reserve_1, String goods_reserve_2, String remark) {
     this.goods_name = goods_name;
@@ -63,7 +60,6 @@ public class GoodsInfo extends Unique {
     this.goods_reserve_2 = goods_reserve_2;
     this.remark = remark;
   }
->>>>>>> 785363630ee1a153e9bb320a4195d3d6983177bf
 
     public GoodsInfo(int goods_type) {
         this.goods_type = goods_type;
