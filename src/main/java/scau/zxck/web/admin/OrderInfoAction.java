@@ -2,10 +2,16 @@ package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.GoodsInfo;
@@ -101,7 +107,7 @@ public class OrderInfoAction {
 //        String jsonStr = "{\"User_PK\":\"100003\",\"Order_State\":\"3\",\"NumPerPage\":\"2\",\"Page\":\"1\"}";
 //        String jsonStr2 = "{\"NumPerPage\":\"4\"}";
 //    HttpServletRequest request =
-//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//            ((ServletRequestAttributesRequestAttributestributes) RequestContextHolder.getRequestAttributes()).getRequest();
 //      BufferedReader br = request.getReader();
 //      String str, wholeStr = "";
 //      while((str = br.readLine()) != null){
@@ -158,7 +164,7 @@ public class OrderInfoAction {
 //    @Test
   public String addOrder(String jsonStr) throws Exception {
     String r = "";
-//        String jsonStr = "{\"User_PK\":\"100006\",\"Goods_List\":\"100010#100004#\",\"Goods_Num\":\"2#3#\",\"Goods_Price\":\"5#2.5#\",\"Order_Aftersale\":\"0\",\"Order_Company\":\"韵达速递\",\"Order_ID\":\"201807181710100006\",\"Order_IsPay\":false,\"Order_No\":\"\",\"Order_PayPrice\":\"17.5\",\"Order_PayTime\":\"0001-01-01 01:01:01\",\"Order_Reserve_1\":\"13416137226;65;65;658565\",\"Order_State\":\"3\",\"Order_Time\":\"2018-07-18 16:45:09\",\"Order_Tracknum\":\"1234\",\"Order_Website\":\"http://www.yundaex.com/cn/index.php\"}";
+//      String jsonStr = "{\"User_PK\":\"100003\",\"Goods_List\":\"100010#100004#\",\"Goods_Num\":\"2#3#\",\"Goods_Price\":\"5#2.5#\",\"Order_Aftersale\":\"0\",\"Order_Company\":\"韵达速递\",\"Order_ID\":\"201807181710100006\",\"Order_IsPay\":true,\"Order_No\":\"\",\"Order_PayPrice\":\"17.5\",\"Order_PayTime\":\"0001-01-01 01:01:01\",\"Order_Reserve_1\":\"13416137226;65;65;658565\",\"Order_State\":\"3\",\"Order_Time\":\"2018-07-18 16:45:09\",\"Order_Tracknum\":\"1234\",\"Order_Website\":\"http://www.yundaex.com/cn/index.php\"}";
 //        System.out.println(jsonStr);
 //    HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 //      BufferedReader br = request.getReader();
@@ -167,7 +173,7 @@ public class OrderInfoAction {
 //          wholeStr += str;
 //      }
 //      jsonStr=wholeStr;
-//      HttpSession session = request.getSession();
+      HttpSession session = request.getSession();
     JSONObject data = JSONObject.parseObject(jsonStr);
     String[] goodslist = ((String) data.get("Goods_List")).split("#");
     String[] goodsnum = ((String) data.get("Goods_Num")).split("#");
@@ -298,7 +304,7 @@ public class OrderInfoAction {
 
   @RequestMapping(value = "updateOrder", method = RequestMethod.POST)
 //    @Test
-  public String updateOrder(String jsonStr) throws BaseException {
+  public String updateOrder(String jsonStr) throws Exception {
     String r = "";
 //        String jsonStr = "{\"Order_PK\":\"6a1df74239db41fa96f32a8c5ecf0f8b\",\"User_PK\":\"100006\",\"Goods_List\":\"100010#100004#\",\"Goods_Num\":\"2#5#\",\"Goods_Price\":\"5#2.5#\",\"Order_Aftersale\":\"0\",\"Order_Company\":\"韵达速递\",\"Order_ID\":\"201807181710100006\",\"Order_IsPay\":false,\"Order_No\":\"\",\"Order_PayPrice\":\"17.5\",\"Order_PayTime\":\"0001-01-01 01:01:01\",\"Order_Reserve_1\":\"13416137226;65;65;658565\",\"Order_State\":\"3\",\"Order_Time\":\"2018-07-18 16:45:09\",\"Order_TrackNum\":\"1234\",\"Order_Website\":\"http://www.yundaex.com/cn/index.php\"}";
     JSONObject json = JSONObject.parseObject(jsonStr);

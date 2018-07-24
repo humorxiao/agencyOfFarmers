@@ -91,10 +91,17 @@ public class LoginAction {
       }
     }
 
+<<<<<<< HEAD
     if ((boolean) temp.get("isCorrect") == true) {
       // 登录日志
       temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
       if ( temp.get("SignIn_IsAdmin") .toString().equals("true") ) {
+=======
+    if ( (boolean)temp.get("isCorrect")) {
+      // 登录日志
+      temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
+      if ( (boolean)temp.get("SignIn_IsAdmin")) {
+>>>>>>> 7706defc6523bba96e2520371faa23aeba970f32
         SignInLog temp1 = new SignInLog();
         temp1.setSignin_isadmin((boolean) temp.get("SignIn_IsAdmin"));
         temp1.setAdmin_info_id(temp.get("Admin_PK").toString());

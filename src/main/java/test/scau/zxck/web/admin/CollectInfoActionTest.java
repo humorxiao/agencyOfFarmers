@@ -66,7 +66,7 @@ public void after() throws Exception {
 public void testAddCollection() throws Exception { 
 //TODO: Test goes here...
 
-    UserCollection userCollection = new UserCollection("100003","100003","2018-03-30 14:03:31","","","");
+    UserCollection userCollection = new UserCollection("100003");
     String jsonStr = mapper.writeValueAsString(userCollection);
     System.out.println(jsonStr);
     jsonStr=ToJSONString.toJSON(jsonStr);

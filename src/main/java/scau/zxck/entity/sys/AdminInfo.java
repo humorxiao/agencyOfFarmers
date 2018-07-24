@@ -17,6 +17,18 @@ public class AdminInfo extends Unique {
   @Column(name = "remark")
   private String remark;
 
+  public AdminInfo() {
+  }
+
+  public AdminInfo(String admin_password, String admin_name, String admin_cell, String admin_email, String remark) {
+
+    this.admin_password = admin_password;
+    this.admin_name = admin_name;
+    this.admin_cell = admin_cell;
+    this.admin_email = admin_email;
+    this.remark = remark;
+  }
+
   public String getAdmin_password() {
     return admin_password;
   }

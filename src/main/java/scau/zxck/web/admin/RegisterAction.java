@@ -79,7 +79,7 @@ public class RegisterAction {
             .eq("user_email", data.get("User_Email").toString()).and()
             .eq("user_password", data.get("User_Password").toString()));
     if (list.isEmpty()) {
-      return "false";// 原来是return temp
+//      return null;// 原来是return temp
     } else {
       UserInfo user = (UserInfo) list.get(0);
       temp.put("User_PK", user.getId());
