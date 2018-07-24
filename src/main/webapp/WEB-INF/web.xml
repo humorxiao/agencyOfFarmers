@@ -63,8 +63,10 @@
     <load-on-startup>1</load-on-startup><!-- 指定加载顺序 -->
     <async-supported>true</async-supported><!-- 支持异步请求 -->
   </servlet>
+  <!-- 拦截器，拦截了所有的请求 -->
   <servlet-mapping><!-- 过滤所有请求 -->
     <servlet-name>dispatcher</servlet-name>
+    <!-- 所有的的请求，都会被DispatcherServlet处理 -->
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 

@@ -84,10 +84,10 @@ public class LoginAction {
       }
     }
 
-    if ( temp.get("isCorrect") == "true") {
+    if ( (boolean)temp.get("isCorrect")) {
       // 登录日志
       temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
-      if ( temp.get("SignIn_IsAdmin") == "true") {
+      if ( (boolean)temp.get("SignIn_IsAdmin")) {
         SignInLog temp1 = new SignInLog();
         temp1.setSignin_isadmin((boolean) temp.get("SignIn_IsAdmin"));
         temp1.setAdmin_info_id(temp.get("Admin_PK").toString());
