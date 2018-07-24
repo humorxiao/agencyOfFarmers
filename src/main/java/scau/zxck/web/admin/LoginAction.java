@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/")
-public class LoginAction {
+public class LoginAction  {
   @Autowired
   private IAdminLoginService adminLoginService;
   @Autowired

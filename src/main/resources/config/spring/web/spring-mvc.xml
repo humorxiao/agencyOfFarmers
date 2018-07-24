@@ -64,15 +64,16 @@
 		<bean class="scau.zxck.base.web.interceptor.StopWatchHandlerInterceptor"/>
 		<!--拦截指定请求-->
 		<mvc:interceptor>
-			<mvc:mapping path="/admin/**"/>
-
-		<!--  原来：<mvc:mapping path="/admin/**"/>  -->
-			<!--<bean name="/success" class="scau.zxck.web.admin.LoginAction"/>-->
-			<!--<bean id="loginInterceptor1"-->
-				  <!--class="scau.zxck.web.interceptor.LogInterceptor"/>-->
-
-			<bean  class="scau.zxck.web.interceptor.LogInterceptor"/>
-	</mvc:interceptor>
+			<!--<mvc:mapping path="/hello"/>			-->
+		  <mvc:mapping path="/admin/**"/>
+			<bean class="scau.zxck.web.interceptor.CustomeInterceptor"/>
+			<!--<bean name="/login" class="scau.zxck.web.admin.LoginAction"/>-->
+			<!--<bean id="logInterceptor" class="scau.zxck.web.interceptor.LogInterceptor"></bean>-->
+			<!--<bean id="" class="scau.zxck.web.admin.TestAction"></bean>-->
+	    </mvc:interceptor>
+		<!--<mvc:interceptor>-->
+			<!--<bean class="scau.zxck.web.interceptor.CustomeInterceptor"/>-->
+		<!--</mvc:interceptor>-->
 	</mvc:interceptors>
 	<mvc:default-servlet-handler/>
 
@@ -80,13 +81,23 @@
 	<!-- 配置 mvc:resources，那么指定的请求交给 SimpleUrlHandlerMapping 进行处理 -->
 	<mvc:resources mapping="/static/**" location="/static/" cache-period="0"/>
 
+	<!--<bean name="/login" class="scau.zxck.web.admin.LoginAction"></bean>-->
+	<!--<bean id="logInterceptor" class="scau.zxck.web.interceptor.LogInterceptor"></bean>-->
 
+	<!--<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">-->
+		<!--<property name="interceptors">-->
+			<!--<list>-->
+				<!--<ref bean="logInterceptor"/>-->
+			<!--</list>-->
+		<!--</property>-->
+	<!--</bean>-->
 	<!-- 定义跳转的文件前后缀，视图模式配置 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
 		<property name="prefix" value="/WEB-INF/pages/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
+
 
 
 	<!-- 配置文件上传 -->
