@@ -24,7 +24,7 @@
     <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
     <!-- web container jetty -->
     <jetty-maven-plugin.version>8.1.16.v20140903</jetty-maven-plugin.version>
-    <project.jetty.run.port>8888</project.jetty.run.port>
+    <project.jetty.run.port>8885</project.jetty.run.port>
     <!-- maven plugins end -->
   </properties>
 
@@ -35,6 +35,7 @@
       <version>${ssm-base.version}</version>
     </dependency>
   </dependencies>
+
 
   <build>
     <finalName>${project.build.name}</finalName>
@@ -70,7 +71,7 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty-maven-plugin.version}</version>
         <configuration>
-          <stopPort>9999</stopPort>
+          <stopPort>9996</stopPort>
           <stopKey>foo</stopKey>
           <scanIntervalSeconds>3</scanIntervalSeconds>
           <webApp>
@@ -86,6 +87,39 @@
           </connectors>
         </configuration>
       </plugin>
-    </plugins>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration> <source>1.7</source>
+            <target>1.7</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.4.2</version>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.5.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>App</mainClass> <!--启动类的位置-->
+        </configuration>
+      </plugin>
+  </plugins>
   </build>
+
 </project>

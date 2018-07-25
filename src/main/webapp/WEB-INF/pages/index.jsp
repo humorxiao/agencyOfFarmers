@@ -1,20 +1,28 @@
 ﻿<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<%@include file="common/base.jsp" %>
-
+<%@include file="/WEB-INF/pages/common/base.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>豐隆</title>
-    <link rel="stylesheet" type="text/css" href="${cssPath}/bootstrap.min.css">
 </head>
 
 <body>
+<<<<<<< HEAD
 	ggygygi
 	
 <script src="${jsPath}/lib/jquery.min.js"></script>
 <script src="${jsPath}/lib/bootstrap.min.js"></script>
+=======
+	<%--<form action="login.jsp" method="POST">--%>
+		<%--<input type="submit" value="提交">--%>
+    <%--</form>--%>
+    <form action="/getSpecialGoods" method="POST">
+        测试：<input type="test" name="jsonStr">
+        <input type="submit" value="提交">
+    </form>
+>>>>>>> yangjiali
 </body>
 </html>
 

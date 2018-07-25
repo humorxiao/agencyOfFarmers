@@ -2,6 +2,7 @@ package scau.zxck.serviceImpl.market;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.dao.market.UnionStaffDao;
 import scau.zxck.entity.market.UnionStaff;
@@ -15,31 +16,35 @@ import java.util.List;
  */
 @Service
 public class UnionStaffService implements IUnionStaffService {
-    @Autowired
-    private UnionStaffDao unionStaffDao;
+  @Autowired
+  private UnionStaffDao unionStaffDao;
 
-    @Override
-    public UnionStaff findOne(String id) throws BaseException {
-        return unionStaffDao.findById(id);
-    }
+  @Override
+  public UnionStaff findOne(String id) throws BaseException {
+    return unionStaffDao.findById(id);
+  }
 
-    @Override
-    public void updateUnionStaff(UnionStaff unionStaff) throws BaseException {
-        unionStaffDao.updateById(unionStaff);
-    }
+  @Override
+  public void updateUnionStaff(UnionStaff unionStaff) throws BaseException {
+    unionStaffDao.updateById(unionStaff);
+  }
 
-    @Override
-    public void deleteUnionStaff(String id) throws BaseException {
-        unionStaffDao.deleteByIds(id);
-    }
+  @Override
+  public void deleteUnionStaff(String id) throws BaseException {
+    unionStaffDao.deleteByIds(id);
+  }
 
-    @Override
-    public String addUnionStaff(UnionStaff unionStaff) throws BaseException {
-        return unionStaffDao.add(unionStaff);
-    }
+  @Override
+  public String addUnionStaff(UnionStaff unionStaff) throws BaseException {
+    return unionStaffDao.add(unionStaff);
+  }
 
-    @Override
-    public List<UnionStaff> listUnionStaff() throws BaseException {
-        return unionStaffDao.listAll();
-    }
+  @Override
+  public List<UnionStaff> listUnionStaff() throws BaseException {
+    return unionStaffDao.listAll();
+  }
+  @Override
+  public <V> List<V> list(Conditions conditions) throws BaseException {
+    return unionStaffDao.list(conditions);
+  }
 }
