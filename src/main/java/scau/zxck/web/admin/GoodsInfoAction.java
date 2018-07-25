@@ -23,11 +23,12 @@ import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IUnionInfoService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.util.Iterator;
 import java.util.List;
-
+import java.io.*;
 @Controller
 @RequestMapping("/")
 //@RunWith(SpringJUnit4ClassRunner.class)
@@ -132,10 +133,12 @@ public class GoodsInfoAction {
   }
 
   @RequestMapping(value = "getSpecialGoods", method = RequestMethod.POST)
-  public String getSpecialGoods(String jsonStr) throws BaseException {
+  public void getSpecialGoods(HttpServletResponse response) throws Exception {
+    String jsonStr = "{\"Goods_Mark\":\"0\"}";
     long starttime = System.currentTimeMillis();
     JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
+
     Conditions conditions = new Conditions();
     Integer mark = Integer.parseInt(data.get("Goods_Mark").toString());
     List list = goodsInfoService.list(conditions.eq("goods_show", mark));
@@ -156,9 +159,13 @@ public class GoodsInfoAction {
       jsonArray.add(temp);
     }
     r = jsonArray.toString();
+    System.out.println(r);
     long endtime = System.currentTimeMillis();
 //    System.out.println("Running time: " + (endtime - starttime) + "ms");
-    return "success";
+    PrintWriter out =response.getWriter();
+    out.flush();
+    out.write(r);
+    out.flush();
   }
 
   @RequestMapping(value = "getDiscountGoods", method = RequestMethod.POST)

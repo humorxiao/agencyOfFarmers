@@ -12,7 +12,7 @@
 	<%--<form action="login.jsp" method="POST">--%>
 		<%--<input type="submit" value="提交">--%>
     <%--</form>--%>
-    <form action="/login" method="POST">
+    <form action="/getSpecialGoods" method="POST">
         测试：<input type="test" name="jsonStr">
         <input type="submit" value="提交">
     </form>
