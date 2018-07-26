@@ -23,8 +23,10 @@ import scau.zxck.service.market.IGoodsLogService;
 import scau.zxck.service.market.IOrderInfoService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,7 +49,7 @@ public class OrderStateAction {
   @Autowired
   private  HttpSession session;
   @RequestMapping(value = "changeOrderState", method = RequestMethod.POST)
-  public String changeOrderState(String jsonStr) throws BaseException {
+  public void changeOrderState(String jsonStr, HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
     if ((int) data.get("Order_State") == 2) { // 取消订单
@@ -136,13 +138,11 @@ public class OrderStateAction {
         temp3.setGoods_fruit(temp2.get("Goods_Fruit").toString());
         temp3.setGoods_mature(temp2.get("Goods_Mature").toString());
         temp3.setGoods_expiration(temp2.get("Goods_Expiration").toString());
-        // access.updateGoodsInfo(goods);// 返回库存
         goodsInfoService.updateById(temp3);
       }
     }
     JSONObject tempy = new JSONObject();
     Conditions conditions = new Conditions();
-    // String hql = "from OrderInfo where order_id='" + json.get("Order_ID").toString() + "'";
     List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID")));
     if (!list.isEmpty()) {
       OrderInfo order = (OrderInfo) list.get(0);
@@ -162,9 +162,7 @@ public class OrderStateAction {
         tempy.put("Order_PayTime", order.getOrder_paytime());
       }
       tempy.put("Order_PayPrice", order.getOrder_payprice());
-      // 关键
       tempy.put("Order_State", (int) Integer.parseInt(data.get("Order_State").toString()));
-
       tempy.put("Order_TrackNum", order.getOrder_tracknum());
       tempy.put("Order_Company", order.getOrder_company());
       tempy.put("Order_Website", order.getOrder_website());
@@ -183,15 +181,6 @@ public class OrderStateAction {
     if (!data.get("Order_PayTime").equals(new String(""))) {
       tempz.setOrder_paytime(Timestamp.valueOf(data.get("Order_PayTime").toString()).toString());
     }
-    /*
-     * else {
-     *
-     * try { String date1 = "0001-01-01 01:01:01"; Date strD = (Date) (new
-     * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).parse(date1);
-     * temp.setOrder_paytime(Timestamp.valueOf((new
-     * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(strD))); } catch (ParseException e) {
-     * e.printStackTrace(); } }
-     */
     tempz.setOrder_payprice((float) Float.parseFloat(data.get("Order_PayPrice").toString()));
     tempz.setOrder_state((int) Integer.parseInt(data.get("Order_State").toString()));
     tempz.setOrder_tracknum(data.get("Order_TrackNum").toString());
@@ -206,24 +195,22 @@ public class OrderStateAction {
       e.printStackTrace();
       r = "{\"status\":0}";
     }
-    // boolean ret = access.changeOrderState(data);
-    return "success";
+    PrintWriter out=response.getWriter();
+    out.flush();
+    out.write(r);
+    out.flush();
   }
 
   @RequestMapping(value = "changeOrderAfterSale", method = RequestMethod.POST)
 //  @Test
-  public  String changeOrderAfterSale(String jsonStr) throws Exception {
+  public  void changeOrderAfterSale(String jsonStr,HttpServletResponse response) throws Exception {
     String r = "";
-//    String jsonStr = "{\"Order_ID\":\"201703302003100003\",\"Order_State\":\"2\",\"Order_PK\":\"100000\",\"User_PK\":\"100003\",\"Order_ID\":\"201703302003100003\",\"Order_No\":\"\",\"Goods_List\":\"100000\",\"Goods_Num\":\"2\",\"Goods_Prices\":\"12\",\"Order_Time\":\"2017-03-30 20:03:46\",\"Order_IsPay\":\"1\",\"Order_PayTime\":\"2017-03-30 20:03:46\",\"Order_PayPrice\":\"24\",\"Order_State\":\"5\",\"Order_TrackNum\":\"11111111111111\",\"Order_Company\":\"\",\"Order_Website\":\"\",\"Order_Aftersale\":\"0\",\"Order_Reserve_1\":\"13421166393;林先生;广东省揭阳市某某区某某街道;522000;\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     Conditions conditions = new Conditions();
-    // String hql = "from OrderInfo where order_id='" + json.get("Order_ID").toString() + "'";
     List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
-
     if (!list.isEmpty()) {
       OrderInfo order = (OrderInfo) list.get(0);
-
       temp.put("Order_PK", order.getId());
       temp.put("User_PK", order.getUser_info_id());
       temp.put("Order_ID", order.getOrder_id());
@@ -243,9 +230,7 @@ public class OrderStateAction {
       temp.put("Order_TrackNum", order.getOrder_tracknum());
       temp.put("Order_Company", order.getOrder_company());
       temp.put("Order_Website", order.getOrder_website());
-      // 关键
       temp.put("Order_Aftersale", (int) Integer.parseInt(data.get("Order_Aftersale").toString()));
-
       temp.put("Order_Reserve_1", order.getOrder_reserve_1());
     }
     OrderInfo temp1 = orderInfoService.findById(temp.get("Order_PK").toString());
@@ -260,15 +245,6 @@ public class OrderStateAction {
     if (!temp.get("Order_PayTime").equals(new String(""))) {
       temp1.setOrder_paytime(Timestamp.valueOf(temp.get("Order_PayTime").toString()).toString());
     }
-    /*
-     * else {
-     *
-     * try { String date1 = "0001-01-01 01:01:01"; Date strD = (Date) (new
-     * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).parse(date1);
-     * temp.setOrder_paytime(Timestamp.valueOf((new
-     * SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(strD))); } catch (ParseException e) {
-     * e.printStackTrace(); } }
-     */
     temp1.setOrder_payprice((float) Float.parseFloat(temp.get("Order_PayPrice").toString()));
     temp1.setOrder_state((int) Integer.parseInt(temp.get("Order_State").toString()));
     temp1.setOrder_tracknum(temp.get("Order_TrackNum").toString());
@@ -283,12 +259,14 @@ public class OrderStateAction {
     } catch (Exception e) {
       r = "{\"status\":0}";
     }
-    return "success";
-//    System.out.println(r);
+    PrintWriter out=response.getWriter();
+    out.flush();
+    out.write(r);
+    out.flush();
   }
 
   @RequestMapping(value = "getOrdersByStateAndUser", method = RequestMethod.POST)
-  public String getOrdersByStateAndUser(String jsonStr) throws Exception {
+  public void getOrdersByStateAndUser(String jsonStr,HttpServletResponse response) throws Exception {
     String r = "";
 //      BufferedReader br = request.getReader();
 //      String str, wholeStr = "";
@@ -297,9 +275,6 @@ public class OrderStateAction {
 //      }
 //      jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
-//    HttpServletRequest request =
-//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
     } else {
@@ -307,14 +282,9 @@ public class OrderStateAction {
     }
     JSONArray jsonarr = new JSONArray();
     Conditions conditions = new Conditions();
-    // String hql = "from OrderInfo where order_state=" +
-    // (int)Integer.parseInt(json.get("Order_State").toString())
-    // + "AND user_pk=" + (int)Integer.parseInt(json.get("User_PK").toString()) ;
     List list =
             orderInfoService.list(conditions.eq("order_state", data.get("Order_State").toString()).and()
                     .eq("user_info_id", data.get("User_PK").toString()));
-    // DataSearch.searchByHQL(hql);
-
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
       JSONObject temp = new JSONObject();
 
@@ -344,14 +314,16 @@ public class OrderStateAction {
       jsonarr.add(temp);
     }
     r = jsonarr.toString();
-    return "success";
+    PrintWriter out=response.getWriter();
+    out.flush();
+    out.write(r);
+    out.flush();
   }
 
   @RequestMapping(value = "getOrdersByAftersaleAndUser", method = RequestMethod.POST)
 //  @Test
-  public String getOrdersByAftersaleAndUser(String jsonStr) throws Exception {
+  public void getOrdersByAftersaleAndUser(String jsonStr,HttpServletResponse response) throws Exception {
     String r = "";
-//    String jsonStr = "{\"User_PK\":\"100003\",\"Order_Aftersale\":\"0\"}";
     JSONObject data = JSONObject.parseObject(jsonStr);
 //      BufferedReader br = request.getReader();
 //      String str, wholeStr = "";
@@ -369,19 +341,12 @@ public class OrderStateAction {
     }
     JSONArray jsonarr = new JSONArray();
     Conditions conditions = new Conditions();
-    // String hql = "from OrderInfo where order_aftersale=" +
-    // (int)Integer.parseInt(json.get("Order_Aftersale").toString())
-    // + "AND user_pk=" + (int)Integer.parseInt(json.get("User_PK").toString()) ;
     List list = orderInfoService.list(conditions
             .eq("order_aftersale", (int) Integer.parseInt(data.get("Order_Aftersale").toString())).and()
             .eq("user_info_id", data.get("User_PK").toString()));
-    // DataSearch.searchByHQL(hql);
-
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
       JSONObject temp = new JSONObject();
-
       OrderInfo order = (OrderInfo) iter.next();
-
       temp.put("Order_PK", order.getId());
       temp.put("User_PK", order.getUser_info_id());
       temp.put("Order_ID", order.getOrder_id());
@@ -406,8 +371,9 @@ public class OrderStateAction {
       jsonarr.add(temp);
     }
     r=jsonarr.toString();
-    return "success";
-//    System.out.println(r);
+    PrintWriter out=response.getWriter();
+    out.flush();
+    out.write(r);
+    out.flush();
   }
-
 }
