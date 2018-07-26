@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.xml.internal.rngom.parse.host.Base;
-<<<<<<< HEAD
 //import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-=======
->>>>>>> 7706defc6523bba96e2520371faa23aeba970f32
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

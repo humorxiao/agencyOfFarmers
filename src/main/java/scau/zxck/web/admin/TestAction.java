@@ -54,14 +54,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-<<<<<<< HEAD
 
-=======
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.service.sys.IUserLoginService;
 
 import javax.servlet.http.Cookie;
->>>>>>> 7706defc6523bba96e2520371faa23aeba970f32
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -76,16 +73,13 @@ import java.util.Map;
 public class TestAction {
     @Autowired
     private HttpServletRequest request;
-<<<<<<< HEAD
 
     @ResponseBody
     public String s(String string) throws Exception{
         return "success "+string;
     }
-=======
     @Autowired
     private IUserLoginService userLoginService;
->>>>>>> 7706defc6523bba96e2520371faa23aeba970f32
 
     @RequestMapping(value = "test", method = RequestMethod.POST)
     public String s(String name, String password) throws Exception {

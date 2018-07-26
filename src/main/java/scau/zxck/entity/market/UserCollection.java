@@ -52,10 +52,6 @@ public class UserCollection extends Unique {
 
   private GoodsInfo goodsinfo;
 
-  public UserCollection(String user_info_id){
-    this.user_info_id=user_info_id;
-  }
-
   public UserInfo getUserinfo() {
     return userinfo;
   }
