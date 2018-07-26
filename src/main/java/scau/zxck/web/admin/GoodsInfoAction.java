@@ -138,62 +138,63 @@ public class GoodsInfoAction {
   }
 
   @RequestMapping(value = "getSpecialGoods", method = RequestMethod.POST)
-  public String getSpecialGoods(String jsonStr) throws BaseException {
+  public String getSpecialGoods() throws BaseException {
     long starttime = System.currentTimeMillis();
-    JSONObject data = JSONObject.parseObject(jsonStr);
+//    JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
     Conditions conditions = new Conditions();
-    Integer mark = Integer.parseInt(data.get("Goods_Mark").toString());
-    List list = goodsInfoService.list(conditions.eq("goods_show", mark));
+//    Integer mark = Integer.parseInt(data.get("Goods_PK").toString());
+    List list = goodsInfoService.list(conditions.eq("goods_show",'1'));
     JSONArray jsonArray = new JSONArray();
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
       JSONObject temp = new JSONObject();
       GoodsInfo goods = (GoodsInfo) iter.next();
-
-      temp.put("Goods_PK", goods.getId());
-      temp.put("Goods_Name", goods.getGoods_name());
-      temp.put("Goods_Type", goods.getGoods_type());
-      temp.put("Goods_Num", goods.getGoods_num());
-      temp.put("Goods_Price", goods.getGoods_price());
-      temp.put("Goods_Mark", goods.getGoods_mark());
-      temp.put("Goods_Show", goods.getGoods_show());
-      temp.put("Goods_Picture", goods.getGoods_picture());
-      temp.put("Goods_Reserve_1", goods.getGoods_reserve_1());
-      jsonArray.add(temp);
+      if(goods.getGoods_mark()=='0') {
+        temp.put("Goods_PK", goods.getId());
+        temp.put("Goods_Name", goods.getGoods_name());
+        temp.put("Goods_Type", goods.getGoods_type());
+        temp.put("Goods_Num", goods.getGoods_num());
+        temp.put("Goods_Price", goods.getGoods_price());
+        temp.put("Goods_Mark", goods.getGoods_mark());
+        temp.put("Goods_Show", goods.getGoods_show());
+        temp.put("Goods_Picture", goods.getGoods_picture());
+        temp.put("Goods_Reserve_1", goods.getGoods_reserve_1());
+        jsonArray.add(temp);
+      }
     }
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
-    // System.out.println("Running time: " + (endtime - starttime) + "ms");
+     System.out.println("Running time: " + (endtime - starttime) + "ms");
     return "success";
   }
 
   @RequestMapping(value = "getDiscountGoods", method = RequestMethod.POST)
-  public String getDiscountGoods(String jsonStr) throws BaseException {
+  public String getDiscountGoods() throws BaseException {
     long starttime = System.currentTimeMillis();
-    JSONObject data = JSONObject.parseObject(jsonStr);
+//    JSONObject data = JSONObject.parseObject(jsonStr);
     String r = "";
     Conditions conditions = new Conditions();
-    Integer mark = Integer.parseInt(data.get("Goods_Mark").toString());
-    List list = goodsInfoService.list(conditions.eq("goods_show", mark));
+    List list = goodsInfoService.list(conditions.eq("goods_show", '2'));
     JSONArray jsonArray = new JSONArray();
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
       JSONObject temp = new JSONObject();
       GoodsInfo goods = (GoodsInfo) iter.next();
-
-      temp.put("Goods_PK", goods.getId());
-      temp.put("Goods_Name", goods.getGoods_name());
-      temp.put("Goods_Type", goods.getGoods_type());
-      temp.put("Goods_Num", goods.getGoods_num());
-      temp.put("Goods_Price", goods.getGoods_price());
-      temp.put("Goods_Mark", goods.getGoods_mark());
-      temp.put("Goods_Show", goods.getGoods_show());
-      temp.put("Goods_Picture", goods.getGoods_picture());
-      temp.put("Goods_Reserve_1", goods.getGoods_reserve_1());
-      jsonArray.add(temp);
+      if(goods.getGoods_mark()=='0') {
+        temp.put("Goods_PK", goods.getId());
+        temp.put("Goods_Name", goods.getGoods_name());
+        temp.put("Goods_Type", goods.getGoods_type());
+        temp.put("Goods_Num", goods.getGoods_num());
+        temp.put("Goods_Price", goods.getGoods_price());
+        temp.put("Goods_Mark", goods.getGoods_mark());
+        temp.put("Goods_Show", goods.getGoods_show());
+        temp.put("Goods_Picture", goods.getGoods_picture());
+        temp.put("Goods_Reserve_1", goods.getGoods_reserve_1());
+        jsonArray.add(temp);
+      }
     }
     r = jsonArray.toString();
     long endtime = System.currentTimeMillis();
-    // System.out.println("Running time: " + (endtime - starttime) + "ms");
+     System.out.println("Running time: " + (endtime - starttime) + "ms");
     return "success";
   }
 
@@ -205,9 +206,7 @@ public class GoodsInfoAction {
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
       JSONObject temp = new JSONObject();
       GoodsInfo goods = (GoodsInfo) iter.next();
-
       temp.put("Goods_PK", goods.getId());
-
       temp.put("Goods_Name", goods.getGoods_name());
       temp.put("Goods_Type", goods.getGoods_type());
       temp.put("Goods_Num", goods.getGoods_num());
@@ -229,7 +228,7 @@ public class GoodsInfoAction {
   }
 
   @RequestMapping(value = "addGoods", method = RequestMethod.POST)
-  public String addGoods(String jsonStr) throws BaseException {
+  public String addGoods(String jsonStr) throws Exception {
     String r = "";
     JSONObject json = JSONObject.parseObject(jsonStr);
     GoodsInfo temp = new GoodsInfo();
@@ -456,5 +455,42 @@ public class GoodsInfoAction {
     }
     return "success";
   }
-
+  @RequestMapping(value = "chooseSixSpecialGoods",method = RequestMethod.POST)
+  public String getSixSpecialGoods(String jsonStr) throws Exception{
+    String r="";
+//    jsonStr="{\"User_PK\":\"100003\"}";
+    JSONObject data = JSONObject.parseObject(jsonStr);
+    Conditions conditions=new Conditions();
+    List list=goodsInfoService.list(conditions.eq("goods_show",'1'));
+    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();){
+      GoodsInfo goodsInfo=(GoodsInfo)iter.next();
+      goodsInfo.setGoods_show('0');
+      goodsInfoService.updateById(goodsInfo);
+    }
+      String[] goodspks=data.get("Goods_PK").toString().split("#");
+    for(int i=0;i<goodspks.length;i++) {
+      GoodsInfo goodsInfo = goodsInfoService.findById(goodspks[i]);
+      goodsInfo.setGoods_show('1');
+      goodsInfoService.updateById(goodsInfo);
+    }
+    return "success";
+  }
+  @RequestMapping(value = "chooseSixDiscountGoods",method = RequestMethod.POST)
+  public String getSixDiscountGoods(String jsonStr) throws Exception{
+    JSONObject data = JSONObject.parseObject(jsonStr);
+    Conditions conditions=new Conditions();
+    List list=goodsInfoService.list(conditions.eq("goods_show",'2'));
+    for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();){
+      GoodsInfo goodsInfo=(GoodsInfo)iter.next();
+      goodsInfo.setGoods_show('0');
+      goodsInfoService.updateById(goodsInfo);
+    }
+    String[] goodspks=data.get("Goods_PK").toString().split("#");
+    for(int i=0;i<goodspks.length;i++) {
+      GoodsInfo goodsInfo = goodsInfoService.findById(goodspks[i]);
+      goodsInfo.setGoods_show('2');
+      goodsInfoService.updateById(goodsInfo);
+    }
+    return "success";
+  }
 }
