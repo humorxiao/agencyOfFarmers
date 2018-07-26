@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
+import java.io.PrintWriter;
 
 @Controller
 @RequestMapping("/")
@@ -34,7 +35,7 @@ public class CartInfoAction {
     @Autowired
     private HttpSession session;
     @RequestMapping(value = "getCart",method = RequestMethod.POST)
-    public String getCartAction(String jsonStr) throws Exception {
+    public void getCartAction(String jsonStr,HttpServletResponse response) throws Exception {
         String r="";
 //        BufferedReader br = request.getReader();
 //        String str, wholeStr = "";
@@ -58,12 +59,15 @@ public class CartInfoAction {
         temp.put("Goods_List",cartInfo.getGoods_list());
         temp.put("Goods_Num",cartInfo.getGoods_num());
         r=temp.toString();
+        PrintWriter out=response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
 //        System.out.println(r);
-        return "success";
     }
     @RequestMapping(value = "alterCart",method = RequestMethod.POST)
 //    @ResponseBody
-    public String alterCart(String jsonStr) throws Exception {
+    public void alterCart(String jsonStr,HttpServletResponse response) throws Exception {
         String r="";
 //        BufferedReader br = request.getReader();
 //        String str, wholeStr = "";
@@ -82,6 +86,9 @@ public class CartInfoAction {
             e.printStackTrace();
             r="{\"status\":0}";
         }
-        return r;
+        PrintWriter out=response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
 }

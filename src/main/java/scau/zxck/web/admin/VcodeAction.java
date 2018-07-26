@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
+
 @Controller
 @RequestMapping("/")
 public class VcodeAction {
@@ -27,12 +29,7 @@ public class VcodeAction {
     @Autowired
     private HttpSession session;
     @RequestMapping(value = "getVCODE", method = RequestMethod.POST)
-    public String getVCODE(HttpServletResponse response) throws IOException {
-//        HttpServletResponse response =
-//                ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
-//        HttpServletRequest request =
-//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session=request.getSession();
+    public void getVCODE(HttpServletResponse response) throws IOException {
         response.setHeader("Pragma","No-cache");
         response.setHeader("Cache-Control","no-cache");
         response.setDateHeader("Expires",0);
@@ -46,14 +43,14 @@ public class VcodeAction {
             sos.flush();
             sos.close();
         }
-        return "success";
+      PrintWriter out=response.getWriter();
+      out.flush();
+      out.flush();
+
     }
     @RequestMapping(value = "validateVCode",method = RequestMethod.POST)
-    public String validateVCode(){
+    public void validateVCode(HttpServletResponse response)throws IOException{
         String r="";
-//        HttpServletRequest request =
-//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session=request.getSession();
         String code=request.getParameter("code");
         boolean ret=code.equals((String) session.getAttribute("authcode"));
         if(ret){
@@ -61,6 +58,9 @@ public class VcodeAction {
         }else{
             r="{\"status\":0}";
         }
-        return "success";
+      PrintWriter out=response.getWriter();
+      out.flush();
+      out.write(r);
+      out.flush();
     }
 }

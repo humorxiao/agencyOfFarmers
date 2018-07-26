@@ -27,9 +27,8 @@ public class OutAction {
   @Autowired
   private HttpSession session;
   @RequestMapping(value = "out", method = RequestMethod.POST)
-  public String OutAction(String jsonStr) throws Exception {
+  public void OutAction(String jsonStr) throws Exception {
     JSONObject data = JSONObject.parseObject(jsonStr);
-    String r = "";
 //    BufferedReader br = request.getReader();
 //    String str, wholeStr = "";
 //    while((str = br.readLine()) != null){
@@ -50,6 +49,5 @@ public class OutAction {
 
     }
     session.removeAttribute("isAdmin");
-    return null;
   }
 }
