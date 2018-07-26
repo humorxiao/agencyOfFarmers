@@ -53,8 +53,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+<<<<<<< HEAD
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.service.sys.IUserLoginService;
 
@@ -63,6 +66,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 //import java.awt.*;
+=======
+import javax.servlet.http.*;
+import java.io.File;
+>>>>>>> 637d6278c2878fdcbcbad3748dac6c9d02a33f63
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +88,7 @@ public class TestAction {
     @Autowired
     private IUserLoginService userLoginService;
 
+<<<<<<< HEAD
     @RequestMapping(value = "test", method = RequestMethod.POST)
     public String s(String name, String password) throws Exception {
         Conditions conditions = new Conditions();
@@ -89,4 +97,12 @@ public class TestAction {
             return "success";
         else return "fail";
     }
+=======
+  @RequestMapping(value = "test", method = RequestMethod.POST)
+  @ResponseBody
+  public String s(MultipartFile  profilePicture) throws Exception{
+      profilePicture.transferTo(new File("d:/"+profilePicture.getOriginalFilename()));
+      return "success";
+  }
+>>>>>>> 637d6278c2878fdcbcbad3748dac6c9d02a33f63
 }

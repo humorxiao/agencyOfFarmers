@@ -14,15 +14,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import scau.zxck.entity.market.CartInfo;
-import scau.zxck.entity.market.DeliveryAddress;
 import scau.zxck.entity.market.OrderInfo;
-import scau.zxck.entity.market.UserCollection;
-import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.utils.ToJSONString;
-import scau.zxck.web.admin.LoginAction;
-import scau.zxck.web.admin.RecentlyPurchaseAction;
-import scau.zxck.web.admin.TestAction;
+import scau.zxck.web.admin.CartInfoAction;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -42,9 +36,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 public class RecentlyPurchaseActionTest {
 
     @Autowired
-    private RecentlyPurchaseAction recentlyPurchaseAction;
-//    @Autowired
-//    private CartInfoAction cartInfoAction;
+    private CartInfoAction cartInfoAction;
 
     @Autowired
     private MockHttpServletRequest mockHttpServletRequest;
@@ -79,7 +71,7 @@ public void testRecentlyPurchase() throws Exception {
     jsonStr=ToJSONString.toJSON(jsonStr);
     System.out.println(jsonStr);
     mockHttpSession.setAttribute("User_PK","100003");
-    mockMvc = standaloneSetup(recentlyPurchaseAction).build();
+    mockMvc = standaloneSetup(cartInfoAction).build();
     String responseString = mockMvc.perform((post("/recentlyPurchase").session(mockHttpSession))
             .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
     ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();

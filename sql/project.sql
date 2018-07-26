@@ -14,7 +14,6 @@ Date: 2018-07-09 20:16:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
 -- ----------------------------
 -- Table structure for admin_info
 -- ----------------------------
