@@ -102,60 +102,60 @@ public void testGetAllTypesGoods() throws Exception {
 * Method: getTypeGoods(String jsonStr) 
 * 
 */ 
-@Test
-public void testGetTypeGoods() throws Exception { 
-//TODO: Test goes here...
-    mockMvc = standaloneSetup(goodsInfoAction).build();
-    GoodsInfo goodsInfo = new GoodsInfo(6);
-    String jsonStr = mapper.writeValueAsString(goodsInfo);
-    System.out.println(jsonStr);
-    jsonStr = ToJSONString.toJSON(jsonStr);
-    System.out.println(jsonStr);
-    String responseString = mockMvc.perform((post("/getTypeGoods"))
-            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
-    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
-    System.out.println(responseString);
-} 
+////@Test
+//public void testGetTypeGoods() throws Exception {
+////TODO: Test goes here...
+//    mockMvc = standaloneSetup(goodsInfoAction).build();
+//    GoodsInfo goodsInfo = new GoodsInfo(6);
+//    String jsonStr = mapper.writeValueAsString(goodsInfo);
+//    System.out.println(jsonStr);
+//    jsonStr = ToJSONString.toJSON(jsonStr);
+//    System.out.println(jsonStr);
+//    String responseString = mockMvc.perform((post("/getTypeGoods"))
+//            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
+//    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
+//    System.out.println(responseString);
+//}
 
 /** 
 * 
 * Method: getSpecialGoods(String jsonStr) 
 * 
 */ 
-@Test
-public void testGetSpecialGoods() throws Exception { 
-//TODO: Test goes here...
-    mockMvc = standaloneSetup(goodsInfoAction).build();
-    GoodsInfo goodsInfo = new GoodsInfo('0');
-    String jsonStr = mapper.writeValueAsString(goodsInfo);
-    System.out.println(jsonStr);
-    jsonStr = ToJSONString.toJSON(jsonStr);
-    System.out.println(jsonStr);
-    String responseString = mockMvc.perform((post("/getSpecialGoods"))
-            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
-    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
-    System.out.println(responseString);
-} 
+//@Test
+//public void testGetSpecialGoods() throws Exception {
+////TODO: Test goes here...
+//    mockMvc = standaloneSetup(goodsInfoAction).build();
+//    GoodsInfo goodsInfo = new GoodsInfo('0');
+//    String jsonStr = mapper.writeValueAsString(goodsInfo);
+//    System.out.println(jsonStr);
+//    jsonStr = ToJSONString.toJSON(jsonStr);
+//    System.out.println(jsonStr);
+//    String responseString = mockMvc.perform((post("/getSpecialGoods"))
+//            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
+//    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
+//    System.out.println(responseString);
+//}
 
 /** 
 * 
 * Method: getDiscountGoods(String jsonStr) 
 * 
 */ 
-@Test
-public void testGetDiscountGoods() throws Exception { 
-//TODO: Test goes here...
-    mockMvc = standaloneSetup(goodsInfoAction).build();
-    GoodsInfo goodsInfo = new GoodsInfo('2');
-    String jsonStr = mapper.writeValueAsString(goodsInfo);
-    System.out.println(jsonStr);
-    jsonStr = ToJSONString.toJSON(jsonStr);
-    System.out.println(jsonStr);
-    String responseString = mockMvc.perform((post("/getDiscountGoods"))
-            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
-    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
-    System.out.println(responseString);
-} 
+//@Test
+//public void testGetDiscountGoods() throws Exception {
+////TODO: Test goes here...
+//    mockMvc = standaloneSetup(goodsInfoAction).build();
+//    GoodsInfo goodsInfo = new GoodsInfo('2');
+//    String jsonStr = mapper.writeValueAsString(goodsInfo);
+//    System.out.println(jsonStr);
+//    jsonStr = ToJSONString.toJSON(jsonStr);
+//    System.out.println(jsonStr);
+//    String responseString = mockMvc.perform((post("/getDiscountGoods"))
+//            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
+//    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
+//    System.out.println(responseString);
+//}
 
 /** 
 * 

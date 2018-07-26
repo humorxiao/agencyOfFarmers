@@ -31,8 +31,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration("classpath:config/spring/spring.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:config/spring/spring.xml")
 public class GoodsInfoAction {
   @Autowired
   private IGoodsInfoService goodsInfoService;
@@ -40,9 +40,9 @@ public class GoodsInfoAction {
   private IUnionInfoService unionInfoService;
   @Autowired
   private HttpServletRequest request;
+    @Autowired
+    private HttpSession session;
 
-  @Autowired
-  private HttpSession session;
   @RequestMapping(value = "getOneGood", method = RequestMethod.POST)
   public String getOneGood(String jsonStr) throws Exception {
       BufferedReader br = request.getReader();
@@ -381,5 +381,50 @@ public class GoodsInfoAction {
     }
     return "success";
   }
+    @RequestMapping(value = "chooseSixSpecialGoods",method = RequestMethod.POST)
+    public String getSixSpecialGoods(String jsonStr) throws Exception{
+        String r="";
+//    jsonStr="{\"User_PK\":\"100003\"}";
+        BufferedReader br = request.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        jsonStr=wholeStr;
+//        JSONObject data = JSONObject.parseObject(jsonStr);
+        JSONObject data = JSONObject.parseObject(jsonStr);
+        Conditions conditions=new Conditions();
+        List list=goodsInfoService.list(conditions.eq("goods_show",'1'));
+        for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();){
+            GoodsInfo goodsInfo=(GoodsInfo)iter.next();
+            goodsInfo.setGoods_show('0');
+            goodsInfoService.updateById(goodsInfo);
+        }
+        String[] goodspks=data.get("Goods_PK").toString().split("#");
+        for(int i=0;i<goodspks.length;i++) {
+            GoodsInfo goodsInfo = goodsInfoService.findById(goodspks[i]);
+            goodsInfo.setGoods_show('1');
+            goodsInfoService.updateById(goodsInfo);
+        }
+        return "success";
+    }
+    @RequestMapping(value = "chooseSixDiscountGoods",method = RequestMethod.POST)
+    public String getSixDiscountGoods(String jsonStr) throws Exception{
+        JSONObject data = JSONObject.parseObject(jsonStr);
+        Conditions conditions=new Conditions();
+        List list=goodsInfoService.list(conditions.eq("goods_show",'2'));
+        for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();){
+            GoodsInfo goodsInfo=(GoodsInfo)iter.next();
+            goodsInfo.setGoods_show('0');
+            goodsInfoService.updateById(goodsInfo);
+        }
+        String[] goodspks=data.get("Goods_PK").toString().split("#");
+        for(int i=0;i<goodspks.length;i++) {
+            GoodsInfo goodsInfo = goodsInfoService.findById(goodspks[i]);
+            goodsInfo.setGoods_show('2');
+            goodsInfoService.updateById(goodsInfo);
+        }
+        return "success";
+    }
 
 }
