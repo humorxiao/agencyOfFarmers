@@ -9,14 +9,14 @@ export default {
   name: 'myMenuFather',
   mounted: function() {
     alert(988888888)
+    axios.post('/api/getAllTypeGoods', {}).then(response => {
+      alert(JSON.stringify(response.data))
+    }).catch(function (error) {
+      console.log(error)
+    })
   },
   data () {
 
-   // axios.post('/api/getAllTypeGoods', {}).then(response => {
-   //   alert(JSON.stringify(response.data))
-   // }).catch(function (error) {
-   //   console.log(error)
-    //})
     return {
       menus: [
         /*{

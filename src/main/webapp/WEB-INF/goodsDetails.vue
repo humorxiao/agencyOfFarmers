@@ -2,7 +2,7 @@
 <template>
   <div id="goodsDetails">
     <nav-bar></nav-bar>
-  <!--  <my-menu-father></my-menu-father>-->
+    <my-menu-father></my-menu-father>
     <GoodsMenu></GoodsMenu>
     <goods-top-model></goods-top-model>
     <goods-bottom-model></goods-bottom-model>
@@ -13,7 +13,7 @@
 
 <script>
 import navBar from './components/commonComponents/smallNavBar.vue'
-//import myMenuFather from './components/index/myMenuFather.vue'
+import myMenuFather from './components/index/myMenuFather.vue'
 import GoodsMenu from './components/GDetails/GoodsMenuFather.vue'
 import GoodsTopModel from './components/GDetails/GoodsTopModelFather.vue'
 import GoodsBottomModel from './components/GDetails/GoodsBottomModelFather.vue'
@@ -26,7 +26,7 @@ export default {
   },
   components: {
     'navBar': navBar,
-   // 'myMenuFather': myMenuFather,
+   'myMenuFather': myMenuFather,
     'GoodsMenu': GoodsMenu,
     'GoodsTopModel': GoodsTopModel,
     'GoodsBottomModel': GoodsBottomModel,
