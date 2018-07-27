@@ -21,7 +21,6 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/")
 public class VcodeAction {
-
     @Autowired
     private HttpServletRequest request;
     @Autowired
