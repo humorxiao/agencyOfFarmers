@@ -18,8 +18,10 @@ import scau.zxck.service.market.IUserCommentsService;
 import sun.awt.SunHints;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,7 +40,7 @@ public class CommentsAction {
   @Autowired
   private HttpSession session;
   @RequestMapping(value = "getGoodsComments", method = RequestMethod.POST)
-  public String getGoodsComments(String jsonStr) throws BaseException {
+  public void getGoodsComments(String jsonStr, HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONArray jsonArray = new JSONArray();
@@ -56,17 +58,18 @@ public class CommentsAction {
         temp.put("Comm_Rank", comm.getComm_rank());
         temp.put("Comm_Text", comm.getComm_text());
         temp.put("Comm_Time", comm.getComm_time());
-
-
         jsonArray.add(temp);
       }
     }
     r = jsonArray.toString();
-    return null;
+    PrintWriter out=response.getWriter();
+    out.flush();
+    out.write(r);
+    out.flush();
   }
 
   @RequestMapping(value = "addComments", method = RequestMethod.POST)
-  public String addComments(String jsonStr) throws Exception {
+  public void addComments(String jsonStr,HttpServletResponse response) throws Exception {
     String r = "";
 //    BufferedReader br = request.getReader();
 //    String str, wholeStr = "";
@@ -100,11 +103,14 @@ public class CommentsAction {
       e.printStackTrace();
       r = "{\"status\":0}";
     }
-    return null;
+    PrintWriter out=response.getWriter();
+    out.flush();
+    out.write(r);
+    out.flush();
   }
 
   @RequestMapping(value = "getUserGoodsComments", method = RequestMethod.POST)
-  public String getUserGoodsComments(String jsonStr) throws Exception {
+  public void getUserGoodsComments(String jsonStr,HttpServletResponse response) throws Exception {
     Conditions conditions = new Conditions();
     JSONObject temp=new JSONObject();
     String r = "";
@@ -137,10 +143,13 @@ public class CommentsAction {
           temp.put("Comm_Time", comm.getComm_time());
       }
       r=temp.toString();
-      return null;
+    PrintWriter out=response.getWriter();
+    out.flush();
+    out.write(r);
+    out.flush();
   }
   @RequestMapping(value = "deleteComments",method = RequestMethod.POST)
-  public String deleteComments(String jsonStr) throws BaseException{
+  public void deleteComments(String jsonStr,HttpServletResponse response) throws Exception{
     String r="";
 
     JSONObject data=JSONObject.parseObject(jsonStr);
@@ -151,6 +160,9 @@ public class CommentsAction {
         e.printStackTrace();
       r="{\"status\":0}";
     }
-    return "success";
+    PrintWriter out=response.getWriter();
+    out.flush();
+    out.write(r);
+    out.flush();
   }
 }

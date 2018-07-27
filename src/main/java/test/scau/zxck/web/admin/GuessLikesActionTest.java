@@ -15,11 +15,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import scau.zxck.entity.market.OrderInfo;
-import scau.zxck.entity.market.UserCollection;
-import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.utils.ToJSONString;
-import scau.zxck.web.admin.GuessLikesAction;
-import scau.zxck.web.admin.RecentlyPurchaseAction;
+import scau.zxck.web.admin.GoodsInfoAction;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -40,7 +37,7 @@ public class GuessLikesActionTest {
 
 
     @Autowired
-    private GuessLikesAction guessLikesAction;
+    private GoodsInfoAction goodsInfoAction;
 //    @Autowired
 //    private CartInfoAction cartInfoAction;
 
@@ -79,7 +76,7 @@ public void testGuessYouLike() throws Exception {
     jsonStr=ToJSONString.toJSON(jsonStr);
     System.out.println(jsonStr);
     mockHttpSession.setAttribute("User_PK","100003");
-    mockMvc = standaloneSetup(guessLikesAction).build();
+    mockMvc = standaloneSetup(goodsInfoAction).build();
     String responseString = mockMvc.perform((post("/guessYouLike").session(mockHttpSession))
             .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
     ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();

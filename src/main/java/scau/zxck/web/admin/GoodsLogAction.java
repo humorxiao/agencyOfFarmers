@@ -20,7 +20,9 @@ import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IGoodsLogService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,7 +45,7 @@ public class GoodsLogAction {
 
     @RequestMapping(value = "getAllGoodsLogPaging", method = RequestMethod.POST)
 
-    public String getAllGoodsLogPaging(String jsonStr) throws BaseException {
+    public void getAllGoodsLogPaging(String jsonStr, HttpServletResponse response) throws Exception {
 
         JSONObject pageIanfo = JSONObject.parseObject(jsonStr);
         List list = goodsLogService.listAll();
@@ -60,11 +62,14 @@ public class GoodsLogAction {
             jsonarr.add(temp);
         }
         String r = JSONArrayPaging(jsonarr, pageIanfo).toString();
-        return "success";
+        PrintWriter out=response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
 
     @RequestMapping(value = "addGoodsLog", method = RequestMethod.POST)
-    public String addGoodsLog(String jsonStr) throws BaseException {
+    public void addGoodsLog(String jsonStr,HttpServletResponse response) throws Exception {
         JSONObject data = JSONObject.parseObject(jsonStr);
         JSONObject temp = new JSONObject();
         Conditions conditions = new Conditions();
@@ -87,27 +92,19 @@ public class GoodsLogAction {
             temp.put("Goods_Reserve_1", goods.getGoods_reserve_1());
             temp.put("Goods_Reserve_2", goods.getGoods_reserve_2());
         }
-        //找到进销存的商品并把属性put进temp
         int num = (int) temp.get("Goods_Num");
         float price = (float) temp.get("Goods_Price");
-
-
         if (Integer.parseInt(String.valueOf(data.get("Goods_In"))) != 0) {
             num += Integer.parseInt(String.valueOf(data.get("Goods_In")));
         }
-
         if (Integer.parseInt(String.valueOf(data.get("Goods_Out"))) != 0) {
             num -= Integer.parseInt(String.valueOf(data.get("Goods_Out")));
         }
-
         if (Float.parseFloat(String.valueOf(data.get("Goods_PriceChange"))) != 0) {
             price = Float.parseFloat(String.valueOf(data.get("Goods_PriceChange")));
         }
-//        System.out.println(num + " " + price);
-
         temp.put("Goods_Num", num);
         temp.put("Goods_Price", price);
-        //对商品的数量和价格根据进销存修改
         GoodsInfo tempx = goodsInfoService.findById(temp.get("Goods_PK").toString());
         tempx.setGoods_name(temp.get("Goods_Name").toString());
         tempx.setGoods_type((int) Integer.parseInt(temp.get("Goods_Type").toString()));
@@ -122,14 +119,12 @@ public class GoodsLogAction {
         tempx.setGoods_mature(temp.get("Goods_Mature").toString());
         tempx.setGoods_expiration(temp.get("Goods_Expiration").toString());
         goodsInfoService.updateById(tempx);
-        //由于进销存，更新商品的数据库
         data.put("GL_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
         GoodsLog tempy = new GoodsLog();
         tempy.setGoods_info_id(data.get("Goods_PK").toString());
         tempy.setGoods_in((int) Integer.parseInt(data.get("Goods_In").toString()));
         tempy.setGoods_out((int) Integer.parseInt(data.get("Goods_Out").toString()));
         tempy.setGoods_pricechange((float) Float.parseFloat(data.get("Goods_PriceChange").toString()));
-
         tempy.setGl_time((String) data.get("GL_Time"));
         boolean ret;
         try {
@@ -145,10 +140,10 @@ public class GoodsLogAction {
         } else {
             r = "{\"status\":0}";
         }
-
-
-        return "success";
-
+        PrintWriter out=response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
 
     public JSONArray JSONArrayPaging(JSONArray arr, JSONObject json) {
