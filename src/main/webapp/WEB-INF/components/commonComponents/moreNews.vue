@@ -1,7 +1,7 @@
 <template>
   <div>
      <div id="top">
-       <img src="../../../static/image/timg.jpg">
+       <img src="../../../static/goodsImage/timg.jpg">
      </div>
   </div>
 </template>

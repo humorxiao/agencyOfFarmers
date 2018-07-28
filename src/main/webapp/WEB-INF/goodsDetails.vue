@@ -26,7 +26,7 @@ export default {
   },
   components: {
     'navBar': navBar,
-   'myMenuFather': myMenuFather,
+    'myMenuFather': myMenuFather,
     'GoodsMenu': GoodsMenu,
     'GoodsTopModel': GoodsTopModel,
     'GoodsBottomModel': GoodsBottomModel,
