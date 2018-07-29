@@ -5,8 +5,19 @@
 
 <script>
 import myNewsPart from '../commonComponents/newsPart'
+import axios from 'axios'
 export default {
   name: 'newsPartFather',
+  mounted: function () {
+    axios.post('/api/getNews', {}).then(response => {
+      alert(JSON.stringify(response.data))
+      // for (var i = 0; i < response.data.length; i++) {
+      //
+      // }
+    }).catch(function (error) {
+      console.log(error)
+    })
+  },
   data () {
     return {
       newsparts: [

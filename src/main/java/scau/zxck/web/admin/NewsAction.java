@@ -52,6 +52,10 @@ public class NewsAction {
     public void getNews(HttpServletResponse response) throws Exception {
         String r = "";
         List list = newsService.listAll();
+      while(list.size()>4)
+      {
+        list.remove(0);
+      }
         JSONArray jsonarr = new JSONArray();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             JSONObject temp = new JSONObject();
@@ -60,7 +64,7 @@ public class NewsAction {
             temp.put("News_PK", news.getId());
             temp.put("News_Title", news.getNews_title());
             temp.put("News_Text", news.getNews_text());
-            temp.put("News_Time", news.getNews_time());
+            temp.put("News_Timeb", news.getNews_time());
 
             if (news.getNews_mark() == 1) {
                 jsonarr.add(temp);
@@ -78,6 +82,7 @@ public class NewsAction {
     public void getNewsNoPage(HttpServletResponse response) throws Exception {
         String r = "";
         List list = newsService.listAll();
+
         JSONArray jsonarr = new JSONArray();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             JSONObject temp = new JSONObject();
