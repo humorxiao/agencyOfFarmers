@@ -1,6 +1,6 @@
 <template>
   <!-- 菜单目录 -->
-  <transition name = "fade">
+<transition name = "fade">
   <div id="fl-menu"  v-if="showMenu == 1" :style="{display:block}">
     <ul class="list-group">
       <li id="fl-menu-logo-item" class="list-group-item fl-list-group-item">
@@ -13,7 +13,7 @@
           水果
         </a>
         <ul class="dropdown-menu">
-          <div v-for="(item) in menus" :key="item.id">
+          <div v-for="(item) in menus" :key="item.id" v-if="item.fruit" >
           <li class = "goods">{{item.fruit}}</li>
           </div>
         </ul>
@@ -23,7 +23,8 @@
           <span style="display: inline-block;width: 20px;height: 25px;" id="fl-menu-product-icon"></span>
           加工品
         </a>
-        <ul class="dropdown-menu"> <div v-for="(item) in menus" :key="item.id">
+        <ul class="dropdown-menu">
+          <div v-for="(item) in menus" :key="item.id" v-if="item.processedGoods">
           <li class = "goods">{{item.processedGoods}}</li>
         </div></ul>
       </li>
@@ -33,7 +34,7 @@
           粮蔬
         </a>
         <ul class="dropdown-menu">
-          <div v-for="(item) in menus" :key="item.id">
+          <div v-for="(item) in menus" :key="item.id" v-if="item.vegetable">
             <li class = "goods">{{item.vegetable}}</li>
           </div>
         </ul>
@@ -43,7 +44,8 @@
           <span style="display: inline-block;width: 20px;height: 25px;" id="fl-menu-fish-icon"></span>
           水产
         </a>
-        <ul class="dropdown-menu"> <div v-for="(item) in menus" :key="item.id">
+        <ul class="dropdown-menu">
+          <div v-for="(item) in menus" :key="item.id" v-if="item.fish">
           <li class = "goods">{{item.fish}}</li>
         </div></ul>
       </li>
@@ -52,7 +54,8 @@
           <span style="display: inline-block;width: 20px;height: 25px;" id="fl-menu-livestock-icon"></span>
           禽畜
         </a>
-        <ul class="dropdown-menu"> <div v-for="(item) in menus" :key="item.id">
+        <ul class="dropdown-menu">
+          <div v-for="(item) in menus" :key="item.id" v-if="item.livestock">
           <li class = "goods">{{item.livestock}}</li>
         </div></ul>
       </li>
@@ -61,7 +64,8 @@
           <span style="display: inline-block;width: 20px;height: 25px;" id="fl-menu-plant-icon"></span>
           植物
         </a>
-        <ul class="dropdown-menu"> <div v-for="(item) in menus" :key="item.id">
+        <ul class="dropdown-menu">
+          <div v-for="(item) in menus" :key="item.id" v-if="item.plant">
           <li class = "goods">{{item.plant}}</li>
         </div></ul>
       </li>
@@ -73,6 +77,12 @@
 <script>
 export default {
   name: 'myMenu',
+  data () {
+    return {
+      showMenu: 1,
+      block: ''
+    }
+  },
   props: {
     menus: {
       type: Array,
@@ -81,30 +91,25 @@ export default {
       }
     }
   },
-  mounted () {
+   mounted () {
     window.addEventListener('scroll', this.scrollToTop)
   },
-  data: function () {
-    return {
-      showMenu: -1,
-      block: ''
-    }
-  },
+
   methods: {
-    scrollToTop () {
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      // console.log(scrollTop)
-      if (scrollTop >= 545) {
-        this.showMenu = 1
-        // console.log(this.data().showMenu)
-      } else {
-        this.showMenu = -1
-      }
-      // console.log(this.showMenu)
-    },
-    destroyed () {
-      window.removeEventListener('scroll', this.scrollToTop)
-    }
+   scrollToTop () {
+     var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      console.log(scrollTop)
+     if (scrollTop >= 545) {
+       this.showMenu = 1
+        console.log(this.data().showMenu)
+     } else {
+       this.showMenu = -1
+     }
+      console.log(this.showMenu)
+   },
+   destroyed () {
+     window.removeEventListener('scroll', this.scrollToTop)
+   }
   }
 }
 </script>

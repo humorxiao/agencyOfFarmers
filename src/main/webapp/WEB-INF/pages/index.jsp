@@ -3,26 +3,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>豐隆</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>豐隆</title>
 </head>
 
 <body>
-<<<<<<< HEAD
-	ggygygi
-	
-<script src="${jsPath}/lib/jquery.min.js"></script>
-<script src="${jsPath}/lib/bootstrap.min.js"></script>
-=======
-	<%--<form action="login.jsp" method="POST">--%>
-		<%--<input type="submit" value="提交">--%>
-    <%--</form>--%>
-    <form action="/getSpecialGoods" method="POST">
-        测试：<input type="test" name="jsonStr">
-        <input type="submit" value="提交">
-    </form>
->>>>>>> yangjiali
+<%--<form action="login.jsp" method="POST">--%>
+<%--<input type="submit" value="提交">--%>
+<%--</form>--%>
+
+<form action="/test" method="POST" enctype="multipart/form-data">
+  <label>Profile Picture</label>
+  <input type="file" name="profilePicture" accept="image/jpeg,image/png,image/gif">
+  <br>
+  <input type="submit" value="submit">
+
+</form>
 </body>
 </html>
-

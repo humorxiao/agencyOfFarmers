@@ -7,7 +7,6 @@
 
 <script>
 import news from '../../components/commonComponents/news'
-import axios from 'axios'
 export default {
   name: 'News',
   data () {
@@ -26,12 +25,12 @@ export default {
     'news': news
   }
 }
-axios.post('api/getNews', {}).then(response => {
+/* axios.post('api/getNews', {}).then(response => {
   // alert(response.data)
   console.log('shoudao数据成功!')
 }).catch(function (error) {
   console.log(error)
-})
+})  */
 </script>
 
 <style>

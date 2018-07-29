@@ -17,8 +17,6 @@ function resolve (dir) {
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
-console.log(resolve('index.html'))
-
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -61,43 +59,51 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: resolve('index.html'),
-      inject: true
+      inject: true,
+      chunks: ['app']
     }),
 
     new HtmlWebpackPlugin({
       filename: 'login.html',
       template: resolve('login.html'),
-      inject: true
+      inject: true,
+      chunks: ['login']
     }),
     new HtmlWebpackPlugin({
       filename: 'register.html',
       template: resolve('register.html'),
-      inject: true
+      inject: true,
+      chunks: ['register']
     }),
     new HtmlWebpackPlugin({
       filename: 'contactus.html',
       template: resolve('contactus.html'),
-      inject: true
+      inject: true,
+      chunks: ['contactus']
     }),
     new HtmlWebpackPlugin({
       filename: 'moreNews.html',
       template: resolve('moreNews.html'),
-      inject: true
+      inject: true,
+      chunks: ['moreNews']
     }),
     new HtmlWebpackPlugin({
       filename: 'details.html',
       template: resolve('details.html'),
-      inject: true
+      inject: true,
+      chunks: ['details']
     }),
     new HtmlWebpackPlugin({
       filename: 'goodsDetails.html',
       template: resolve('goodsDetails.html'),
-      inject: true
+      inject: true,
+      chunks: ['goodsDetails']
     }),
     new HtmlWebpackPlugin({
       filename: 'collection.html',
       template: resolve('collection.html'),
-      inject: true
+      inject: true,
+      chunks: ['collection']
     }),
     // copy custom static assets
     new CopyWebpackPlugin([

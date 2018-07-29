@@ -71,7 +71,7 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty-maven-plugin.version}</version>
         <configuration>
-          <stopPort>9996</stopPort>
+          <stopPort>9998</stopPort>
           <stopKey>foo</stopKey>
           <scanIntervalSeconds>3</scanIntervalSeconds>
           <webApp>

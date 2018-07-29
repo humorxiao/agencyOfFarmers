@@ -63,10 +63,17 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 // import Bus from './bus.js'
 export default {
   name: 'panel',
+  mounted: function () {
+    axios.post('/api/getVCODE', {}).then(response => {
+      console.log(JSON.stringify(response.data))
+    }).catch(function (error) {
+      console.log(error)
+    })
+  },
   data () {
     return {
       id: '',
@@ -121,7 +128,6 @@ export default {
           if (/0?(13|14|15|18|17)[0-9]{9}/.test(this.id) === true) { // 手机
             this.datas = {
               'isAdmin': true,
-              'Admin_PK': '',
               'Admin_Password': this.password,
               'Admin_Cell': this.id,
               'Admin_Name': '',
@@ -130,7 +136,6 @@ export default {
           } else if (/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(this.id) === true) { // 邮箱
             this.datas = {
               'isAdmin': true,
-              'Admin_PK': '',
               'Admin_Password': this.password,
               'Admin_Cell': '',
               'Admin_Name': '',
@@ -138,7 +143,6 @@ export default {
           } else { // 昵称
             this.datas = {
               'isAdmin': true,
-              'Admin_PK': '',
               'Admin_Password': this.password,
               'Admin_Cell': '',
               'Admin_Name': this.id,
