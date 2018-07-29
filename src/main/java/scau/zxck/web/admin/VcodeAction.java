@@ -28,7 +28,7 @@ public class VcodeAction {
     private HttpServletRequest request;
     @Autowired
     private HttpSession session;
-    @RequestMapping(value = "getVCODE", method = RequestMethod.POST)
+    @RequestMapping(value = "getVCODE", method = RequestMethod.GET)
     public void getVCODE(HttpServletResponse response) throws IOException {
         response.setHeader("Pragma","No-cache");
         response.setHeader("Cache-Control","no-cache");

@@ -38,10 +38,10 @@
             </div>
             <div class="form-group">
               <label for="yzm" class="col-md-3 control-label">验证码</label>
-              <div class="col-md-9" v-for="(item) in pictures" :key="item.id">
+              <div class="col-md-9" >
                 <input type="text" class="form-control" id="yzm" placeholder="验证码">
-                <img width="78px" :src="item.src" id="img0" vspace=3>
-                <a class="btn" onclick=getVCode()>换一张</a>
+                <img width="78px" :src="picturesSrc" id="img0" vspace=3>
+                <a class="btn" @click="getVCode()">换一张</a>
               </div>
             </div>
             <div class="form-group">
@@ -68,29 +68,7 @@ import axios from 'axios'
 export default {
   name: 'panel',
   mounted: function () {
-    // axios.post('/api/getVCODE', {}).then(response => {
-    //   this.pictures.push({
-    //     src: response.data
-    //   })
-    //   // console.log(JSON.stringify(response.data))
-    // }).catch(function (error) {
-    //   console.log(error)
-    // })
-    axios.post('/api/getVCODE', {
-      responseType: 'arraybuffer'
-    }).then(res => {
-      return 'data:image/png;base64,' + btoa(
-        new Uint8Array(res.data)
-          .reduce((data, byte) => data + String.fromCharCode(byte), '')
-      )
-    }).then(data => {
-          this.pictures.push({
-                src: data
-          })
-      })
-      .catch(ex => {
-        console.error(ex)
-      })
+        // this.pictures.src =  '/api/getVCODE'
   },
   data () {
     return {
@@ -101,7 +79,7 @@ export default {
       msg: '',
       checked: '1',
       block: '',
-      pictures: []
+      picturesSrc:'/api/getVCODE'
     }
   },
   methods: {
@@ -197,6 +175,9 @@ export default {
     alertError: function (msg) {
       this.point = '1'
       this.msg = msg
+    },
+    getVCode: function () {
+      this.picturesSrc= '/api/getVCODE?operation=getVCode&&='+Math.random()
     }
   }
 }
