@@ -45,17 +45,33 @@ public class LoginAction {
   private HttpSession session;
 
   @RequestMapping(value = "login", method = RequestMethod.POST)
-  public void login(String jsonStr, HttpServletResponse response) throws Exception {
+  public void login( HttpServletResponse response) throws Exception {
     String r = "";
+     BufferedReader br = request.getReader();
+     String str, wholeStr = "";
+     while((str = br.readLine()) != null){
+     wholeStr += str;
+     }
+     String jsonStr=wholeStr;
+    System.out.println("*****************************"+jsonStr);
+
     JSONObject data = JSON.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     if ((boolean) data.get("isAdmin")) {
       Conditions conditions = new Conditions();
+
+//      List list =
+//        adminLoginService.list(conditions.eq("admin_name", data.get("Admin_Name").toString()).or()
+//          .eq("admin_cell", data.get("Admin_Cell").toString()).or()
+//          .eq("admin_email", data.get("Admin_Email").toString()).and()
+//          .eq("admin_password", data.get("Admin_Password").toString()));
+
       List list =
-        adminLoginService.list(conditions.eq("admin_name", data.get("Admin_Name").toString()).or()
-          .eq("admin_cell", data.get("Admin_Cell").toString()).or()
-          .eq("admin_email", data.get("Admin_Email").toString()).and()
-          .eq("admin_password", data.get("Admin_Password").toString()));
+        adminLoginService.list(conditions.eq("admin_password", data.get("Admin_Password")).and().leftBracket()
+          .eq("admin_cell", data.get("Admin_Cell")).or()
+          .eq("admin_email", data.get("Admin_Email")).or()
+          .eq("admin_name", data.get("Admin_Name")).rightBracket());
+        System.out.println(request.getParameter("Admin_Name"));
       if (list.isEmpty()) {
         temp.put("isCorrect", false);
       } else {
@@ -63,6 +79,8 @@ public class LoginAction {
         AdminInfo admin = (AdminInfo) list.get(0);
         temp.put("Admin_PK", admin.getId());
         temp.put("SignIn_IsAdmin", true);
+        temp.put("Admin_Name",((AdminInfo) list.get(0)).getAdmin_name());
+
       }
 
     } else {
@@ -79,6 +97,7 @@ public class LoginAction {
         UserInfo user = (UserInfo) list.get(0);
         temp.put("User_PK", user.getId());
         temp.put("SignIn_IsAdmin", false);
+        temp.put("User_Name",((UserInfo) list.get(0)).getUser_name());
       }
     }
 
@@ -108,6 +127,7 @@ public class LoginAction {
       }
     }
     PrintWriter out = response.getWriter();
+    r=temp.toString();
     out.flush();
     out.write(r);
     out.flush();

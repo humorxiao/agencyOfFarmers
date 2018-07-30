@@ -37,14 +37,15 @@ public class CartInfoAction {
     @Autowired
     private HttpSession session;
     @RequestMapping(value = "getCart",method = RequestMethod.POST)
-    public void getCartAction(String jsonStr,HttpServletResponse response) throws Exception {
+    public void getCartAction(HttpServletResponse response) throws Exception {
         String r="";
-//        BufferedReader br = request.getReader();
-//        String str, wholeStr = "";
-//        while((str = br.readLine()) != null){
-//            wholeStr += str;
-//        }
-//        jsonStr=wholeStr;
+        BufferedReader br = request.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        String jsonStr=wholeStr;
+
         JSONObject data=JSONObject.parseObject(jsonStr);
         if(session.getAttribute("User_PK")!=null){
             data.put("User_PK",session.getAttribute("User_PK"));
@@ -84,14 +85,15 @@ public class CartInfoAction {
     }
     @RequestMapping(value = "alterCart",method = RequestMethod.POST)
 //    @ResponseBody
-    public void alterCart(String jsonStr,HttpServletResponse response) throws Exception {
+    public void alterCart(HttpServletResponse response) throws Exception {
         String r="";
-//        BufferedReader br = request.getReader();
-//        String str, wholeStr = "";
-//        while((str = br.readLine()) != null){
-//            wholeStr += str;
-//        }
-//        jsonStr=wholeStr;
+        BufferedReader br = request.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        String jsonStr=wholeStr;
+
         JSONObject data=JSONObject.parseObject(jsonStr);
         CartInfo cartInfo=cartInfoService.findById(data.get("Cart_PK").toString());
         cartInfo.setGoods_list(data.get("Goods_List").toString());

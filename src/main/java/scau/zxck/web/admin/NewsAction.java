@@ -107,8 +107,14 @@ public class NewsAction {
 
     @RequestMapping(value = "addNews", method = RequestMethod.POST)
 //  @Test
-    public void addNews(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
+    public void addNews( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
 //    BufferedReader br = request.getReader();
 //    String str, wholeStr = "";

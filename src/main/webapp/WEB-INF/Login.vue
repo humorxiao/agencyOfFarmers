@@ -22,7 +22,7 @@
             <div class="form-group">
               <label for="inputPassword" class="col-md-3 control-label" >密码</label>
               <div class="col-md-7">
-                <input type="password" class="form-control" id="inputPassword" placeholder="请输入密码" v-model="password">
+                <input type="password" class="form-control" id="inputPassword" placeholder="请输入密码" v-model="input_password">
               </div>
             </div>
             <div id="User_Position" class="form-group">
@@ -73,6 +73,7 @@ export default {
   data () {
     return {
       id: '',
+      input_password: '',
       password: '',
       datas: '',
       point: '-1',
@@ -88,9 +89,10 @@ export default {
       // alert(this.password)
       if (this.id === '') {
         this.alertError('账号不能为空，请填写昵称或者手机号码或者邮箱号码')
-      } else if (this.password === '') {
+      } else if (this.input_password === '') {
         this.alertError('请输入密码')
       } else {
+       this.password = hex_md5(this.input_password);
         if (this.checked === '1') { // 用户管理员登录数据
           if (/0?(13|14|15|18|17)[0-9]{9}/.test(this.id) === true) { // 手机
             this.datas = {
@@ -148,17 +150,11 @@ export default {
           }
         }
         if (this.checked === '1' || this.checked === '2') {
-          this.alertError('发送数据成功')
-          // Bus.$emit('val', this.login_point)
-          window.location.href = 'index.html'
-          var obj = JSON.stringify(this.datas)
-          alert(obj)
-          /* axios.post('login', {obj}).then(response => {
-            console.log(response)
-            console.log('发送数据成功!')
+          alert(JSON.stringify(this.datas))
+           axios.post('/api/login', this.datas).then(response => {
+            alert(JSON.stringify(response.data))
           }).catch(function (error) {
             console.log(error)
-            console.log('发送数据失败!')
           })
           /* if (this.response.isCorrect) {
             if (this.data.isAdmin) {

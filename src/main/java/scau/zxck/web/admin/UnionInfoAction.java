@@ -56,7 +56,14 @@ public class UnionInfoAction {
     @Autowired
     private HttpSession session;
     @RequestMapping(value = "getLikesUnions", method = RequestMethod.POST)
-    public void getLikesUnions(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getLikesUnions( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONArray jsonarr = new JSONArray();
 //        BufferedReader br = request.getReader();
 //        String str, wholeStr = "";
@@ -96,7 +103,7 @@ public class UnionInfoAction {
                 jsonarr.add(temp);
             }
         }
-        String r = jsonarr.toString();
+         r = jsonarr.toString();
         PrintWriter out=response.getWriter();
         out.flush();
         out.write(r);
@@ -135,7 +142,14 @@ public class UnionInfoAction {
 
 
     @RequestMapping(value = "addUnionInfo", method = RequestMethod.POST)
-    public void addUnionInfo(String jsonStr,HttpServletResponse response) throws Exception {
+    public void addUnionInfo(HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject json = JSONObject.parseObject(jsonStr);
         UnionInfo temp = new UnionInfo();
         temp.setUnion_name(json.get("Union_Name").toString());
@@ -150,7 +164,6 @@ public class UnionInfoAction {
         char c = json.get("Union_Mark").toString().charAt(0);
         temp.setUnion_mark(c);
         String ret = unionInfoService.addUnionInfo(temp);//check whether success
-        String r;
         if (ret != null) {
             r= "{\"status\":1}";
         } else {
@@ -163,9 +176,16 @@ public class UnionInfoAction {
     }
 
     @RequestMapping(value = "updateUnionInfo", method = RequestMethod.POST)
-    public void updateUnionInfo(String jsonStr,HttpServletResponse response) throws Exception {
+    public void updateUnionInfo(HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject json = JSONObject.parseObject(jsonStr);
-        String r="";
+
         try {
             UnionInfo temp = unionInfoService.findOne(json.get("id").toString());
             if (json.get("Union_Name") != null) {
@@ -214,8 +234,14 @@ public class UnionInfoAction {
 
     @RequestMapping(value = "deleteUnionInfo", method = RequestMethod.POST)
 //    @Test
-    public void deleteUnionInfo(String jsonStr,HttpServletResponse response) throws Exception {
-        String r;
+    public void deleteUnionInfo(HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject json = JSONObject.parseObject(jsonStr);
         String id = (String) json.get("Union_PK");
         UnionInfo unionInfo=unionInfoService.findOne(id);

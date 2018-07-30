@@ -40,8 +40,15 @@ public class CommentsAction {
   @Autowired
   private HttpSession session;
   @RequestMapping(value = "getGoodsComments", method = RequestMethod.POST)
-  public void getGoodsComments(String jsonStr, HttpServletResponse response) throws Exception {
-    String r = "";
+  public void getGoodsComments( HttpServletResponse response) throws Exception {
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
+
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONArray jsonArray = new JSONArray();
     Conditions conditions = new Conditions();
@@ -69,14 +76,14 @@ public class CommentsAction {
   }
 
   @RequestMapping(value = "addComments", method = RequestMethod.POST)
-  public void addComments(String jsonStr,HttpServletResponse response) throws Exception {
-    String r = "";
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
+  public void addComments(HttpServletResponse response) throws Exception {
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
 //    HttpServletRequest request =
 //        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -110,16 +117,16 @@ public class CommentsAction {
   }
 
   @RequestMapping(value = "getUserGoodsComments", method = RequestMethod.POST)
-  public void getUserGoodsComments(String jsonStr,HttpServletResponse response) throws Exception {
+  public void getUserGoodsComments(HttpServletResponse response) throws Exception {
     Conditions conditions = new Conditions();
     JSONObject temp=new JSONObject();
-    String r = "";
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
 //    HttpServletRequest request =
 //        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

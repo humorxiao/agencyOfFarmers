@@ -10,6 +10,7 @@ import scau.zxck.utils.RSAManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.PrintWriter;
 
 @Controller
@@ -18,7 +19,7 @@ public class RSAAction {
     @Autowired
     private HttpServletRequest request;
     @RequestMapping(value = "startRSAThread",method = RequestMethod.POST)
-    public void startRSAThread(String jsonStr) throws BaseException{
+    public void startRSAThread() throws BaseException{
         RSAManager rsa = RSAManager.getInstance();
        rsa.startCircleKeyThread();
     }
@@ -31,24 +32,39 @@ public class RSAAction {
         out.flush();
     }
     @RequestMapping(value = "encodeByPublicKey",method = RequestMethod.POST)
-    public void encodeByPublicKey(String jsonStr,HttpServletResponse response) throws Exception {
+    public void encodeByPublicKey(HttpServletResponse response) throws Exception {
         RSAManager rsa = RSAManager.getInstance();
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+
         JSONObject data=JSONObject.parseObject(jsonStr);
         String data1=(String)data.get("data");
         String publickey=(String)data.get("publickey");
-        String r=rsa.encryptByPublicKey(data1,publickey);
+         r=rsa.encryptByPublicKey(data1,publickey);
         PrintWriter out=response.getWriter();
         out.flush();
         out.write(r);
         out.flush();
     }
     @RequestMapping(value = "decodeByPublicKey",method = RequestMethod.POST)
-    public void decodeByPublicKey(String jsonStr,HttpServletResponse response)throws Exception{
+    public void decodeByPublicKey(HttpServletResponse response)throws Exception{
         RSAManager rsa = RSAManager.getInstance();
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data=JSONObject.parseObject(jsonStr);
         String data2=(String)data.get("data");
         String publickey=(String)data.get("publickey");
-        String r=rsa.decryptByPublicKey(data2,publickey);
+        r=rsa.decryptByPublicKey(data2,publickey);
         PrintWriter out=response.getWriter();
         out.flush();
         out.write(r);

@@ -27,17 +27,8 @@ public class OutAction {
   @Autowired
   private HttpSession session;
   @RequestMapping(value = "out", method = RequestMethod.POST)
-  public void OutAction(String jsonStr) throws Exception {
-    JSONObject data = JSONObject.parseObject(jsonStr);
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
-//    HttpServletRequest request =
-//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpSession session = request.getSession();
+  public void OutAction() throws Exception {
+
     if(session.getAttribute("isAdmin")!=null){
       if((boolean)session.getAttribute("isAdmin")){
         session.removeAttribute("Admin_PK");

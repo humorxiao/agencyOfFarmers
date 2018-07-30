@@ -23,6 +23,7 @@ import scau.zxck.web.test.UserInfo2Test;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.crypto.Data;
+import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -46,7 +47,14 @@ public class RegisterAction {
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
 //  @Test
-    public void register(String jsonStr, HttpServletResponse response) throws Exception {
+    public void register( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
         JSONObject temp = new JSONObject();
         data.put("User_RegTime", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss").format(new Date())).toString());
@@ -102,8 +110,14 @@ public class RegisterAction {
     }
 
     @RequestMapping(value = "validateAccount", method = RequestMethod.POST)
-    public void validateAccount(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
+    public void validateAccount( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
         Conditions conditions = new Conditions();
         if (!data.get("User_Name").toString().equals("")) {

@@ -49,8 +49,14 @@ public class OrderStateAction {
   @Autowired
   private  HttpSession session;
   @RequestMapping(value = "changeOrderState", method = RequestMethod.POST)
-  public void changeOrderState(String jsonStr, HttpServletResponse response) throws Exception {
-    String r = "";
+  public void changeOrderState( HttpServletResponse response) throws Exception {
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     if ((int) data.get("Order_State") == 2) { // 取消订单
       Conditions conditions = new Conditions();
@@ -203,8 +209,14 @@ public class OrderStateAction {
 
   @RequestMapping(value = "changeOrderAfterSale", method = RequestMethod.POST)
 //  @Test
-  public  void changeOrderAfterSale(String jsonStr,HttpServletResponse response) throws Exception {
-    String r = "";
+  public  void changeOrderAfterSale(HttpServletResponse response) throws Exception {
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     Conditions conditions = new Conditions();
@@ -266,14 +278,15 @@ public class OrderStateAction {
   }
 
   @RequestMapping(value = "getOrdersByStateAndUser", method = RequestMethod.POST)
-  public void getOrdersByStateAndUser(String jsonStr,HttpServletResponse response) throws Exception {
-    String r = "";
-//      BufferedReader br = request.getReader();
-//      String str, wholeStr = "";
-//      while((str = br.readLine()) != null){
-//          wholeStr += str;
-//      }
-//      jsonStr=wholeStr;
+  public void getOrdersByStateAndUser(HttpServletResponse response) throws Exception {
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
+
     JSONObject data = JSONObject.parseObject(jsonStr);
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));

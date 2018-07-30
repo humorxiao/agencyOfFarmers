@@ -36,10 +36,16 @@ public class CheckLoginRankAction {
 
     @RequestMapping(value = "checkLoginRank", method = RequestMethod.POST)
 //  @Test
-    public void checkLoginRank(String jsonStr, HttpServletResponse response) throws Exception {
-//    String jsonStr = "{\"isAdmin\":true}";
+    public void checkLoginRank( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+
         JSONObject data = JSONObject.parseObject(jsonStr);
-        String r = "";
 //    BufferedReader br = request.getReader();
 //    String str, wholeStr = "";
 //    while((str = br.readLine()) != null){

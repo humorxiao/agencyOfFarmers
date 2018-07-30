@@ -50,9 +50,16 @@ public class GoodsInfoAction {
     private HttpSession session;
 
     @RequestMapping(value = "getOneGood", method = RequestMethod.POST)
-    public void getOneGood(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getOneGood( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
-        String r = "";
+
         GoodsInfo goods = goodsInfoService.findById(data.get("Goods_PK").toString());
         JSONObject temp = new JSONObject();
         temp.put("Goods_PK", goods.getId());
@@ -78,9 +85,8 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "getAllTypeGoods", method = RequestMethod.POST)
-    public void getAllTypesGoods(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getAllTypesGoods( HttpServletResponse response) throws Exception {
         long startTime = System.currentTimeMillis();
-        JSONObject data = JSONObject.parseObject(jsonStr);
         JSONArray jsonarr1 = new JSONArray();
         String r = "";
         for (int i = 1; i <= 6; i++) {
@@ -118,10 +124,17 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "getTypeGoods", method = RequestMethod.POST)
-    public void getTypeGoods(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getTypeGoods( HttpServletResponse response) throws Exception {
         long startTime = System.currentTimeMillis();
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
-        String r = "";
+
         Conditions conditions = new Conditions();
         List list =
                 goodsInfoService.list(conditions.eq("Goods_Type", data.get("Goods_Type").toString()));
@@ -215,7 +228,7 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "getAllGoods", method = RequestMethod.POST)
-    public void getAllGoods(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getAllGoods( HttpServletResponse response) throws Exception {
         JSONArray jsonarr = new JSONArray();
         List list = goodsInfoService.listAll();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
@@ -246,8 +259,15 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "addGoods", method = RequestMethod.POST)
-    public void addGoods(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
+    public void addGoods( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+
         JSONObject json = JSONObject.parseObject(jsonStr);
         GoodsInfo temp = new GoodsInfo();
         temp.setGoods_name(json.get("Goods_Name").toString());
@@ -277,9 +297,15 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "updateGoodsInfo", method = RequestMethod.POST)
-    public void updateGoodsInfo(String jsonStr, HttpServletResponse response) throws Exception {
+    public void updateGoodsInfo(HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
 
-        String r = "";
         JSONObject json = JSONObject.parseObject(jsonStr);
         GoodsInfo temp = goodsInfoService.findById(json.get("Goods_PK").toString());
         temp.setGoods_name(json.get("Goods_Name").toString());
@@ -308,8 +334,14 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "deleteGoodsInfo", method = RequestMethod.POST)
-    public void deleteGoodsInfo(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
+    public void deleteGoodsInfo( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject json = JSONObject.parseObject(jsonStr);
         GoodsInfo temp = goodsInfoService.findById(json.get("Goods_PK").toString());
         temp.setGoods_name(json.get("Goods_Name").toString());
@@ -338,18 +370,16 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "getLikesGoods", method = RequestMethod.POST)
-    public void getLikesAction(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getLikesAction( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
-        String r = "";
-        // BufferedReader br = request.getReader();
-        // String str, wholeStr = "";
-        // while((str = br.readLine()) != null){
-        // wholeStr += str;
-        // }
-        // jsonStr=wholeStr;
-        // HttpServletRequest request =
-        // ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        // HttpSession session = request.getSession();
+
         String likes = request.getParameter("likes");
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         Conditions conditions = new Conditions();
@@ -380,10 +410,17 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "guessYouLike", method = RequestMethod.POST)
-    public void guessYouLike(String jsonStr, HttpServletResponse response) throws Exception {
+    public void guessYouLike( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
         JSONArray jsonArray = new JSONArray();
-        String r = "";
+
         Conditions conditions = new Conditions();
         List list =
                 userCollectionService.list(conditions.eq("user_info_id", data.get("User_PK").toString()));
@@ -432,10 +469,16 @@ public class GoodsInfoAction {
         out.flush();
     }
 
-    @Test
+
     @RequestMapping(value = "recentlyPerchase", method = RequestMethod.POST)
-    public void recentlyPerchase(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
+    public void recentlyPerchase( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
         Conditions conditions = new Conditions();
         List list = orderInfoService.list(conditions.eq("user_info_id", data.get("User_PK").toString()).and().eq("order_isPay", 1));
@@ -490,7 +533,14 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "chooseSixSpecialGoods", method = RequestMethod.POST)
-    public void chooseSixSpecialGoods(String jsonStr, HttpServletResponse response) throws Exception {
+    public void chooseSixSpecialGoods( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
         Conditions conditions = new Conditions();
         List list = goodsInfoService.list(conditions.eq("goods_show", '1'));

@@ -37,14 +37,15 @@ public class CollectInfoAction {
     private HttpSession session;
 
     @RequestMapping(value = "addCollect", method = RequestMethod.POST)
-    public void addCollection(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
-//        BufferedReader br = request.getReader();
-//        String str, wholeStr = "";
-//        while((str = br.readLine()) != null){
-//            wholeStr += str;
-//        }
-//        jsonStr=wholeStr;
+    public void addCollection( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+
         JSONObject data = JSONObject.parseObject(jsonStr);
 //        HttpServletRequest request =
 //                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -76,14 +77,14 @@ public class CollectInfoAction {
 
 
     @RequestMapping(value = "removeCollect", method = RequestMethod.POST)
-    public void removeCollect(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
-//        BufferedReader br = request.getReader();
-//        String str, wholeStr = "";
-//        while((str = br.readLine()) != null){
-//            wholeStr += str;
-//        }
-//        jsonStr=wholeStr;
+    public void removeCollect( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
 //        HttpServletRequest request =
 //                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -107,17 +108,16 @@ public class CollectInfoAction {
     }
 
     @RequestMapping(value = "getCollect", method = RequestMethod.POST)
-    public void getCollect(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject data = JSONObject.parseObject(jsonStr);
-//        BufferedReader br = request.getReader();
-//        String str, wholeStr = "";
-//        while((str = br.readLine()) != null){
-//            wholeStr += str;
-//        }
-//        jsonStr=wholeStr;
-//        HttpServletRequest request =
-//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session = request.getSession();
+    public void getCollect( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+      JSONObject data = JSONObject.parseObject(jsonStr);
+
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -138,7 +138,7 @@ public class CollectInfoAction {
             temp.put("Collect_Time", collect.getCollect_time().toString());
             jsonarr.add(temp);
         }
-        String r = jsonarr.toString();
+       r = jsonarr.toString();
         PrintWriter out = response.getWriter();
         out.flush();
         out.write(r);

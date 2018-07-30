@@ -47,15 +47,14 @@ public class GetSessionUserInfoAction {
 
     @RequestMapping(value = "getSessionUserInfo", method = RequestMethod.POST)
 //  @Test
-    public void getSessionUserInfo(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
-//   String jsonStr ="{\"User_PK\":\"100003\"}";
-//      BufferedReader br = request.getReader();
-//      String str, wholeStr = "";
-//      while((str = br.readLine()) != null){
-//          wholeStr += str;
-//      }
-//      jsonStr=wholeStr;
+    public void getSessionUserInfo( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
         if (session.getAttribute("User_PK") != null) {
             Conditions conditions = new Conditions();

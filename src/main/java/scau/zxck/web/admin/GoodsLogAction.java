@@ -22,6 +22,7 @@ import scau.zxck.service.market.IGoodsLogService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -45,8 +46,14 @@ public class GoodsLogAction {
 
     @RequestMapping(value = "getAllGoodsLogPaging", method = RequestMethod.POST)
 
-    public void getAllGoodsLogPaging(String jsonStr, HttpServletResponse response) throws Exception {
-
+    public void getAllGoodsLogPaging( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject pageIanfo = JSONObject.parseObject(jsonStr);
         List list = goodsLogService.listAll();
         JSONArray jsonarr = new JSONArray();
@@ -61,7 +68,7 @@ public class GoodsLogAction {
             temp.put("GL_Time", gl.getGl_time());
             jsonarr.add(temp);
         }
-        String r = JSONArrayPaging(jsonarr, pageIanfo).toString();
+        r = JSONArrayPaging(jsonarr, pageIanfo).toString();
         PrintWriter out=response.getWriter();
         out.flush();
         out.write(r);

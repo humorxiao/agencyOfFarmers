@@ -47,16 +47,8 @@ public class UnionStaffAction {
     private HttpSession session;
 
     @RequestMapping(value = "getLikesStaffs", method = RequestMethod.POST)
-    public void getLikesStaffs(String jsonStr, HttpServletResponse response) throws Exception {
-//        BufferedReader br = request.getReader();
-//        String str, wholeStr = "";
-//        while((str = br.readLine()) != null){
-//            wholeStr += str;
-//        }
-//        jsonStr=wholeStr;
-//        HttpServletRequest request =
-//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session = request.getSession();
+    public void getLikesStaffs( HttpServletResponse response) throws Exception {
+
         String likes = request.getParameter("likes");
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         JSONArray jsonarr = new JSONArray();
@@ -121,9 +113,15 @@ public class UnionStaffAction {
 
 
     @RequestMapping(value = "addUnionStaff", method = RequestMethod.POST)
-    public void addUnionStaff(String jsonStr, HttpServletResponse response) throws Exception {
+    public void addUnionStaff( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         UnionStaff temp = new UnionStaff();
-        String r = "";
         JSONObject json = JSONObject.parseObject(jsonStr);
         temp.setStaff_name(json.get("Staff_Name").toString());
         temp.setStaff_sex((int) Integer.parseInt(json.get("Staff_Sex").toString()));
@@ -145,8 +143,14 @@ public class UnionStaffAction {
     }
 
     @RequestMapping(value = "updateUnionStaff", method = RequestMethod.POST)
-    public void updateUnionStaff(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
+    public void updateUnionStaff( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject json = JSONObject.parseObject(jsonStr);
         try {
             UnionStaff temp = (UnionStaff) unionStaffService.findOne((String) json.get("id"));
@@ -186,9 +190,15 @@ public class UnionStaffAction {
     }
 
     @RequestMapping(value = "deleteUnionStaff", method = RequestMethod.POST)
-    public void deleteUnionStaff(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject json = JSONObject.parseObject(jsonStr);
-        String r = "";
+    public void deleteUnionStaff( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+      JSONObject json = JSONObject.parseObject(jsonStr);
         String id = (String) json.get("id");
         try {
             unionStaffService.deleteUnionStaff(id);

@@ -1,5 +1,8 @@
 package scau.zxck.web.admin;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import netscape.javascript.JSObject;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -48,10 +52,20 @@ public class VcodeAction {
       out.flush();
 
     }
+
     @RequestMapping(value = "validateVCode",method = RequestMethod.POST)
     public void validateVCode(HttpServletResponse response)throws IOException{
         String r="";
-        String code=request.getParameter("code");
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+
+        System.out.println(jsonStr);
+      JSONObject data= JSON.parseObject(jsonStr);
+        String code=data.get("code").toString();
         boolean ret=code.equals((String) session.getAttribute("authcode"));
         if(ret){
             r="{\"status\":1}";

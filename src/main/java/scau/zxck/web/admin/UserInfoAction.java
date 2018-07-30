@@ -53,10 +53,17 @@ public class UserInfoAction {
   private HttpSession session;
   @RequestMapping(value = "getUserInfo", method = RequestMethod.POST)
 
-  public void getUserInfo(String jsonStr,HttpServletResponse response) throws Exception {
+  public void getUserInfo(HttpServletResponse response) throws Exception {
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
-    String r = "";
+
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
     temp.put("User_PK", userInfo.getId());
     temp.put("User_Name", userInfo.getUser_name());
@@ -74,9 +81,15 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST)
-  public void updateUserInfo(String jsonStr,HttpServletResponse response) throws Exception {
+  public void updateUserInfo(HttpServletResponse response) throws Exception {
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
-    String r = "";
     UserInfo temp = userLoginService.findById(data.get("User_PK").toString());
     data.put("user_password", temp.getUser_password());
     temp.setUser_password(data.get("User_Password").toString());
@@ -105,14 +118,14 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "getUserDeliveryAddress", method = RequestMethod.POST)
-  public void getUserDeliveryAddress(String jsonStr,HttpServletResponse response) throws Exception {
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
-    String r = "";
+  public void getUserDeliveryAddress(HttpServletResponse response) throws Exception {
+     String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     if (session.getAttribute("User_PK") != null) {
       data.put("Deliv_PK", session.getAttribute("User_PK"));
@@ -136,8 +149,14 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "updateUserDeliveryAddress", method = RequestMethod.POST)
-  public void updateUserDeliveryAddress(String jsonStr,HttpServletResponse response) throws Exception {
-    String r = "";
+  public void updateUserDeliveryAddress(HttpServletResponse response) throws Exception {
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
 //    BufferedReader br = request.getReader();
 //    String str, wholeStr = "";
@@ -207,8 +226,14 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "addUserBanned", method = RequestMethod.POST)
-  public void addUserBanned(String jsonStr,HttpServletResponse response) throws Exception {
-    String r = "";
+  public void addUserBanned(HttpServletResponse response) throws Exception {
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     data.put("User_Mark", "1");
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
@@ -240,8 +265,14 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "getBannedUserInfo", method = RequestMethod.POST)
-  public void getBannedUserInfo(String jsonStr,HttpServletResponse response) throws Exception {
-    String r = "";
+  public void getBannedUserInfo(HttpServletResponse response) throws Exception {
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     UserInfo user = userLoginService.findById(data.get("User_PK").toString());

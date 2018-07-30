@@ -48,18 +48,14 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "getUserOrderListPaging", method = RequestMethod.POST)
 //    @Test
-    public void getUserOrderListPaging(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
-//      BufferedReader br = request.getReader();
-//      String str, wholeStr = "";
-//      while((str = br.readLine()) != null){
-//          wholeStr += str;
-//      }
-//      jsonStr=wholeStr;
-//        String jsonStr = "{\"User_PK\":\"100003\",\"NumPerPage\":\"5\",\"Page\":\"2\"}";
-//    HttpServletRequest request =
-//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpSession session = request.getSession();
+    public void getUserOrderListPaging(HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject pageInfo = JSONObject.parseObject(jsonStr);
         if (session.getAttribute("User_PK") != null) {
             pageInfo.put("User_PK", (int) session.getAttribute("User_PK"));
@@ -170,17 +166,15 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "addOrder", method = RequestMethod.POST)
 //    @Test
-    public void addOrder(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
-//      String jsonStr = "{\"User_PK\":\"100003\",\"Goods_List\":\"100010#100004#\",\"Goods_Num\":\"2#3#\",\"Goods_Price\":\"5#2.5#\",\"Order_Aftersale\":\"0\",\"Order_Company\":\"韵达速递\",\"Order_ID\":\"201807181710100006\",\"Order_IsPay\":true,\"Order_No\":\"\",\"Order_PayPrice\":\"17.5\",\"Order_PayTime\":\"0001-01-01 01:01:01\",\"Order_Reserve_1\":\"13416137226;65;65;658565\",\"Order_State\":\"3\",\"Order_Time\":\"2018-07-18 16:45:09\",\"Order_Tracknum\":\"1234\",\"Order_Website\":\"http://www.yundaex.com/cn/index.php\"}";
-//        System.out.println(jsonStr);
-//    HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//      BufferedReader br = request.getReader();
-//      String str, wholeStr = "";
-//      while((str = br.readLine()) != null){
-//          wholeStr += str;
-//      }
-//      jsonStr=wholeStr;
+    public void addOrder(HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+
         HttpSession session = request.getSession();
         JSONObject data = JSONObject.parseObject(jsonStr);
         String[] goodslist = ((String) data.get("Goods_List")).split("#");
@@ -293,8 +287,14 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "updateOrder", method = RequestMethod.POST)
 //    @Test
-    public void updateOrder(String jsonStr, HttpServletResponse response) throws Exception {
-        String r = "";
+    public void updateOrder(HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject json = JSONObject.parseObject(jsonStr);
         OrderInfo temp = orderInfoService.findById(json.get("Order_PK").toString());
         temp.setUser_info_id(json.get("User_PK").toString());
@@ -330,9 +330,16 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "payOrder", method = RequestMethod.POST)
 //    @Test
-    public void payOrder(String jsonStr, HttpServletResponse response) throws Exception {
+    public void payOrder( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
-        String r = "";
+
         JSONObject temp = new JSONObject();
         Conditions conditions = new Conditions();
         List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
@@ -396,9 +403,15 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "getNoPayOrder", method = RequestMethod.POST)
 //    @Test
-    public void getNoPayOrder(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getNoPayOrder(HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject pageInfo = JSONObject.parseObject(jsonStr);
-        String r = "";
         JSONArray jsonarr = new JSONArray();
         Conditions conditions = new Conditions();
         List list = orderInfoService.list(conditions.eq("order_isPay", false));
@@ -491,7 +504,14 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "getPayedNoFinishedOrder", method = RequestMethod.POST)
 //    @Test
-    public void getPayedNoFinishedOrder(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getPayedNoFinishedOrder( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject pageInfo = JSONObject.parseObject(jsonStr);
         JSONArray jsonarr = new JSONArray();
         Conditions conditions = new Conditions();
@@ -523,7 +543,7 @@ public class OrderInfoAction {
             temp.put("Order_Reserve_1", order.getOrder_reserve_1());
             jsonarr.add(temp);
         }
-        String r = JSONArrayPaging(jsonarr, pageInfo).toString();
+        r = JSONArrayPaging(jsonarr, pageInfo).toString();
         PrintWriter out = response.getWriter();
         out.flush();
         out.write(r);
