@@ -39,7 +39,7 @@
             <div class="form-group">
               <label for="yzm" class="col-md-3 control-label">验证码</label>
               <div class="col-md-9" >
-                <input type="text" class="form-control" id="yzm" placeholder="验证码">
+                <input type="text" class="form-control" id="yzm" placeholder="验证码" v-model="inputVCode">
                 <img width="78px" :src="picturesSrc" id="img0" vspace=3>
                 <a class="btn" @click="getVCode()">换一张</a>
               </div>
@@ -64,12 +64,8 @@
 
 <script>
 import axios from 'axios'
-// import Bus from './bus.js'
 export default {
   name: 'panel',
-  mounted: function () {
-        // this.pictures.src =  '/api/getVCODE'
-  },
   data () {
     return {
       id: '',
@@ -80,19 +76,26 @@ export default {
       msg: '',
       checked: '1',
       block: '',
-      picturesSrc:'/api/getVCODE'
+      picturesSrc:'/api/getVCODE',
+      login_information: '',
+      login_VCode: '',
+      code: '',
+      inputVCode: '',
+      user_name: '',
+      admin_name: ''
     }
   },
   methods: {
     login: function () {
-      // alert(this.id)
-      // alert(this.password)
       if (this.id === '') {
         this.alertError('账号不能为空，请填写昵称或者手机号码或者邮箱号码')
       } else if (this.input_password === '') {
         this.alertError('请输入密码')
+      } else if (this.inputVCode === '') {
+        this.alertError('请输入验证码')
       } else {
        this.password = hex_md5(this.input_password);
+       this.code = {'code' : this.inputVCode}
         if (this.checked === '1') { // 用户管理员登录数据
           if (/0?(13|14|15|18|17)[0-9]{9}/.test(this.id) === true) { // 手机
             this.datas = {
@@ -150,21 +153,30 @@ export default {
           }
         }
         if (this.checked === '1' || this.checked === '2') {
-          alert(JSON.stringify(this.datas))
-           axios.post('/api/login', this.datas).then(response => {
-            alert(JSON.stringify(response.data))
+          /**
+           * 嵌套验证，先发送请求，验证验证码是否正确，再进行验证用户信息
+           */
+          axios.post('/api/validateVCode',this.code).then(response => {
+           if(response.data.status == 1) {
+             axios.post('/api/login', this.datas).then(response => {
+               if(response.data.isCorrect == true) {
+                   if(this.checked === '1') {
+                     alert('用户登录成功，用户名为'+ JSON.stringify( response.data.User_Name))
+                   } else if(this.checked === '2') {
+                     alert('管理员登录成功，用户名为' + JSON.stringify(response.data.Admin_Name))
+                   }
+                 } else {
+                 this.alertError('用户名或密码错误')
+               }
+             }).catch(function (error) {
+               console.log(error)
+             })
+           } else {
+             this.alertError('验证码错误')
+           }
           }).catch(function (error) {
             console.log(error)
           })
-          /* if (this.response.isCorrect) {
-            if (this.data.isAdmin) {
-              window.location.href = 'editinfo.html'
-            } else {
-              window.location.href = 'index.html'
-            }
-          } else {
-            this.alertError('登录账号或密码错误')
-          } */
         }
       }
     },
@@ -172,6 +184,9 @@ export default {
       this.point = '1'
       this.msg = msg
     },
+    /**
+     * 获取验证码
+     */
     getVCode: function () {
       this.picturesSrc= '/api/getVCODE?operation=getVCode&&='+Math.random()
     }
