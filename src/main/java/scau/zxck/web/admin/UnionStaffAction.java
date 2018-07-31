@@ -21,8 +21,10 @@ import scau.zxck.entity.market.UnionStaff;
 import scau.zxck.service.market.IUnionStaffService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
@@ -43,25 +45,10 @@ public class UnionStaffAction {
     private HttpServletRequest request;
     @Autowired
     private HttpSession session;
-    /**
-     * ???????
-     *
-     * @return
-     * @throws BaseException
-     */
-
 
     @RequestMapping(value = "getLikesStaffs", method = RequestMethod.POST)
-    public String getLikesStaffs(String jsonStr) throws Exception {
-        BufferedReader br = request.getReader();
-//        String str, wholeStr = "";
-//        while((str = br.readLine()) != null){
-//            wholeStr += str;
-//        }
-//        jsonStr=wholeStr;
-//        HttpServletRequest request =
-//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session = request.getSession();
+    public void getLikesStaffs( HttpServletResponse response) throws Exception {
+
         String likes = request.getParameter("likes");
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         JSONArray jsonarr = new JSONArray();
@@ -69,10 +56,9 @@ public class UnionStaffAction {
             Conditions conditions = new Conditions();
             List list = unionStaffService.list(conditions.like("staff_name", "%" + likes + "%").or()
                     .like("staff_address", "%" + likes + "%").or().like("staff_phone", "%" + likes + "%"));
-            for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
+            for (Iterator iter = ((List) list).iterator(); iter.hasNext(); ) {
                 JSONObject temp = new JSONObject();
                 UnionStaff staff = (UnionStaff) iter.next();
-
                 temp.put("Staff_PK", staff.getId());
                 temp.put("Union_PK", staff.getUnion_info_id());
                 temp.put("Staff_Name", staff.getStaff_name());
@@ -85,23 +71,21 @@ public class UnionStaffAction {
                 temp.put("Staff_Phone", staff.getStaff_phone());
                 temp.put("Staff_ID", staff.getStaff_id());
                 temp.put("Staff_Email", staff.getStaff_email());
-
                 jsonarr.add(temp);
             }
         }
         String r = jsonarr.toString();
-        return "success";
+        PrintWriter out = response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
 
     @RequestMapping(value = "getAllUnionStaff", method = RequestMethod.POST)
-    public String getAllUnionStaff() throws BaseException {
-
+    public void getAllUnionStaff(HttpServletResponse response) throws Exception {
         String r = new String();
-
         List<UnionStaff> list =
                 unionStaffService.listUnionStaff();
-        //return a List contain all UnionInfo
-        //needs to return String jsonArray contain jsonObject UnionInfo
         JSONArray jsAry = new JSONArray();
         for (UnionStaff staff : list) {
             JSONObject temp = new JSONObject();
@@ -109,30 +93,35 @@ public class UnionStaffAction {
             temp.put("Union_Info_Id", staff.getUnion_info_id());
             temp.put("Staff_Name", staff.getStaff_name());
             temp.put("Staff_Sex", staff.getStaff_sex());
-//            Date d = staff.getStaff_birthday();
-//            SimpleDateFormat m1 = new SimpleDateFormat("yyyy-MM-dd");
             temp.put("Staff_Birthday", staff.getStaff_birthday());
             temp.put("Staff_Address", staff.getStaff_address());
             temp.put("Staff_Phone", staff.getStaff_phone());
             temp.put("Staff_ID", staff.getStaff_id());
             temp.put("Staff_Email", staff.getStaff_email());
-
             jsAry.add(temp);
         }
-
         r = jsAry.toString();
-//        System.out.println(r);
-        if(jsAry!=null){
-            //System.out.println("{\"status\":1}");
-            return "{\"status\":1}";
-        }else
-            return "{\"status\":0}";
+//        if (jsAry != null) {
+//            r = "{\"status\":1}";
+//        } else
+//            r = "{\"status\":0}";
+        PrintWriter out = response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
 
 
     @RequestMapping(value = "addUnionStaff", method = RequestMethod.POST)
-    public String addUnionStaff(String jsonStr) throws BaseException {
-        UnionStaff temp =new UnionStaff();
+    public void addUnionStaff( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+        UnionStaff temp = new UnionStaff();
         JSONObject json = JSONObject.parseObject(jsonStr);
         temp.setStaff_name(json.get("Staff_Name").toString());
         temp.setStaff_sex((int) Integer.parseInt(json.get("Staff_Sex").toString()));
@@ -143,16 +132,25 @@ public class UnionStaffAction {
         temp.setStaff_email(json.get("Staff_Email").toString());
         try {
             unionStaffService.addUnionStaff(temp);
-            return"{\"status\":1}";
+            r = "{\"status\":1}";
         } catch (Exception e) {
-            return "{\"status\":0}";
+            r = "{\"status\":0}";
         }
+        PrintWriter out = response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
 
     @RequestMapping(value = "updateUnionStaff", method = RequestMethod.POST)
-    public String updateUnionStaff(String jsonStr) throws BaseException {
-
-        // String jsonStr=new String("{\"id\":\"100000\",\"Staff_Sex\":1}");
+    public void updateUnionStaff( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject json = JSONObject.parseObject(jsonStr);
         try {
             UnionStaff temp = (UnionStaff) unionStaffService.findOne((String) json.get("id"));
@@ -181,21 +179,36 @@ public class UnionStaffAction {
                 temp.setStaff_email((String) json.get("Staff_Email"));
             }
             unionStaffService.updateUnionStaff(temp);
-            return "{\"status\":1}";
-        }catch (Exception e){
-            return "{\"status\":0}";
+            r = "{\"status\":1}";
+        } catch (Exception e) {
+            r = "{\"status\":0}";
         }
+        PrintWriter out = response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
 
     @RequestMapping(value = "deleteUnionStaff", method = RequestMethod.POST)
-    public String deleteUnionStaff(String jsonStr) throws BaseException {
-        JSONObject json = JSONObject.parseObject(jsonStr);
+    public void deleteUnionStaff( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+      JSONObject json = JSONObject.parseObject(jsonStr);
         String id = (String) json.get("id");
         try {
             unionStaffService.deleteUnionStaff(id);
-            return "{\"status\":1}";//success
+            r = "{\"status\":1}";//success
         } catch (Exception e) {
-            return "{\"status\":0}";
+            r = "{\"status\":0}";
         }
+        PrintWriter out = response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
 }

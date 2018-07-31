@@ -9,6 +9,9 @@ import scau.zxck.base.exception.BaseException;
 import scau.zxck.utils.RSAManager;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 
 @Controller
 @RequestMapping("/")
@@ -16,33 +19,56 @@ public class RSAAction {
     @Autowired
     private HttpServletRequest request;
     @RequestMapping(value = "startRSAThread",method = RequestMethod.POST)
-    public String startRSAThread(String jsonStr) throws BaseException{
+    public void startRSAThread() throws BaseException{
         RSAManager rsa = RSAManager.getInstance();
        rsa.startCircleKeyThread();
-       return "success";
     }
     @RequestMapping(value = "getRSAPublicKey",method = RequestMethod.POST)
-    public String getRSAPublicKey(){
+    public void getRSAPublicKey(HttpServletResponse response) throws Exception{
        String r= RSAManager.getPublicKey();
-       return "success";
+        PrintWriter out=response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
     @RequestMapping(value = "encodeByPublicKey",method = RequestMethod.POST)
-    public String encodeByPublicKey(String jsonStr) throws Exception {
+    public void encodeByPublicKey(HttpServletResponse response) throws Exception {
         RSAManager rsa = RSAManager.getInstance();
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+
         JSONObject data=JSONObject.parseObject(jsonStr);
         String data1=(String)data.get("data");
         String publickey=(String)data.get("publickey");
-        String r=rsa.encryptByPublicKey(data1,publickey);
-        return "success";
+         r=rsa.encryptByPublicKey(data1,publickey);
+        PrintWriter out=response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
     @RequestMapping(value = "decodeByPublicKey",method = RequestMethod.POST)
-    public String decodeByPublicKey(String jsonStr)throws Exception{
+    public void decodeByPublicKey(HttpServletResponse response)throws Exception{
         RSAManager rsa = RSAManager.getInstance();
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         JSONObject data=JSONObject.parseObject(jsonStr);
         String data2=(String)data.get("data");
         String publickey=(String)data.get("publickey");
-        String r=rsa.decryptByPublicKey(data2,publickey);
-        return "success";
+        r=rsa.decryptByPublicKey(data2,publickey);
+        PrintWriter out=response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
 
 }

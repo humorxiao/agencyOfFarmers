@@ -1,5 +1,8 @@
 package scau.zxck.web.admin;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import netscape.javascript.JSObject;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +20,10 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+
 @Controller
 @RequestMapping("/")
 public class VcodeAction {
@@ -25,13 +31,8 @@ public class VcodeAction {
     private HttpServletRequest request;
     @Autowired
     private HttpSession session;
-    @RequestMapping(value = "getVCODE", method = RequestMethod.POST)
-    public String getVCODE(HttpServletResponse response) throws IOException {
-//        HttpServletResponse response =
-//                ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
-//        HttpServletRequest request =
-//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session=request.getSession();
+    @RequestMapping(value = "getVCODE", method = RequestMethod.GET)
+    public void getVCODE(HttpServletResponse response) throws IOException {
         response.setHeader("Pragma","No-cache");
         response.setHeader("Cache-Control","no-cache");
         response.setDateHeader("Expires",0);
@@ -45,21 +46,34 @@ public class VcodeAction {
             sos.flush();
             sos.close();
         }
-        return "success";
+      PrintWriter out=response.getWriter();
+      out.flush();
+      out.flush();
+
     }
+
     @RequestMapping(value = "validateVCode",method = RequestMethod.POST)
-    public String validateVCode(){
+    public void validateVCode(HttpServletResponse response)throws IOException{
         String r="";
-//        HttpServletRequest request =
-//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session=request.getSession();
-        String code=request.getParameter("code");
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+
+        System.out.println(jsonStr);
+      JSONObject data= JSON.parseObject(jsonStr);
+        String code=data.get("code").toString();
         boolean ret=code.equals((String) session.getAttribute("authcode"));
         if(ret){
             r="{\"status\":1}";
         }else{
             r="{\"status\":0}";
         }
-        return "success";
+      PrintWriter out=response.getWriter();
+      out.flush();
+      out.write(r);
+      out.flush();
     }
 }

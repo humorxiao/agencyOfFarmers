@@ -17,8 +17,10 @@ import scau.zxck.dao.market.GoodsInfoDao;
 import scau.zxck.entity.market.GoodsInfo;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,16 +29,23 @@ import java.util.List;
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration("classpath:config/spring/spring.xml")
 public class CheckLoginRankAction {
-  @Autowired
-  private HttpServletRequest request;
-  @Autowired
-  private HttpSession session;
-  @RequestMapping(value = "checkLoginRank", method = RequestMethod.POST)
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private HttpSession session;
+
+    @RequestMapping(value = "checkLoginRank", method = RequestMethod.POST)
 //  @Test
-  public String checkLoginRank(String jsonStr) throws Exception {
-//    String jsonStr = "{\"isAdmin\":true}";
-    JSONObject data = JSONObject.parseObject(jsonStr);
-    String r = "";
+    public void checkLoginRank( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+
+        JSONObject data = JSONObject.parseObject(jsonStr);
 //    BufferedReader br = request.getReader();
 //    String str, wholeStr = "";
 //    while((str = br.readLine()) != null){
@@ -46,20 +55,21 @@ public class CheckLoginRankAction {
 //    HttpServletRequest request =
 //            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 //    HttpSession session = request.getSession();
-    if (session.getAttribute("isAdmin") != null) {
-    if((boolean)session.getAttribute("isAdmin")){
+        if (session.getAttribute("isAdmin") != null) {
+            if ((boolean) session.getAttribute("isAdmin")) {
 //    if(data.get("isAdmin")!=null){
 //      if((boolean)data.get("isAdmin")){
-        r="{\"status\":2}";//管理员
-      }else{
-        r="{\"status\":1}";//用户
-      }
+                r = "{\"status\":2}";//管理员
+            } else {
+                r = "{\"status\":1}";//用户
+            }
+        } else {
+            r = "{\"status\":0}";//游客
+        }
+        PrintWriter out = response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
-    else{
-      r="{\"status\":0}";//游客
-    }
-    return "success";
-//    System.out.println(r);
-  }
 }
 

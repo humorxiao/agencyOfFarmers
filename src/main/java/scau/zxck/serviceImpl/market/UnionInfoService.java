@@ -41,6 +41,11 @@ public class UnionInfoService implements IUnionInfoService {
     }
 
     @Override
+    public void delete(Conditions conditions) throws BaseException {
+
+    }
+
+    @Override
     public String addUnionInfo(UnionInfo unionInfo) throws BaseException {
         return unionInfoDao.add(unionInfo);
     }
