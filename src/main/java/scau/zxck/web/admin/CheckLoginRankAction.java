@@ -29,47 +29,34 @@ import java.util.List;
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration("classpath:config/spring/spring.xml")
 public class CheckLoginRankAction {
-    @Autowired
-    private HttpServletRequest request;
-    @Autowired
-    private HttpSession session;
+  @Autowired
+  private HttpServletRequest request;
+  @Autowired
+  private HttpSession session;
 
-    @RequestMapping(value = "checkLoginRank", method = RequestMethod.POST)
+  @RequestMapping(value = "checkLoginRank", method = RequestMethod.POST)
 //  @Test
-    public void checkLoginRank( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-
-        JSONObject data = JSONObject.parseObject(jsonStr);
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
-//    HttpServletRequest request =
-//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpSession session = request.getSession();
-        if (session.getAttribute("isAdmin") != null) {
-            if ((boolean) session.getAttribute("isAdmin")) {
+  public void checkLoginRank(HttpServletResponse response) throws Exception {
+    JSONObject r = new JSONObject();
+    //  String r="";
+    if (session.getAttribute("isAdmin") != null) {
+      if ((boolean) session.getAttribute("isAdmin")) {
 //    if(data.get("isAdmin")!=null){
 //      if((boolean)data.get("isAdmin")){
-                r = "{\"status\":2}";//管理员
-            } else {
-                r = "{\"status\":1}";//用户
-            }
-        } else {
-            r = "{\"status\":0}";//游客
-        }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
-    }
-}
+        r.put("status", 2);//管理员
+        r.put("Admin_PK", session.getAttribute("Admin_PK"));
+      } else {
+        r.put("status", 1);
+        r.put("User_PK", session.getAttribute("User_PK"));//用户
+      }
+    } else {
+      r.put("status", 0);//游客
 
+    }
+    System.out.println(r.toJSONString());
+    PrintWriter out = response.getWriter();
+    out.flush();
+    out.write(r.toJSONString());
+    out.flush();
+  }
+}

@@ -85,11 +85,11 @@ public class LoginAction {
 
     } else {
       Conditions conditions = new Conditions();
-      List list = null;
-      list = userLoginService.list(conditions.eq("user_name", data.get("User_Name").toString()).or()
-        .eq("user_cell", data.get("User_Cell").toString()).or()
-        .eq("user_email", data.get("User_Email").toString()).and()
-        .eq("user_password", data.get("User_Password").toString()));
+      List list =
+        userLoginService.list(conditions.eq("user_password", data.get("User_Password")).and().leftBracket()
+          .eq("user_cell", data.get("User_Cell")).or()
+          .eq("user_email", data.get("User_Email")).or()
+          .eq("user_name", data.get("User_Name")).rightBracket());
       if (list.isEmpty()) {
         temp.put("isCorrect", false);
       } else {
