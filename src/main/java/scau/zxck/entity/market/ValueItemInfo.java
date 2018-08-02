@@ -4,7 +4,6 @@ import scau.zxck.base.dao.annotation.Column;
 import scau.zxck.base.dao.annotation.Table;
 import scau.zxck.base.dao.entity.Unique;
 import scau.zxck.entity.sys.SystemUserInfo;
-import sun.rmi.rmic.iiop.ValueType;
 
 @Table(name = "valueitem_info")
 public class ValueItemInfo extends Unique {
@@ -22,13 +21,25 @@ public class ValueItemInfo extends Unique {
     private String system_user_info_id;
     private SystemUserInfo user;
     private NodeInfo node;
-    private ValueType type;
+    private TypeInfo type;
 
-    public ValueType getType() {
+    public ValueItemInfo(String note, String recordingtime, String value, String node_info_id, String type_info_id, String system_user_info_id) {
+        this.note = note;
+        this.recordingtime = recordingtime;
+        this.value = value;
+        this.node_info_id = node_info_id;
+        this.type_info_id = type_info_id;
+        this.system_user_info_id = system_user_info_id;
+    }
+
+    public ValueItemInfo() {
+    }
+
+    public TypeInfo getType() {
         return type;
     }
 
-    public void setType(ValueType type) {
+    public void setType(TypeInfo type) {
         this.type = type;
     }
 

@@ -18,6 +18,7 @@ import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.ISignInLogService;
 import scau.zxck.service.sys.IAdminLoginService;
 import scau.zxck.service.sys.IUserLoginService;
+import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,9 +46,9 @@ public class LoginAction {
     private HttpSession session;
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public void login(String jsonStr, HttpServletResponse response) throws Exception {
+    public void login( HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data = JSON.parseObject(jsonStr);
+        JSONObject data=ReadJSON.readJSONStr(request);
         JSONObject temp = new JSONObject();
         if ((boolean) data.get("isAdmin")) {
             Conditions conditions = new Conditions();

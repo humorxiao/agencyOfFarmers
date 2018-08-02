@@ -26,8 +26,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration("classpath:config/spring/spring.xml")
 public class CheckLoginRankAction {
     @Autowired
     private HttpServletRequest request;
@@ -37,22 +35,10 @@ public class CheckLoginRankAction {
     @RequestMapping(value = "checkLoginRank", method = RequestMethod.POST)
 //  @Test
     public void checkLoginRank(String jsonStr, HttpServletResponse response) throws Exception {
-//    String jsonStr = "{\"isAdmin\":true}";
         JSONObject data = JSONObject.parseObject(jsonStr);
         String r = "";
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
-//    HttpServletRequest request =
-//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpSession session = request.getSession();
         if (session.getAttribute("isAdmin") != null) {
             if ((boolean) session.getAttribute("isAdmin")) {
-//    if(data.get("isAdmin")!=null){
-//      if((boolean)data.get("isAdmin")){
                 r = "{\"status\":2}";//管理员
             } else {
                 r = "{\"status\":1}";//用户

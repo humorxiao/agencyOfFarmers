@@ -23,6 +23,7 @@ import scau.zxck.entity.market.DeliveryAddress;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IDeliveryAddressService;
 import scau.zxck.service.sys.IUserLoginService;
+import scau.zxck.utils.ReadJSON;
 //import sun.security.krb5.EncryptedData;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,8 +54,8 @@ public class UserInfoAction {
   private HttpSession session;
   @RequestMapping(value = "getUserInfo", method = RequestMethod.POST)
 
-  public void getUserInfo(String jsonStr,HttpServletResponse response) throws Exception {
-    JSONObject data = JSONObject.parseObject(jsonStr);
+  public void getUserInfo(HttpServletResponse response) throws Exception {
+    JSONObject data=ReadJSON.readJSONStr(request);
     JSONObject temp = new JSONObject();
     String r = "";
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
@@ -74,8 +75,8 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST)
-  public void updateUserInfo(String jsonStr,HttpServletResponse response) throws Exception {
-    JSONObject data = JSONObject.parseObject(jsonStr);
+  public void updateUserInfo(HttpServletResponse response) throws Exception {
+    JSONObject data=ReadJSON.readJSONStr(request);
     String r = "";
     UserInfo temp = userLoginService.findById(data.get("User_PK").toString());
     data.put("user_password", temp.getUser_password());
@@ -105,15 +106,9 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "getUserDeliveryAddress", method = RequestMethod.POST)
-  public void getUserDeliveryAddress(String jsonStr,HttpServletResponse response) throws Exception {
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
+  public void getUserDeliveryAddress(HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject data = JSONObject.parseObject(jsonStr);
+    JSONObject data=ReadJSON.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
       data.put("Deliv_PK", session.getAttribute("User_PK"));
       data.put("User_PK", session.getAttribute("User_PK"));
@@ -136,18 +131,9 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "updateUserDeliveryAddress", method = RequestMethod.POST)
-  public void updateUserDeliveryAddress(String jsonStr,HttpServletResponse response) throws Exception {
+  public void updateUserDeliveryAddress(HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject data = JSONObject.parseObject(jsonStr);
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
-//    HttpServletRequest request =
-//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpSession session = request.getSession();
+    JSONObject data=ReadJSON.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
       data.put("Deliv_PK", (int) session.getAttribute("User_PK"));
       data.put("User_PK", (int) session.getAttribute("User_PK"));
@@ -174,9 +160,9 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "removeBannedUser", method = RequestMethod.POST)
-  public void removeBannedUser(String jsonStr,HttpServletResponse response) throws Exception {
+  public void removeBannedUser(HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject data = JSONObject.parseObject(jsonStr);
+    JSONObject data=ReadJSON.readJSONStr(request);
     data.put("User_Mark", "");
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
     data.put("User_Password", userInfo.getUser_password());
@@ -207,9 +193,9 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "addUserBanned", method = RequestMethod.POST)
-  public void addUserBanned(String jsonStr,HttpServletResponse response) throws Exception {
+  public void addUserBanned(HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject data = JSONObject.parseObject(jsonStr);
+    JSONObject data=ReadJSON.readJSONStr(request);
     data.put("User_Mark", "1");
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
     data.put("User_Password", userInfo.getUser_password());
@@ -240,9 +226,9 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "getBannedUserInfo", method = RequestMethod.POST)
-  public void getBannedUserInfo(String jsonStr,HttpServletResponse response) throws Exception {
+  public void getBannedUserInfo(HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject data = JSONObject.parseObject(jsonStr);
+    JSONObject data=ReadJSON.readJSONStr(request);
     JSONObject temp = new JSONObject();
     UserInfo user = userLoginService.findById(data.get("User_PK").toString());
     temp.put("User_PK", user.getId());
@@ -261,17 +247,9 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "getLikesUser", method = RequestMethod.POST)
-  public void getLikesUser(HttpServletResponse response) throws BaseException, UnsupportedEncodingException,IOException {
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
-//    HttpServletRequest request =
-//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpSession session = request.getSession();
-    String likes = request.getParameter("likes");
+  public void getLikesUser(HttpServletResponse response) throws Exception, UnsupportedEncodingException,IOException {
+    JSONObject data=ReadJSON.readJSONStr(request);
+    String likes=data.get("likes").toString();
     likes = java.net.URLDecoder.decode(likes, "utf-8");
       JSONArray jsonarr = new JSONArray();
     if (likes != null) {

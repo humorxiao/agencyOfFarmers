@@ -29,7 +29,7 @@ public class NodeAction {
     public void addNode(HttpServletResponse response) throws Exception {
         String jsonStr;
         String r = "";
-        JSONObject data = ReadJSON.readJSONStr();
+        JSONObject data = ReadJSON.readJSONStr(request);
         String nodepk = data.get("nodepk").toString();
         double longitude = Double.valueOf(data.get("longitude").toString());
         double latitude = Double.valueOf(data.get("latitude").toString());
@@ -86,7 +86,7 @@ public class NodeAction {
     public void deleteNode(HttpServletResponse response)throws Exception{
         String r = "{\"status\":\"\",\"msg\":\"\"}";//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data=ReadJSON.readJSONStr();
+        JSONObject data=ReadJSON.readJSONStr(request);
         String nodeid=data.get("nodeid").toString();
         nodeInfoService.deleteByIds(nodeid);
         r = "{\"status\":\"1\",\"msg\":\"删除结点成功\"}";
@@ -99,7 +99,7 @@ public class NodeAction {
     public void getNode(HttpServletResponse response) throws Exception{
         StringBuffer r = new StringBuffer();//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data=ReadJSON.readJSONStr();
+        JSONObject data=ReadJSON.readJSONStr(request);
         String nodeid=data.get("nodeid").toString();
         NodeInfo n=nodeInfoService.findById(nodeid);
         if(n!=null){

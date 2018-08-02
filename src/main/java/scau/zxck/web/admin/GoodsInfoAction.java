@@ -19,6 +19,7 @@ import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.*;
 import scau.zxck.service.market.*;
+import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,8 +32,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-// @RunWith(SpringJUnit4ClassRunner.class)
-// @ContextConfiguration(locations = {"classpath:config/spring/spring.xml","classpath:config/spring/web/spring-mvc.xml"})
 public class GoodsInfoAction {
     @Autowired
     private IGoodsInfoService goodsInfoService;
@@ -50,8 +49,8 @@ public class GoodsInfoAction {
     private HttpSession session;
 
     @RequestMapping(value = "getOneGood", method = RequestMethod.POST)
-    public void getOneGood(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject data = JSONObject.parseObject(jsonStr);
+    public void getOneGood( HttpServletResponse response) throws Exception {
+        JSONObject data=ReadJSON.readJSONStr(request);
         String r = "";
         GoodsInfo goods = goodsInfoService.findById(data.get("Goods_PK").toString());
         JSONObject temp = new JSONObject();
@@ -78,9 +77,9 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "getAllTypeGoods", method = RequestMethod.POST)
-    public void getAllTypesGoods(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getAllTypesGoods( HttpServletResponse response) throws Exception {
         long startTime = System.currentTimeMillis();
-        JSONObject data = JSONObject.parseObject(jsonStr);
+        JSONObject data=ReadJSON.readJSONStr(request);
         JSONArray jsonarr1 = new JSONArray();
         String r = "";
         for (int i = 1; i <= 6; i++) {
@@ -118,9 +117,9 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "getTypeGoods", method = RequestMethod.POST)
-    public void getTypeGoods(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getTypeGoods( HttpServletResponse response) throws Exception {
         long startTime = System.currentTimeMillis();
-        JSONObject data = JSONObject.parseObject(jsonStr);
+        JSONObject data=ReadJSON.readJSONStr(request);
         String r = "";
         Conditions conditions = new Conditions();
         List list =
@@ -156,6 +155,8 @@ public class GoodsInfoAction {
         String r = "";
         Conditions conditions = new Conditions();
         List list = goodsInfoService.list(conditions.eq("goods_show", '1'));
+        long endtime1=System.currentTimeMillis();
+        System.out.println("Running time: " + (endtime1 - starttime) + "ms");
         JSONArray jsonArray = new JSONArray();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             JSONObject temp = new JSONObject();
@@ -215,7 +216,7 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "getAllGoods", method = RequestMethod.POST)
-    public void getAllGoods(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getAllGoods( HttpServletResponse response) throws Exception {
         JSONArray jsonarr = new JSONArray();
         List list = goodsInfoService.listAll();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
@@ -246,23 +247,23 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "addGoods", method = RequestMethod.POST)
-    public void addGoods(String jsonStr, HttpServletResponse response) throws Exception {
+    public void addGoods( HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject json = JSONObject.parseObject(jsonStr);
+        JSONObject data=ReadJSON.readJSONStr(request);
         GoodsInfo temp = new GoodsInfo();
-        temp.setGoods_name(json.get("Goods_Name").toString());
-        temp.setGoods_type((int) Integer.parseInt(json.get("Goods_Type").toString()));
-        temp.setGoods_num((int) Integer.parseInt(json.get("Goods_Num").toString()));
-        temp.setGoods_price((float) Float.parseFloat(json.get("Goods_Price").toString()));
-        temp.setGoods_mark(json.get("Goods_Mark").toString().charAt(0));
-        temp.setGoods_show(json.get("Goods_Show").toString().charAt(0));
-        temp.setGoods_picture(json.get("Goods_Picture").toString());
-        temp.setGoods_season((int) Integer.parseInt(json.get("Goods_Season").toString()));
-        temp.setGoods_blossom(json.get("Goods_Blossom").toString());
-        temp.setGoods_fruit(json.get("Goods_Fruit").toString());
-        temp.setGoods_mature(json.get("Goods_Mature").toString());
-        temp.setGoods_expiration(json.get("Goods_Expiration").toString());
-        temp.setGoods_expiration(json.get("Goods_Reserve_1").toString());
+        temp.setGoods_name(data.get("Goods_Name").toString());
+        temp.setGoods_type((int) Integer.parseInt(data.get("Goods_Type").toString()));
+        temp.setGoods_num((int) Integer.parseInt(data.get("Goods_Num").toString()));
+        temp.setGoods_price((float) Float.parseFloat(data.get("Goods_Price").toString()));
+        temp.setGoods_mark(data.get("Goods_Mark").toString().charAt(0));
+        temp.setGoods_show(data.get("Goods_Show").toString().charAt(0));
+        temp.setGoods_picture(data.get("Goods_Picture").toString());
+        temp.setGoods_season((int) Integer.parseInt(data.get("Goods_Season").toString()));
+        temp.setGoods_blossom(data.get("Goods_Blossom").toString());
+        temp.setGoods_fruit(data.get("Goods_Fruit").toString());
+        temp.setGoods_mature(data.get("Goods_Mature").toString());
+        temp.setGoods_expiration(data.get("Goods_Expiration").toString());
+        temp.setGoods_expiration(data.get("Goods_Reserve_1").toString());
         try {
             goodsInfoService.add(temp);
             r = "{\"status\":1}";
@@ -277,23 +278,23 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "updateGoodsInfo", method = RequestMethod.POST)
-    public void updateGoodsInfo(String jsonStr, HttpServletResponse response) throws Exception {
+    public void updateGoodsInfo( HttpServletResponse response) throws Exception {
 
         String r = "";
-        JSONObject json = JSONObject.parseObject(jsonStr);
-        GoodsInfo temp = goodsInfoService.findById(json.get("Goods_PK").toString());
-        temp.setGoods_name(json.get("Goods_Name").toString());
-        temp.setGoods_type((int) Integer.parseInt(json.get("Goods_Type").toString()));
-        temp.setGoods_num((int) Integer.parseInt(json.get("Goods_Num").toString()));
-        temp.setGoods_price((float) Float.parseFloat(json.get("Goods_Price").toString()));
-        temp.setGoods_mark(json.get("Goods_Mark").toString().charAt(0));
-        temp.setGoods_show(json.get("Goods_Show").toString().charAt(0));
-        temp.setGoods_picture(json.get("Goods_Picture").toString());
-        temp.setGoods_season((int) Integer.parseInt(json.get("Goods_Season").toString()));
-        temp.setGoods_blossom(json.get("Goods_Blossom").toString());
-        temp.setGoods_fruit(json.get("Goods_Fruit").toString());
-        temp.setGoods_mature(json.get("Goods_Mature").toString());
-        temp.setGoods_expiration(json.get("Goods_Expiration").toString());
+        JSONObject data=ReadJSON.readJSONStr(request);
+        GoodsInfo temp = goodsInfoService.findById(data.get("Goods_PK").toString());
+        temp.setGoods_name(data.get("Goods_Name").toString());
+        temp.setGoods_type((int) Integer.parseInt(data.get("Goods_Type").toString()));
+        temp.setGoods_num((int) Integer.parseInt(data.get("Goods_Num").toString()));
+        temp.setGoods_price((float) Float.parseFloat(data.get("Goods_Price").toString()));
+        temp.setGoods_mark(data.get("Goods_Mark").toString().charAt(0));
+        temp.setGoods_show(data.get("Goods_Show").toString().charAt(0));
+        temp.setGoods_picture(data.get("Goods_Picture").toString());
+        temp.setGoods_season((int) Integer.parseInt(data.get("Goods_Season").toString()));
+        temp.setGoods_blossom(data.get("Goods_Blossom").toString());
+        temp.setGoods_fruit(data.get("Goods_Fruit").toString());
+        temp.setGoods_mature(data.get("Goods_Mature").toString());
+        temp.setGoods_expiration(data.get("Goods_Expiration").toString());
         try {
             goodsInfoService.updateById(temp);
             r = "{\"status\":1}";
@@ -308,22 +309,22 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "deleteGoodsInfo", method = RequestMethod.POST)
-    public void deleteGoodsInfo(String jsonStr, HttpServletResponse response) throws Exception {
+    public void deleteGoodsInfo( HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject json = JSONObject.parseObject(jsonStr);
-        GoodsInfo temp = goodsInfoService.findById(json.get("Goods_PK").toString());
-        temp.setGoods_name(json.get("Goods_Name").toString());
-        temp.setGoods_type((int) Integer.parseInt(json.get("Goods_Type").toString()));
-        temp.setGoods_num((int) Integer.parseInt(json.get("Goods_Num").toString()));
-        temp.setGoods_price((float) Float.parseFloat(json.get("Goods_Price").toString()));
-        temp.setGoods_mark(json.get("Goods_Mark").toString().charAt(0));
-        temp.setGoods_show(json.get("Goods_Show").toString().charAt(0));
-        temp.setGoods_picture(json.get("Goods_Picture").toString());
-        temp.setGoods_season((int) Integer.parseInt(json.get("Goods_Season").toString()));
-        temp.setGoods_blossom(json.get("Goods_Blossom").toString());
-        temp.setGoods_fruit(json.get("Goods_Fruit").toString());
-        temp.setGoods_mature(json.get("Goods_Mature").toString());
-        temp.setGoods_expiration(json.get("Goods_Expiration").toString());
+        JSONObject data=ReadJSON.readJSONStr(request);
+        GoodsInfo temp = goodsInfoService.findById(data.get("Goods_PK").toString());
+        temp.setGoods_name(data.get("Goods_Name").toString());
+        temp.setGoods_type((int) Integer.parseInt(data.get("Goods_Type").toString()));
+        temp.setGoods_num((int) Integer.parseInt(data.get("Goods_Num").toString()));
+        temp.setGoods_price((float) Float.parseFloat(data.get("Goods_Price").toString()));
+        temp.setGoods_mark(data.get("Goods_Mark").toString().charAt(0));
+        temp.setGoods_show(data.get("Goods_Show").toString().charAt(0));
+        temp.setGoods_picture(data.get("Goods_Picture").toString());
+        temp.setGoods_season((int) Integer.parseInt(data.get("Goods_Season").toString()));
+        temp.setGoods_blossom(data.get("Goods_Blossom").toString());
+        temp.setGoods_fruit(data.get("Goods_Fruit").toString());
+        temp.setGoods_mature(data.get("Goods_Mature").toString());
+        temp.setGoods_expiration(data.get("Goods_Expiration").toString());
         try {
             goodsInfoService.updateById(temp);
             r = "{\"status\":1}";
@@ -338,18 +339,9 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "getLikesGoods", method = RequestMethod.POST)
-    public void getLikesAction(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject data = JSONObject.parseObject(jsonStr);
+    public void getLikesAction( HttpServletResponse response) throws Exception {
+        JSONObject data=ReadJSON.readJSONStr(request);
         String r = "";
-        // BufferedReader br = request.getReader();
-        // String str, wholeStr = "";
-        // while((str = br.readLine()) != null){
-        // wholeStr += str;
-        // }
-        // jsonStr=wholeStr;
-        // HttpServletRequest request =
-        // ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        // HttpSession session = request.getSession();
         String likes = request.getParameter("likes");
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         Conditions conditions = new Conditions();
@@ -380,8 +372,8 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "guessYouLike", method = RequestMethod.POST)
-    public void guessYouLike(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject data = JSONObject.parseObject(jsonStr);
+    public void guessYouLike( HttpServletResponse response) throws Exception {
+        JSONObject data=ReadJSON.readJSONStr(request);
         JSONArray jsonArray = new JSONArray();
         String r = "";
         Conditions conditions = new Conditions();
@@ -434,9 +426,9 @@ public class GoodsInfoAction {
 
     @Test
     @RequestMapping(value = "recentlyPerchase", method = RequestMethod.POST)
-    public void recentlyPerchase(String jsonStr, HttpServletResponse response) throws Exception {
+    public void recentlyPerchase( HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data = JSONObject.parseObject(jsonStr);
+        JSONObject data=ReadJSON.readJSONStr(request);
         Conditions conditions = new Conditions();
         List list = orderInfoService.list(conditions.eq("user_info_id", data.get("User_PK").toString()).and().eq("order_isPay", 1));
         ArrayList<String> arrayList = new ArrayList<>();
@@ -490,8 +482,8 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "chooseSixSpecialGoods", method = RequestMethod.POST)
-    public void chooseSixSpecialGoods(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject data = JSONObject.parseObject(jsonStr);
+    public void chooseSixSpecialGoods( HttpServletResponse response) throws Exception {
+        JSONObject data=ReadJSON.readJSONStr(request);
         Conditions conditions = new Conditions();
         List list = goodsInfoService.list(conditions.eq("goods_show", '1'));
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
@@ -508,8 +500,8 @@ public class GoodsInfoAction {
     }
 
     @RequestMapping(value = "chooseSixDiscountGoods", method = RequestMethod.POST)
-    public void getSixDiscountGoods(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject data = JSONObject.parseObject(jsonStr);
+    public void getSixDiscountGoods(HttpServletResponse response) throws Exception {
+        JSONObject data=ReadJSON.readJSONStr(request);
         Conditions conditions = new Conditions();
         List list = goodsInfoService.list(conditions.eq("goods_show", '2'));
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {

@@ -11,6 +11,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.dao.market.GoodsInfoDao;
 import scau.zxck.entity.market.GoodsInfo;
+import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,17 +28,8 @@ public class OutAction {
   @Autowired
   private HttpSession session;
   @RequestMapping(value = "out", method = RequestMethod.POST)
-  public void OutAction(String jsonStr) throws Exception {
-    JSONObject data = JSONObject.parseObject(jsonStr);
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
-//    HttpServletRequest request =
-//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpSession session = request.getSession();
+  public void OutAction() throws Exception {
+    JSONObject data=ReadJSON.readJSONStr(request);
     if(session.getAttribute("isAdmin")!=null){
       if((boolean)session.getAttribute("isAdmin")){
         session.removeAttribute("Admin_PK");
