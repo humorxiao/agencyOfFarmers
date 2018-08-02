@@ -26,14 +26,93 @@ CREATE TABLE `admin_info` (
   `admin_email` varchar(30) DEFAULT NULL,
   `remark` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 COMMENT='管理员账户';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员账户';
 
 -- ----------------------------
 -- Records of admin_info
 -- ----------------------------
 INSERT INTO `admin_info` VALUES ('100', '25d55ad283aa400af464c76d713c07ad', '林天真', '15918746467', '15918746467@139.com', null);
 INSERT INTO `admin_info` VALUES ('101', '25d55ad283aa400af464c76d713c07ad', 'default', '1', '1', '');
-INSERT INTO `admin_info` VALUES ('102', '0122101542565455442', '', '', '', null);
+INSERT INTO `admin_info` VALUES ('102', '0', '0', '0', '0', '0');
+-- ----------------------------
+-- Table structure for system_user_info
+-- ----------------------------
+DROP TABLE IF EXISTS `system_user_info`;
+CREATE TABLE `system_user_info` (
+  `id` varchar (255) NOT NULL ,
+  `system_user_password` varchar(32) NOT NULL,
+  `system_user_name` varchar(10) NOT NULL,
+  `remark` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='农民账户';
+
+-- ----------------------------
+-- Records of system_user_info
+-- ----------------------------
+INSERT INTO `system_user_info` VALUES ('100', '25d55ad283aa400af464c76d713c07ad', '陈永铭', null);
+INSERT INTO `system_user_info` VALUES ('101', '25d55ad283aa400af464c76d713c07ad', '邓仁莞', null);
+INSERT INTO `system_user_info` VALUES ('102', '25d55ad283aa400af464c76d713c07ad', '王庆鹏', null);
+INSERT INTO `system_user_info` VALUES ('103', '25d55ad283aa400af464c76d713c07ad', '杨华旭', null);
+
+-- ----------------------------
+-- Table structure for system_user_log
+-- ----------------------------
+DROP TABLE IF EXISTS `system_user_log`;
+CREATE TABLE `system_user_log` (
+  `id` varchar(255) NOT NULL,
+  `leave_time` datetime DEFAULT NULL,
+  `login_time` datetime DEFAULT NULL,
+  `system_user_info_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_spxb9u1qxoxhy5nfdtpnvrvr8` (`system_user_info_id`),
+  CONSTRAINT `FK_spxb9u1qxoxhy5nfdtpnvrvr8` FOREIGN KEY (`system_user_info_id`) REFERENCES `system_user_info` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for node
+-- ----------------------------
+DROP TABLE IF EXISTS `node_info`;
+CREATE TABLE `node_info` (
+  `id` varchar(255) NOT NULL,
+  `east_west` varchar(255) DEFAULT NULL,
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
+  `nodeName` varchar(255) DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `south_north` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for type
+-- ----------------------------
+DROP TABLE IF EXISTS `type_info`;
+CREATE TABLE `type_info` (
+  `id` varchar(255) NOT NULL,
+  `type_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for valueitem
+-- ----------------------------
+DROP TABLE IF EXISTS `valueitem_info`;
+CREATE TABLE `valueitem_info` (
+  `id` varchar(255) NOT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `recordingtime` datetime DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `node_info_id` varchar(255) DEFAULT NULL,
+  `type_info_id` varchar(255) DEFAULT NULL,
+  `system_user_info_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_1p1c99wdl72m4t52g4l07okqs` (`type_info_id`),
+  KEY `FK_ebjr3b7d8nnjnhhbv94m3h5hd` (`node_info_id`),
+  KEY `FK_md4tuu7ggayjxwrh5x0y4dhn6` (`system_user_info_id`),
+  CONSTRAINT `FK_1p1c99wdl72m4t52g4l07okqs` FOREIGN KEY (`type_info_id`) REFERENCES `type_info` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ebjr3b7d8nnjnhhbv94m3h5hd` FOREIGN KEY (`node_info_id`) REFERENCES `node_info` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_md4tuu7ggayjxwrh5x0y4dhn6` FOREIGN KEY (`system_user_info_id`) REFERENCES `system_user_info` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cart_info
@@ -115,7 +194,7 @@ CREATE TABLE `goods_info` (
   `goods_reserve_2` text,
   `remark` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100032 DEFAULT CHARSET=utf8 COMMENT='商品的相关信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品的相关信息';
 
 -- ----------------------------
 -- Records of goods_info
@@ -170,7 +249,7 @@ CREATE TABLE `goods_log` (
   PRIMARY KEY (`id`),
   KEY `FK_Goods_NumLog` (`goods_info_id`),
   CONSTRAINT `FK_Goods_NumLog` FOREIGN KEY (`goods_info_id`) REFERENCES `goods_info` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100063 DEFAULT CHARSET=utf8 COMMENT='商品的进货，出售，存储量的记录。供管理员统计，记录。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品的进货，出售，存储量的记录。供管理员统计，记录。';
 
 -- ----------------------------
 -- Records of goods_log
@@ -267,7 +346,7 @@ CREATE TABLE `order_info` (
   UNIQUE KEY `AK_Key_2` (`order_id`),
   KEY `FK_User_Order` (`user_info_id`),
   CONSTRAINT `FK_User_Order` FOREIGN KEY (`user_info_id`) REFERENCES `user_info` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100066 DEFAULT CHARSET=utf8 COMMENT='订单日志。供用户查询，管理员查询及管理，统计等。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单日志。供用户查询，管理员查询及管理，统计等。';
 
 -- ----------------------------
 -- Records of order_info
@@ -335,7 +414,7 @@ CREATE TABLE `sign_in_log` (
   KEY `FK_admin_login` (`admin_info_id`),
   CONSTRAINT `FK_admin_login` FOREIGN KEY (`admin_info_id`) REFERENCES `admin_info` (`id`),
   CONSTRAINT `FK_User_login` FOREIGN KEY (`user_info_id`) REFERENCES `user_info` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100055 DEFAULT CHARSET=utf8 COMMENT='系统的用户登录日志。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统的用户登录日志。';
 
 -- ----------------------------
 -- Records of sign_in_log
@@ -415,7 +494,7 @@ CREATE TABLE `union_goods_info` (
   KEY `FK_Goods_Union_Relation_2` (`union_info_id`),
   CONSTRAINT `FK_Goods_Union_Relation_1` FOREIGN KEY (`goods_info_id`) REFERENCES `goods_info` (`id`),
   CONSTRAINT `FK_Goods_Union_Relation_2` FOREIGN KEY (`union_info_id`) REFERENCES `union_info` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100034 DEFAULT CHARSET=utf8 COMMENT='记录每家合作社所生产的商品信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='记录每家合作社所生产的商品信息';
 
 -- ----------------------------
 -- Records of union_goods_info
@@ -473,7 +552,7 @@ CREATE TABLE `union_info` (
   `union_mark` varchar(1) DEFAULT NULL,
   `remark` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100040 DEFAULT CHARSET=utf8 COMMENT='记录合作社的相关信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='记录合作社的相关信息';
 
 -- ----------------------------
 -- Records of union_info
@@ -531,7 +610,7 @@ CREATE TABLE `union_news` (
   `news_mark` int(11) DEFAULT NULL,
   `remark` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of union_news
@@ -557,7 +636,7 @@ CREATE TABLE `union_staff` (
   PRIMARY KEY (`id`),
   KEY `FK_Union_Staff_Relationship` (`union_info_id`),
   CONSTRAINT `FK_Union_Staff_Relationship` FOREIGN KEY (`union_info_id`) REFERENCES `union_info` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100040 DEFAULT CHARSET=utf8 COMMENT='记录各合作社员工个人信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='记录各合作社员工个人信息';
 
 -- ----------------------------
 -- Records of union_staff
@@ -620,7 +699,7 @@ CREATE TABLE `user_collection` (
   KEY `FK_User_Collection` (`user_info_id`),
   CONSTRAINT `FK_Collection_Goods` FOREIGN KEY (`goods_info_id`) REFERENCES `goods_info` (`id`),
   CONSTRAINT `FK_User_Collection` FOREIGN KEY (`user_info_id`) REFERENCES `user_info` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100007 DEFAULT CHARSET=utf8 COMMENT='用户对商品的收藏';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户对商品的收藏';
 
 -- ----------------------------
 -- Records of user_collection
@@ -650,7 +729,7 @@ CREATE TABLE `user_comments` (
   KEY `FK_User_Comment` (`user_info_id`),
   CONSTRAINT `FK_Goods_Comment` FOREIGN KEY (`goods_info_id`) REFERENCES `goods_info` (`id`),
   CONSTRAINT `FK_User_Comment` FOREIGN KEY (`user_info_id`) REFERENCES `user_info` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100003 DEFAULT CHARSET=utf8 COMMENT='用户对某一商品的评价。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户对某一商品的评价。';
 
 -- ----------------------------
 -- Records of user_comments
@@ -680,7 +759,7 @@ CREATE TABLE `user_info` (
   UNIQUE KEY `UNQ_User_user_cell` (`user_cell`),
   UNIQUE KEY `UNQ_User_user_email` (`user_email`),
   UNIQUE KEY `UNQ_User_user_ID` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100019 DEFAULT CHARSET=utf8 COMMENT='注册用户信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='注册用户信息';
 
 -- ----------------------------
 -- Records of user_info
