@@ -6,6 +6,7 @@ import scau.zxck.base.dao.entity.Unique;
 
 @Table(name = "goods_info")
 public class GoodsInfo extends Unique {
+    private String Goods_PK;
   @Column(name = "goods_name")
   private String goods_name;
   @Column(name = "goods_type")
@@ -37,28 +38,28 @@ public class GoodsInfo extends Unique {
   @Column(name = "remark")
   private String remark;
 
-  public GoodsInfo() {
-  }
 
-  public GoodsInfo(String goods_name, int goods_type, int goods_num, float goods_price, char goods_mark, char goods_show, String goods_picture, int goods_season, String goods_blossom, String goods_fruit, String goods_mature, String goods_expiration, String goods_reserve_1, String goods_reserve_2, String remark) {
-    this.goods_name = goods_name;
-    this.goods_type = goods_type;
-    this.goods_num = goods_num;
-    this.goods_price = goods_price;
-    this.goods_mark = goods_mark;
-    this.goods_show = goods_show;
-    this.goods_picture = goods_picture;
-    this.goods_season = goods_season;
-    this.goods_blossom = goods_blossom;
-    this.goods_fruit = goods_fruit;
-    this.goods_mature = goods_mature;
-    this.goods_expiration = goods_expiration;
-    this.goods_reserve_1 = goods_reserve_1;
-    this.goods_reserve_2 = goods_reserve_2;
-    this.remark = remark;
-  }
 
-  public String getGoods_name() {
+    public String getGoods_PK() {
+        return Goods_PK;
+    }
+
+    public void setGoods_PK(String goods_PK) {
+        this.Goods_PK = goods_PK;
+    }
+
+    public GoodsInfo(String Goods_PK) {
+        this.Goods_PK = Goods_PK;
+    }
+//
+//    public GoodsInfo(String goods_name) {
+//        this.goods_name = goods_name;
+//    }
+
+    public GoodsInfo() {
+    }
+
+   public String getGoods_name() {
     return goods_name;
   }
 
@@ -66,15 +67,15 @@ public class GoodsInfo extends Unique {
     this.goods_name = goods_name;
   }
 
-  public int getGoods_type() {
-    return goods_type;
-  }
+    public int getGoods_type() {
+        return goods_type;
+    }
 
-  public void setGoods_type(int goods_type) {
-    this.goods_type = goods_type;
-  }
+    public void setGoods_type(int goods_type) {
+        this.goods_type = goods_type;
+    }
 
-  public int getGoods_num() {
+    public int getGoods_num() {
     return goods_num;
   }
 
@@ -177,5 +178,6 @@ public class GoodsInfo extends Unique {
   public void setRemark(String remark) {
     this.remark = remark;
   }
+
 
 }

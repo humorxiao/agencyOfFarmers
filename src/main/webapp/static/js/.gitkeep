@@ -1,0 +1,3 @@
+<html>
+alert("拦截了");
+</html>

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.xml.internal.rngom.parse.host.Base;
+//import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import scau.zxck.entity.market.DeliveryAddress;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IDeliveryAddressService;
 import scau.zxck.service.sys.IUserLoginService;
-import sun.security.krb5.EncryptedData;
+//import sun.security.krb5.EncryptedData;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,8 +40,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration("classpath:config/spring/spring.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:config/spring/spring.xml")
 public class UserInfoAction {
   @Autowired
   private IUserLoginService userLoginService;
@@ -83,7 +84,7 @@ public class UserInfoAction {
     temp.setUser_cell(data.get("User_Cell").toString());
     temp.setUser_email(data.get("User_Email").toString());
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
-    temp.setUser_regtime(Timestamp.valueOf(data.get("User_RegTime").toString()).toString());
+    temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()));
     temp.setUser_realname(data.get("User_Realname").toString());
     temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();
@@ -185,7 +186,7 @@ public class UserInfoAction {
     temp.setUser_cell(data.get("User_Cell").toString());
     temp.setUser_email(data.get("User_Email").toString());
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
-    temp.setUser_regtime(Timestamp.valueOf(data.get("User_RegTime").toString()).toString());
+    temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()).toString());
     temp.setUser_realname(data.get("User_Realname").toString());
     temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();
@@ -218,7 +219,7 @@ public class UserInfoAction {
     temp.setUser_cell(data.get("User_Cell").toString());
     temp.setUser_email(data.get("User_Email").toString());
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
-    temp.setUser_regtime(Timestamp.valueOf(data.get("User_RegTime").toString()).toString());
+    temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()));
     temp.setUser_realname(data.get("User_Realname").toString());
     temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();
