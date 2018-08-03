@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import scau.zxck.entity.market.GoodsInfo;
+import scau.zxck.entity.sys.SystemUserInfo;
+import scau.zxck.service.sys.ISystemUserService;
 import scau.zxck.web.admin.GoodsInfoAction;
 
 import java.text.SimpleDateFormat;
@@ -43,6 +45,8 @@ private MockHttpSession session;
 private GoodsInfoAction goodsInfoAction;
 private MockMvc mockMvc;
 private ObjectMapper mapper=new ObjectMapper();
+@Autowired
+private ISystemUserService systemUserService;
 @Before
 public void before() throws Exception {
     mockMvc=standaloneSetup(goodsInfoAction).build();
@@ -122,11 +126,10 @@ public void testGetDiscountGoods() throws Exception {
 * 
 */ 
 @Test
-public void testGetAllGoods() throws Exception { 
-//TODO: Test goes here...
-    Date date=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse("2018-08-02 20:20:20");
-    System.out.println((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(date));
-} 
+public void testGetAllGoods() throws Exception {
+    SystemUserInfo systemUserInfo=systemUserService.findById("100");
+    System.out.println(systemUserInfo.getSystem_user_name()+" "+systemUserInfo.getSystem_user_password()+" ");
+}
 
 /** 
 * 

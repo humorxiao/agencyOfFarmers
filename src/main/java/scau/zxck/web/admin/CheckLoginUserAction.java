@@ -20,7 +20,7 @@ public class CheckLoginUserAction {
         String r = "{\"status\":\"\",\"loginName\":\"\"}";//返回的字符串
         SystemUserInfo u=(SystemUserInfo)session.getAttribute("loginUser");
         if(u!=null){
-                r = "{\"status\":\"1\",\"loginName\":\""+u.getName()+"\"}";
+                r = "{\"status\":\"1\",\"loginName\":\""+u.getSystem_user_name()+"\"}";
         }
         else {
             r = "{\"status\":\"0\",\"loginName\":\"\"}";

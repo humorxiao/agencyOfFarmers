@@ -72,7 +72,13 @@ public void testAddValue() throws Exception {
 */ 
 @Test
 public void testAllValues() throws Exception { 
-//TODO: Test goes here... 
+//TODO: Test goes here...
+    String responseString=mockMvc.perform(post("/allValues")
+//            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
+//            .session(session)
+    ).andExpect(status().isOk()).andDo(print()).andReturn()
+            .getResponse().getContentAsString();
+    System.out.println(responseString);
 } 
 
 /** 
@@ -84,7 +90,7 @@ public void testAllValues() throws Exception {
 public void testDeleteValueItem() throws Exception { 
 //TODO: Test goes here...
     String jsonStr;
-    session.setAttribute("loginUser","1");
+    session.setAttribute("loginUser","101");
     jsonStr="{\"value\":\"1\",\"typeid\":\"1\",\"nodeid\":\"1\",\"recordingtime\":\"2018-08-02 20:29:21\",\"note\":\"1\"}";
     String responseString=mockMvc.perform(post("/addValue")
             .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
