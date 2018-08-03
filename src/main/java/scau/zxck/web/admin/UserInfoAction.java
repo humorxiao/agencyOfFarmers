@@ -55,16 +55,10 @@ public class UserInfoAction {
 
   public void getUserInfo(HttpServletResponse response) throws Exception {
     String r="";
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    String jsonStr=wholeStr;
-    JSONObject data = JSONObject.parseObject(jsonStr);
+
     JSONObject temp = new JSONObject();
 
-    UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
+    UserInfo userInfo = userLoginService.findById(session.getAttribute("User_PK").toString());
     temp.put("User_PK", userInfo.getId());
     temp.put("User_Name", userInfo.getUser_name());
     temp.put("User_Cell", userInfo.getUser_cell());
@@ -90,8 +84,8 @@ public class UserInfoAction {
     }
     String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
-    UserInfo temp = userLoginService.findById(data.get("User_PK").toString());
-    data.put("user_password", temp.getUser_password());
+    UserInfo temp = userLoginService.findById(session.getAttribute("User_PK").toString());
+    data.put("User_Password", temp.getUser_password());
     temp.setUser_password(data.get("User_Password").toString());
     temp.setUser_name(data.get("User_Name").toString());
     temp.setUser_cell(data.get("User_Cell").toString());
@@ -193,8 +187,14 @@ public class UserInfoAction {
   }
 
   @RequestMapping(value = "removeBannedUser", method = RequestMethod.POST)
-  public void removeBannedUser(String jsonStr,HttpServletResponse response) throws Exception {
+  public void removeBannedUser(HttpServletResponse response) throws Exception {
     String r = "";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
     JSONObject data = JSONObject.parseObject(jsonStr);
     data.put("User_Mark", "");
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());

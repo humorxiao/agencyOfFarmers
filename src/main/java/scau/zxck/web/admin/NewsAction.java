@@ -211,15 +211,14 @@ public class NewsAction {
 
     @RequestMapping(value = "getOneNews", method = RequestMethod.POST)
 //  @Test
-    public void getOneNews(String jsonStr,HttpServletResponse response) throws Exception {
+    public void getOneNews(HttpServletResponse response) throws Exception {
         String r = "";
-        //String jsonStr ="{\"News_PK\":\"1\"}";
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+   String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
 //    HttpServletRequest request =
 //            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

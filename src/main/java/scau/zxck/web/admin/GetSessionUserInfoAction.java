@@ -47,6 +47,9 @@ public class GetSessionUserInfoAction {
 
     @RequestMapping(value = "getSessionUserInfo", method = RequestMethod.POST)
 //  @Test
+    /*
+      同getUserInfo
+     */
     public void getSessionUserInfo( HttpServletResponse response) throws Exception {
       String r="";
       BufferedReader br = request.getReader();

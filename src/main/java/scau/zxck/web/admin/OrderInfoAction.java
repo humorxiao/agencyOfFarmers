@@ -104,18 +104,18 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "getStateOrderPaging", method = RequestMethod.POST)
 //    @Test
-    public void getStateOrderPaging(String jsonStr, String jsonStr2, HttpServletResponse response) throws Exception {
+    public void getStateOrderPaging(  HttpServletResponse response) throws Exception {
         String r = "";
 //        String jsonStr = "{\"User_PK\":\"100003\",\"Order_State\":\"3\",\"NumPerPage\":\"2\",\"Page\":\"1\"}";
 //        String jsonStr2 = "{\"NumPerPage\":\"4\"}";
 //    HttpServletRequest request =
 //            ((ServletRequestAttributesRequestAttributestributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//      BufferedReader br = request.getReader();
-//      String str, wholeStr = "";
-//      while((str = br.readLine()) != null){
-//          wholeStr += str;
-//      }
-//      jsonStr=wholeStr;
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+          wholeStr += str;
+      }
+     String jsonStr=wholeStr;
 //      HttpSession session = request.getSession();
         JSONObject data = JSONObject.parseObject(jsonStr);
         JSONObject pageInfo = JSONObject.parseObject(jsonStr);

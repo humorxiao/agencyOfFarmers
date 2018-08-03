@@ -156,8 +156,14 @@ public class CommentsAction {
     out.flush();
   }
   @RequestMapping(value = "deleteComments",method = RequestMethod.POST)
-  public void deleteComments(String jsonStr,HttpServletResponse response) throws Exception{
+  public void deleteComments(HttpServletResponse response) throws Exception{
     String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
 
     JSONObject data=JSONObject.parseObject(jsonStr);
     try {

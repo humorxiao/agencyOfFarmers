@@ -380,14 +380,14 @@ public class GoodsInfoAction {
       String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
 
-        String likes = request.getParameter("likes");
+        String likes = data.get("likes").toString();
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         Conditions conditions = new Conditions();
         JSONArray jsonarr = new JSONArray();
         if (likes != null) {
             List list =
-                    goodsInfoService.list(conditions.like("goods_name", "%" + data.get("Goods_Name") + "%"));
-            for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
+                    goodsInfoService.list(conditions.like("goods_name", "%" + likes + "%"));
+              for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
                 JSONObject temp = new JSONObject();
                 GoodsInfo goods = (GoodsInfo) iter.next();
 
@@ -420,10 +420,9 @@ public class GoodsInfoAction {
       String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
         JSONArray jsonArray = new JSONArray();
-
         Conditions conditions = new Conditions();
         List list =
-                userCollectionService.list(conditions.eq("user_info_id", data.get("User_PK").toString()));
+                userCollectionService.list(conditions.eq("user_info_id", session.getAttribute("User_PK").toString()));
         ArrayList<UserCollection> arrayList = new ArrayList<>();
         if (list.size() >= 4) {
             for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
@@ -481,7 +480,7 @@ public class GoodsInfoAction {
       String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
         Conditions conditions = new Conditions();
-        List list = orderInfoService.list(conditions.eq("user_info_id", data.get("User_PK").toString()).and().eq("order_isPay", 1));
+        List list = orderInfoService.list(conditions.eq("user_info_id", session.getAttribute("User_PK").toString()).and().eq("order_isPay", 1));
         ArrayList<String> arrayList = new ArrayList<>();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             OrderInfo orderInfo = (OrderInfo) iter.next();
@@ -542,19 +541,28 @@ public class GoodsInfoAction {
       }
       String jsonStr=wholeStr;
         JSONObject data = JSONObject.parseObject(jsonStr);
-        Conditions conditions = new Conditions();
-        List list = goodsInfoService.list(conditions.eq("goods_show", '1'));
-        for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
+        if((boolean)session.getAttribute("isAdmin")) {
+          Conditions conditions = new Conditions();
+          List list = goodsInfoService.list(conditions.eq("goods_show", '1'));
+          for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             GoodsInfo goodsInfo = (GoodsInfo) iter.next();
             goodsInfo.setGoods_show('0');
             goodsInfoService.updateById(goodsInfo);
-        }
-        String[] goodspks = data.get("Goods_PK").toString().split("#");
-        for (int i = 0; i < goodspks.length; i++) {
+          }
+          String[] goodspks = data.get("Goods_PK").toString().split("#");
+          for (int i = 0; i < goodspks.length; i++) {
             GoodsInfo goodsInfo = goodsInfoService.findById(goodspks[i]);
             goodsInfo.setGoods_show('1');
             goodsInfoService.updateById(goodsInfo);
+          }
+          r="{\"status\":1}";
+        }else{
+          r="{\"status\":0}";
         }
+        PrintWriter out=response.getWriter();
+        out.flush();
+        out.write(r);
+        out.flush();
     }
 
     @RequestMapping(value = "chooseSixDiscountGoods", method = RequestMethod.POST)
