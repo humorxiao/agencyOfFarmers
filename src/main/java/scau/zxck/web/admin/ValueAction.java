@@ -6,22 +6,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.entity.market.NodeInfo;
 import scau.zxck.entity.market.ValueItemInfo;
 import scau.zxck.entity.sys.SystemUserInfo;
+import scau.zxck.service.market.INodeInfoService;
+import scau.zxck.service.market.ITypeInfoService;
 import scau.zxck.service.market.IValueItemService;
+import scau.zxck.service.sys.ISystemUserService;
 import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
 
 @Controller
 @RequestMapping("/")
@@ -32,12 +32,19 @@ public class ValueAction {
     private HttpServletRequest request;
     @Autowired
     private HttpSession session;
+    @Autowired
+    private INodeInfoService nodeInfoService;
+    @Autowired
+    private ITypeInfoService typeInfoService;
+    @Autowired
+    private ISystemUserService systemUserService;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @RequestMapping(value = "addValue", method = RequestMethod.POST)
     public void addValue(HttpServletResponse response) throws Exception {
         String jsonStr;
         String r = "";
-        JSONObject data = new ReadJSON().readJson(request);
+        JSONObject data = ReadJSON.readJSONStr(request);
         String value = data.get("value").toString();
         String type_info_id = data.get("typeid").toString();
         String node_info_id = data.get("nodeid").toString();
@@ -45,26 +52,28 @@ public class ValueAction {
         String note = data.get("note").toString();
         String system_info_id = session.getAttribute("loginUser").toString();
         ValueItemInfo valueItemInfo = new ValueItemInfo();
-        valueItemInfo.setNode_info_id(node_info_id);
+        valueItemInfo.setValue(value);
+        valueItemInfo.setNode(nodeInfoService.findById(node_info_id));
         valueItemInfo.setNote(note);
-        valueItemInfo.setRecordingtime((new SimpleDateFormat("yyyy-MM-dd'T'HH:mm")).parse(recordingtime).toString());
-        valueItemInfo.setSystem_user_info_id(system_info_id);
-        valueItemInfo.setType_info_id(type_info_id);
+        valueItemInfo.setType(typeInfoService.findById(type_info_id));
+        valueItemInfo.setUser(systemUserService.findById(system_info_id));
+        Date date = simpleDateFormat.parse(recordingtime);
+        valueItemInfo.setRecordingtime(simpleDateFormat.format(date).toString());
         PrintWriter out = response.getWriter();
         try {
             valueItemService.add(valueItemInfo);
-            r = "{\"status\":\"1\",\"msg\":\"添加成功\",\"useridname\":\"" + valueItemInfo.getUser().getId()
-                    + valueItemInfo.getUser().getName() + "\",\"typename\":\"" + valueItemInfo.getType().getName()
-                    + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(valueItemInfo.getRecordingtime()) +
+            r = "{\"status\":\"1\",\"msg\":\"添加成功\",\"userid\":\"" + valueItemInfo.getUser().getId()+"\","+"\"username:\""
+                    + valueItemInfo.getUser().getName() + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
+                    + "\",\"recordingtime\":\"" + valueItemInfo.getRecordingtime() +
                     "\"}";
             out.flush();
             out.write(r);
             out.flush();
         } catch (Exception e) {
             e.printStackTrace();
-            r = "{\"status\":\"1\",\"msg\":\"添加失败\",\"useridname\":\"" + valueItemInfo.getUser().getId()
-                    + valueItemInfo.getUser().getName() + "\",\"typename\":\"" + valueItemInfo.getType().getName()
-                    + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(valueItemInfo.getRecordingtime()) +
+            r = "{\"status\":\"0\",\"msg\":\"添加失败\",\"userid\":\"" + valueItemInfo.getUser().getId()+"\","+"\"username:\""
+                    + valueItemInfo.getUser().getName() + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
+                    + "\",\"recordingtime\":\"" + valueItemInfo.getRecordingtime() +
                     "\"}";
             out.flush();
             out.write(r);
@@ -79,12 +88,12 @@ public class ValueAction {
         List list = valueItemService.listAll();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             ValueItemInfo n = (ValueItemInfo) iter.next();
-            r.append("{\"itemid\":\"" + String.valueOf(n.getId()) + "\",\"value\":\"");
+            r.append("{\"itemid\":\"" + n.getId() + "\",\"value\":\"");
             r.append(n.getValue());
             r.append("\",\"nodeid\":\"");
             r.append(n.getNode().getId());
             r.append("\",\"note\":\"" + n.getNote()
-                    + "\",\"typename\":\"" + n.getType().getName()
+                    + "\",\"typename\":\"" + n.getType().getType_name()
                     + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(n.getRecordingtime())
                     + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getName()
                     + "\"},");
@@ -102,7 +111,7 @@ public class ValueAction {
     @RequestMapping(value = "deleteValueItem", method = RequestMethod.POST)
     public void deleteValueItem(HttpServletResponse response) throws Exception {
         String r = "{\"status\":\"\",\"msg\":\"\"}";//返回的字符串
-        JSONObject data = new ReadJSON().readJson(request);
+        JSONObject data = ReadJSON.readJSONStr(request);
         String id = data.get("itemid").toString();
         SystemUserInfo user = (SystemUserInfo) session.getAttribute("loginUser");
         valueItemService.deleteByIds(id);
@@ -115,7 +124,7 @@ public class ValueAction {
 
     @RequestMapping(value = "getMyValues", method = RequestMethod.POST)
     public void getMyValues(HttpServletResponse response) throws Exception {
-        JSONObject data = new ReadJSON().readJson(request);
+        JSONObject data = ReadJSON.readJSONStr(request);
         System.out.println("test2");
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
@@ -162,7 +171,7 @@ public class ValueAction {
             r.append("\",\"nodeid\":\"");
             r.append(valueItemInfo.getNode().getId());
             r.append("\",\"note\":\"" + valueItemInfo.getNote()
-                    + "\",\"typename\":\"" + valueItemInfo.getType().getName()
+                    + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
                     + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(valueItemInfo.getRecordingtime())
                     + "\",\"useridname\":\"" + valueItemInfo.getUser().getId() + " " + valueItemInfo.getUser().getName()
                     + "\"},");
@@ -188,7 +197,7 @@ public class ValueAction {
     public void getValueItem(HttpServletResponse response) throws Exception {
         StringBuffer r = new StringBuffer();//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data = new ReadJSON().readJson(request);
+        JSONObject data = ReadJSON.readJSONStr(request);
         String id = data.get("itemid").toString();
         ValueItemInfo n = valueItemService.findById(id);
         if (n != null) {
@@ -197,7 +206,7 @@ public class ValueAction {
             r.append("\",\"nodeid\":\"");
             r.append(n.getNode().getId());
             r.append("\",\"note\":\"" + n.getNote()
-                    + "\",\"typename\":\"" + n.getType().getName()
+                    + "\",\"typename\":\"" + n.getType().getType_name()
                     + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(n.getRecordingtime())
                     + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getName()
                     + "\"}");
@@ -213,7 +222,7 @@ public class ValueAction {
     @RequestMapping(value = "searchAllValuesByType", method = RequestMethod.POST)
     public void searchAllValuesByType(HttpServletResponse response) throws Exception {
         System.out.println("test2");
-        JSONObject data = new ReadJSON().readJson(request);
+        JSONObject data = ReadJSON.readJSONStr(request);
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
         request.setCharacterEncoding("utf-8");
@@ -232,7 +241,7 @@ public class ValueAction {
             r.append("\",\"nodeid\":\"");
             r.append(n.getNode().getId());
             r.append("\",\"note\":\"" + n.getNote()
-                    + "\",\"typename\":\"" + n.getType().getName()
+                    + "\",\"typename\":\"" + n.getType().getType_name()
                     + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(n.getRecordingtime())
                     + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getName()
                     + "\"},");
@@ -266,7 +275,7 @@ public class ValueAction {
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
         request.setCharacterEncoding("utf-8");
-        JSONObject data = new ReadJSON().readJson(request);
+        JSONObject data = ReadJSON.readJSONStr(request);
         int currentpage = 1;
         int rows = 0;
         int count = 0;
@@ -277,7 +286,7 @@ public class ValueAction {
         Date begin = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm")).parse(starttime);
         Date end = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm")).parse(endtime);
         List list = null;
-        List list1=null;
+        List list1 = null;
         if (data.get("page") != null && Integer.parseInt(data.get("page").toString()) != 0) {
             currentpage = Integer.parseInt(data.get("page").toString());
             rows = Integer.parseInt(data.get("rows").toString());
@@ -302,13 +311,13 @@ public class ValueAction {
             list1 = valueItemService.list(conditions.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid).asc("recordingtime"));
         }
         for (int i = 0; list1 != null && i < list1.size(); i++) {
-            ValueItemInfo n =( ValueItemInfo) list.get(i);
+            ValueItemInfo n = (ValueItemInfo) list.get(i);
             r.append("{\"itemid\":\"" + String.valueOf(n.getId()) + "\",\"value\":\"");
             r.append(n.getValue());
             r.append("\",\"nodeid\":\"");
             r.append(n.getNode().getId());
             r.append("\",\"note\":\"" + n.getNote()
-                    + "\",\"typename\":\"" + n.getType().getName()
+                    + "\",\"typename\":\"" + n.getType().getType_name()
                     + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(n.getRecordingtime())
                     + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getName()
                     + "\"},");

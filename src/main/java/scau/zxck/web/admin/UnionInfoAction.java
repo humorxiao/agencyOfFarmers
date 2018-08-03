@@ -35,6 +35,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import scau.zxck.utils.ReadJSON;
 
 /**
  * Created by suruijia on 2016/2/6.
@@ -56,18 +57,10 @@ public class UnionInfoAction {
     @Autowired
     private HttpSession session;
     @RequestMapping(value = "getLikesUnions", method = RequestMethod.POST)
-    public void getLikesUnions(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getLikesUnions( HttpServletResponse response) throws Exception {
         JSONArray jsonarr = new JSONArray();
-//        BufferedReader br = request.getReader();
-//        String str, wholeStr = "";
-//        while ((str = br.readLine()) != null) {
-//            wholeStr += str;
-//        }
-//        jsonStr = wholeStr;
-//      HttpServletRequest request =
-//              ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session = request.getSession();
-        String likes = request.getParameter("likes");
+        JSONObject data=ReadJSON.readJSONStr(request);
+        String likes=data.get("likes").toString();
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         if (likes != null) {
             Conditions conditions = new Conditions();
@@ -135,8 +128,8 @@ public class UnionInfoAction {
 
 
     @RequestMapping(value = "addUnionInfo", method = RequestMethod.POST)
-    public void addUnionInfo(String jsonStr,HttpServletResponse response) throws Exception {
-        JSONObject json = JSONObject.parseObject(jsonStr);
+    public void addUnionInfo(HttpServletResponse response) throws Exception {
+        JSONObject json=ReadJSON.readJSONStr(request);
         UnionInfo temp = new UnionInfo();
         temp.setUnion_name(json.get("Union_Name").toString());
         temp.setUnion_master(json.get("Union_Master").toString());
@@ -163,8 +156,8 @@ public class UnionInfoAction {
     }
 
     @RequestMapping(value = "updateUnionInfo", method = RequestMethod.POST)
-    public void updateUnionInfo(String jsonStr,HttpServletResponse response) throws Exception {
-        JSONObject json = JSONObject.parseObject(jsonStr);
+    public void updateUnionInfo(HttpServletResponse response) throws Exception {
+        JSONObject json=ReadJSON.readJSONStr(request);
         String r="";
         try {
             UnionInfo temp = unionInfoService.findOne(json.get("id").toString());
@@ -214,9 +207,9 @@ public class UnionInfoAction {
 
     @RequestMapping(value = "deleteUnionInfo", method = RequestMethod.POST)
 //    @Test
-    public void deleteUnionInfo(String jsonStr,HttpServletResponse response) throws Exception {
+    public void deleteUnionInfo(HttpServletResponse response) throws Exception {
         String r;
-        JSONObject json = JSONObject.parseObject(jsonStr);
+        JSONObject json=ReadJSON.readJSONStr(request);
         String id = (String) json.get("Union_PK");
         UnionInfo unionInfo=unionInfoService.findOne(id);
         unionInfo.setUnion_mark('2');

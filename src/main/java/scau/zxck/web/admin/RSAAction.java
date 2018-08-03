@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.utils.RSAManager;
+import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +19,7 @@ public class RSAAction {
     @Autowired
     private HttpServletRequest request;
     @RequestMapping(value = "startRSAThread",method = RequestMethod.POST)
-    public void startRSAThread(String jsonStr) throws BaseException{
+    public void startRSAThread() throws BaseException{
         RSAManager rsa = RSAManager.getInstance();
        rsa.startCircleKeyThread();
     }
@@ -31,9 +32,9 @@ public class RSAAction {
         out.flush();
     }
     @RequestMapping(value = "encodeByPublicKey",method = RequestMethod.POST)
-    public void encodeByPublicKey(String jsonStr,HttpServletResponse response) throws Exception {
+    public void encodeByPublicKey(HttpServletResponse response) throws Exception {
         RSAManager rsa = RSAManager.getInstance();
-        JSONObject data=JSONObject.parseObject(jsonStr);
+        JSONObject data=ReadJSON.readJSONStr(request);
         String data1=(String)data.get("data");
         String publickey=(String)data.get("publickey");
         String r=rsa.encryptByPublicKey(data1,publickey);
@@ -43,9 +44,9 @@ public class RSAAction {
         out.flush();
     }
     @RequestMapping(value = "decodeByPublicKey",method = RequestMethod.POST)
-    public void decodeByPublicKey(String jsonStr,HttpServletResponse response)throws Exception{
+    public void decodeByPublicKey(HttpServletResponse response)throws Exception{
         RSAManager rsa = RSAManager.getInstance();
-        JSONObject data=JSONObject.parseObject(jsonStr);
+        JSONObject data=ReadJSON.readJSONStr(request);
         String data2=(String)data.get("data");
         String publickey=(String)data.get("publickey");
         String r=rsa.decryptByPublicKey(data2,publickey);

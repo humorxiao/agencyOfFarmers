@@ -34,7 +34,7 @@ public class LoginAndRegisterAction {
     @RequestMapping(value = "loginAndRegister", method = RequestMethod.POST)
     public void loginAndRegister(HttpServletResponse response) throws Exception {
         String r = "{\"status\":\"\",\"msg\":\"\",\"loginId\":\"\"}";//返回的字符串
-        JSONObject data = new ReadJSON().readJson(request);
+        JSONObject data = ReadJSON.readJSONStr(request);
         request.setCharacterEncoding("utf-8");
         String userid = data.get("userid").toString();
         String username = data.get("username").toString();

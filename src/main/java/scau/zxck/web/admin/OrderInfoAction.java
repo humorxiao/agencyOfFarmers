@@ -20,6 +20,8 @@ import scau.zxck.entity.market.OrderInfo;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IOrderInfoService;
+import scau.zxck.utils.JSONPaging;
+import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,16 +52,7 @@ public class OrderInfoAction {
 //    @Test
     public void getUserOrderListPaging(String jsonStr, HttpServletResponse response) throws Exception {
         String r = "";
-//      BufferedReader br = request.getReader();
-//      String str, wholeStr = "";
-//      while((str = br.readLine()) != null){
-//          wholeStr += str;
-//      }
-//      jsonStr=wholeStr;
-//        String jsonStr = "{\"User_PK\":\"100003\",\"NumPerPage\":\"5\",\"Page\":\"2\"}";
-//    HttpServletRequest request =
-//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpSession session = request.getSession();
+        JSONObject data=ReadJSON.readJSONStr(request);
         JSONObject pageInfo = JSONObject.parseObject(jsonStr);
         if (session.getAttribute("User_PK") != null) {
             pageInfo.put("User_PK", (int) session.getAttribute("User_PK"));
@@ -98,7 +91,7 @@ public class OrderInfoAction {
 
             jsonarr.add(temp);
         }
-        JSONArray temparr = JSONArrayPaging(jsonarr, pageInfo);
+        JSONArray temparr = JSONPaging.JSONArrayPaging(jsonarr, pageInfo);
         r = temparr.toString();
         PrintWriter out = response.getWriter();
         out.flush();
@@ -108,21 +101,10 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "getStateOrderPaging", method = RequestMethod.POST)
 //    @Test
-    public void getStateOrderPaging(String jsonStr, String jsonStr2, HttpServletResponse response) throws Exception {
+    public void getStateOrderPaging(HttpServletResponse response) throws Exception {
         String r = "";
-//        String jsonStr = "{\"User_PK\":\"100003\",\"Order_State\":\"3\",\"NumPerPage\":\"2\",\"Page\":\"1\"}";
-//        String jsonStr2 = "{\"NumPerPage\":\"4\"}";
-//    HttpServletRequest request =
-//            ((ServletRequestAttributesRequestAttributestributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//      BufferedReader br = request.getReader();
-//      String str, wholeStr = "";
-//      while((str = br.readLine()) != null){
-//          wholeStr += str;
-//      }
-//      jsonStr=wholeStr;
-//      HttpSession session = request.getSession();
-        JSONObject data = JSONObject.parseObject(jsonStr);
-        JSONObject pageInfo = JSONObject.parseObject(jsonStr);
+        JSONObject data=ReadJSON.readJSONStr(request);
+//        JSONObject pageInfo = JSONObject.parseObject(jsonStr);
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", (int) session.getAttribute("User_PK"));
         } else {
@@ -160,7 +142,7 @@ public class OrderInfoAction {
 
             jsonarr.add(temp);
         }
-        JSONArray temparr = JSONArrayPaging(jsonarr, pageInfo);
+        JSONArray temparr = JSONPaging.JSONArrayPaging(jsonarr, data);
         r = temparr.toString();
         PrintWriter out = response.getWriter();
         out.flush();
@@ -170,19 +152,9 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "addOrder", method = RequestMethod.POST)
 //    @Test
-    public void addOrder(String jsonStr, HttpServletResponse response) throws Exception {
+    public void addOrder( HttpServletResponse response) throws Exception {
         String r = "";
-//      String jsonStr = "{\"User_PK\":\"100003\",\"Goods_List\":\"100010#100004#\",\"Goods_Num\":\"2#3#\",\"Goods_Price\":\"5#2.5#\",\"Order_Aftersale\":\"0\",\"Order_Company\":\"韵达速递\",\"Order_ID\":\"201807181710100006\",\"Order_IsPay\":true,\"Order_No\":\"\",\"Order_PayPrice\":\"17.5\",\"Order_PayTime\":\"0001-01-01 01:01:01\",\"Order_Reserve_1\":\"13416137226;65;65;658565\",\"Order_State\":\"3\",\"Order_Time\":\"2018-07-18 16:45:09\",\"Order_Tracknum\":\"1234\",\"Order_Website\":\"http://www.yundaex.com/cn/index.php\"}";
-//        System.out.println(jsonStr);
-//    HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//      BufferedReader br = request.getReader();
-//      String str, wholeStr = "";
-//      while((str = br.readLine()) != null){
-//          wholeStr += str;
-//      }
-//      jsonStr=wholeStr;
-        HttpSession session = request.getSession();
-        JSONObject data = JSONObject.parseObject(jsonStr);
+        JSONObject data=ReadJSON.readJSONStr(request);
         String[] goodslist = ((String) data.get("Goods_List")).split("#");
         String[] goodsnum = ((String) data.get("Goods_Num")).split("#");
         for (int i = 0; i < goodslist.length; i++) {// 循环操作订单中的每一项商品
@@ -293,28 +265,28 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "updateOrder", method = RequestMethod.POST)
 //    @Test
-    public void updateOrder(String jsonStr, HttpServletResponse response) throws Exception {
+    public void updateOrder(HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject json = JSONObject.parseObject(jsonStr);
-        OrderInfo temp = orderInfoService.findById(json.get("Order_PK").toString());
-        temp.setUser_info_id(json.get("User_PK").toString());
-        temp.setOrder_id(json.get("Order_ID").toString());
-        temp.setOrder_no(json.get("Order_No").toString());
-        temp.setGoods_list(json.get("Goods_List").toString());
-        temp.setGoods_num(json.get("Goods_Num").toString());
-        temp.setGoods_prices(json.get("Goods_Price").toString());
-        temp.setOrder_time(Timestamp.valueOf(json.get("Order_Time").toString()).toString());
-        temp.setOrder_ispay((boolean) json.get("Order_IsPay"));
-        if (!json.get("Order_PayTime").equals(new String(""))) {
-            temp.setOrder_paytime(Timestamp.valueOf(json.get("Order_PayTime").toString()).toString());
+        JSONObject data=ReadJSON.readJSONStr(request);
+        OrderInfo temp = orderInfoService.findById(data.get("Order_PK").toString());
+        temp.setUser_info_id(data.get("User_PK").toString());
+        temp.setOrder_id(data.get("Order_ID").toString());
+        temp.setOrder_no(data.get("Order_No").toString());
+        temp.setGoods_list(data.get("Goods_List").toString());
+        temp.setGoods_num(data.get("Goods_Num").toString());
+        temp.setGoods_prices(data.get("Goods_Price").toString());
+        temp.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
+        temp.setOrder_ispay((boolean) data.get("Order_IsPay"));
+        if (!data.get("Order_PayTime").equals(new String(""))) {
+            temp.setOrder_paytime(Timestamp.valueOf(data.get("Order_PayTime").toString()).toString());
         }
-        temp.setOrder_payprice((float) Float.parseFloat(json.get("Order_PayPrice").toString()));
-        temp.setOrder_state((int) Integer.parseInt(json.get("Order_State").toString()));
-        temp.setOrder_tracknum(json.get("Order_TrackNum").toString());
-        temp.setOrder_company(json.get("Order_Company").toString());
-        temp.setOrder_website(json.get("Order_Website").toString());
-        temp.setOrder_aftersale((int) Integer.parseInt(json.get("Order_Aftersale").toString()));
-        temp.setOrder_reserve_1(json.get("Order_Reserve_1").toString());
+        temp.setOrder_payprice((float) Float.parseFloat(data.get("Order_PayPrice").toString()));
+        temp.setOrder_state((int) Integer.parseInt(data.get("Order_State").toString()));
+        temp.setOrder_tracknum(data.get("Order_TrackNum").toString());
+        temp.setOrder_company(data.get("Order_Company").toString());
+        temp.setOrder_website(data.get("Order_Website").toString());
+        temp.setOrder_aftersale((int) Integer.parseInt(data.get("Order_Aftersale").toString()));
+        temp.setOrder_reserve_1(data.get("Order_Reserve_1").toString());
         try {
             orderInfoService.updateById(temp);
             r = "{\"status\":1}";
@@ -330,8 +302,8 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "payOrder", method = RequestMethod.POST)
 //    @Test
-    public void payOrder(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject data = JSONObject.parseObject(jsonStr);
+    public void payOrder( HttpServletResponse response) throws Exception {
+        JSONObject data=ReadJSON.readJSONStr(request);
         String r = "";
         JSONObject temp = new JSONObject();
         Conditions conditions = new Conditions();
@@ -396,8 +368,8 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "getNoPayOrder", method = RequestMethod.POST)
 //    @Test
-    public void getNoPayOrder(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject pageInfo = JSONObject.parseObject(jsonStr);
+    public void getNoPayOrder( HttpServletResponse response) throws Exception {
+        JSONObject pageInfo=ReadJSON.readJSONStr(request);
         String r = "";
         JSONArray jsonarr = new JSONArray();
         Conditions conditions = new Conditions();
@@ -428,7 +400,7 @@ public class OrderInfoAction {
             temp.put("Order_Reserve_1", order.getOrder_reserve_1());
             jsonarr.add(temp);
         }
-        r = JSONArrayPaging(jsonarr, pageInfo).toString();
+        r = JSONPaging.JSONArrayPaging(jsonarr, pageInfo).toString();
         PrintWriter out = response.getWriter();
         out.flush();
         out.write(r);
@@ -437,8 +409,8 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "getIDOrder", method = RequestMethod.POST)
 //    @Test
-    public void getIDOrder(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject data = JSONObject.parseObject(jsonStr);
+    public void getIDOrder( HttpServletResponse response) throws Exception {
+        JSONObject data=ReadJSON.readJSONStr(request);
         JSONObject temp = new JSONObject();
         Conditions conditions = new Conditions();
         List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
@@ -491,8 +463,8 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "getPayedNoFinishedOrder", method = RequestMethod.POST)
 //    @Test
-    public void getPayedNoFinishedOrder(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject pageInfo = JSONObject.parseObject(jsonStr);
+    public void getPayedNoFinishedOrder( HttpServletResponse response) throws Exception {
+        JSONObject pageInfo=ReadJSON.readJSONStr(request);
         JSONArray jsonarr = new JSONArray();
         Conditions conditions = new Conditions();
         List list =
@@ -523,40 +495,10 @@ public class OrderInfoAction {
             temp.put("Order_Reserve_1", order.getOrder_reserve_1());
             jsonarr.add(temp);
         }
-        String r = JSONArrayPaging(jsonarr, pageInfo).toString();
+        String r =JSONPaging.JSONArrayPaging(jsonarr, pageInfo).toString();
         PrintWriter out = response.getWriter();
         out.flush();
         out.write(r);
         out.flush();
-    }
-
-
-    public JSONArray JSONArrayPaging(JSONArray arr, JSONObject json) {
-        JSONArray temparr = new JSONArray();
-        JSONObject firstjson = new JSONObject();
-
-        firstjson.put("Size", arr.size());
-
-        if (arr.size() < json.getIntValue("NumPerPage")) {
-            firstjson.put("PageNum", 1);
-        } else {
-            if (arr.size() % json.getIntValue("NumPerPage") == 0) {
-                firstjson.put("PageNum", arr.size() / json.getIntValue("NumPerPage"));
-            } else {
-                firstjson.put("PageNum", (arr.size() / json.getIntValue("NumPerPage")) + 1);
-            }
-        }
-        firstjson.put("NowPage", json.getIntValue("Page"));
-        firstjson.put("NumPerPage", json.getIntValue("NumPerPage"));
-
-        temparr.add(firstjson);
-        for (int i = (json.getInteger("Page") - 1) * json.getIntValue("NumPerPage"); i < arr
-                .size(); i++) {
-            temparr.add(arr.get(i));
-            if (i >= json.getIntValue("Page") * json.getIntValue("NumPerPage") - 1)
-                break;
-        }
-
-        return temparr;
     }
 }

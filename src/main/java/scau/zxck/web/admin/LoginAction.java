@@ -18,6 +18,7 @@ import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.ISignInLogService;
 import scau.zxck.service.sys.IAdminLoginService;
 import scau.zxck.service.sys.IUserLoginService;
+import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,39 +46,17 @@ public class LoginAction {
     private HttpSession session;
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public void login(String jsonStr, HttpServletResponse response) throws Exception {
+    public void login( HttpServletResponse response) throws Exception {
         String r = "";
-        BufferedReader br = request.getReader();
-        String str, wholeStr = "";
-        while((str = br.readLine()) != null){
-            wholeStr += str;
-        }
-        jsonStr=wholeStr;
-        JSONObject data = JSON.parseObject(jsonStr);
+        JSONObject data=ReadJSON.readJSONStr(request);
         JSONObject temp = new JSONObject();
         if ((boolean) data.get("isAdmin")) {
             Conditions conditions = new Conditions();
-//            conditions.assignWhereSQL(conditions.toWhereSQL());
-            conditions.eq("admin_name", data.get("Admin_Name").toString()).or()
-                    .eq("admin_cell", data.get("Admin_Cell").toString()).or()
-                    .eq("admin_email", data.get("Admin_Email").toString()).rightBracket().and()
-                    .eq("admin_password", data.get("Admin_Password").toString());
-            String string="(";
-            String string2=conditions.toWhereSQL();
-            for(int i=6;i<string2.length();i++){
-//                if(string2.charAt(i)=='W'&&string2.charAt(i+1)=='H'&&string2.charAt(i+2)=='E'&&string2.charAt(i+3)=='R'&&string2.charAt(i+4)=='E'){
-//                    string+="WHERE (";
-//                    i+=5;
-//                }else{
-                    string+=string2.charAt(i);
-//                }
-            }
-            System.out.println(string);
-            Conditions conditions1=new Conditions();
-            conditions1.assignWhereSQL(string);
-            System.out.println(conditions1.toWhereSQL());
             List list =
-                    adminLoginService.list(conditions1);
+                    adminLoginService.list(conditions.eq("admin_name", data.get("Admin_Name").toString()).or()
+                            .eq("admin_cell", data.get("Admin_Cell").toString()).or()
+                            .eq("admin_email", data.get("Admin_Email").toString()).and()
+                            .eq("admin_password", data.get("Admin_Password").toString()));
             if (list.isEmpty()) {
                 temp.put("isCorrect", false);
             } else {
@@ -130,8 +109,6 @@ public class LoginAction {
             }
         }
         PrintWriter out = response.getWriter();
-        r=temp.toString();
-        System.out.println(r);
         out.flush();
         out.write(r);
         out.flush();

@@ -19,6 +19,7 @@ import scau.zxck.dao.market.UnionNewsDao;
 import scau.zxck.entity.market.UnionNews;
 import scau.zxck.service.market.INewsService;
 import scau.zxck.service.market.IUnionNewsService;
+import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,7 +75,6 @@ public class NewsAction {
     }
 
     @RequestMapping(value = "getNewsNoPage", method = RequestMethod.POST)
-//  @Test
     public void getNewsNoPage(HttpServletResponse response) throws Exception {
         String r = "";
         List list = newsService.listAll();
@@ -103,18 +103,7 @@ public class NewsAction {
 //  @Test
     public void addNews(String jsonStr, HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data = JSONObject.parseObject(jsonStr);
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
-//    HttpServletRequest request =
-//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpServletResponse response =
-//            ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
-//    HttpSession session = request.getSession();
+        JSONObject data=ReadJSON.readJSONStr(request);
         String News_Title =
                 request.getParameter("News_Title") != null ? request.getParameter("News_Title") : "";
         String htmlData =
@@ -151,33 +140,18 @@ public class NewsAction {
     }
 
     @RequestMapping(value = "getLikesNews", method = RequestMethod.POST)
-    public void getLikesNews(String jsonStr, HttpServletResponse response) throws BaseException, UnsupportedEncodingException, IOException {
+    public void getLikesNews(String jsonStr, HttpServletResponse response) throws Exception, UnsupportedEncodingException, IOException {
         String r = "";
-        JSONObject data = JSONObject.parseObject(jsonStr);
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
-//    HttpServletRequest request =
-//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpServletResponse response =
-//            ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
-//    HttpSession session = request.getSession();
+        JSONObject data=ReadJSON.readJSONStr(request);
         String likes = request.getParameter("likes");
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         if (likes != null) {
             JSONArray jsonarr = new JSONArray();
             Conditions conditions = new Conditions();
-//      String hql = "from UnionNews where news_title like '%" + likes + "%'";
             List list = unionNewsService.list(conditions.like("news_title", "%" + likes + "%"));
-//              DataSearch.searchByHQL(hql);
-
             for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
                 JSONObject temp = new JSONObject();
                 UnionNews news = (UnionNews) iter.next();
-
                 temp.put("News_PK", news.getId());
                 temp.put("News_Title", news.getNews_title());
                 temp.put("News_Text", news.getNews_text());
@@ -196,27 +170,12 @@ public class NewsAction {
 //  @Test
     public void getOneNews(String jsonStr,HttpServletResponse response) throws Exception {
         String r = "";
-        //String jsonStr ="{\"News_PK\":\"1\"}";
-//    BufferedReader br = request.getReader();
-//    String str, wholeStr = "";
-//    while((str = br.readLine()) != null){
-//      wholeStr += str;
-//    }
-//    jsonStr=wholeStr;
-        JSONObject data = JSONObject.parseObject(jsonStr);
-//    HttpServletRequest request =
-//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpServletResponse response =
-//            ((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse();
-//    HttpSession session = request.getSession();
+        JSONObject data=ReadJSON.readJSONStr(request);
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", (int) session.getAttribute("User_PK"));
             JSONObject temp = new JSONObject();
             Conditions conditions = new Conditions();
-//          String hql = "from UnionNews where news_pk = " + json.get("News_PK").toString();
             List list = unionNewsService.list(conditions.eq("id", data.get("News_PK").toString()));
-//                  DataSearch.searchByHQL(hql);
-
             if (!list.isEmpty()) {
                 UnionNews news = (UnionNews) list.get(0);
                 temp.put("News_PK", news.getId());
@@ -226,8 +185,6 @@ public class NewsAction {
                 temp.put("News_Mark", news.getNews_mark());
                 r = temp.toString();
             }
-//    System.out.println(r);
-
         }
         PrintWriter out=response.getWriter();
         out.flush();
