@@ -24,7 +24,7 @@ public class DeleteFileAction {
     public void deleteFile(HttpServletResponse response) throws Exception{
         String r = "{\"status\":\"\",\"msg\":\"\"}";//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data=ReadJSON.readJSONStr();
+        JSONObject data=new ReadJSON().readJson(request);
         String paths=data.get("filePath").toString();
         String[] path=paths.split(";");
         for(int i=0;i<path.length;i++){

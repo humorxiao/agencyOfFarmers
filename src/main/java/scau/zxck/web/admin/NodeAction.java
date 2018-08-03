@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.entity.market.NodeInfo;
 import scau.zxck.service.market.INodeInfoService;
+import scau.zxck.service.market.ISignInLogService;
+import scau.zxck.service.sys.IAdminLoginService;
+import scau.zxck.service.sys.IUserLoginService;
 import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.Iterator;
@@ -21,6 +25,8 @@ import java.util.List;
 @RequestMapping("/")
 public class NodeAction {
     @Autowired
+    private HttpSession session;
+    @Autowired
     private INodeInfoService nodeInfoService;
     @Autowired
     private HttpServletRequest request;
@@ -29,7 +35,7 @@ public class NodeAction {
     public void addNode(HttpServletResponse response) throws Exception {
         String jsonStr;
         String r = "";
-        JSONObject data = ReadJSON.readJSONStr();
+        JSONObject data = new ReadJSON().readJson(request);
         String nodepk = data.get("nodepk").toString();
         double longitude = Double.valueOf(data.get("longitude").toString());
         double latitude = Double.valueOf(data.get("latitude").toString());
@@ -86,7 +92,7 @@ public class NodeAction {
     public void deleteNode(HttpServletResponse response)throws Exception{
         String r = "{\"status\":\"\",\"msg\":\"\"}";//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data=ReadJSON.readJSONStr();
+        JSONObject data=new ReadJSON().readJson(request);
         String nodeid=data.get("nodeid").toString();
         nodeInfoService.deleteByIds(nodeid);
         r = "{\"status\":\"1\",\"msg\":\"删除结点成功\"}";
@@ -99,7 +105,7 @@ public class NodeAction {
     public void getNode(HttpServletResponse response) throws Exception{
         StringBuffer r = new StringBuffer();//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data=ReadJSON.readJSONStr();
+        JSONObject data=new ReadJSON().readJson(request);
         String nodeid=data.get("nodeid").toString();
         NodeInfo n=nodeInfoService.findById(nodeid);
         if(n!=null){

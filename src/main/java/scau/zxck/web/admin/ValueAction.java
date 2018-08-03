@@ -37,7 +37,7 @@ public class ValueAction {
     public void addValue(HttpServletResponse response) throws Exception {
         String jsonStr;
         String r = "";
-        JSONObject data = ReadJSON.readJSONStr();
+        JSONObject data = new ReadJSON().readJson(request);
         String value = data.get("value").toString();
         String type_info_id = data.get("typeid").toString();
         String node_info_id = data.get("nodeid").toString();
@@ -102,7 +102,7 @@ public class ValueAction {
     @RequestMapping(value = "deleteValueItem", method = RequestMethod.POST)
     public void deleteValueItem(HttpServletResponse response) throws Exception {
         String r = "{\"status\":\"\",\"msg\":\"\"}";//返回的字符串
-        JSONObject data = ReadJSON.readJSONStr();
+        JSONObject data = new ReadJSON().readJson(request);
         String id = data.get("itemid").toString();
         SystemUserInfo user = (SystemUserInfo) session.getAttribute("loginUser");
         valueItemService.deleteByIds(id);
@@ -115,7 +115,7 @@ public class ValueAction {
 
     @RequestMapping(value = "getMyValues", method = RequestMethod.POST)
     public void getMyValues(HttpServletResponse response) throws Exception {
-        JSONObject data = ReadJSON.readJSONStr();
+        JSONObject data = new ReadJSON().readJson(request);
         System.out.println("test2");
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
@@ -188,7 +188,7 @@ public class ValueAction {
     public void getValueItem(HttpServletResponse response) throws Exception {
         StringBuffer r = new StringBuffer();//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data = ReadJSON.readJSONStr();
+        JSONObject data = new ReadJSON().readJson(request);
         String id = data.get("itemid").toString();
         ValueItemInfo n = valueItemService.findById(id);
         if (n != null) {
@@ -213,7 +213,7 @@ public class ValueAction {
     @RequestMapping(value = "searchAllValuesByType", method = RequestMethod.POST)
     public void searchAllValuesByType(HttpServletResponse response) throws Exception {
         System.out.println("test2");
-        JSONObject data = ReadJSON.readJSONStr();
+        JSONObject data = new ReadJSON().readJson(request);
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
         request.setCharacterEncoding("utf-8");
@@ -266,7 +266,7 @@ public class ValueAction {
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
         request.setCharacterEncoding("utf-8");
-        JSONObject data = ReadJSON.readJSONStr();
+        JSONObject data = new ReadJSON().readJson(request);
         int currentpage = 1;
         int rows = 0;
         int count = 0;

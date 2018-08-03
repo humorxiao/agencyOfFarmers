@@ -87,7 +87,7 @@ public class LoginActionTest {
     public void testFindOne() throws Exception {
         // TODO: Test goes here...
         mockMvc = standaloneSetup(loginAction).build();
-        UserInfoTest userInfoTest = new UserInfoTest("true","12345678","1","default","1");
+        UserInfoTest userInfoTest = new UserInfoTest("true","25d55ad283aa400af464c76d713c07ad","","","1");
         String jsonStr=mapper.writeValueAsString(userInfoTest);
         System.out.println(jsonStr);
         jsonStr=ToJSONString.toJSON(jsonStr);
