@@ -10,8 +10,6 @@ public class UserInfoActionTest {
     @Test
     public void test() throws Exception{
         ObjectMapper mapper=new ObjectMapper();
-        String s= ToJSONString.toJSON(mapper.writeValueAsString(new UserInfo2Test("100000#100001#100002#100003#100004#100005")));
-        System.out.println(s);
     }
 
 }

@@ -21,6 +21,7 @@ import scau.zxck.service.sys.IUserLoginService;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IUserCommentsService;
 import scau.zxck.service.sys.IUserService;
+import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,8 +36,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration("classpath:config/spring/spring.xml")
 public class GetSessionUserInfoAction {
     @Autowired
     private IUserLoginService userLoginService;
