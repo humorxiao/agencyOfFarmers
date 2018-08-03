@@ -44,7 +44,7 @@ public class LoginAndRegisterAction {
             //验证登录操作
             SystemUserInfo user = systemUserService.findById(userid);
             if (user == null) r = "{\"status\":\"-1\",\"msg\":\"账号错误\"}";
-            else if (password.equals(user.getPassword())) {//成功
+            else if (password.equals(user.getSystem_user_password())) {//成功
                 session.setAttribute("loginUser", user);
                 Date date = new Date();
                 SystemUserLog log = new SystemUserLog();
@@ -66,8 +66,8 @@ public class LoginAndRegisterAction {
             } else {
                 SystemUserInfo user = new SystemUserInfo();
                 user.setId(userid);
-                user.setName(username);
-                user.setPassword(TransformToMD5.makeMD5(password));
+                user.setSystem_user_name(username);
+                user.setSystem_user_password(TransformToMD5.makeMD5(password));
                 systemUserService.add(user);//成功
                 r = "{\"status\":\"1\",\"msg\":\"注册成功\"}";
             }

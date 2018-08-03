@@ -7,26 +7,26 @@ import scau.zxck.base.dao.entity.Unique;
 @Table(name = "system_user_info")
 public class SystemUserInfo extends Unique {
     @Column(name = "system_user_password")
-    private String password;
+    private String system_user_password;
     @Column(name = "system_user_name")
-    private String name;
+    private String system_user_name;
     @Column(name = "remark")
     private String remark;
 
-    public String getPassword() {
-        return password;
+    public String getSystem_user_password() {
+        return system_user_password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSystem_user_password(String system_user_password) {
+        this.system_user_password = system_user_password;
     }
 
-    public String getName() {
-        return name;
+    public String getSystem_user_name() {
+        return system_user_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSystem_user_name(String system_user_name) {
+        this.system_user_name = system_user_name;
     }
 
     public String getRemark() {

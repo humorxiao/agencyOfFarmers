@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
+import scau.zxck.entity.market.NodeInfo;
+import scau.zxck.entity.market.TypeInfo;
 import scau.zxck.entity.market.ValueItemInfo;
 import scau.zxck.entity.sys.SystemUserInfo;
 import scau.zxck.service.market.INodeInfoService;
@@ -53,17 +55,20 @@ public class ValueAction {
         String system_info_id = session.getAttribute("loginUser").toString();
         ValueItemInfo valueItemInfo = new ValueItemInfo();
         valueItemInfo.setValue(value);
-        valueItemInfo.setNode(nodeInfoService.findById(node_info_id));
         valueItemInfo.setNote(note);
-        valueItemInfo.setType(typeInfoService.findById(type_info_id));
+        valueItemInfo.setType_info_id(type_info_id);
+        valueItemInfo.setSystem_user_info_id(system_info_id);
+        valueItemInfo.setNode_info_id(node_info_id);
         valueItemInfo.setUser(systemUserService.findById(system_info_id));
+        valueItemInfo.setNode(nodeInfoService.findById(node_info_id));
+        valueItemInfo.setType(typeInfoService.findById(type_info_id));
         Date date = simpleDateFormat.parse(recordingtime);
         valueItemInfo.setRecordingtime(simpleDateFormat.format(date).toString());
         PrintWriter out = response.getWriter();
         try {
             valueItemService.add(valueItemInfo);
-            r = "{\"status\":\"1\",\"msg\":\"添加成功\",\"userid\":\"" + valueItemInfo.getUser().getId()+"\","+"\"username:\""
-                    + valueItemInfo.getUser().getName() + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
+            r = "{\"status\":\"1\",\"msg\":\"添加成功\",\"userid\":\"" + valueItemInfo.getUser().getId() + "\"," + "\"username:\""
+                    + valueItemInfo.getUser().getSystem_user_name() + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
                     + "\",\"recordingtime\":\"" + valueItemInfo.getRecordingtime() +
                     "\"}";
             out.flush();
@@ -71,8 +76,8 @@ public class ValueAction {
             out.flush();
         } catch (Exception e) {
             e.printStackTrace();
-            r = "{\"status\":\"0\",\"msg\":\"添加失败\",\"userid\":\"" + valueItemInfo.getUser().getId()+"\","+"\"username:\""
-                    + valueItemInfo.getUser().getName() + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
+            r = "{\"status\":\"0\",\"msg\":\"添加失败\",\"userid\":\"" + valueItemInfo.getUser().getId() + "\"," + "\"username:\""
+                    + valueItemInfo.getUser().getSystem_user_name() + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
                     + "\",\"recordingtime\":\"" + valueItemInfo.getRecordingtime() +
                     "\"}";
             out.flush();
@@ -88,20 +93,26 @@ public class ValueAction {
         List list = valueItemService.listAll();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             ValueItemInfo n = (ValueItemInfo) iter.next();
+            n.setNode(nodeInfoService.findById(n.getNode_info_id()));
+            n.setType(typeInfoService.findById(n.getType_info_id()));
+            n.setUser(systemUserService.findById(n.getSystem_user_info_id()));
+            Date date = simpleDateFormat.parse(n.getRecordingtime());
+            n.setRecordingtime(simpleDateFormat.format(date).toString());
             r.append("{\"itemid\":\"" + n.getId() + "\",\"value\":\"");
             r.append(n.getValue());
             r.append("\",\"nodeid\":\"");
             r.append(n.getNode().getId());
             r.append("\",\"note\":\"" + n.getNote()
                     + "\",\"typename\":\"" + n.getType().getType_name()
-                    + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(n.getRecordingtime())
-                    + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getName()
+                    + "\",\"recordingtime\":\"" + n.getRecordingtime()
+                    + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getSystem_user_name()
                     + "\"},");
         }
         if (list.size() != 0) {
             r.deleteCharAt(r.length() - 1);//去掉最后一个“,”
         }
         r.append("]}");
+        System.out.println(r);
         PrintWriter out = response.getWriter();
         out.flush();
         out.write(r.toString());
@@ -138,8 +149,8 @@ public class ValueAction {
         String endtime = data.get("endtime").toString();
         String typeid = data.get("typeid").toString();
         String nodeid = data.get("nodeid").toString();
-        String begin = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm")).parse(starttime).toString();
-        String end = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm")).parse(endtime).toString();
+        Date begin = simpleDateFormat.parse(starttime);
+        Date end = simpleDateFormat.parse(endtime);
         SystemUserInfo user = (SystemUserInfo) session.getAttribute("loginUser");
         List list = null;
         List list1 = null;
@@ -166,14 +177,19 @@ public class ValueAction {
         }
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             ValueItemInfo valueItemInfo = (ValueItemInfo) iter.next();
+            valueItemInfo.setNode(nodeInfoService.findById(valueItemInfo.getNode_info_id()));
+            valueItemInfo.setType(typeInfoService.findById(valueItemInfo.getType_info_id()));
+            valueItemInfo.setUser(systemUserService.findById(valueItemInfo.getSystem_user_info_id()));
+            Date date=simpleDateFormat.parse(valueItemInfo.getRecordingtime());
+            valueItemInfo.setRecordingtime(simpleDateFormat.format(date));
             r.append("{\"itemid\":\"" + String.valueOf(valueItemInfo.getId()) + "\",\"value\":\"");
             r.append(valueItemInfo.getValue());
             r.append("\",\"nodeid\":\"");
             r.append(valueItemInfo.getNode().getId());
             r.append("\",\"note\":\"" + valueItemInfo.getNote()
                     + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
-                    + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(valueItemInfo.getRecordingtime())
-                    + "\",\"useridname\":\"" + valueItemInfo.getUser().getId() + " " + valueItemInfo.getUser().getName()
+                    + "\",\"recordingtime\":\"" + valueItemInfo.getRecordingtime()
+                    + "\",\"useridname\":\"" + valueItemInfo.getUser().getId() + " " + valueItemInfo.getUser().getSystem_user_name()
                     + "\"},");
         }
         if (list.size() != 0) {
@@ -200,6 +216,11 @@ public class ValueAction {
         JSONObject data = ReadJSON.readJSONStr(request);
         String id = data.get("itemid").toString();
         ValueItemInfo n = valueItemService.findById(id);
+        n.setNode(nodeInfoService.findById(n.getNode_info_id()));
+        n.setType(typeInfoService.findById(n.getType_info_id()));
+        n.setUser(systemUserService.findById(n.getSystem_user_info_id()));
+        Date date=simpleDateFormat.parse(n.getRecordingtime());
+        n.setRecordingtime(simpleDateFormat.format(date));
         if (n != null) {
             r.append("{\"status\":\"1\",\"itemid\":\"" + String.valueOf(n.getId()) + "\",\"value\":\"");
             r.append(n.getValue());
@@ -207,8 +228,8 @@ public class ValueAction {
             r.append(n.getNode().getId());
             r.append("\",\"note\":\"" + n.getNote()
                     + "\",\"typename\":\"" + n.getType().getType_name()
-                    + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(n.getRecordingtime())
-                    + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getName()
+                    + "\",\"recordingtime\":\"" +n.getRecordingtime()
+                    + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getSystem_user_name()
                     + "\"}");
         } else {
             r.append("{\"status\":\"0\"}");
@@ -236,14 +257,19 @@ public class ValueAction {
         List list = valueItemService.list(conditions.eq("type_info_id", typeid).limit((currentpage - 1) * rows, rows));
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             ValueItemInfo n = (ValueItemInfo) iter.next();
+            n.setNode(nodeInfoService.findById(n.getNode_info_id()));
+            n.setType(typeInfoService.findById(n.getType_info_id()));
+            n.setUser(systemUserService.findById(n.getSystem_user_info_id()));
+            Date date=simpleDateFormat.parse(n.getRecordingtime());
+            n.setRecordingtime(simpleDateFormat.format(date));
             r.append("{\"itemid\":\"" + String.valueOf(n.getId()) + "\",\"value\":\"");
             r.append(n.getValue());
             r.append("\",\"nodeid\":\"");
             r.append(n.getNode().getId());
             r.append("\",\"note\":\"" + n.getNote()
                     + "\",\"typename\":\"" + n.getType().getType_name()
-                    + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(n.getRecordingtime())
-                    + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getName()
+                    + "\",\"recordingtime\":\"" + n.getRecordingtime()
+                    + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getSystem_user_name()
                     + "\"},");
         }
         if (list.size() != 0) {
@@ -283,8 +309,8 @@ public class ValueAction {
         String endtime = data.get("endtime").toString();
         String typeid = data.get("typeid").toString();
         String nodeid = data.get("nodeid").toString();
-        Date begin = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm")).parse(starttime);
-        Date end = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm")).parse(endtime);
+        Date begin = simpleDateFormat.parse(starttime);
+        Date end = simpleDateFormat.parse(endtime);
         List list = null;
         List list1 = null;
         if (data.get("page") != null && Integer.parseInt(data.get("page").toString()) != 0) {
@@ -312,14 +338,19 @@ public class ValueAction {
         }
         for (int i = 0; list1 != null && i < list1.size(); i++) {
             ValueItemInfo n = (ValueItemInfo) list.get(i);
+            n.setNode(nodeInfoService.findById(n.getNode_info_id()));
+            n.setType(typeInfoService.findById(n.getType_info_id()));
+            n.setUser(systemUserService.findById(n.getSystem_user_info_id()));
+            Date date=simpleDateFormat.parse(n.getRecordingtime());
+            n.setRecordingtime(simpleDateFormat.format(date));
             r.append("{\"itemid\":\"" + String.valueOf(n.getId()) + "\",\"value\":\"");
             r.append(n.getValue());
             r.append("\",\"nodeid\":\"");
             r.append(n.getNode().getId());
             r.append("\",\"note\":\"" + n.getNote()
                     + "\",\"typename\":\"" + n.getType().getType_name()
-                    + "\",\"recordingtime\":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(n.getRecordingtime())
-                    + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getName()
+                    + "\",\"recordingtime\":\"" + n.getRecordingtime()
+                    + "\",\"useridname\":\"" + n.getUser().getId() + " " + n.getUser().getSystem_user_name()
                     + "\"},");
         }
         if (list.size() != 0) {
