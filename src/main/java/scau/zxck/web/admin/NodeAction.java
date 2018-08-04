@@ -30,19 +30,23 @@ public class NodeAction {
         String jsonStr;
         String r = "";
         JSONObject data = ReadJSON.readJSONStr(request);
-        String nodepk = data.get("nodepk").toString();
+        System.out.println(data.toJSONString());
+        String id = data.get("nodeid").toString();
         double longitude = Double.valueOf(data.get("longitude").toString());
         double latitude = Double.valueOf(data.get("latitude").toString());
         String w_e = data.get("e_w").toString();
         String s_n = data.get("n_s").toString();
         String note = data.get("note").toString();
+        String nodeName = data.get("nodeName").toString();
         NodeInfo nodeInfo = new NodeInfo();
         nodeInfo.setEast_west(w_e);
         nodeInfo.setLatitude(latitude);
         nodeInfo.setLongitude(longitude);
         nodeInfo.setNote(note);
         nodeInfo.setSouth_north(s_n);
-        nodeInfo.setId(nodepk);
+        nodeInfo.setId(id);
+        nodeInfo.setNodeName(nodeName);
+     //   System.out.println(note+w_e+nodeName);
         PrintWriter out = response.getWriter();
         try {
             nodeInfoService.add(nodeInfo);
@@ -51,6 +55,7 @@ public class NodeAction {
             out.write(r);
             out.flush();
         } catch (Exception e) {
+          e.printStackTrace();
             r = "{\"status\":\"0\",\"msg\":\"添加结点失败\"}";
             out.flush();
             out.write(r);

@@ -18,7 +18,7 @@ import scau.zxck.service.market.ICartInfoService;
 import scau.zxck.service.market.IDeliveryAddressService;
 import scau.zxck.service.sys.IUserRegisterService;
 import scau.zxck.utils.JSONclass;
-import scau.zxck.web.test.UserInfo2Test;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

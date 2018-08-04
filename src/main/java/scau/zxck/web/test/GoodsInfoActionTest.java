@@ -8,16 +8,27 @@ import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import scau.zxck.entity.market.GoodsInfo;
+import scau.zxck.entity.sys.SystemUserInfo;
 import scau.zxck.utils.ToJSONString;
 import scau.zxck.web.admin.GoodsInfoAction;
 import scau.zxck.web.admin.LoginAction;
+import scau.zxck.web.admin.*;
+import scau.zxck.entity.market.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,15 +45,23 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:config/spring/spring.xml","classpath:config/spring/web/spring-mvc.xml"})
 @WebAppConfiguration
+
+@TransactionConfiguration(defaultRollback = false)
+@Transactional
+
 public class GoodsInfoActionTest {
     private MockMvc mockMvc;
     private ObjectMapper mapper = new ObjectMapper();
     @Autowired
-    private LoginAction loginAction;
+    private LoginAndRegisterAction loginAndRegisterAction;
+    @Autowired
+    private ValueAction valueAction;
     @Autowired
     private HttpServletRequest  request;
+  @Autowired
+  private MockHttpSession session;
 
-
+  private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 @Before
 public void before() throws Exception {
 }
@@ -51,107 +70,33 @@ public void before() throws Exception {
 public void after() throws Exception {
 }
 
-/**
-*
-* Method: getOneGood(String jsonStr)
-*
-*/
-@Test
-public void testGetOneGood() throws Exception {
-////TODO: Test goes here...
-//    mockMvc = standaloneSetup(loginAction).build();
-//
-////   goodsInfo.setId("100001");
-//
-//    String jsonStr = new String("{ \"isAdmin\": \"true\", \"Admin_Password\": \"25d55ad283aa400af464c76d713c07ad\", \"Admin_Cell\": \"\", \"Admin_Name\": \"1\", \"Admin_Email\": \"\" }");
-//
-//    String responseString = mockMvc.perform((post("/login"))
-//            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
-//    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
-//    System.out.println(responseString);
-}
-
-/**
-*
-* Method: getAllTypesGoods(String jsonStr)
-*
-*/
 @Test
 public void testGetAllTypesGoods() throws Exception {
 //TODO: Test goes here...
-//    mockMvc = standaloneSetup(goodsInfoAction).build();
-//    GoodsInfo goodsInfo = new GoodsInfo();
-//    goodsInfo.setId("100001");
-//    String jsonStr = mapper.writeValueAsString(goodsInfo);
-//    System.out.println(jsonStr);
-//    jsonStr = ToJSONString.toJSON(jsonStr);
-//    System.out.println(jsonStr);
-//    String responseString = mockMvc.perform((post("/getOneGood"))
-//            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
-//    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
-//    System.out.println(responseString);
-    System.out.println("success");
+      SystemUserInfo loginUser=new SystemUserInfo();
+      loginUser.setId("100");
+      session.setAttribute("loginUser",loginUser);
+      String date=simpleDateFormat.format(new java.util.Date());
+      mockMvc = standaloneSetup(valueAction).build();
+      String jsonStr1="{\"value\":\"1\",\"typeid\":\"1\",\"nodeid\":\"123\",\"recordingtime\":\""+date+"\",\"note\":\"hello world\"}";
+      String responseString1= mockMvc.perform((post("/addValue"))
+      .contentType(MediaType.APPLICATION_JSON).content(jsonStr1).session(session)
+    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
+  System.out.println(responseString1);
 }
-
-/**
-*
-* Method: getTypeGoods(String jsonStr)
-*
-*/
-////@Test
-//public void testGetTypeGoods() throws Exception {
-////TODO: Test goes here...
-//    mockMvc = standaloneSetup(goodsInfoAction).build();
-//    GoodsInfo goodsInfo = new GoodsInfo(6);
-//    String jsonStr = mapper.writeValueAsString(goodsInfo);
-//    System.out.println(jsonStr);
-//    jsonStr = ToJSONString.toJSON(jsonStr);
-//    System.out.println(jsonStr);
-//    String responseString = mockMvc.perform((post("/getTypeGoods"))
-//            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
-//    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
-//    System.out.println(responseString);
-//}
-
-/**
-*
-* Method: getSpecialGoods(String jsonStr)
-*
-*/
-//@Test
-//public void testGetSpecialGoods() throws Exception {
-////TODO: Test goes here...
-//    mockMvc = standaloneSetup(goodsInfoAction).build();
-//    GoodsInfo goodsInfo = new GoodsInfo('0');
-//    String jsonStr = mapper.writeValueAsString(goodsInfo);
-//    System.out.println(jsonStr);
-//    jsonStr = ToJSONString.toJSON(jsonStr);
-//    System.out.println(jsonStr);
-//    String responseString = mockMvc.perform((post("/getSpecialGoods"))
-//            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
-//    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
-//    System.out.println(responseString);
-//}
-
-/**
-*
-* Method: getDiscountGoods(String jsonStr)
-*
-*/
-//@Test
-//public void testGetDiscountGoods() throws Exception {
-////TODO: Test goes here...
-//    mockMvc = standaloneSetup(goodsInfoAction).build();
-//    GoodsInfo goodsInfo = new GoodsInfo('2');
-//    String jsonStr = mapper.writeValueAsString(goodsInfo);
-//    System.out.println(jsonStr);
-//    jsonStr = ToJSONString.toJSON(jsonStr);
-//    System.out.println(jsonStr);
-//    String responseString = mockMvc.perform((post("/getDiscountGoods"))
-//            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
-//    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
-//    System.out.println(responseString);
-//}
+@Test
+  public void test() throws Exception {
+  SystemUserInfo loginUser=new SystemUserInfo();
+  loginUser.setId("100");
+  session.setAttribute("loginUser",loginUser);
+ String str="{\"rows\":\"1\",\"page\":\"1\",\"starttime\":\"2018-08-04 21:30:43\",\"endtime\":\"2018-08-04 21:48:18\",\"typeid\":\"1\",\"nodeid\":\"123\"}";
+  // String str="{\"itemid\":\"62ab03b6b5a945d69ff2752bb4f15b25\"}";
+ // String str="{\"rows\":\"3\",\"page\":\"1\",\"typeid\":\"1\",\"nodeid\":\"123\"}";
+    mockMvc = standaloneSetup(valueAction).build();
+   String responseString1= mockMvc.perform((post("/searchValues")).contentType(MediaType.APPLICATION_JSON).content(str).session(session)
+    ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
+    System.out.println(responseString1);
+  }
 
 /**
 *
