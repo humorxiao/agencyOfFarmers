@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import scau.zxck.entity.sys.SystemUserInfo;
 import scau.zxck.web.admin.ValueAction;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -107,7 +108,18 @@ public void testDeleteValueItem() throws Exception {
 */ 
 @Test
 public void testGetMyValues() throws Exception { 
-//TODO: Test goes here... 
+//TODO: Test goes here...
+    String jsonStr;
+    SystemUserInfo systemUserInfo = new SystemUserInfo();
+    systemUserInfo.setSystem_user_info_id("101");
+    session.setAttribute("loginUser",systemUserInfo);
+    jsonStr="{\"rows\":\"1\",\"page\":\"1\",\"starttime\":\"2016-08-02 20:29:21\",\"endtime\":\"2018-08-02 20:30:21\",\"typeid\":\"1\",\"nodeid\":\"2\"}";
+    String responseString=mockMvc.perform(post("/getMyValues")
+            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
+            .session(session)
+    ).andExpect(status().isOk()).andDo(print()).andReturn()
+            .getResponse().getContentAsString();
+    System.out.println(responseString);
 } 
 
 /** 
