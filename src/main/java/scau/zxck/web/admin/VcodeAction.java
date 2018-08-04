@@ -11,6 +11,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
 import scau.zxck.utils.AuthCodeUtil;
+import scau.zxck.utils.FlushWriteUtil;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -49,7 +50,7 @@ public class VcodeAction {
 
     }
     @RequestMapping(value = "validateVCode",method = RequestMethod.POST)
-    public void validateVCode(HttpServletResponse response)throws IOException{
+    public void validateVCode(HttpServletResponse response)throws Exception{
         String r="";
         String code=request.getParameter("code");
         boolean ret=code.equals((String) session.getAttribute("authcode"));
@@ -58,9 +59,6 @@ public class VcodeAction {
         }else{
             r="{\"status\":0}";
         }
-      PrintWriter out=response.getWriter();
-      out.flush();
-      out.write(r);
-      out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }

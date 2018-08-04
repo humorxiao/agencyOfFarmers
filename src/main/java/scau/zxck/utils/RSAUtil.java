@@ -23,11 +23,11 @@ import javax.crypto.Cipher;
  *
  * @author Administrator
  */
-public class RSA {
+public class RSAUtil {
   /** *//** 
      * 加密算法RSA 
      */  
-    public static final String KEY_ALGORITHM = "RSA";  
+    public static final String KEY_ALGORITHM = "RSAUtil";
       
     /** *//** 
      * 签名算法 

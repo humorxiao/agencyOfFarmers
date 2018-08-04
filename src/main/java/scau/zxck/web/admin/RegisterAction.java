@@ -12,7 +12,8 @@ import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.ICartInfoService;
 import scau.zxck.service.market.IDeliveryAddressService;
 import scau.zxck.service.sys.IUserRegisterService;
-import scau.zxck.utils.ReadJSON;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +41,7 @@ public class RegisterAction {
     @RequestMapping(value = "register", method = RequestMethod.POST)
 //  @Test
     public void register(HttpServletResponse response) throws Exception {
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         JSONObject temp = new JSONObject();
         data.put("User_RegTime", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss").format(new Date())).toString());
         boolean flag;
@@ -95,7 +96,7 @@ public class RegisterAction {
     @RequestMapping(value = "validateAccount", method = RequestMethod.POST)
     public void validateAccount( HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         Conditions conditions = new Conditions();
         if (!data.get("User_Name").toString().equals("")) {
             List list =
@@ -121,9 +122,6 @@ public class RegisterAction {
             } else
                 r = "{\"status\":1}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }

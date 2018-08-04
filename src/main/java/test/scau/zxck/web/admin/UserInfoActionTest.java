@@ -15,16 +15,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import scau.zxck.entity.market.DeliveryAddress;
-import scau.zxck.utils.ToJSONString;
-import scau.zxck.web.admin.CartInfoAction;
+import scau.zxck.utils.ToJSONStringUtil;
 import scau.zxck.web.admin.UserInfoAction;
-
-import javax.management.DynamicMBean;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 /** 
@@ -92,7 +88,7 @@ public void testGetUserDeliveryAddress() throws Exception {
     DeliveryAddress deliveryAddress = new DeliveryAddress("13421166393","林先生","广东省揭阳市某某区某某街道","522000","");
    String jsonStr = mapper.writeValueAsString(deliveryAddress);
     System.out.println(jsonStr);
-    jsonStr=ToJSONString.toJSON(jsonStr);
+    jsonStr=ToJSONStringUtil.toJSON(jsonStr);
     System.out.println(jsonStr);
     mockHttpSession.setAttribute("User_PK","100003");
     mockMvc = standaloneSetup(userInfoAction).build();

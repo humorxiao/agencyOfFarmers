@@ -6,22 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.GoodsInfo;
 import scau.zxck.entity.market.UserComments;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IUserCommentsService;
-import scau.zxck.utils.ReadJSON;
-import sun.awt.SunHints;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -43,7 +39,7 @@ public class CommentsAction {
   @RequestMapping(value = "getGoodsComments", method = RequestMethod.POST)
   public void getGoodsComments( HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject data=ReadJSON.readJSONStr(request);
+    JSONObject data= ReadJSONUtil.readJSONStr(request);
     JSONArray jsonArray = new JSONArray();
     Conditions conditions = new Conditions();
     List list =
@@ -63,16 +59,13 @@ public class CommentsAction {
       }
     }
     r = jsonArray.toString();
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
+    FlushWriteUtil.flushWrite(response,r);
   }
 
   @RequestMapping(value = "addComments", method = RequestMethod.POST)
   public void addComments(HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject data=ReadJSON.readJSONStr(request);
+    JSONObject data= ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", session.getAttribute("User_PK"));
     } else {
@@ -106,7 +99,7 @@ public class CommentsAction {
     Conditions conditions = new Conditions();
     JSONObject temp=new JSONObject();
     String r = "";
-    JSONObject data=ReadJSON.readJSONStr(request);
+    JSONObject data= ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", session.getAttribute("User_PK"));
     } else {
@@ -126,15 +119,12 @@ public class CommentsAction {
           temp.put("Comm_Time", comm.getComm_time());
       }
       r=temp.toString();
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
+    FlushWriteUtil.flushWrite(response,r);
   }
   @RequestMapping(value = "deleteComments",method = RequestMethod.POST)
   public void deleteComments(HttpServletResponse response) throws Exception{
     String r="";
-    JSONObject data=ReadJSON.readJSONStr(request);
+    JSONObject data= ReadJSONUtil.readJSONStr(request);
     try {
       userCommentsService.deleteByIds(data.get("Comm_PK").toString());
       r="{\"status\":1}";
@@ -142,9 +132,6 @@ public class CommentsAction {
         e.printStackTrace();
       r="{\"status\":0}";
     }
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
+    FlushWriteUtil.flushWrite(response,r);
   }
 }

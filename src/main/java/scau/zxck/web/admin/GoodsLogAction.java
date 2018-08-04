@@ -1,31 +1,24 @@
 package scau.zxck.web.admin;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.GoodsInfo;
 import scau.zxck.entity.market.GoodsLog;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IGoodsLogService;
-import scau.zxck.utils.JSONPaging;
-import scau.zxck.utils.ReadJSON;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.JSONArrayPagingUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -49,7 +42,7 @@ public class GoodsLogAction {
 
     public void getAllGoodsLogPaging( HttpServletResponse response) throws Exception {
 
-        JSONObject pageInfo=ReadJSON.readJSONStr(request);
+        JSONObject pageInfo= ReadJSONUtil.readJSONStr(request);
         List list = goodsLogService.listAll();
         JSONArray jsonarr = new JSONArray();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
@@ -63,16 +56,13 @@ public class GoodsLogAction {
             temp.put("GL_Time", gl.getGl_time());
             jsonarr.add(temp);
         }
-        String r = JSONPaging.JSONArrayPaging(jsonarr, pageInfo).toString();
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        String r = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo).toString();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "addGoodsLog", method = RequestMethod.POST)
     public void addGoodsLog(HttpServletResponse response) throws Exception {
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         JSONObject temp = new JSONObject();
         Conditions conditions = new Conditions();
         List list = goodsInfoService.list(conditions.eq("id", data.get("Goods_PK").toString()));
@@ -142,9 +132,6 @@ public class GoodsLogAction {
         } else {
             r = "{\"status\":0}";
         }
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }

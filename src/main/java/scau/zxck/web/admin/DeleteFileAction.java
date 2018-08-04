@@ -5,7 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import scau.zxck.utils.ReadJSON;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,7 @@ public class DeleteFileAction {
     public void deleteFile(HttpServletResponse response) throws Exception{
         String r = "{\"status\":\"\",\"msg\":\"\"}";//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         String paths=data.get("filePath").toString();
         String[] path=paths.split(";");
         for(int i=0;i<path.length;i++){
@@ -35,9 +36,6 @@ public class DeleteFileAction {
             }
         }
         r = "{\"status\":\"1\",\"msg\":\"删除成功\"}";
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }

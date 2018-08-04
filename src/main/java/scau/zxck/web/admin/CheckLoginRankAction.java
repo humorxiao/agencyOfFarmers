@@ -15,6 +15,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.dao.market.GoodsInfoDao;
 import scau.zxck.entity.market.GoodsInfo;
+import scau.zxck.utils.FlushWriteUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,10 +47,7 @@ public class CheckLoginRankAction {
         } else {
             r = "{\"status\":0}";//游客
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }
 

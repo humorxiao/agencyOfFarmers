@@ -2,31 +2,24 @@ package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.GoodsInfo;
 import scau.zxck.entity.market.GoodsLog;
 import scau.zxck.entity.market.OrderInfo;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IOrderInfoService;
-import scau.zxck.utils.JSONPaging;
-import scau.zxck.utils.ReadJSON;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.JSONArrayPagingUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -52,7 +45,7 @@ public class OrderInfoAction {
 //    @Test
     public void getUserOrderListPaging(String jsonStr, HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         JSONObject pageInfo = JSONObject.parseObject(jsonStr);
         if (session.getAttribute("User_PK") != null) {
             pageInfo.put("User_PK", (int) session.getAttribute("User_PK"));
@@ -91,19 +84,16 @@ public class OrderInfoAction {
 
             jsonarr.add(temp);
         }
-        JSONArray temparr = JSONPaging.JSONArrayPaging(jsonarr, pageInfo);
+        JSONArray temparr = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo);
         r = temparr.toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getStateOrderPaging", method = RequestMethod.POST)
 //    @Test
     public void getStateOrderPaging(HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
 //        JSONObject pageInfo = JSONObject.parseObject(jsonStr);
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", (int) session.getAttribute("User_PK"));
@@ -142,19 +132,16 @@ public class OrderInfoAction {
 
             jsonarr.add(temp);
         }
-        JSONArray temparr = JSONPaging.JSONArrayPaging(jsonarr, data);
+        JSONArray temparr = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, data);
         r = temparr.toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "addOrder", method = RequestMethod.POST)
 //    @Test
     public void addOrder( HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         String[] goodslist = ((String) data.get("Goods_List")).split("#");
         String[] goodsnum = ((String) data.get("Goods_Num")).split("#");
         for (int i = 0; i < goodslist.length; i++) {// 循环操作订单中的每一项商品
@@ -257,17 +244,14 @@ public class OrderInfoAction {
         jsonObject.put("Order_Aftersale", orderInfo1.getOrder_aftersale());
         jsonObject.put("Order_Reserve_1", orderInfo1.getOrder_reserve_1());
         r = jsonObject.toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "updateOrder", method = RequestMethod.POST)
 //    @Test
     public void updateOrder(HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         OrderInfo temp = orderInfoService.findById(data.get("Order_PK").toString());
         temp.setUser_info_id(data.get("User_PK").toString());
         temp.setOrder_id(data.get("Order_ID").toString());
@@ -294,16 +278,13 @@ public class OrderInfoAction {
             e.printStackTrace();
             r = "{\"status\":0}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "payOrder", method = RequestMethod.POST)
 //    @Test
     public void payOrder( HttpServletResponse response) throws Exception {
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         String r = "";
         JSONObject temp = new JSONObject();
         Conditions conditions = new Conditions();
@@ -360,16 +341,13 @@ public class OrderInfoAction {
             e.printStackTrace();
             r = "{\"status\":0}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getNoPayOrder", method = RequestMethod.POST)
 //    @Test
     public void getNoPayOrder( HttpServletResponse response) throws Exception {
-        JSONObject pageInfo=ReadJSON.readJSONStr(request);
+        JSONObject pageInfo= ReadJSONUtil.readJSONStr(request);
         String r = "";
         JSONArray jsonarr = new JSONArray();
         Conditions conditions = new Conditions();
@@ -400,17 +378,14 @@ public class OrderInfoAction {
             temp.put("Order_Reserve_1", order.getOrder_reserve_1());
             jsonarr.add(temp);
         }
-        r = JSONPaging.JSONArrayPaging(jsonarr, pageInfo).toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        r = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo).toString();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getIDOrder", method = RequestMethod.POST)
 //    @Test
     public void getIDOrder( HttpServletResponse response) throws Exception {
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         JSONObject temp = new JSONObject();
         Conditions conditions = new Conditions();
         List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
@@ -440,10 +415,7 @@ public class OrderInfoAction {
             temp.put("Order_Reserve_1", order.getOrder_reserve_1());
         }
         String r = temp.toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getSumOfPayedNoFinishedOrder", method = RequestMethod.POST)
@@ -455,16 +427,13 @@ public class OrderInfoAction {
                 orderInfoService.list(conditions.eq("order_state", 1).and().eq("order_isPay", true));
         int sum = list.size();
         String r = "{\"sum\":" + sum + "}";
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getPayedNoFinishedOrder", method = RequestMethod.POST)
 //    @Test
     public void getPayedNoFinishedOrder( HttpServletResponse response) throws Exception {
-        JSONObject pageInfo=ReadJSON.readJSONStr(request);
+        JSONObject pageInfo= ReadJSONUtil.readJSONStr(request);
         JSONArray jsonarr = new JSONArray();
         Conditions conditions = new Conditions();
         List list =
@@ -495,10 +464,7 @@ public class OrderInfoAction {
             temp.put("Order_Reserve_1", order.getOrder_reserve_1());
             jsonarr.add(temp);
         }
-        String r =JSONPaging.JSONArrayPaging(jsonarr, pageInfo).toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        String r =JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo).toString();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }
