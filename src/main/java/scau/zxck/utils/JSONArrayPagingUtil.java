@@ -3,7 +3,7 @@ package scau.zxck.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-public class JSONPaging {
+public class JSONArrayPagingUtil {
     public static JSONArray JSONArrayPaging(JSONArray arr, JSONObject json) {
         JSONArray temparr = new JSONArray();
         JSONObject firstjson = new JSONObject();

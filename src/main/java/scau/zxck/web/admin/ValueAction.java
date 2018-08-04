@@ -6,20 +6,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.entity.market.NodeInfo;
-import scau.zxck.entity.market.TypeInfo;
 import scau.zxck.entity.market.ValueItemInfo;
 import scau.zxck.entity.sys.SystemUserInfo;
 import scau.zxck.service.market.INodeInfoService;
 import scau.zxck.service.market.ITypeInfoService;
 import scau.zxck.service.market.IValueItemService;
 import scau.zxck.service.sys.ISystemUserService;
-import scau.zxck.utils.ReadJSON;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -44,9 +42,8 @@ public class ValueAction {
 
     @RequestMapping(value = "addValue", method = RequestMethod.POST)
     public void addValue(HttpServletResponse response) throws Exception {
-        String jsonStr;
         String r = "";
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         String value = data.get("value").toString();
         String type_info_id = data.get("typeid").toString();
         String node_info_id = data.get("nodeid").toString();
@@ -64,25 +61,20 @@ public class ValueAction {
         valueItemInfo.setType(typeInfoService.findById(type_info_id));
         Date date = simpleDateFormat.parse(recordingtime);
         valueItemInfo.setRecordingtime(simpleDateFormat.format(date).toString());
-        PrintWriter out = response.getWriter();
         try {
             valueItemService.add(valueItemInfo);
             r = "{\"status\":\"1\",\"msg\":\"添加成功\",\"userid\":\"" + valueItemInfo.getUser().getId() + "\"," + "\"username:\""
                     + valueItemInfo.getUser().getSystem_user_name() + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
                     + "\",\"recordingtime\":\"" + valueItemInfo.getRecordingtime() +
                     "\"}";
-            out.flush();
-            out.write(r);
-            out.flush();
+            FlushWriteUtil.flushWrite(response,r);
         } catch (Exception e) {
             e.printStackTrace();
             r = "{\"status\":\"0\",\"msg\":\"添加失败\",\"userid\":\"" + valueItemInfo.getUser().getId() + "\"," + "\"username:\""
                     + valueItemInfo.getUser().getSystem_user_name() + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
                     + "\",\"recordingtime\":\"" + valueItemInfo.getRecordingtime() +
                     "\"}";
-            out.flush();
-            out.write(r);
-            out.flush();
+            FlushWriteUtil.flushWrite(response,r);
         }
     }
 
@@ -113,29 +105,23 @@ public class ValueAction {
         }
         r.append("]}");
         System.out.println(r);
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
 
     @RequestMapping(value = "deleteValueItem", method = RequestMethod.POST)
     public void deleteValueItem(HttpServletResponse response) throws Exception {
         String r = "{\"status\":\"\",\"msg\":\"\"}";//返回的字符串
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         String id = data.get("itemid").toString();
         SystemUserInfo user = (SystemUserInfo) session.getAttribute("loginUser");
         valueItemService.deleteByIds(id);
         r = "{\"status\":\"1\",\"msg\":\"删除成功\"}";
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getMyValues", method = RequestMethod.POST)
     public void getMyValues(HttpServletResponse response) throws Exception {
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         System.out.println("test2");
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
@@ -203,17 +189,14 @@ public class ValueAction {
             pages = count / rows + 1;
         }
         r.append("\"pages\":\"" + pages + "\"}");
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
 
     @RequestMapping(value = "getValueItem", method = RequestMethod.POST)
     public void getValueItem(HttpServletResponse response) throws Exception {
         StringBuffer r = new StringBuffer();//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         String id = data.get("itemid").toString();
         ValueItemInfo n = valueItemService.findById(id);
         n.setNode(nodeInfoService.findById(n.getNode_info_id()));
@@ -234,16 +217,13 @@ public class ValueAction {
         } else {
             r.append("{\"status\":\"0\"}");
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
 
     @RequestMapping(value = "searchAllValuesByType", method = RequestMethod.POST)
     public void searchAllValuesByType(HttpServletResponse response) throws Exception {
         System.out.println("test2");
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
         request.setCharacterEncoding("utf-8");
@@ -289,10 +269,7 @@ public class ValueAction {
             pages = count / rows + 1;
         }
         r.append("\"pages\":\"" + pages + "\"}");
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
 
     @RequestMapping(value = "searchValues", method = RequestMethod.POST)
@@ -301,7 +278,7 @@ public class ValueAction {
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
         request.setCharacterEncoding("utf-8");
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         int currentpage = 1;
         int rows = 0;
         int count = 0;
@@ -364,9 +341,6 @@ public class ValueAction {
             pages = count / rows + 1;
         }
         r.append("\"pages\":\"" + pages + "\"}");
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
 }

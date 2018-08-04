@@ -32,7 +32,14 @@
   <listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
-
+  <!-- 防止用户多次登录监听器-->
+  <listener>
+    <listener-class>scau.zxck.web.listener.UserSessionListener</listener-class>
+  </listener>
+  <!--当用户超过1分钟不访问服务器的话就自动销毁session，先测试用下-->
+  <session-config>
+    <session-timeout>1</session-timeout>
+  </session-config>
   <!-- 编码过滤器 -->
   <filter>
     <filter-name>encodingFilter</filter-name>

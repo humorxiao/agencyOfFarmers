@@ -2,22 +2,22 @@ package scau.zxck.utils;
 
 import java.util.Map;
 
-public class RSAManager {
+public class RSAManagerUtil {
 
   // 单例模式
-  private static RSAManager instance;
+  private static RSAManagerUtil instance;
   private static String publicKey;
   private static String privateKey;
 
 
 
-  private RSAManager() {
+  private RSAManagerUtil() {
     this.startCircleKeyThread();
   }
 
-  public static synchronized RSAManager getInstance() {
+  public static synchronized RSAManagerUtil getInstance() {
     if (instance == null) {
-      instance = new RSAManager();
+      instance = new RSAManagerUtil();
     }
     return instance;
   }
@@ -37,9 +37,9 @@ public class RSAManager {
 
     try {
       Map<String, Object> keyMap;
-      keyMap = RSA.genKeyPair();
-      publicKey = RSA.getPublicKey(keyMap);
-      privateKey = RSA.getPrivateKey(keyMap);
+      keyMap = RSAUtil.genKeyPair();
+      publicKey = RSAUtil.getPublicKey(keyMap);
+      privateKey = RSAUtil.getPrivateKey(keyMap);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -52,25 +52,25 @@ public class RSAManager {
 
   public String encryptByPublicKey(String str, String publick) throws Exception {
     byte[] data = str.getBytes();
-    byte[] encodedData = RSA.encryptByPublicKey(data, publick);
+    byte[] encodedData = RSAUtil.encryptByPublicKey(data, publick);
     return byteToString(encodedData);
   }
 
   public String encryptByPrivateKey(String str) throws Exception {
     byte[] data = str.getBytes();
-    byte[] encodedData = RSA.encryptByPrivateKey(data, privateKey);
+    byte[] encodedData = RSAUtil.encryptByPrivateKey(data, privateKey);
     return byteToString(encodedData);
   }
 
   public String decryptByPublicKey(String str, String publick) throws Exception {
     byte[] data = stringToByte(str);
-    byte[] decodedData = RSA.decryptByPublicKey(data, publick);
+    byte[] decodedData = RSAUtil.decryptByPublicKey(data, publick);
     return new String(decodedData);
   }
 
   public String decryptByPrivateKey(String str) throws Exception {
     byte[] data = stringToByte(str);
-    byte[] decodedData = RSA.decryptByPrivateKey(data, privateKey);
+    byte[] decodedData = RSAUtil.decryptByPrivateKey(data, privateKey);
     return new String(decodedData);
   }
 

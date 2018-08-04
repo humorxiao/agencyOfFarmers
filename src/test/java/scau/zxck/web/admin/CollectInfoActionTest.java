@@ -13,9 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import scau.zxck.entity.market.UserCollection;
-import scau.zxck.utils.ToJSONString;
-
-import javax.servlet.http.HttpServletRequest;
+import scau.zxck.utils.ToJSONStringUtil;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -61,7 +59,7 @@ public void testAddCollection() throws Exception {
     UserCollection userCollection = new UserCollection("100003","100016","2018-07-21 10:17:56");
     String jsonStr  = mapper.writeValueAsString(userCollection);
     System.out.println(jsonStr);
-    jsonStr = ToJSONString.toJSON(jsonStr);
+    jsonStr = ToJSONStringUtil.toJSON(jsonStr);
     System.out.println(jsonStr);
     mockHttpSession.setAttribute("User_PK","100003");
 //    mockHttpSession.setAttribute("Goods_PK","100018");
@@ -83,7 +81,7 @@ public void testRemoveCollect() throws Exception {
     UserCollection userCollection = new UserCollection("f3da90055b014586a022373b95c57003","100003");
     String jsonStr  = mapper.writeValueAsString(userCollection);
     System.out.println(jsonStr);
-    jsonStr = ToJSONString.toJSON(jsonStr);
+    jsonStr = ToJSONStringUtil.toJSON(jsonStr);
     System.out.println(jsonStr);
     mockHttpSession.setAttribute("User_PK","100003");
 //    mockHttpSession.setAttribute("Goods_PK","100018");
@@ -105,7 +103,7 @@ public void testGetCollect() throws Exception {
     UserCollection userCollection = new UserCollection("100003");
     String jsonStr  = mapper.writeValueAsString(userCollection);
     System.out.println(jsonStr);
-    jsonStr = ToJSONString.toJSON(jsonStr);
+    jsonStr = ToJSONStringUtil.toJSON(jsonStr);
     System.out.println(jsonStr);
     mockHttpSession.setAttribute("User_PK","100003");
 //    mockHttpSession.setAttribute("Goods_PK","100018");

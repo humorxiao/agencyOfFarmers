@@ -1,29 +1,26 @@
 package scau.zxck.web.admin;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.*;
 import scau.zxck.entity.sys.AdminInfo;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.ISignInLogService;
 import scau.zxck.service.sys.IAdminLoginService;
 import scau.zxck.service.sys.IUserLoginService;
-import scau.zxck.utils.ReadJSON;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
+import scau.zxck.web.listener.UserSessionListener;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.List;
@@ -46,17 +43,26 @@ public class LoginAction {
     private HttpSession session;
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public void login( HttpServletResponse response) throws Exception {
+    public void login(HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         JSONObject temp = new JSONObject();
         if ((boolean) data.get("isAdmin")) {
+            String string = data.get("Admin_Name").toString() + data.get("Admin_Cell").toString() + data.get("Admin_Email").toString();
+            if (UserSessionListener.isAreadyEnter(session, string, response)) {
+                temp.put("isCorrect", false);
+                temp.put("reLogin", true);
+                r = temp.toString();
+                FlushWriteUtil.flushWrite(response,r);
+                return;
+            }
             Conditions conditions = new Conditions();
             List list =
-                    adminLoginService.list(conditions.eq("admin_name", data.get("Admin_Name").toString()).or()
+                    adminLoginService.list(conditions.eq("admin_password", data.get("Admin_Password").toString()).and().leftBracket()
+                            .eq("admin_name", data.get("Admin_Name").toString()).or()
                             .eq("admin_cell", data.get("Admin_Cell").toString()).or()
-                            .eq("admin_email", data.get("Admin_Email").toString()).and()
-                            .eq("admin_password", data.get("Admin_Password").toString()));
+                            .eq("admin_email", data.get("Admin_Email").toString()).rightBracket()
+                    );
             if (list.isEmpty()) {
                 temp.put("isCorrect", false);
             } else {
@@ -67,12 +73,21 @@ public class LoginAction {
             }
 
         } else {
+            String string = data.get("User_Name").toString() + data.get("User_Cell").toString() + data.get("User_Email").toString();
+            if (UserSessionListener.isAreadyEnter(session, string, response)) {
+                temp.put("isCorrect", false);
+                temp.put("reLogin", true);
+                r = temp.toString();
+                FlushWriteUtil.flushWrite(response,r);
+                return;
+            }
             Conditions conditions = new Conditions();
             List list = null;
-            list = userLoginService.list(conditions.eq("user_name", data.get("User_Name").toString()).or()
+            list = userLoginService.list(conditions.eq("user_password", data.get("User_Password").toString()).and().leftBracket()
+                    .eq("user_name", data.get("User_Name").toString()).or()
                     .eq("user_cell", data.get("User_Cell").toString()).or()
-                    .eq("user_email", data.get("User_Email").toString()).and()
-                    .eq("user_password", data.get("User_Password").toString()));
+                    .eq("user_email", data.get("User_Email").toString()).rightBracket()
+            );
             if (list.isEmpty()) {
                 temp.put("isCorrect", false);
             } else {
@@ -108,10 +123,7 @@ public class LoginAction {
                 session.setAttribute("User_PK", temp.get("User_PK"));
             }
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
 }

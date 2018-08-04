@@ -6,8 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.exception.BaseException;
-import scau.zxck.utils.RSAManager;
-import scau.zxck.utils.ReadJSON;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.RSAManagerUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,40 +21,31 @@ public class RSAAction {
     private HttpServletRequest request;
     @RequestMapping(value = "startRSAThread",method = RequestMethod.POST)
     public void startRSAThread() throws BaseException{
-        RSAManager rsa = RSAManager.getInstance();
+        RSAManagerUtil rsa = RSAManagerUtil.getInstance();
        rsa.startCircleKeyThread();
     }
     @RequestMapping(value = "getRSAPublicKey",method = RequestMethod.POST)
     public void getRSAPublicKey(HttpServletResponse response) throws Exception{
-       String r= RSAManager.getPublicKey();
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+       String r= RSAManagerUtil.getPublicKey();
+        FlushWriteUtil.flushWrite(response,r);
     }
     @RequestMapping(value = "encodeByPublicKey",method = RequestMethod.POST)
     public void encodeByPublicKey(HttpServletResponse response) throws Exception {
-        RSAManager rsa = RSAManager.getInstance();
-        JSONObject data=ReadJSON.readJSONStr(request);
+        RSAManagerUtil rsa = RSAManagerUtil.getInstance();
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         String data1=(String)data.get("data");
         String publickey=(String)data.get("publickey");
         String r=rsa.encryptByPublicKey(data1,publickey);
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
     @RequestMapping(value = "decodeByPublicKey",method = RequestMethod.POST)
     public void decodeByPublicKey(HttpServletResponse response)throws Exception{
-        RSAManager rsa = RSAManager.getInstance();
-        JSONObject data=ReadJSON.readJSONStr(request);
+        RSAManagerUtil rsa = RSAManagerUtil.getInstance();
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         String data2=(String)data.get("data");
         String publickey=(String)data.get("publickey");
         String r=rsa.decryptByPublicKey(data2,publickey);
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
 }

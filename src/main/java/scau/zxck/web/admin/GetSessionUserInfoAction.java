@@ -1,38 +1,20 @@
 package scau.zxck.web.admin;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.base.exception.BaseException;
-import scau.zxck.entity.market.GoodsInfo;
-import scau.zxck.entity.market.UserComments;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.sys.IUserLoginService;
-import scau.zxck.service.market.IGoodsInfoService;
-import scau.zxck.service.market.IUserCommentsService;
-import scau.zxck.service.sys.IUserService;
-import scau.zxck.utils.ReadJSON;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -48,7 +30,7 @@ public class GetSessionUserInfoAction {
 //  @Test
     public void getSessionUserInfo( HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         if (session.getAttribute("User_PK") != null) {
             Conditions conditions = new Conditions();
             UserInfo user = userLoginService.findById(data.get("User_PK").toString());
@@ -65,10 +47,7 @@ public class GetSessionUserInfoAction {
         } else {
             r = "{\"User_Name\":\"未登录成功\"}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }
 

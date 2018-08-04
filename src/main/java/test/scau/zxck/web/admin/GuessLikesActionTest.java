@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import scau.zxck.entity.market.OrderInfo;
-import scau.zxck.utils.ToJSONString;
+import scau.zxck.utils.ToJSONStringUtil;
 import scau.zxck.web.admin.GoodsInfoAction;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -73,7 +73,7 @@ public void testGuessYouLike() throws Exception {
     OrderInfo orderInfo = new OrderInfo("100003");
     String jsonStr = mapper.writeValueAsString(orderInfo);
     System.out.println(jsonStr);
-    jsonStr=ToJSONString.toJSON(jsonStr);
+    jsonStr=ToJSONStringUtil.toJSON(jsonStr);
     System.out.println(jsonStr);
     mockHttpSession.setAttribute("User_PK","100003");
     mockMvc = standaloneSetup(goodsInfoAction).build();

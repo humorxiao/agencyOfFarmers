@@ -1,13 +1,12 @@
 package scau.zxck.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 @Controller
-public class ReadJSON {
+public class ReadJSONUtil {
 //    @Autowired
 //    private HttpServletRequest request;
     private JSONObject readJson(HttpServletRequest request) throws Exception{
@@ -20,7 +19,7 @@ public class ReadJSON {
         return data;
     }
     public static JSONObject readJSONStr(HttpServletRequest request) throws Exception{
-        ReadJSON readJSON=new ReadJSON();
-        return readJSON.readJson(request);
+        ReadJSONUtil readJSONUtil =new ReadJSONUtil();
+        return readJSONUtil.readJson(request);
     }
 }

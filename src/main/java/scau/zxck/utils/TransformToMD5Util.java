@@ -3,7 +3,7 @@ package scau.zxck.utils;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
-public class TransformToMD5 {
+public class TransformToMD5Util {
     public static String makeMD5(String password) {
         MessageDigest md;
         try {

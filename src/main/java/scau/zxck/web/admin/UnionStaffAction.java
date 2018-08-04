@@ -1,30 +1,21 @@
 package scau.zxck.web.admin;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.UnionStaff;
 import scau.zxck.service.market.IUnionStaffService;
-import scau.zxck.utils.ReadJSON;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -49,7 +40,7 @@ public class UnionStaffAction {
 
     @RequestMapping(value = "getLikesStaffs", method = RequestMethod.POST)
     public void getLikesStaffs(HttpServletResponse response) throws Exception {
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         String likes = data.get("likes").toString();
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         JSONArray jsonarr = new JSONArray();
@@ -76,10 +67,7 @@ public class UnionStaffAction {
             }
         }
         String r = jsonarr.toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getAllUnionStaff", method = RequestMethod.POST)
@@ -102,10 +90,7 @@ public class UnionStaffAction {
             jsAry.add(temp);
         }
         r = jsAry.toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
 
@@ -113,7 +98,7 @@ public class UnionStaffAction {
     public void addUnionStaff( HttpServletResponse response) throws Exception {
         UnionStaff temp = new UnionStaff();
         String r = "";
-        JSONObject json=ReadJSON.readJSONStr(request);
+        JSONObject json= ReadJSONUtil.readJSONStr(request);
         temp.setStaff_name(json.get("Staff_Name").toString());
         temp.setStaff_sex((int) Integer.parseInt(json.get("Staff_Sex").toString()));
         temp.setStaff_birthday(json.get("Staff_Birthday").toString());
@@ -127,16 +112,13 @@ public class UnionStaffAction {
         } catch (Exception e) {
             r = "{\"status\":0}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "updateUnionStaff", method = RequestMethod.POST)
     public void updateUnionStaff( HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject json=ReadJSON.readJSONStr(request);
+        JSONObject json= ReadJSONUtil.readJSONStr(request);
         try {
             UnionStaff temp = (UnionStaff) unionStaffService.findOne((String) json.get("id"));
             if (json.get("Union_Info_Id") != null) {
@@ -168,15 +150,12 @@ public class UnionStaffAction {
         } catch (Exception e) {
             r = "{\"status\":0}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "deleteUnionStaff", method = RequestMethod.POST)
     public void deleteUnionStaff( HttpServletResponse response) throws Exception {
-        JSONObject json=ReadJSON.readJSONStr(request);
+        JSONObject json= ReadJSONUtil.readJSONStr(request);
         String r = "";
         String id = (String) json.get("id");
         try {
@@ -185,9 +164,6 @@ public class UnionStaffAction {
         } catch (Exception e) {
             r = "{\"status\":0}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }
