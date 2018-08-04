@@ -163,18 +163,20 @@ export default {
              axios.post('/api/login', this.datas).then(response => {  //登录信息验证
                if(response.data.isCorrect == true) {
                    if(this.checked === '1') {  // 用户
-                     alert('用户登录成功，用户名为'+ JSON.stringify( response.data.User_Name))
+                     window.location.href = 'index.html'
+                    // alert('用户登录成功，用户名为'+ JSON.stringify( response.data.User_Name))
                    } else if(this.checked === '2') {  // 管理员
-                     alert('管理员登录成功，用户名为' + JSON.stringify(response.data.Admin_Name))
+                     window.location.href = 'editinfo.html'
+                    // alert('管理员登录成功，用户名为' + JSON.stringify(response.data.Admin_Name))
                    }
                  } else {
-                 this.alertError('用户名或密码错误')
+                 this.info('用户名或密码错误')
                }
              }).catch(function (error) {
                console.log(error)
              })
            } else {
-             this.alertError('验证码错误')
+             this.info('验证码错误')
            }
           }).catch(function (error) {
             console.log(error)

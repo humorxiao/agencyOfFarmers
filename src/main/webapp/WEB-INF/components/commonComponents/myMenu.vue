@@ -122,7 +122,6 @@ export default {
     opacity: 0
   }
   #fl-menu{
-    margin-top: 200px;
   }
   .goods{
     padding: 4px 20px
