@@ -5,14 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.entity.market.NodeInfo;
 import scau.zxck.service.market.INodeInfoService;
-import scau.zxck.utils.ReadJSON;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
@@ -29,37 +28,27 @@ public class NodeAction {
     public void addNode(HttpServletResponse response) throws Exception {
         String jsonStr;
         String r = "";
-        JSONObject data = ReadJSON.readJSONStr(request);
-        System.out.println(data.toJSONString());
-        String id = data.get("nodeid").toString();
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
+        String nodepk = data.get("nodeid").toString();
         double longitude = Double.valueOf(data.get("longitude").toString());
         double latitude = Double.valueOf(data.get("latitude").toString());
         String w_e = data.get("e_w").toString();
         String s_n = data.get("n_s").toString();
         String note = data.get("note").toString();
-        String nodeName = data.get("nodeName").toString();
         NodeInfo nodeInfo = new NodeInfo();
         nodeInfo.setEast_west(w_e);
         nodeInfo.setLatitude(latitude);
         nodeInfo.setLongitude(longitude);
         nodeInfo.setNote(note);
         nodeInfo.setSouth_north(s_n);
-        nodeInfo.setId(id);
-        nodeInfo.setNodeName(nodeName);
-     //   System.out.println(note+w_e+nodeName);
-        PrintWriter out = response.getWriter();
+        nodeInfo.setId(nodepk);
         try {
             nodeInfoService.add(nodeInfo);
             r = "{\"status\":\"1\",\"msg\":\"添加结点成功\"}";
-            out.flush();
-            out.write(r);
-            out.flush();
+            FlushWriteUtil.flushWrite(response,r);
         } catch (Exception e) {
-          e.printStackTrace();
             r = "{\"status\":\"0\",\"msg\":\"添加结点失败\"}";
-            out.flush();
-            out.write(r);
-            out.flush();
+            FlushWriteUtil.flushWrite(response,r);
         }
     }
 
@@ -82,29 +71,23 @@ public class NodeAction {
             r.deleteCharAt(r.length()-1);//去掉最后一个“,”
         }
         r.append("]}");
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
     @RequestMapping(value = "deleteNode",method = RequestMethod.POST)
     public void deleteNode(HttpServletResponse response)throws Exception{
         String r = "{\"status\":\"\",\"msg\":\"\"}";//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         String nodeid=data.get("nodeid").toString();
         nodeInfoService.deleteByIds(nodeid);
         r = "{\"status\":\"1\",\"msg\":\"删除结点成功\"}";
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
     @RequestMapping(value = "getNode",method = RequestMethod.POST)
     public void getNode(HttpServletResponse response) throws Exception{
         StringBuffer r = new StringBuffer();//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data=ReadJSON.readJSONStr(request);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         String nodeid=data.get("nodeid").toString();
         NodeInfo n=nodeInfoService.findById(nodeid);
         if(n!=null){
@@ -118,9 +101,6 @@ public class NodeAction {
         }else{
             r.append("{\"status\":\"0\"}");
         }
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
 }

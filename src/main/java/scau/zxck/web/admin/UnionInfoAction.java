@@ -1,29 +1,19 @@
 package scau.zxck.web.admin;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.UnionInfo;
 import scau.zxck.service.market.IUnionInfoService;
-import scau.zxck.entity.market.UnionStaff;
 import scau.zxck.service.market.IUnionStaffService;
 
-import scau.zxck.entity.market.UnionGoodsInfo;
 import scau.zxck.service.market.IUnionGoodsInfoService;
 
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
@@ -33,8 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 /**
  * Created by suruijia on 2016/2/6.
@@ -57,24 +47,9 @@ public class UnionInfoAction {
     private HttpSession session;
     @RequestMapping(value = "getLikesUnions", method = RequestMethod.POST)
     public void getLikesUnions( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
         JSONArray jsonarr = new JSONArray();
-//        BufferedReader br = request.getReader();
-//        String str, wholeStr = "";
-//        while ((str = br.readLine()) != null) {
-//            wholeStr += str;
-//        }
-//        jsonStr = wholeStr;
-//      HttpServletRequest request =
-//              ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session = request.getSession();
-        String likes = request.getParameter("likes");
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        String likes=data.get("likes").toString();
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         if (likes != null) {
             Conditions conditions = new Conditions();
@@ -103,11 +78,8 @@ public class UnionInfoAction {
                 jsonarr.add(temp);
             }
         }
-         r = jsonarr.toString();
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        String r = jsonarr.toString();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getAllUnionInfo", method = RequestMethod.POST)
@@ -134,23 +106,13 @@ public class UnionInfoAction {
             jsAry.add(json1);
         }
        r=jsAry.toString();
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
 
     @RequestMapping(value = "addUnionInfo", method = RequestMethod.POST)
     public void addUnionInfo(HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject json = JSONObject.parseObject(jsonStr);
+        JSONObject json= ReadJSONUtil.readJSONStr(request);
         UnionInfo temp = new UnionInfo();
         temp.setUnion_name(json.get("Union_Name").toString());
         temp.setUnion_master(json.get("Union_Master").toString());
@@ -164,28 +126,19 @@ public class UnionInfoAction {
         char c = json.get("Union_Mark").toString().charAt(0);
         temp.setUnion_mark(c);
         String ret = unionInfoService.addUnionInfo(temp);//check whether success
+        String r;
         if (ret != null) {
             r= "{\"status\":1}";
         } else {
           r= "{\"status\":0}";
         }
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "updateUnionInfo", method = RequestMethod.POST)
     public void updateUnionInfo(HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject json = JSONObject.parseObject(jsonStr);
-
+        JSONObject json= ReadJSONUtil.readJSONStr(request);
+        String r="";
         try {
             UnionInfo temp = unionInfoService.findOne(json.get("id").toString());
             if (json.get("Union_Name") != null) {
@@ -226,23 +179,14 @@ public class UnionInfoAction {
             e.printStackTrace();
             r= "{\"status\":0}";
         }
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "deleteUnionInfo", method = RequestMethod.POST)
 //    @Test
     public void deleteUnionInfo(HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject json = JSONObject.parseObject(jsonStr);
+        String r;
+        JSONObject json= ReadJSONUtil.readJSONStr(request);
         String id = (String) json.get("Union_PK");
         UnionInfo unionInfo=unionInfoService.findOne(id);
         unionInfo.setUnion_mark('2');
@@ -253,9 +197,6 @@ public class UnionInfoAction {
             e.printStackTrace();
             r= "{\"status\":0}";
         }
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }

@@ -2,7 +2,7 @@ package scau.zxck.utils;
 
 import org.junit.Test;
 
-public class ToJSONString {
+public class ToJSONStringUtil {
     public static String toJSON(String jsonStr) {
         String r = "";
         String str = "";

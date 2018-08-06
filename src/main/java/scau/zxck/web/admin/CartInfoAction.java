@@ -2,27 +2,20 @@ package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.CartInfo;
 import scau.zxck.entity.market.GoodsInfo;
 import scau.zxck.service.market.ICartInfoService;
 import scau.zxck.service.market.IGoodsInfoService;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 
 @Controller
@@ -39,14 +32,7 @@ public class CartInfoAction {
     @RequestMapping(value = "getCart",method = RequestMethod.POST)
     public void getCartAction(HttpServletResponse response) throws Exception {
         String r="";
-        BufferedReader br = request.getReader();
-        String str, wholeStr = "";
-        while((str = br.readLine()) != null){
-            wholeStr += str;
-        }
-        String jsonStr=wholeStr;
-
-        JSONObject data=JSONObject.parseObject(jsonStr);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         if(session.getAttribute("User_PK")!=null){
             data.put("User_PK",session.getAttribute("User_PK"));
             data.put("Cart_PK",session.getAttribute("Cart_PK"));
@@ -77,24 +63,13 @@ public class CartInfoAction {
             jsonArray.add(temp1);
         }
         r=jsonArray.toString();
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
 //        System.out.println(r);
     }
     @RequestMapping(value = "alterCart",method = RequestMethod.POST)
-//    @ResponseBody
     public void alterCart(HttpServletResponse response) throws Exception {
         String r="";
-        BufferedReader br = request.getReader();
-        String str, wholeStr = "";
-        while((str = br.readLine()) != null){
-            wholeStr += str;
-        }
-        String jsonStr=wholeStr;
-
-        JSONObject data=JSONObject.parseObject(jsonStr);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         CartInfo cartInfo=cartInfoService.findById(data.get("Cart_PK").toString());
         cartInfo.setGoods_list(data.get("Goods_List").toString());
         cartInfo.setGoods_num(data.get("Goods_Num").toString());
@@ -105,9 +80,6 @@ public class CartInfoAction {
             e.printStackTrace();
             r="{\"status\":0}";
         }
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }

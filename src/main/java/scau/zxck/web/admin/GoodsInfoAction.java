@@ -1,38 +1,28 @@
 package scau.zxck.web.admin;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.xml.internal.rngom.parse.host.Base;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import scau.zxck.base.dao.BaseDao;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.*;
 import scau.zxck.service.market.*;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.io.*;
+
 @Controller
 @RequestMapping("/")
-// @RunWith(SpringJUnit4ClassRunner.class)
-// @ContextConfiguration(locations = {"classpath:config/spring/spring.xml","classpath:config/spring/web/spring-mvc.xml"})
 public class GoodsInfoAction {
     @Autowired
     private IGoodsInfoService goodsInfoService;
@@ -51,15 +41,8 @@ public class GoodsInfoAction {
 
     @RequestMapping(value = "getOneGood", method = RequestMethod.POST)
     public void getOneGood( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject data = JSONObject.parseObject(jsonStr);
-
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        String r = "";
         GoodsInfo goods = goodsInfoService.findById(data.get("Goods_PK").toString());
         JSONObject temp = new JSONObject();
         temp.put("Goods_PK", goods.getId());
@@ -78,15 +61,13 @@ public class GoodsInfoAction {
         temp.put("Goods_Reserve_1", goods.getGoods_reserve_1());
         temp.put("Goods_Reserve_2", goods.getGoods_reserve_2());
         r = temp.toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getAllTypeGoods", method = RequestMethod.POST)
     public void getAllTypesGoods( HttpServletResponse response) throws Exception {
         long startTime = System.currentTimeMillis();
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         JSONArray jsonarr1 = new JSONArray();
         String r = "";
         for (int i = 1; i <= 6; i++) {
@@ -117,24 +98,14 @@ public class GoodsInfoAction {
         r = jsonarr1.toString();
         long endTime = System.currentTimeMillis();
         System.out.println("Running time: " + (endTime - startTime) + "ms");
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getTypeGoods", method = RequestMethod.POST)
     public void getTypeGoods( HttpServletResponse response) throws Exception {
         long startTime = System.currentTimeMillis();
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject data = JSONObject.parseObject(jsonStr);
-
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        String r = "";
         Conditions conditions = new Conditions();
         List list =
                 goodsInfoService.list(conditions.eq("Goods_Type", data.get("Goods_Type").toString()));
@@ -157,10 +128,7 @@ public class GoodsInfoAction {
         r = jsonArray.toString();
         long endTime = System.currentTimeMillis();
         System.out.println("Running time: " + (endTime - startTime) + "ms");
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getSpecialGoods", method = RequestMethod.POST)
@@ -169,6 +137,8 @@ public class GoodsInfoAction {
         String r = "";
         Conditions conditions = new Conditions();
         List list = goodsInfoService.list(conditions.eq("goods_show", '1'));
+        long endtime1=System.currentTimeMillis();
+        System.out.println("Running time: " + (endtime1 - starttime) + "ms");
         JSONArray jsonArray = new JSONArray();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             JSONObject temp = new JSONObject();
@@ -189,10 +159,7 @@ public class GoodsInfoAction {
         r = jsonArray.toString();
         long endtime = System.currentTimeMillis();
         System.out.println("Running time: " + (endtime - starttime) + "ms");
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getDiscountGoods", method = RequestMethod.POST)
@@ -221,10 +188,7 @@ public class GoodsInfoAction {
         r = jsonArray.toString();
         long endtime = System.currentTimeMillis();
         System.out.println("Running time: " + (endtime - starttime) + "ms");
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getAllGoods", method = RequestMethod.POST)
@@ -252,37 +216,27 @@ public class GoodsInfoAction {
 
         }
         String r = jsonarr.toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "addGoods", method = RequestMethod.POST)
     public void addGoods( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-
-        JSONObject json = JSONObject.parseObject(jsonStr);
+        String r = "";
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         GoodsInfo temp = new GoodsInfo();
-        temp.setGoods_name(json.get("Goods_Name").toString());
-        temp.setGoods_type((int) Integer.parseInt(json.get("Goods_Type").toString()));
-        temp.setGoods_num((int) Integer.parseInt(json.get("Goods_Num").toString()));
-        temp.setGoods_price((float) Float.parseFloat(json.get("Goods_Price").toString()));
-        temp.setGoods_mark(json.get("Goods_Mark").toString().charAt(0));
-        temp.setGoods_show(json.get("Goods_Show").toString().charAt(0));
-        temp.setGoods_picture(json.get("Goods_Picture").toString());
-        temp.setGoods_season((int) Integer.parseInt(json.get("Goods_Season").toString()));
-        temp.setGoods_blossom(json.get("Goods_Blossom").toString());
-        temp.setGoods_fruit(json.get("Goods_Fruit").toString());
-        temp.setGoods_mature(json.get("Goods_Mature").toString());
-        temp.setGoods_expiration(json.get("Goods_Expiration").toString());
-        temp.setGoods_expiration(json.get("Goods_Reserve_1").toString());
+        temp.setGoods_name(data.get("Goods_Name").toString());
+        temp.setGoods_type((int) Integer.parseInt(data.get("Goods_Type").toString()));
+        temp.setGoods_num((int) Integer.parseInt(data.get("Goods_Num").toString()));
+        temp.setGoods_price((float) Float.parseFloat(data.get("Goods_Price").toString()));
+        temp.setGoods_mark(data.get("Goods_Mark").toString().charAt(0));
+        temp.setGoods_show(data.get("Goods_Show").toString().charAt(0));
+        temp.setGoods_picture(data.get("Goods_Picture").toString());
+        temp.setGoods_season((int) Integer.parseInt(data.get("Goods_Season").toString()));
+        temp.setGoods_blossom(data.get("Goods_Blossom").toString());
+        temp.setGoods_fruit(data.get("Goods_Fruit").toString());
+        temp.setGoods_mature(data.get("Goods_Mature").toString());
+        temp.setGoods_expiration(data.get("Goods_Expiration").toString());
+        temp.setGoods_expiration(data.get("Goods_Reserve_1").toString());
         try {
             goodsInfoService.add(temp);
             r = "{\"status\":1}";
@@ -290,36 +244,27 @@ public class GoodsInfoAction {
             e.printStackTrace();
             r = "{\"status\":0}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "updateGoodsInfo", method = RequestMethod.POST)
-    public void updateGoodsInfo(HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
+    public void updateGoodsInfo( HttpServletResponse response) throws Exception {
 
-        JSONObject json = JSONObject.parseObject(jsonStr);
-        GoodsInfo temp = goodsInfoService.findById(json.get("Goods_PK").toString());
-        temp.setGoods_name(json.get("Goods_Name").toString());
-        temp.setGoods_type((int) Integer.parseInt(json.get("Goods_Type").toString()));
-        temp.setGoods_num((int) Integer.parseInt(json.get("Goods_Num").toString()));
-        temp.setGoods_price((float) Float.parseFloat(json.get("Goods_Price").toString()));
-        temp.setGoods_mark(json.get("Goods_Mark").toString().charAt(0));
-        temp.setGoods_show(json.get("Goods_Show").toString().charAt(0));
-        temp.setGoods_picture(json.get("Goods_Picture").toString());
-        temp.setGoods_season((int) Integer.parseInt(json.get("Goods_Season").toString()));
-        temp.setGoods_blossom(json.get("Goods_Blossom").toString());
-        temp.setGoods_fruit(json.get("Goods_Fruit").toString());
-        temp.setGoods_mature(json.get("Goods_Mature").toString());
-        temp.setGoods_expiration(json.get("Goods_Expiration").toString());
+        String r = "";
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        GoodsInfo temp = goodsInfoService.findById(data.get("Goods_PK").toString());
+        temp.setGoods_name(data.get("Goods_Name").toString());
+        temp.setGoods_type((int) Integer.parseInt(data.get("Goods_Type").toString()));
+        temp.setGoods_num((int) Integer.parseInt(data.get("Goods_Num").toString()));
+        temp.setGoods_price((float) Float.parseFloat(data.get("Goods_Price").toString()));
+        temp.setGoods_mark(data.get("Goods_Mark").toString().charAt(0));
+        temp.setGoods_show(data.get("Goods_Show").toString().charAt(0));
+        temp.setGoods_picture(data.get("Goods_Picture").toString());
+        temp.setGoods_season((int) Integer.parseInt(data.get("Goods_Season").toString()));
+        temp.setGoods_blossom(data.get("Goods_Blossom").toString());
+        temp.setGoods_fruit(data.get("Goods_Fruit").toString());
+        temp.setGoods_mature(data.get("Goods_Mature").toString());
+        temp.setGoods_expiration(data.get("Goods_Expiration").toString());
         try {
             goodsInfoService.updateById(temp);
             r = "{\"status\":1}";
@@ -327,35 +272,26 @@ public class GoodsInfoAction {
             e.printStackTrace();
             r = "{\"status\":0}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "deleteGoodsInfo", method = RequestMethod.POST)
     public void deleteGoodsInfo( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject json = JSONObject.parseObject(jsonStr);
-        GoodsInfo temp = goodsInfoService.findById(json.get("Goods_PK").toString());
-        temp.setGoods_name(json.get("Goods_Name").toString());
-        temp.setGoods_type((int) Integer.parseInt(json.get("Goods_Type").toString()));
-        temp.setGoods_num((int) Integer.parseInt(json.get("Goods_Num").toString()));
-        temp.setGoods_price((float) Float.parseFloat(json.get("Goods_Price").toString()));
-        temp.setGoods_mark(json.get("Goods_Mark").toString().charAt(0));
-        temp.setGoods_show(json.get("Goods_Show").toString().charAt(0));
-        temp.setGoods_picture(json.get("Goods_Picture").toString());
-        temp.setGoods_season((int) Integer.parseInt(json.get("Goods_Season").toString()));
-        temp.setGoods_blossom(json.get("Goods_Blossom").toString());
-        temp.setGoods_fruit(json.get("Goods_Fruit").toString());
-        temp.setGoods_mature(json.get("Goods_Mature").toString());
-        temp.setGoods_expiration(json.get("Goods_Expiration").toString());
+        String r = "";
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        GoodsInfo temp = goodsInfoService.findById(data.get("Goods_PK").toString());
+        temp.setGoods_name(data.get("Goods_Name").toString());
+        temp.setGoods_type((int) Integer.parseInt(data.get("Goods_Type").toString()));
+        temp.setGoods_num((int) Integer.parseInt(data.get("Goods_Num").toString()));
+        temp.setGoods_price((float) Float.parseFloat(data.get("Goods_Price").toString()));
+        temp.setGoods_mark(data.get("Goods_Mark").toString().charAt(0));
+        temp.setGoods_show(data.get("Goods_Show").toString().charAt(0));
+        temp.setGoods_picture(data.get("Goods_Picture").toString());
+        temp.setGoods_season((int) Integer.parseInt(data.get("Goods_Season").toString()));
+        temp.setGoods_blossom(data.get("Goods_Blossom").toString());
+        temp.setGoods_fruit(data.get("Goods_Fruit").toString());
+        temp.setGoods_mature(data.get("Goods_Mature").toString());
+        temp.setGoods_expiration(data.get("Goods_Expiration").toString());
         try {
             goodsInfoService.updateById(temp);
             r = "{\"status\":1}";
@@ -363,31 +299,21 @@ public class GoodsInfoAction {
             e.printStackTrace();
             r = "{\"status\":0}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getLikesGoods", method = RequestMethod.POST)
     public void getLikesAction( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject data = JSONObject.parseObject(jsonStr);
-
-        String likes = data.get("likes").toString();
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        String r = "";
+        String likes = request.getParameter("likes");
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         Conditions conditions = new Conditions();
         JSONArray jsonarr = new JSONArray();
         if (likes != null) {
             List list =
-                    goodsInfoService.list(conditions.like("goods_name", "%" + likes + "%"));
-              for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
+                    goodsInfoService.list(conditions.like("goods_name", "%" + data.get("Goods_Name") + "%"));
+            for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
                 JSONObject temp = new JSONObject();
                 GoodsInfo goods = (GoodsInfo) iter.next();
 
@@ -403,26 +329,17 @@ public class GoodsInfoAction {
             }
             r = jsonarr.toString();
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "guessYouLike", method = RequestMethod.POST)
     public void guessYouLike( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject data = JSONObject.parseObject(jsonStr);
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         JSONArray jsonArray = new JSONArray();
+        String r = "";
         Conditions conditions = new Conditions();
         List list =
-                userCollectionService.list(conditions.eq("user_info_id", session.getAttribute("User_PK").toString()));
+                userCollectionService.list(conditions.eq("user_info_id", data.get("User_PK").toString()));
         ArrayList<UserCollection> arrayList = new ArrayList<>();
         if (list.size() >= 4) {
             for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
@@ -462,25 +379,16 @@ public class GoodsInfoAction {
             }
         }
         r = jsonArray.toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
-
+    @Test
     @RequestMapping(value = "recentlyPerchase", method = RequestMethod.POST)
     public void recentlyPerchase( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject data = JSONObject.parseObject(jsonStr);
+        String r = "";
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         Conditions conditions = new Conditions();
-        List list = orderInfoService.list(conditions.eq("user_info_id", session.getAttribute("User_PK").toString()).and().eq("order_isPay", 1));
+        List list = orderInfoService.list(conditions.eq("user_info_id", data.get("User_PK").toString()).and().eq("order_isPay", 1));
         ArrayList<String> arrayList = new ArrayList<>();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             OrderInfo orderInfo = (OrderInfo) iter.next();
@@ -525,49 +433,30 @@ public class GoodsInfoAction {
             }
             r = jsonArray.toString();
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "chooseSixSpecialGoods", method = RequestMethod.POST)
     public void chooseSixSpecialGoods( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject data = JSONObject.parseObject(jsonStr);
-        if((boolean)session.getAttribute("isAdmin")) {
-          Conditions conditions = new Conditions();
-          List list = goodsInfoService.list(conditions.eq("goods_show", '1'));
-          for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        Conditions conditions = new Conditions();
+        List list = goodsInfoService.list(conditions.eq("goods_show", '1'));
+        for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             GoodsInfo goodsInfo = (GoodsInfo) iter.next();
             goodsInfo.setGoods_show('0');
             goodsInfoService.updateById(goodsInfo);
-          }
-          String[] goodspks = data.get("Goods_PK").toString().split("#");
-          for (int i = 0; i < goodspks.length; i++) {
+        }
+        String[] goodspks = data.get("Goods_PK").toString().split("#");
+        for (int i = 0; i < goodspks.length; i++) {
             GoodsInfo goodsInfo = goodsInfoService.findById(goodspks[i]);
             goodsInfo.setGoods_show('1');
             goodsInfoService.updateById(goodsInfo);
-          }
-          r="{\"status\":1}";
-        }else{
-          r="{\"status\":0}";
         }
-        PrintWriter out=response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
     }
 
     @RequestMapping(value = "chooseSixDiscountGoods", method = RequestMethod.POST)
-    public void getSixDiscountGoods(String jsonStr, HttpServletResponse response) throws Exception {
-        JSONObject data = JSONObject.parseObject(jsonStr);
+    public void getSixDiscountGoods(HttpServletResponse response) throws Exception {
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         Conditions conditions = new Conditions();
         List list = goodsInfoService.list(conditions.eq("goods_show", '2'));
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {

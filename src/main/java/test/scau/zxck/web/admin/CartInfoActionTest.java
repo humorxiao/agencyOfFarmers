@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import scau.zxck.entity.market.CartInfo;
-import scau.zxck.utils.ToJSONString;
+import scau.zxck.utils.ToJSONStringUtil;
 import scau.zxck.web.admin.CartInfoAction;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -68,7 +68,7 @@ public void testGetCart() throws Exception {
     CartInfo cartInfo=new CartInfo("100006","1","","","");
     String jsonStr=mapper.writeValueAsString(cartInfo);
     System.out.println(jsonStr);
-    jsonStr=ToJSONString.toJSON(jsonStr);
+    jsonStr=ToJSONStringUtil.toJSON(jsonStr);
     System.out.println(jsonStr);
 //    jsonStr="{\"User_PK\":100003,\"Goods_List\":\"100006\",\"Goods_Num\":\"1\",\"Cart_Reserve_1\":\"\",\"Cart_Reserve_2\":\"\",\"Remark\":\"\"}";
     mockHttpSession.setAttribute("User_PK","100003");
