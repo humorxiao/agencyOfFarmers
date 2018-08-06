@@ -58,7 +58,7 @@ public class EmailTest {
     // 设置邮件接收方
     msg.setRecipient(RecipientType.TO, receiveAddress);
     // 设置邮件标题
-    msg.setSubject("美女裸聊，请加Q", "utf-8");
+    msg.setSubject("今晚给个机会你请我喝奶茶", "utf-8");
     msg.setText("guanren15.com");
     // 设置显示的发件时间
     msg.setSentDate(new Date());
