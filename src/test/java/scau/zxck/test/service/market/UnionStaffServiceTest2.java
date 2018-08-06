@@ -50,6 +50,7 @@ public class UnionStaffServiceTest2 {
     logger.info("===========================================");
 //    logger.info(JSON.toJSONString(unionStaffList));
     logger.info("===========================================");
+    System.out.println("dsfsd");
 
   }
 

@@ -89,6 +89,7 @@ import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -97,9 +98,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import scau.zxck.entity.market.SystemUserLog;
+import scau.zxck.entity.sys.SystemUserInfo;
+import scau.zxck.service.market.ISystemLogService;
+import scau.zxck.service.sys.ISystemUserService;
 import scau.zxck.utils.ToJSONString;
-import scau.zxck.web.admin.LoginAction;
-import scau.zxck.web.admin.TestAction;
+import scau.zxck.web.admin.*;
+import scau.zxck.web.test.SystemUserInfotest;
 import scau.zxck.web.test.UserInfoTest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -128,9 +133,17 @@ public class LoginServiceTest {
   @Autowired
   private WebApplicationContext wac;
   @Autowired
-  private LoginAction loginAction;
+  private CheckLoginUserAction loginAction;
   @Autowired
+  private ISystemUserService systemUserService;
+  @Autowired
+
+
   private TestAction testAction;
+  @Autowired
+  private MockHttpSession session;
+  @Autowired
+  private ISystemLogService systemLogService;
   private MockMvc mockMvc;
   private static ObjectMapper mapper=new ObjectMapper();
   @Before
@@ -148,6 +161,7 @@ public class LoginServiceTest {
    *
    * Method: findOne(String id)
    *
+   *
    */
   @Test
   public void testFindOne() throws Exception {
@@ -155,20 +169,21 @@ public class LoginServiceTest {
     mockMvc = standaloneSetup(loginAction).build();
     String jsonStr;
 //            ="{\"isAdmin\":true,\"Admin_Password\":\"12345678\",\"Admin_Cell\":\"\",\"Admin_Name\":\"1\",\"Admin_Email\":\"\"}";
-    UserInfoTest userInfoTest=new UserInfoTest("true","12345678","","1","");
-      UserInfoTest userInfoTest1=new UserInfoTest("true","123678","","user3","");
-      UserInfoTest userInfoTest2=new UserInfoTest("true","25d55ad283aa400af464c76d713c07ad","15918746467","","");
-      UserInfoTest userInfoTest3=new UserInfoTest("true","25d55ad283aa400af464c76d713c07ad","","default","");
-      UserInfoTest userInfoTest4=new UserInfoTest("true","25d55ad283aa400af464c76d713c07ad","","","15918746467@139.com");
-      jsonStr=mapper.writeValueAsString(userInfoTest4);
+    SystemUserInfotest   systemUserInfotest=new SystemUserInfotest("100","25d55ad283aa400af464c76d713c07ad","陈永铭","");
+         jsonStr=mapper.writeValueAsString(systemUserInfotest);
+String ke =mapper.writeValueAsString(systemUserService.findById("100"));
     System.out.println(jsonStr);
     jsonStr=ToJSONString.toJSON(jsonStr);
     System.out.println(jsonStr);
+    ke=ToJSONString.toJSON(ke);
+    System.out.println(ke);
 //        "{\"isAdmin\":false,\"User_Password\":\"12345678\",\"User_Cell\":\"18814167467\",\"User_Name\":\"林莹莹\",\"User_Email\":\"1624471560@qq.com\"}";
 //    mockMvc = standaloneSetup(testAction).build();
-
-    String responseString = mockMvc.perform((post("/login"))
-            .contentType(MediaType.APPLICATION_JSON).content(jsonStr)
+    SystemUserLog log=systemLogService.findById("7d0bd45b30ff4deab86ba8082821d3ae");
+          session.setAttribute("loginfo",log);
+          session.setAttribute("loginUser",systemUserInfotest);
+    String responseString = mockMvc.perform((post("/checkLoginUser"))
+            .contentType(MediaType.APPLICATION_JSON).content(jsonStr).session(session)
     ).andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
     System.out.println(responseString);
   }
