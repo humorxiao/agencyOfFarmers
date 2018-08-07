@@ -55,6 +55,7 @@ import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.service.market.ILoginService;
 import scau.zxck.service.sys.IUserLoginService;
 import scau.zxck.utils.CodeUtil;
+import scau.zxck.utils.SendEmail2Util;
 import scau.zxck.utils.SendEmailUtil;
 import scau.zxck.web.listener.UserSessionListener;
 
@@ -86,5 +87,14 @@ public class TestAction {
         System.out.println("test2");
         return "success";
     }
+  @RequestMapping(value = "testEmail", method = RequestMethod.POST)
+  public String test3(String from,String to,String accreditCode) throws Exception {
+    SendEmail2Util sendEmail2Util=new SendEmail2Util();
+    sendEmail2Util.setAccreditCode(accreditCode);
+    sendEmail2Util.setFrom(from);
+    sendEmail2Util.setTo(to);
+    new Thread(sendEmail2Util).start();
+    return "success";
+  }
 
 }

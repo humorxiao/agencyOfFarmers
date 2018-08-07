@@ -13,20 +13,30 @@
 <%
     session.setAttribute("User_PK","1000");
 %>
-	<form action="/check" method="POST">
-        自己的邮箱：<input type="text" name="from">
-        <br>
-        pj的邮箱：<input type="text" name="email">
-        <br>
-        瞎jb乱写就行了反正也没用：<input type="text" name="code">
-        <br>
-        pj授权码：<input type="text" name="accreditCode">
-        <br>
-        你想发几封：<input type="text" name="count">
-        <br>
-		<input type="submit" value="提交">
-        <br><br>
-    </form>
+	<%--<form action="/check" method="POST">--%>
+        <%--自己的邮箱：<input type="text" name="from">--%>
+        <%--<br>--%>
+        <%--pj的邮箱：<input type="text" name="email">--%>
+        <%--<br>--%>
+        <%--瞎jb乱写就行了反正也没用：<input type="text" name="code">--%>
+        <%--<br>--%>
+        <%--pj授权码：<input type="text" name="accreditCode">--%>
+        <%--<br>--%>
+        <%--你想发几封：<input type="text" name="count">--%>
+        <%--<br>--%>
+		<%--<input type="submit" value="提交">--%>
+        <%--<br><br>--%>
+    <%--</form>--%>
+<form action="/testEmail" method="POST">
+  自己的邮箱：<input type="text" name="from">
+  <br>
+  pj的邮箱：<input type="text" name="to">
+  <br>
+  pj授权码：<input type="text" name="accreditCode">
+  <br>
+  <input type="submit" value="提交">
+  <br><br>
+</form>
 
 	<%--<form action="/test" method="POST" enctype="multipart/form-data">--%>
 		<%--<label>Profile Picture</label>--%>

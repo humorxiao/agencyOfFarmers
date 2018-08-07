@@ -72,6 +72,7 @@
             <bean class="scau.zxck.web.interceptor.TestInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
+          <!--<这个路劲只是测试使用/>-->
             <mvc:mapping path="/check/**"/>
             <bean class="scau.zxck.web.interceptor.CheckUserStateInterceptor"/>
         </mvc:interceptor>

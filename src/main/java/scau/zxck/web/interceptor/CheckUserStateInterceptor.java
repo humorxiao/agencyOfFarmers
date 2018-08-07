@@ -20,17 +20,21 @@ public class CheckUserStateInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         HttpSession session = httpServletRequest.getSession();
         String id = (String) session.getAttribute("User_PK");
-        String r;
         if (id == null) {
-            System.out.println("404啊啊啊");
-            httpServletResponse.sendRedirect("index.jsp");//这个路劲还在研究中
-            return false;
+          //当检测到用户未登录时就直接转到登录页面
+//            httpServletResponse.sendRedirect("index.jsp");
+          httpServletRequest.getRequestDispatcher("WEB-INF/pages/register.html").forward(httpServletRequest, httpServletResponse);
+          return false;
         } else {
-            if (userLoginService.findById(id) == null) {
-                System.out.println("404怎么办");
-                httpServletResponse.sendRedirect("index.jsp");//这个路劲还在研究中
+          UserInfo userInfo=userLoginService.findById(id);
+            if (userInfo== null) {
+//                httpServletResponse.sendRedirect("WEB-INF/pages/success.jsp");
+              httpServletRequest.getRequestDispatcher("WEB-INF/pages/register.html").forward(httpServletRequest, httpServletResponse);
                 return false;
-            } else return true;
+            } else {
+              logger.info(userInfo.getUser_name());
+              return true;
+            }
         }
     }
 
