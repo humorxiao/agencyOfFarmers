@@ -106,9 +106,9 @@ public void testDeleteValueItem() throws Exception {
 * 
 */ 
 @Test
-public void testGetMyValues() throws Exception { 
-//TODO: Test goes here... 
-} 
+public void testGetMyValues() throws Exception {
+    System.out.println("sssss");
+}
 
 /** 
 * 

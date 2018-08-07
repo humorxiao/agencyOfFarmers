@@ -72,13 +72,18 @@ public class TestAction {
     @Autowired
     private IUserLoginService userLoginService;
     @RequestMapping(value = "test", method = RequestMethod.POST)
-    public String s(String email,String from,String count,String shouquanCode) throws Exception {
+    public String s(String email,String from,String count,String accreditCode) throws Exception {
         for(int i=0;i<Integer.parseInt(count);i++) {
             SendEmailUtil sendEmailUtil = new SendEmailUtil(email, CodeUtil.generateUniqueCode());
             sendEmailUtil.setFrom(from);
-            sendEmailUtil.setShouquanCode(shouquanCode);
+            sendEmailUtil.setAccreditCode(accreditCode);
             new Thread(sendEmailUtil).start();
         }
+        return "success";
+    }
+    @RequestMapping(value = "admin", method = RequestMethod.POST)
+    public String test2() throws Exception {
+        System.out.println("test2");
         return "success";
     }
 

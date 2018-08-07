@@ -10,14 +10,17 @@
 </head>
 
 <body>
-	<form action="/test" method="POST">
+<%
+    session.setAttribute("User_PK","1000");
+%>
+	<form action="/check" method="POST">
         自己的邮箱：<input type="text" name="from">
         <br>
         pj的邮箱：<input type="text" name="email">
         <br>
         瞎jb乱写就行了反正也没用：<input type="text" name="code">
         <br>
-        pj授权码：<input type="text" name="shouquanCode">
+        pj授权码：<input type="text" name="accreditCode">
         <br>
         你想发几封：<input type="text" name="count">
         <br>

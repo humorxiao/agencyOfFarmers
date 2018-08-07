@@ -16,16 +16,13 @@ public class SendEmailUtil implements Runnable {
     private String code;// 激活码
     private  String content;//网址
     private String from;//自己的邮箱，拿来玩的
-    private String shouquanCode;
-
-    public void setShouquanCode(String shouquanCode) {
-        this.shouquanCode = shouquanCode;
+    private String accreditCode;
+    public void setAccreditCode(String accreditCode) {
+        this.accreditCode = accreditCode;
     }
-
     public void setFrom(String from) {
         this.from = from;
     }
-
     public SendEmailUtil(String email, String code) {
         this.email = email;
         this.code = code;
@@ -58,7 +55,7 @@ public class SendEmailUtil implements Runnable {
             // 1.获取默认session对象
             Session session = Session.getDefaultInstance(properties, new Authenticator() {
                 public PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(from, shouquanCode); // 发件人邮箱账号、授权码
+                    return new PasswordAuthentication(from, accreditCode); // 发件人邮箱账号、授权码
                 }
             });
             // 2.创建邮件对象
