@@ -1,0 +1,96 @@
+
+    body{
+            background-color:#EDFFFF;
+
+            font-family:-apple-system,BlinkMacSystemFont,'Microsoft YaHei',sans-serif;
+
+            font-size:16px;
+
+            color:#333;
+
+            line-height:1.75;
+
+            text-align: center;
+
+        }
+    .head_picture{
+
+	    margin:0 auto;
+	    width:52%;
+
+	    padding-top: 20px;
+    }
+
+    .test{
+
+        background-color: white;
+    }
+
+    .test h2{
+
+        padding-top: 40px;
+        padding-bottom: 20px;
+    }
+
+    .test h4{
+
+        padding-bottom: 10px;
+    }
+
+    .test p{
+
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom:40px;
+        margin-bottom: 40px;
+    }
+
+    .navbar-default{
+
+        width:52%;
+        margin:0 auto;
+    }
+
+    .newsport_items{
+
+        display:flex;
+        background-color:#F0F0F0;
+        justify-content:center;
+        width:100%;
+    }
+
+    .newsport_items .item{
+
+        width:52%;
+        height:100%;
+        background-color:#B1FF84;
+    }
+
+    .newsport_items .item:first-child{
+
+        background-color:#F5DE25;
+    }
+
+    .newsport_items .item:last-child{
+
+        background-color:#FFFFFF;
+    }
+
+    .pages{
+
+    	margin:0 auto;
+    	width:52%;
+    	padding-left: 33.3%;
+    }
+
+
+    .test{
+
+    	width:52%;
+    	margin:0 auto;
+    }
+
+
+
+
+

@@ -67,7 +67,6 @@ public class LogInterceptor implements HandlerInterceptor{/*extends HandlerInter
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object obj, ModelAndView modelAndView) throws Exception {
-        System.out.println("post--------------------------------");
         if(obj != null && modelAndView != null){
             logger.info("postHandle:" + JSON.toJSONString(obj));
         }
@@ -75,7 +74,6 @@ public class LogInterceptor implements HandlerInterceptor{/*extends HandlerInter
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object obj, Exception e) throws Exception {
-        System.out.println("after----------------------------------");
         if(obj != null){
             logger.info("afterCompletion:" + JSON.toJSONString(obj));
         }

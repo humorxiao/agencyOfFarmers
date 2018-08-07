@@ -49,7 +49,8 @@ public class ValueAction {
         String node_info_id = data.get("nodeid").toString();
         String recordingtime = data.get("recordingtime").toString();
         String note = data.get("note").toString();
-        String system_info_id = session.getAttribute("loginUser").toString();
+        SystemUserInfo systemUserInfo=(SystemUserInfo)session.getAttribute("loginUser");
+        String system_info_id = systemUserInfo.getId();
         ValueItemInfo valueItemInfo = new ValueItemInfo();
         valueItemInfo.setValue(value);
         valueItemInfo.setNote(note);
@@ -114,8 +115,13 @@ public class ValueAction {
         JSONObject data = ReadJSONUtil.readJSONStr(request);
         String id = data.get("itemid").toString();
         SystemUserInfo user = (SystemUserInfo) session.getAttribute("loginUser");
-        valueItemService.deleteByIds(id);
-        r = "{\"status\":\"1\",\"msg\":\"删除成功\"}";
+        try {
+          valueItemService.deleteByIds(id);
+          r = "{\"status\":\"1\",\"msg\":\"删除成功\"}";
+        }catch (Exception e){
+          e.printStackTrace();
+          r = "{\"status\":\"0\",\"msg\":\"删除失败\"}";
+        }
         FlushWriteUtil.flushWrite(response,r);
     }
 
@@ -135,12 +141,14 @@ public class ValueAction {
         String endtime = data.get("endtime").toString();
         String typeid = data.get("typeid").toString();
         String nodeid = data.get("nodeid").toString();
-        Date begin = simpleDateFormat.parse(starttime);
-        Date end = simpleDateFormat.parse(endtime);
+        String begin=starttime;
+        String end=endtime;
+
         SystemUserInfo user = (SystemUserInfo) session.getAttribute("loginUser");
         List list = null;
         List list1 = null;
         int count = 0;
+        System.out.println("a-------------------");
         if (user != null) {//管理员
             Conditions conditions = new Conditions();
             /**
@@ -149,14 +157,19 @@ public class ValueAction {
              * 				+ " and en.node.nodeid=:nodeid"
              * 				+ " order by en.recordingtime asc";
              */
-            list = valueItemService.list(conditions.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid).limit((currentpage - 1) * rows, rows).asc("recordingtime"));
+          //conditions=conditions.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid).asc("recordingtime").limit((currentpage - 1) * rows, rows);
+          System.out.println(conditions.toWhereSQL());
+            list = valueItemService.list(conditions.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid).asc("recordingtime").limit((currentpage - 1) * rows, rows));
+
             /**
              * String hql="select count(*) from ValueItem en where en.recordingtime between :begin and :end and"
              * 				+ " en.type.typeid=:typeid"
              * 				+ " and en.node.nodeid=:nodeid";
              */
             Conditions conditions1 = new Conditions();
+            //conditions1=conditions1.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid);
             list1 = valueItemService.list(conditions1.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid));
+            System.out.println("--------------hello world");
             if (list1 != null && list1.size() == 1) {
                 count = (int) list1.get(0);
             } else count = 0;
@@ -286,21 +299,22 @@ public class ValueAction {
         String endtime = data.get("endtime").toString();
         String typeid = data.get("typeid").toString();
         String nodeid = data.get("nodeid").toString();
-        Date begin = simpleDateFormat.parse(starttime);
-        Date end = simpleDateFormat.parse(endtime);
+        String begin = starttime;
+        String end = endtime;
         List list = null;
         List list1 = null;
         if (data.get("page") != null && Integer.parseInt(data.get("page").toString()) != 0) {
             currentpage = Integer.parseInt(data.get("page").toString());
             rows = Integer.parseInt(data.get("rows").toString());
             Conditions conditions = new Conditions();
-            list = valueItemService.list(conditions.eq("type_info_id", typeid).and().eq("node_info_id", nodeid).between("recordingtime", begin, end));
+            list = valueItemService.list(conditions.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid));
             if (list != null && list.size() == 1) {
                 count = (int) list.get(0);
             } else count = 0;
+            Conditions conditions1=new Conditions();
 //            count=(int)uService.getCount(typeid, nodeid, begin, end);
 //            list = uService.search(typeid, nodeid, begin, end, currentpage, rows);
-            list1 = valueItemService.list(conditions.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid).limit((currentpage - 1) * rows, rows).asc("recordingtime"));
+            list1 = valueItemService.list(conditions1.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid).asc("recordingtime").limit((currentpage - 1) * rows, rows));
         } else {
             currentpage = 1;
 //            count = (int) uService.getCount(typeid, nodeid, begin, end);

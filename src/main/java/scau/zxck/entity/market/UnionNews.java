@@ -12,24 +12,21 @@ public class UnionNews extends Unique {
   private String news_title;
   @Column(name = "news_text")
   private String news_text;
-
-  public UnionNews() {
-  }
-
-  public UnionNews(String news_title, String news_text, String news_time, int news_mark, String remark) {
-
-    this.news_title = news_title;
-    this.news_text = news_text;
-    this.news_time = news_time;
-    this.news_mark = news_mark;
-    this.remark = remark;
-  }
-
   @Column(name = "news_time")
-
   private String news_time;
   @Column(name = "news_mark")
   private int news_mark;
+  @Column(name = "news_picture")
+  private String news_picture;
+
+  public String getNews_picture() {
+    return news_picture;
+  }
+
+  public void setNews_picture(String news_picture) {
+    this.news_picture = news_picture;
+  }
+
   @Column(name = "remark")
   private String remark;
 
