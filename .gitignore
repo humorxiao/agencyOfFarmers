@@ -3,3 +3,20 @@
 /.idea/
 /src/main/resources/config/ds/*.properties
 /src/main/resources/config/log/log4j.properties
+
+.DS_Store
+node_modules/
+/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/src/main/webapp/test/unit/coverage/
+/src/main/webapp/test/e2e/reports/
+selenium-debug.log
+
+# Editor directories and files
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

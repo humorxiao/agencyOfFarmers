@@ -65,14 +65,9 @@
 		<!--拦截指定请求-->
 		<mvc:interceptor>
 			<mvc:mapping path="/admin/**"/>
-
-		<!--  原来：<mvc:mapping path="/admin/**"/>  -->
-			<!--<bean name="/success" class="scau.zxck.web.admin.LoginAction"/>-->
-			<!--<bean id="loginInterceptor1"-->
-				  <!--class="scau.zxck.web.interceptor.LogInterceptor"/>-->
-
-			<bean  class="scau.zxck.web.interceptor.LogInterceptor"/>
-	</mvc:interceptor>
+			<!--  原来：<mvc:mapping path="/admin/**"/>  -->
+			<bean class="scau.zxck.web.interceptor.LogInterceptor"/>
+		</mvc:interceptor>
 	</mvc:interceptors>
 	<mvc:default-servlet-handler/>
 

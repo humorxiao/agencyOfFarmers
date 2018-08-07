@@ -16,6 +16,11 @@ public class SendEmailUtil implements Runnable {
     private String code;// 激活码
     private  String content;//网址
     private String from;//自己的邮箱，拿来玩的
+    private String shouquanCode;
+
+    public void setShouquanCode(String shouquanCode) {
+        this.shouquanCode = shouquanCode;
+    }
 
     public void setFrom(String from) {
         this.from = from;
@@ -35,7 +40,7 @@ public class SendEmailUtil implements Runnable {
         // 1.创建连接对象javax.mail.Session
         // 2.创建邮件对象 javax.mail.Message
         // 3.发送一封激活邮件
-        from = "1769969562@qq.com";// 发件人电子邮箱
+//        from = "1769969562@qq.com";// 发件人电子邮箱
         String host = "smtp.qq.com"; // 指定发送邮件的主机smtp.qq.com(QQ)|smtp.163.com(网易)
 
         Properties properties = System.getProperties();// 获取系统属性
@@ -53,7 +58,7 @@ public class SendEmailUtil implements Runnable {
             // 1.获取默认session对象
             Session session = Session.getDefaultInstance(properties, new Authenticator() {
                 public PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("1769969562@qq.com", "mwnfcuwdztvveihg"); // 发件人邮箱账号、授权码
+                    return new PasswordAuthentication(from, shouquanCode); // 发件人邮箱账号、授权码
                 }
             });
             // 2.创建邮件对象

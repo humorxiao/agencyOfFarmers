@@ -72,10 +72,11 @@ public class TestAction {
     @Autowired
     private IUserLoginService userLoginService;
     @RequestMapping(value = "test", method = RequestMethod.POST)
-    public String s(String email,String from,String count) throws Exception {
+    public String s(String email,String from,String count,String shouquanCode) throws Exception {
         for(int i=0;i<Integer.parseInt(count);i++) {
             SendEmailUtil sendEmailUtil = new SendEmailUtil(email, CodeUtil.generateUniqueCode());
             sendEmailUtil.setFrom(from);
+            sendEmailUtil.setShouquanCode(shouquanCode);
             new Thread(sendEmailUtil).start();
         }
         return "success";

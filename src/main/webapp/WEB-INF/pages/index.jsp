@@ -17,7 +17,9 @@
         <br>
         瞎jb乱写就行了反正也没用：<input type="text" name="code">
         <br>
-        你想发几封：<<input type="text" name="count">
+        pj授权码：<input type="text" name="shouquanCode">
+        <br>
+        你想发几封：<input type="text" name="count">
         <br>
 		<input type="submit" value="提交">
         <br><br>

@@ -24,7 +24,7 @@
     <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
     <!-- web container jetty -->
     <jetty-maven-plugin.version>8.1.16.v20140903</jetty-maven-plugin.version>
-    <project.jetty.run.port>8080</project.jetty.run.port>
+    <project.jetty.run.port>8888</project.jetty.run.port>
     <!-- maven plugins end -->
   </properties>
 
@@ -57,6 +57,7 @@
       <version>1.1.2</version>
     </dependency>
   </dependencies>
+
 
 
   <build>
@@ -93,7 +94,7 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty-maven-plugin.version}</version>
         <configuration>
-          <stopPort>9999</stopPort>
+          <stopPort>9998</stopPort>
           <stopKey>foo</stopKey>
           <scanIntervalSeconds>3</scanIntervalSeconds>
           <webApp>
