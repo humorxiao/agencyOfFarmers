@@ -39,7 +39,6 @@ export default {
           Collect_pk:  collect_pk,
           src: 'goodsDetails.html?'+ Specialresponse.data[i].Goods_PK
         })
-
       }
     }).catch(function (error) {
       console.log(error)

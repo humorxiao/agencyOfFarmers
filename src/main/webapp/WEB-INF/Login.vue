@@ -97,6 +97,7 @@ export default {
         this.info('请输入验证码')
       } else {
        this.password = hex_md5(this.input_password); // 密码加密
+       // alert(this.password)
        this.code = {'code' : this.inputVCode}
         if (this.checked === '1') { // 用户管理员登录数据
           if (/0?(13|14|15|18|17)[0-9]{9}/.test(this.id) === true) { // 手机

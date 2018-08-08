@@ -20,7 +20,7 @@
                 <li class="list-group-item fl-list-group-item fl-home-price">{{item.prices}}</li>
               </ul>
             </a>
-            <div class="fl-panel-like" @click = "addCollect(item.id,item.isCollect,item.Collect_pk,index)"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true" ></span>{{item.isCollect}}</div>
+            <div class="fl-panel-like" @click = "Collect(item.id,item.isCollect,item.Collect_pk,index)"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true" ></span>{{item.isCollect}}</div>
           </div>
         </div>
     </div>
@@ -40,7 +40,7 @@ export default {
     }
   },
   methods: {
-    addCollect: function (goodsID,goodsCollectStatus,collectPk,index) {
+   Collect: function (goodsID,goodsCollectStatus,collectPk,index) {
       // alert(goodsID)
       // axios.post('').then((response) => {
       //   console.log(response.status) // 判断登录状态
@@ -51,9 +51,9 @@ export default {
       this.goods_pk = {'Goods_PK': goodsID}
       if(goodsCollectStatus === '收藏') {
         axios.post('/api/addCollect',this.goods_pk).then((response) => {
-          console.log(response.data)
+          // console.log(response.data)
           this.specialparts[index].Collect_pk = response.data.Collect_PK
-          alert( JSON.stringify(response.data.Collect_PK))
+          alert(response.data.Collect_PK + '1')
           this.specialparts[index].isCollect = '取消收藏'
         }).catch(function (error) {
           console.log(error)
@@ -62,7 +62,7 @@ export default {
       this.collect_pk = {'Collect_PK':collectPk}
       if(goodsCollectStatus === '取消收藏') {
         axios.post('/api/removeCollect',this.collect_pk).then((response) => {
-          console.log(response.data)
+        //  console.log(response.data)
           this.specialparts[index].isCollect = '收藏'
         }).catch(function (error) {
           console.log(error)

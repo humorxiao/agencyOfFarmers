@@ -35,10 +35,10 @@
             <li id="user-3" class="dropdown" v-if="show">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span id="fl-user-name"></span>个人中心<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">信息管理</a></li>
-                <li><a href="#">菜篮子</a></li>
-                <li><a href="#">收藏</a></li>
-                <li><a href="#">历史订单</a></li>
+                <li><a href="myinfo.html">信息管理</a></li>
+                <li><a href="shoppingbag.html">菜篮子</a></li>
+                <li><a href="collection.html">收藏</a></li>
+                <li><a href="history.html">历史订单</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#" onclick="out()">安全退出</a></li>
               </ul>
