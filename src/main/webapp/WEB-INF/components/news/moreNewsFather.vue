@@ -1,8 +1,8 @@
 <!--新闻列表页——父组件-->
 <template>
   <div id="morenews">
-    <news :newlists = "newlists" :pageLists = "pageLists" :nowInPage = "nowInPage" :pageNum = "pageNum" @switchPage = "switchPage" @lastPage = "lastPage" @nextPage = "nextPage" @toNewsDetails = "toNewsDetails"></news>
-
+    <news :newlists = "newlists" :pageLists = "pageLists" @switchPage = "switchPage" @lastPage = "lastPage"></news>
+    <router-view/>
   </div>
 </template>
 
