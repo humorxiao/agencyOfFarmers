@@ -20,6 +20,7 @@ import scau.zxck.service.sys.IUserLoginService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
@@ -59,6 +60,12 @@ public class PageAction {
 
   @RequestMapping(value = "getBulletin", method = RequestMethod.POST)
   public void getBulletin(String jsonStr,HttpServletResponse response) throws Exception {
+     BufferedReader br = request.getReader();
+     String str, wholeStr = "";
+     while((str = br.readLine()) != null){
+     wholeStr += str;
+     }
+     jsonStr=wholeStr;
     JSONObject pageInfo = JSONObject.parseObject(jsonStr);
     JSONArray jsonarr = new JSONArray();
     List list = unionNewsService.listAll();
@@ -86,6 +93,7 @@ public class PageAction {
     int state = (int) Integer.parseInt(data.get("afterSale").toString());
     JSONObject pageInfo = JSONObject.parseObject(jsonStr2);
     JSONArray jsonarr = new JSONArray();
+    JSONArray jsonarr1 = new JSONArray();
     Conditions conditions = new Conditions();
     List list = orderInfoService.list(conditions.eq("order_aftersale", state));
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
@@ -114,7 +122,9 @@ public class PageAction {
       temp.put("Order_Reserve_1", order.getOrder_reserve_1());
       jsonarr.add(temp);
     }
-    String r = JSONArrayPaging(jsonarr, pageInfo).toString();
+    jsonarr1.add(JSONArrayPaging(jsonarr, pageInfo));
+    jsonarr1.add(jsonarr);
+    String r=jsonarr1.toString();
     PrintWriter out=response.getWriter();
     out.flush();
     out.write(r);

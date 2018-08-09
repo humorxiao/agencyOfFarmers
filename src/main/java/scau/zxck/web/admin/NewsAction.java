@@ -94,7 +94,7 @@ public class NewsAction {
             temp.put("News_Text", news.getNews_text());
             temp.put("News_Time", news.getNews_time());
           temp.put("News_Picture", news.getNews_picture());
-            if (news.getNews_mark() == 1) {
+            if (news.getNews_mark() == 2) {
                 jsonarr.add(temp);
             }
         }
