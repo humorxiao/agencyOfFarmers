@@ -18,12 +18,11 @@ import scau.zxck.entity.market.GoodsInfo;
 import scau.zxck.entity.market.GoodsLog;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IGoodsLogService;
-import scau.zxck.utils.JSONPaging;
-import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -48,8 +47,14 @@ public class GoodsLogAction {
     @RequestMapping(value = "getAllGoodsLogPaging", method = RequestMethod.POST)
 
     public void getAllGoodsLogPaging( HttpServletResponse response) throws Exception {
-
-        JSONObject pageInfo=ReadJSON.readJSONStr(request);
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+        JSONObject pageIanfo = JSONObject.parseObject(jsonStr);
         List list = goodsLogService.listAll();
         JSONArray jsonarr = new JSONArray();
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
@@ -63,7 +68,7 @@ public class GoodsLogAction {
             temp.put("GL_Time", gl.getGl_time());
             jsonarr.add(temp);
         }
-        String r = JSONPaging.JSONArrayPaging(jsonarr, pageInfo).toString();
+        r = JSONArrayPaging(jsonarr, pageIanfo).toString();
         PrintWriter out=response.getWriter();
         out.flush();
         out.write(r);
@@ -71,8 +76,8 @@ public class GoodsLogAction {
     }
 
     @RequestMapping(value = "addGoodsLog", method = RequestMethod.POST)
-    public void addGoodsLog(HttpServletResponse response) throws Exception {
-        JSONObject data=ReadJSON.readJSONStr(request);
+    public void addGoodsLog(String jsonStr,HttpServletResponse response) throws Exception {
+        JSONObject data = JSONObject.parseObject(jsonStr);
         JSONObject temp = new JSONObject();
         Conditions conditions = new Conditions();
         List list = goodsInfoService.list(conditions.eq("id", data.get("Goods_PK").toString()));
@@ -147,4 +152,34 @@ public class GoodsLogAction {
         out.write(r);
         out.flush();
     }
+
+    public JSONArray JSONArrayPaging(JSONArray arr, JSONObject json) {
+        JSONArray temparr = new JSONArray();
+        JSONObject firstjson = new JSONObject();
+
+        firstjson.put("Size", arr.size());
+
+        if (arr.size() < json.getIntValue("NumPerPage")) {
+            firstjson.put("PageNum", 1);
+        } else {
+            if (arr.size() % json.getIntValue("NumPerPage") == 0) {
+                firstjson.put("PageNum", arr.size() / json.getIntValue("NumPerPage"));
+            } else {
+                firstjson.put("PageNum", (arr.size() / json.getIntValue("NumPerPage")) + 1);
+            }
+        }
+        firstjson.put("NowPage", json.getIntValue("Page"));
+        firstjson.put("NumPerPage", json.getIntValue("NumPerPage"));
+
+        temparr.add(firstjson);
+        for (int i = (json.getIntValue("Page") - 1) * json.getIntValue("NumPerPage"); i < arr
+                .size(); i++) {
+            temparr.add(arr.get(i));
+            if (i >= json.getIntValue("Page") * json.getIntValue("NumPerPage") - 1)
+                break;
+        }
+
+        return temparr;
+    }
+
 }

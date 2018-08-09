@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <div id="fl-login" class="container-fluid">
+  <div id="fl-login" class="container-fluid">
       <div class = "info" >
         <transition name="slide-fade">
           <div class="alert alert-danger" role="alert" id="fl-error" v-if="point == 1" :style="{display: block}">
@@ -11,7 +11,7 @@
       </div>
       <div class="panel panel-default">
         <!-- 面板主体 -->
-        <div class="panel-body">
+    <div class="panel-body">
           <form class="form-horizontal">
             <div class="form-group">
               <label for="inputId" class="col-md-3 control-label">帐号</label>
@@ -22,7 +22,7 @@
             <div class="form-group">
               <label for="inputPassword" class="col-md-3 control-label" >密码</label>
               <div class="col-md-7">
-                <input type="password" class="form-control" id="inputPassword" placeholder="请输入密码" v-model="password">
+                <input type="password" class="form-control" id="inputPassword" placeholder="请输入密码" v-model="input_password">
               </div>
             </div>
             <div id="User_Position" class="form-group">
@@ -38,10 +38,10 @@
             </div>
             <div class="form-group">
               <label for="yzm" class="col-md-3 control-label">验证码</label>
-              <div class="col-md-9">
-                <input type="text" class="form-control" id="yzm" placeholder="验证码">
-                <!--<IMG width="78px" src='' id="img0" vspace=3>-->
-                <a class="btn" onclick=getVCode()>换一张</a>
+              <div class="col-md-9" >
+                <input type="text" class="form-control" id="yzm" placeholder="验证码" v-model="inputVCode">
+                <img width="78px" :src="picturesSrc" id="img0" vspace=3>
+                <a class="btn" @click="getVCode()">换一张</a>
               </div>
             </div>
             <div class="form-group">
@@ -52,48 +52,52 @@
           </form>
         </div>
         <!-- 面板脚 -->
-        <div class="panel-footer">
+       <div class="panel-footer">
           <a href="index.html">返回首页</a>
           <a href="register.html">立即注册</a>
         </div>
       </div>
     </div>
     <router-view/>
+
   </div>
+
 </template>
 
 <script>
 import axios from 'axios'
-// import Bus from './bus.js'
 export default {
   name: 'panel',
-  mounted: function () {
-    axios.post('/api/getVCODE', {}).then(response => {
-      console.log(JSON.stringify(response.data))
-    }).catch(function (error) {
-      console.log(error)
-    })
-  },
   data () {
     return {
       id: '',
+      input_password: '',
       password: '',
       datas: '',
       point: '-1',
       msg: '',
       checked: '1',
-      block: ''
+      block: '',
+      picturesSrc:'/api/getVCODE',
+      login_information: '',
+      login_VCode: '',
+      code: '',
+      inputVCode: '',
+      user_name: '',
+      admin_name: ''
     }
   },
   methods: {
     login: function () {
-      // alert(this.id)
-      // alert(this.password)
       if (this.id === '') {
-        this.alertError('账号不能为空，请填写昵称或者手机号码或者邮箱号码')
-      } else if (this.password === '') {
-        this.alertError('请输入密码')
+        this.info('账号不能为空，请填写昵称或者手机号码或者邮箱号码')
+      } else if (this.input_password === '') {
+        this.info('请输入密码')
+      } else if (this.inputVCode === '') {
+        this.info('请输入验证码')
       } else {
+       this.password = hex_md5(this.input_password); // 密码加密
+       this.code = {'code' : this.inputVCode}
         if (this.checked === '1') { // 用户管理员登录数据
           if (/0?(13|14|15|18|17)[0-9]{9}/.test(this.id) === true) { // 手机
             this.datas = {
@@ -151,33 +155,46 @@ export default {
           }
         }
         if (this.checked === '1' || this.checked === '2') {
-          this.alertError('发送数据成功')
-          // Bus.$emit('val', this.login_point)
-          window.location.href = 'index.html'
-          var obj = JSON.stringify(this.datas)
-          alert(obj)
-          /* axios.post('login', {obj}).then(response => {
-            console.log(response)
-            console.log('发送数据成功!')
+          /**
+           * 嵌套验证，先发送请求，验证验证码是否正确，再进行验证用户信息
+           */
+          axios.post('/api/validateVCode',this.code).then(response => {  //验证码验证
+           if(response.data.status == 1) {
+             axios.post('/api/login', this.datas).then(response => {  //登录信息验证
+               if(response.data.isCorrect == true) {
+                   if(this.checked === '1') {  // 用户
+                     window.location.href = 'index.html'
+                    // alert('用户登录成功，用户名为'+ JSON.stringify( response.data.User_Name))
+                   } else if(this.checked === '2') {  // 管理员
+                     window.location.href = 'editinfo.html'
+                    // alert('管理员登录成功，用户名为' + JSON.stringify(response.data.Admin_Name))
+                   }
+                 } else {
+                 this.info('用户名或密码错误')
+               }
+             }).catch(function (error) {
+               console.log(error)
+             })
+           } else {
+             this.info('验证码错误')
+           }
           }).catch(function (error) {
             console.log(error)
-            console.log('发送数据失败!')
           })
-          /* if (this.response.isCorrect) {
-            if (this.data.isAdmin) {
-              window.location.href = 'editinfo.html'
-            } else {
-              window.location.href = 'index.html'
-            }
-          } else {
-            this.alertError('登录账号或密码错误')
-          } */
         }
       }
     },
-    alertError: function (msg) {
-      this.point = '1'
-      this.msg = msg
+    /**
+     * 信息提示
+     */
+    info: function(msg) {
+      this.$message.error(msg);
+    },
+    /**
+     * 获取验证码
+     */
+    getVCode: function () {
+      this.picturesSrc= '/api/getVCODE?operation=getVCode&&='+Math.random()
     }
   }
 }

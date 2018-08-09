@@ -19,7 +19,6 @@ import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.UnionStaff;
 import scau.zxck.service.market.IUnionStaffService;
-import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,9 +47,9 @@ public class UnionStaffAction {
     private HttpSession session;
 
     @RequestMapping(value = "getLikesStaffs", method = RequestMethod.POST)
-    public void getLikesStaffs(HttpServletResponse response) throws Exception {
-        JSONObject data = ReadJSON.readJSONStr(request);
-        String likes = data.get("likes").toString();
+    public void getLikesStaffs( HttpServletResponse response) throws Exception {
+
+        String likes = request.getParameter("likes");
         likes = java.net.URLDecoder.decode(likes, "utf-8");
         JSONArray jsonarr = new JSONArray();
         if (likes != null) {
@@ -102,6 +101,10 @@ public class UnionStaffAction {
             jsAry.add(temp);
         }
         r = jsAry.toString();
+//        if (jsAry != null) {
+//            r = "{\"status\":1}";
+//        } else
+//            r = "{\"status\":0}";
         PrintWriter out = response.getWriter();
         out.flush();
         out.write(r);
@@ -111,9 +114,15 @@ public class UnionStaffAction {
 
     @RequestMapping(value = "addUnionStaff", method = RequestMethod.POST)
     public void addUnionStaff( HttpServletResponse response) throws Exception {
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
         UnionStaff temp = new UnionStaff();
-        String r = "";
-        JSONObject json=ReadJSON.readJSONStr(request);
+        JSONObject json = JSONObject.parseObject(jsonStr);
         temp.setStaff_name(json.get("Staff_Name").toString());
         temp.setStaff_sex((int) Integer.parseInt(json.get("Staff_Sex").toString()));
         temp.setStaff_birthday(json.get("Staff_Birthday").toString());
@@ -135,8 +144,14 @@ public class UnionStaffAction {
 
     @RequestMapping(value = "updateUnionStaff", method = RequestMethod.POST)
     public void updateUnionStaff( HttpServletResponse response) throws Exception {
-        String r = "";
-        JSONObject json=ReadJSON.readJSONStr(request);
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+        JSONObject json = JSONObject.parseObject(jsonStr);
         try {
             UnionStaff temp = (UnionStaff) unionStaffService.findOne((String) json.get("id"));
             if (json.get("Union_Info_Id") != null) {
@@ -176,8 +191,14 @@ public class UnionStaffAction {
 
     @RequestMapping(value = "deleteUnionStaff", method = RequestMethod.POST)
     public void deleteUnionStaff( HttpServletResponse response) throws Exception {
-        JSONObject json=ReadJSON.readJSONStr(request);
-        String r = "";
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+      JSONObject json = JSONObject.parseObject(jsonStr);
         String id = (String) json.get("id");
         try {
             unionStaffService.deleteUnionStaff(id);

@@ -21,7 +21,6 @@ import scau.zxck.entity.market.OrderInfo;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IGoodsLogService;
 import scau.zxck.service.market.IOrderInfoService;
-import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,8 +50,14 @@ public class OrderStateAction {
   private  HttpSession session;
   @RequestMapping(value = "changeOrderState", method = RequestMethod.POST)
   public void changeOrderState( HttpServletResponse response) throws Exception {
-    String r = "";
-    JSONObject data=ReadJSON.readJSONStr(request);
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
+    JSONObject data = JSONObject.parseObject(jsonStr);
     if ((int) data.get("Order_State") == 2) { // 取消订单
       Conditions conditions = new Conditions();
       List list = orderInfoService.list(conditions.eq("id", data.get("Order_ID").toString()));
@@ -205,8 +210,14 @@ public class OrderStateAction {
   @RequestMapping(value = "changeOrderAfterSale", method = RequestMethod.POST)
 //  @Test
   public  void changeOrderAfterSale(HttpServletResponse response) throws Exception {
-    String r = "";
-    JSONObject data=ReadJSON.readJSONStr(request);
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
+    JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     Conditions conditions = new Conditions();
     List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
@@ -267,9 +278,16 @@ public class OrderStateAction {
   }
 
   @RequestMapping(value = "getOrdersByStateAndUser", method = RequestMethod.POST)
-  public void getOrdersByStateAndUser(String jsonStr,HttpServletResponse response) throws Exception {
-    String r = "";
-    JSONObject data=ReadJSON.readJSONStr(request);
+  public void getOrdersByStateAndUser(HttpServletResponse response) throws Exception {
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
+
+    JSONObject data = JSONObject.parseObject(jsonStr);
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
     } else {
@@ -317,9 +335,18 @@ public class OrderStateAction {
 
   @RequestMapping(value = "getOrdersByAftersaleAndUser", method = RequestMethod.POST)
 //  @Test
-  public void getOrdersByAftersaleAndUser(HttpServletResponse response) throws Exception {
+  public void getOrdersByAftersaleAndUser(String jsonStr,HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject data=ReadJSON.readJSONStr(request);
+    JSONObject data = JSONObject.parseObject(jsonStr);
+//      BufferedReader br = request.getReader();
+//      String str, wholeStr = "";
+//      while((str = br.readLine()) != null){
+//          wholeStr += str;
+//      }
+//      jsonStr=wholeStr;
+//    HttpServletRequest request =
+//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
     } else {

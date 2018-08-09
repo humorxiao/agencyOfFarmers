@@ -14,7 +14,6 @@ import scau.zxck.entity.market.GoodsInfo;
 import scau.zxck.entity.market.UserCollection;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IUserCollectService;
-import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,8 +38,18 @@ public class CollectInfoAction {
 
     @RequestMapping(value = "addCollect", method = RequestMethod.POST)
     public void addCollection( HttpServletResponse response) throws Exception {
-        String r = "";
-       JSONObject data=ReadJSON.readJSONStr(request);
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+
+        JSONObject data = JSONObject.parseObject(jsonStr);
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        HttpSession session = request.getSession();
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -69,8 +78,17 @@ public class CollectInfoAction {
 
     @RequestMapping(value = "removeCollect", method = RequestMethod.POST)
     public void removeCollect( HttpServletResponse response) throws Exception {
-        String r = "";
-        JSONObject data=ReadJSON.readJSONStr(request);
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+        JSONObject data = JSONObject.parseObject(jsonStr);
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        HttpSession session = request.getSession();
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -91,7 +109,15 @@ public class CollectInfoAction {
 
     @RequestMapping(value = "getCollect", method = RequestMethod.POST)
     public void getCollect( HttpServletResponse response) throws Exception {
-        JSONObject data=ReadJSON.readJSONStr(request);
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+      JSONObject data = JSONObject.parseObject(jsonStr);
+
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -101,6 +127,8 @@ public class CollectInfoAction {
         Conditions conditions = new Conditions();
         List list =
                 userCollectService.list(conditions.eq("user_info_id", data.get("User_PK").toString()));
+        // DataSearch.collectByID((int)Integer.parseInt(json.get("User_PK").toString()));
+
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             JSONObject temp = new JSONObject();
             UserCollection collect = (UserCollection) iter.next();
@@ -110,7 +138,7 @@ public class CollectInfoAction {
             temp.put("Collect_Time", collect.getCollect_time().toString());
             jsonarr.add(temp);
         }
-        String r = jsonarr.toString();
+       r = jsonarr.toString();
         PrintWriter out = response.getWriter();
         out.flush();
         out.write(r);

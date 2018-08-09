@@ -21,7 +21,6 @@ import scau.zxck.service.sys.IUserLoginService;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IUserCommentsService;
 import scau.zxck.service.sys.IUserService;
-import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +35,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration("classpath:config/spring/spring.xml")
 public class GetSessionUserInfoAction {
     @Autowired
     private IUserLoginService userLoginService;
@@ -47,8 +48,14 @@ public class GetSessionUserInfoAction {
     @RequestMapping(value = "getSessionUserInfo", method = RequestMethod.POST)
 //  @Test
     public void getSessionUserInfo( HttpServletResponse response) throws Exception {
-        String r = "";
-        JSONObject data = ReadJSON.readJSONStr(request);
+      String r="";
+      BufferedReader br = request.getReader();
+      String str, wholeStr = "";
+      while((str = br.readLine()) != null){
+        wholeStr += str;
+      }
+      String jsonStr=wholeStr;
+        JSONObject data = JSONObject.parseObject(jsonStr);
         if (session.getAttribute("User_PK") != null) {
             Conditions conditions = new Conditions();
             UserInfo user = userLoginService.findById(data.get("User_PK").toString());

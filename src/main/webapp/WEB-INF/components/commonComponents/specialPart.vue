@@ -8,10 +8,10 @@
         </div>
         <div class="fl-home-model-title-line">————</div>
       </div>
-        <div v-for="(item) in specialparts" :key="item.id">
+        <div v-for="(item,index) in specialparts" :key="item.id">
         <div class="col-md-4">
           <div class="panel panel-default fl-panel">
-            <a href="item.src" target="_blank">
+            <a :href="item.src" target="_blank">
               <div class="fl-home-goods-img">
                 <img class="lazy" width="248" height="185"  v-bind:src="item.pictureSrc"  alt="item.name">
               </div>
@@ -20,7 +20,7 @@
                 <li class="list-group-item fl-list-group-item fl-home-price">{{item.prices}}</li>
               </ul>
             </a>
-            <div class="fl-panel-like" @click = "collectSucced()"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true" ></span> 收 藏</div>
+            <div class="fl-panel-like" @click = "addCollect(item.id,item.isCollect,item.Collect_pk,index)"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true" ></span>{{item.isCollect}}</div>
           </div>
         </div>
     </div>
@@ -34,27 +34,36 @@ export default {
   name: 'specialPart',
   data () {
     return {
-      login_status: '0'
+      login_status: '0',
+      goods_pk: '',
+      collect_pk: ''
     }
   },
   methods: {
-    addCollect: function (goodsID) {
-      axios.post('').then((response) => {
-        console.log(response.status) // 判断登录状态
-        this.login_status = response.status
-      }).catch(function (error) {
-        console.log(error)
-      })
-      if (this.login_status === 0) {
-        window.location.href = 'login.html'
-      } else {
-        axios.post('', {goodsID}).then((response) => {
-          console.log(response.status) // 发送收藏商品数据
-          if (response.status.success) {
-            this.collectSucced()
-          } else {
-            this.collectError()
-          }
+    addCollect: function (goodsID,goodsCollectStatus,collectPk,index) {
+      // alert(goodsID)
+      // axios.post('').then((response) => {
+      //   console.log(response.status) // 判断登录状态
+      //   this.login_status = response.status
+      // }).catch(function (error) {
+      //   console.log(error)
+      // })
+      this.goods_pk = {'Goods_PK': goodsID}
+      if(goodsCollectStatus === '收藏') {
+        axios.post('/api/addCollect',this.goods_pk).then((response) => {
+          console.log(response.data)
+          this.specialparts[index].Collect_pk = response.data.Collect_PK
+          alert( JSON.stringify(response.data.Collect_PK))
+          this.specialparts[index].isCollect = '取消收藏'
+        }).catch(function (error) {
+          console.log(error)
+        })
+      }
+      this.collect_pk = {'Collect_PK':collectPk}
+      if(goodsCollectStatus === '取消收藏') {
+        axios.post('/api/removeCollect',this.collect_pk).then((response) => {
+          console.log(response.data)
+          this.specialparts[index].isCollect = '收藏'
         }).catch(function (error) {
           console.log(error)
         })

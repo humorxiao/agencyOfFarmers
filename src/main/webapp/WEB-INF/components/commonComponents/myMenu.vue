@@ -98,14 +98,14 @@ export default {
   methods: {
    scrollToTop () {
      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      console.log(scrollTop)
+      //console.log(scrollTop)
      if (scrollTop >= 545) {
        this.showMenu = 1
-        console.log(this.data().showMenu)
+       // console.log(this.data().showMenu)
      } else {
        this.showMenu = -1
      }
-      console.log(this.showMenu)
+     // console.log(this.showMenu)
    },
    destroyed () {
      window.removeEventListener('scroll', this.scrollToTop)
@@ -122,7 +122,6 @@ export default {
     opacity: 0
   }
   #fl-menu{
-    margin-top: 200px;
   }
   .goods{
     padding: 4px 20px

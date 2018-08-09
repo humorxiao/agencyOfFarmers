@@ -18,7 +18,6 @@ import scau.zxck.entity.market.CartInfo;
 import scau.zxck.entity.market.GoodsInfo;
 import scau.zxck.service.market.ICartInfoService;
 import scau.zxck.service.market.IGoodsInfoService;
-import scau.zxck.utils.ReadJSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +39,14 @@ public class CartInfoAction {
     @RequestMapping(value = "getCart",method = RequestMethod.POST)
     public void getCartAction(HttpServletResponse response) throws Exception {
         String r="";
-        JSONObject data=ReadJSON.readJSONStr(request);
+        BufferedReader br = request.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        String jsonStr=wholeStr;
+
+        JSONObject data=JSONObject.parseObject(jsonStr);
         if(session.getAttribute("User_PK")!=null){
             data.put("User_PK",session.getAttribute("User_PK"));
             data.put("Cart_PK",session.getAttribute("Cart_PK"));
@@ -78,9 +84,17 @@ public class CartInfoAction {
 //        System.out.println(r);
     }
     @RequestMapping(value = "alterCart",method = RequestMethod.POST)
+//    @ResponseBody
     public void alterCart(HttpServletResponse response) throws Exception {
         String r="";
-        JSONObject data=ReadJSON.readJSONStr(request);
+        BufferedReader br = request.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        String jsonStr=wholeStr;
+
+        JSONObject data=JSONObject.parseObject(jsonStr);
         CartInfo cartInfo=cartInfoService.findById(data.get("Cart_PK").toString());
         cartInfo.setGoods_list(data.get("Goods_List").toString());
         cartInfo.setGoods_num(data.get("Goods_Num").toString());

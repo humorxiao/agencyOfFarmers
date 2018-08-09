@@ -15,7 +15,6 @@ import scau.zxck.entity.market.UserComments;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IUserCommentsService;
-import scau.zxck.utils.ReadJSON;
 import sun.awt.SunHints;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,8 +41,15 @@ public class CommentsAction {
   private HttpSession session;
   @RequestMapping(value = "getGoodsComments", method = RequestMethod.POST)
   public void getGoodsComments( HttpServletResponse response) throws Exception {
-    String r = "";
-    JSONObject data=ReadJSON.readJSONStr(request);
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
+
+    JSONObject data = JSONObject.parseObject(jsonStr);
     JSONArray jsonArray = new JSONArray();
     Conditions conditions = new Conditions();
     List list =
@@ -71,8 +77,17 @@ public class CommentsAction {
 
   @RequestMapping(value = "addComments", method = RequestMethod.POST)
   public void addComments(HttpServletResponse response) throws Exception {
-    String r = "";
-    JSONObject data=ReadJSON.readJSONStr(request);
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
+    JSONObject data = JSONObject.parseObject(jsonStr);
+//    HttpServletRequest request =
+//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", session.getAttribute("User_PK"));
     } else {
@@ -105,8 +120,17 @@ public class CommentsAction {
   public void getUserGoodsComments(HttpServletResponse response) throws Exception {
     Conditions conditions = new Conditions();
     JSONObject temp=new JSONObject();
-    String r = "";
-    JSONObject data=ReadJSON.readJSONStr(request);
+    String r="";
+    BufferedReader br = request.getReader();
+    String str, wholeStr = "";
+    while((str = br.readLine()) != null){
+      wholeStr += str;
+    }
+    String jsonStr=wholeStr;
+    JSONObject data = JSONObject.parseObject(jsonStr);
+//    HttpServletRequest request =
+//        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//    HttpSession session = request.getSession();
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", session.getAttribute("User_PK"));
     } else {
@@ -132,9 +156,10 @@ public class CommentsAction {
     out.flush();
   }
   @RequestMapping(value = "deleteComments",method = RequestMethod.POST)
-  public void deleteComments(HttpServletResponse response) throws Exception{
+  public void deleteComments(String jsonStr,HttpServletResponse response) throws Exception{
     String r="";
-    JSONObject data=ReadJSON.readJSONStr(request);
+
+    JSONObject data=JSONObject.parseObject(jsonStr);
     try {
       userCommentsService.deleteByIds(data.get("Comm_PK").toString());
       r="{\"status\":1}";
