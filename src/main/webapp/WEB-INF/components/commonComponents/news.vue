@@ -10,20 +10,15 @@
       <ul class="list-group">
         <li class="list-group-item" v-for="item in newlists" :key="item.id">
           <span class="badge">{{item.time}}</span>
-          <a href = "../../../details.html" target="_blank">{{item.title}}</a>
+          <a href = "../../pages/details.html" target="_blank">{{item.title}}</a>
         </li>
       </ul>
     </div>
     <div class = "Page">
       <div class = "pages">
         <ul class="pagination pagination-lg">
-          <li><a href="">&laquo;</a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#">...</a></li>
+          <li><a href="" @click = "lastPage">&laquo;</a></li>
+          <li v-for="item in pageLists" :key="item.id"><span @click="switchPage(item.page)">{{item.page}}</span></li>
           <li><a href="#">&raquo;</a></li>
         </ul>
       </div>
@@ -37,7 +32,32 @@ export default{
   props: {
     newlists: {
       type: Array,
-      required: true
+      required: true,
+      default: function () {
+        return []
+      }
+    },
+    pageLists: {
+      type: Array,
+      required: true,
+      default: function () {
+        return []
+      }
+    }
+  },
+  methods: {
+    getNews: function () {
+      this.$emit('getNews')
+    },
+    switchPage: function (nowPage) {
+      this.$emit('switchPage', nowPage)
+    },
+    lastPage: function () {
+      this.$emit('lastPage')
+    }
+  },
+  data () {
+    return {
     }
   }
 }
