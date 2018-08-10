@@ -338,7 +338,7 @@ export default {
       }
     },
     register: function () {
-      else {
+     // else {
         // if(this.sex === '1') {
         //   alert('男性')
         // } else if(this.sex === '2') {
@@ -406,7 +406,7 @@ export default {
        this.childValue = false
      }
 */
-  }
+ // }
 }
 </script>
 
