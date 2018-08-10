@@ -14,6 +14,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
 import scau.zxck.utils.AuthCodeUtil;
+import scau.zxck.utils.FlushWriteUtil;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -27,7 +28,6 @@ import java.io.PrintWriter;
 @Controller
 @RequestMapping("/")
 public class VcodeAction {
-
     @Autowired
     private HttpServletRequest request;
     @Autowired
@@ -54,7 +54,7 @@ public class VcodeAction {
     }
 
     @RequestMapping(value = "validateVCode",method = RequestMethod.POST)
-    public void validateVCode(HttpServletResponse response)throws IOException{
+    public void validateVCode(HttpServletResponse response)throws Exception{
         String r="";
       BufferedReader br = request.getReader();
       String str, wholeStr = "";
@@ -72,9 +72,6 @@ public class VcodeAction {
         }else{
             r="{\"status\":0}";
         }
-      PrintWriter out=response.getWriter();
-      out.flush();
-      out.write(r);
-      out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }

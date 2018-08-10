@@ -32,7 +32,14 @@
   <listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
-
+  <!-- 防止用户多次登录监听器-->
+  <listener>
+    <listener-class>scau.zxck.web.listener.UserSessionListener</listener-class>
+  </listener>
+  <!--当用户超过1分钟不访问服务器的话就自动销毁session，先测试用下-->
+  <session-config>
+    <session-timeout>1</session-timeout>
+  </session-config>
   <!-- 编码过滤器 -->
   <filter>
     <filter-name>encodingFilter</filter-name>
@@ -67,7 +74,15 @@
     <servlet-name>dispatcher</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-
+<!--<跳转的页面/>-->
+  <!--<servlet>-->
+    <!--<servlet-name>runtain</servlet-name>-->
+    <!--<jsp-file>/WEB-INF/pages/success.jsp</jsp-file>-->
+  <!--</servlet>-->
+  <!--<servlet-mapping>-->
+    <!--<servlet-name>runtain</servlet-name>-->
+    <!--<url-pattern>runtain/success.jsp</url-pattern>-->
+  <!--</servlet-mapping>-->
   <!-- 默认访问的页面 相对位置 /webapp/下文件-->
   <welcome-file-list>
     <welcome-file>/WEB-INF/pages/index.jsp</welcome-file>

@@ -2,30 +2,23 @@ package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.xml.internal.rngom.parse.host.Base;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.GoodsInfo;
 import scau.zxck.entity.market.GoodsLog;
 import scau.zxck.entity.market.OrderInfo;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IGoodsLogService;
 import scau.zxck.service.market.IOrderInfoService;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -50,14 +43,8 @@ public class OrderStateAction {
   private  HttpSession session;
   @RequestMapping(value = "changeOrderState", method = RequestMethod.POST)
   public void changeOrderState( HttpServletResponse response) throws Exception {
-    String r="";
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    String jsonStr=wholeStr;
-    JSONObject data = JSONObject.parseObject(jsonStr);
+    String r = "";
+    JSONObject data= ReadJSONUtil.readJSONStr(request);
     if ((int) data.get("Order_State") == 2) { // 取消订单
       Conditions conditions = new Conditions();
       List list = orderInfoService.list(conditions.eq("id", data.get("Order_ID").toString()));
@@ -201,23 +188,14 @@ public class OrderStateAction {
       e.printStackTrace();
       r = "{\"status\":0}";
     }
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
+    FlushWriteUtil.flushWrite(response,r);
   }
 
   @RequestMapping(value = "changeOrderAfterSale", method = RequestMethod.POST)
 //  @Test
   public  void changeOrderAfterSale(HttpServletResponse response) throws Exception {
-    String r="";
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    String jsonStr=wholeStr;
-    JSONObject data = JSONObject.parseObject(jsonStr);
+    String r = "";
+    JSONObject data= ReadJSONUtil.readJSONStr(request);
     JSONObject temp = new JSONObject();
     Conditions conditions = new Conditions();
     List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
@@ -271,23 +249,13 @@ public class OrderStateAction {
     } catch (Exception e) {
       r = "{\"status\":0}";
     }
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
+    FlushWriteUtil.flushWrite(response,r);
   }
 
   @RequestMapping(value = "getOrdersByStateAndUser", method = RequestMethod.POST)
-  public void getOrdersByStateAndUser(HttpServletResponse response) throws Exception {
-    String r="";
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    String jsonStr=wholeStr;
-
-    JSONObject data = JSONObject.parseObject(jsonStr);
+  public void getOrdersByStateAndUser(String jsonStr,HttpServletResponse response) throws Exception {
+    String r = "";
+    JSONObject data= ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
     } else {
@@ -327,26 +295,14 @@ public class OrderStateAction {
       jsonarr.add(temp);
     }
     r = jsonarr.toString();
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
+    FlushWriteUtil.flushWrite(response,r);
   }
 
   @RequestMapping(value = "getOrdersByAftersaleAndUser", method = RequestMethod.POST)
 //  @Test
-  public void getOrdersByAftersaleAndUser(String jsonStr,HttpServletResponse response) throws Exception {
+  public void getOrdersByAftersaleAndUser(HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject data = JSONObject.parseObject(jsonStr);
-//      BufferedReader br = request.getReader();
-//      String str, wholeStr = "";
-//      while((str = br.readLine()) != null){
-//          wholeStr += str;
-//      }
-//      jsonStr=wholeStr;
-//    HttpServletRequest request =
-//            ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//    HttpSession session = request.getSession();
+    JSONObject data= ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
       data.put("User_PK", (int) session.getAttribute("User_PK"));
     } else {
@@ -384,9 +340,6 @@ public class OrderStateAction {
       jsonarr.add(temp);
     }
     r=jsonarr.toString();
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
+    FlushWriteUtil.flushWrite(response,r);
   }
 }

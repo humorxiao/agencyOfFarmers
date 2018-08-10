@@ -12,10 +12,11 @@ import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.ICartInfoService;
 import scau.zxck.service.market.IDeliveryAddressService;
 import scau.zxck.service.sys.IUserRegisterService;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -40,12 +41,7 @@ public class RegisterAction {
   @RequestMapping(value = "register", method = RequestMethod.POST)
 //  @Test
   public void register(HttpServletResponse response) throws Exception {
-    String str, wholeStr = "";
-    BufferedReader br = request.getReader();
-    while ((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    JSONObject data = JSONObject.parseObject(wholeStr);
+    JSONObject data = ReadJSONUtil.readJSONStr(request);
     JSONObject temp = new JSONObject();
     String r = "";
     data.put("User_RegTime", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss").format(new Date())).toString());
@@ -96,21 +92,13 @@ public class RegisterAction {
       deliveryAddressService.add(deliveryAddress);
     }
     r = temp.toString();
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
+    FlushWriteUtil.flushWrite(response, r);
   }
 
   @RequestMapping(value = "validateAccount", method = RequestMethod.POST)
   public void validateAccount(HttpServletResponse response) throws Exception {
     String r = "";
-    String str, wholeStr = "";
-    BufferedReader br = request.getReader();
-    while ((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    JSONObject data = JSONObject.parseObject(wholeStr);
+    JSONObject data = ReadJSONUtil.readJSONStr(request);
     Conditions conditions = new Conditions();
     if (!data.get("User_Name").toString().equals("")) {
       List list =
@@ -136,9 +124,6 @@ public class RegisterAction {
       } else
         r = "{\"status\":1}";
     }
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
+    FlushWriteUtil.flushWrite(response, r);
   }
 }

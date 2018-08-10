@@ -6,19 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.GoodsInfo;
 import scau.zxck.entity.market.UserCollection;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IUserCollectService;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -35,21 +34,11 @@ public class CollectInfoAction {
     private HttpServletRequest request;
     @Autowired
     private HttpSession session;
-
     @RequestMapping(value = "addCollect", method = RequestMethod.POST)
     public void addCollection( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-
-        JSONObject data = JSONObject.parseObject(jsonStr);
-//        HttpServletRequest request =
-//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session = request.getSession();
+        String r = "";
+        JSONObject temp=new JSONObject();
+       JSONObject data= ReadJSONUtil.readJSONStr(request);
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -64,31 +53,21 @@ public class CollectInfoAction {
         userCollection.setGoodsinfo(new GoodsInfo());
         try {
             userCollectService.add(userCollection);
-            r = "{\"status\":1}";
+           temp.put("status",1);
         } catch (Exception e) {
             e.printStackTrace();
-            r = "{\"status\":0}";
+          temp.put("status",0);
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        temp.put("Collect_PK",userCollection.getId());
+        r=temp.toString();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
 
     @RequestMapping(value = "removeCollect", method = RequestMethod.POST)
     public void removeCollect( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject data = JSONObject.parseObject(jsonStr);
-//        HttpServletRequest request =
-//                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//        HttpSession session = request.getSession();
+        String r = "";
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -101,23 +80,12 @@ public class CollectInfoAction {
             e.printStackTrace();
             r = "{\"status\":0}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getCollect", method = RequestMethod.POST)
     public void getCollect( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-      JSONObject data = JSONObject.parseObject(jsonStr);
-
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -127,8 +95,6 @@ public class CollectInfoAction {
         Conditions conditions = new Conditions();
         List list =
                 userCollectService.list(conditions.eq("user_info_id", data.get("User_PK").toString()));
-        // DataSearch.collectByID((int)Integer.parseInt(json.get("User_PK").toString()));
-
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             JSONObject temp = new JSONObject();
             UserCollection collect = (UserCollection) iter.next();
@@ -138,10 +104,7 @@ public class CollectInfoAction {
             temp.put("Collect_Time", collect.getCollect_time().toString());
             jsonarr.add(temp);
         }
-       r = jsonarr.toString();
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        String r = jsonarr.toString();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }

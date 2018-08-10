@@ -35,6 +35,12 @@ public class UserLoginService implements IUserLoginService {
     }
 
     @Override
+    public UserInfo findByName(String name) throws BaseException {
+        Conditions conditions=new Conditions();
+        return (UserInfo)userInfoDao.find(conditions.eq("user_name",name));
+    }
+
+    @Override
     public void update(UserInfo entity, Conditions conditions) throws BaseException {
         userInfoDao.update(entity,conditions);
     }
