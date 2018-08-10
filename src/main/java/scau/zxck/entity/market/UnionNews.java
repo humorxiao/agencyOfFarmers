@@ -18,7 +18,6 @@ public class UnionNews extends Unique {
   private int news_mark;
   @Column(name = "news_picture")
   private String news_picture;
-
   public String getNews_picture() {
     return news_picture;
   }

@@ -34,7 +34,12 @@
       <artifactId>ssm-base</artifactId>
       <version>${ssm-base.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
+      <scope>provide</scope>
+    </dependency>
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>

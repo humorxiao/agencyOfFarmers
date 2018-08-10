@@ -52,12 +52,12 @@ public class UserSessionListener implements HttpSessionListener {
             sessionuserMap.put(session.getId(),userMseeage);
 //            out.print("<script>alert('登录过了还想登录？你是不是癫的？？？');</script>");
 //            out.close();
-            return false;
+            return true;
         }
         else{
             usersessionMap.put(userMseeage,session);
             sessionuserMap.put(session.getId(),userMseeage);
-            return true;
+            return false;
         }
     }
     public static boolean isOnline(HttpSession session){

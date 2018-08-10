@@ -65,11 +65,13 @@ public class LoginAction {
         );
       if (list.isEmpty()) {
         temp.put("isCorrect", false);
+        temp.put("reLogin", false);
       } else {
         temp.put("isCorrect", true);
         AdminInfo admin = (AdminInfo) list.get(0);
         temp.put("Admin_PK", admin.getId());
         temp.put("SignIn_IsAdmin", true);
+        temp.put("reLogin", false);
       }
 
     } else {
@@ -90,15 +92,17 @@ public class LoginAction {
       );
       if (list.isEmpty()) {
         temp.put("isCorrect", false);
+        temp.put("reLogin", false);
       } else {
         temp.put("isCorrect", true);
         UserInfo user = (UserInfo) list.get(0);
         temp.put("User_PK", user.getId());
         temp.put("SignIn_IsAdmin", false);
+        temp.put("reLogin", false);
       }
     }
 
-    if (temp.get("isCorrect") == "true") {
+    if ((boolean)temp.get("isCorrect")) {
       // 登录日志
       temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
       if (temp.get("SignIn_IsAdmin") == "true") {
@@ -123,6 +127,7 @@ public class LoginAction {
         session.setAttribute("User_PK", temp.get("User_PK"));
       }
     }
+    r=temp.toString();
     FlushWriteUtil.flushWrite(response,r);
   }
 
