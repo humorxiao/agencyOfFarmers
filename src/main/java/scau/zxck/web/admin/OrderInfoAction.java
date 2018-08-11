@@ -43,12 +43,11 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "getUserOrderListPaging", method = RequestMethod.POST)
 //    @Test
-    public void getUserOrderListPaging(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getUserOrderListPaging(HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data= ReadJSONUtil.readJSONStr(request);
-        JSONObject pageInfo = JSONObject.parseObject(jsonStr);
+        JSONObject pageInfo = ReadJSONUtil.readJSONStr(request);
         if (session.getAttribute("User_PK") != null) {
-            pageInfo.put("User_PK", (int) session.getAttribute("User_PK"));
+            pageInfo.put("User_PK", session.getAttribute("User_PK"));
         } else {
             pageInfo.put("User_PK", "");
         }
@@ -94,9 +93,8 @@ public class OrderInfoAction {
     public void getStateOrderPaging(HttpServletResponse response) throws Exception {
         String r = "";
         JSONObject data= ReadJSONUtil.readJSONStr(request);
-//        JSONObject pageInfo = JSONObject.parseObject(jsonStr);
         if (session.getAttribute("User_PK") != null) {
-            data.put("User_PK", (int) session.getAttribute("User_PK"));
+            data.put("User_PK", session.getAttribute("User_PK"));
         } else {
             data.put("User_PK", "");
         }

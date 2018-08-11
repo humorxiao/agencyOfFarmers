@@ -60,7 +60,9 @@ import scau.zxck.utils.SendEmailUtil;
 import scau.zxck.web.listener.UserSessionListener;
 
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.*;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/")
@@ -69,11 +71,17 @@ public class TestAction {
     @Autowired
     private HttpServletRequest request;
     @Autowired
-    private HttpSession session;
+    private ServletContext application;
     @Autowired
     private IUserLoginService userLoginService;
     @RequestMapping(value = "test", method = RequestMethod.POST)
     public String s(String email,String from,String count,String accreditCode) throws Exception {
+      String newPassword = "";
+      Random random=new Random();
+      for (int i = 0; i < 6; i++) {
+        newPassword += random.nextInt(10);
+      }
+      application.setAttribute("newPassword",newPassword);
         for(int i=0;i<Integer.parseInt(count);i++) {
             SendEmailUtil sendEmailUtil = new SendEmailUtil(email, CodeUtil.generateUniqueCode());
             sendEmailUtil.setFrom(from);

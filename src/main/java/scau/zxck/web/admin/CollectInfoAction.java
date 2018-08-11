@@ -67,7 +67,7 @@ public class CollectInfoAction {
     @RequestMapping(value = "removeCollect", method = RequestMethod.POST)
     public void removeCollect( HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        JSONObject data= new JSONObject();
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {

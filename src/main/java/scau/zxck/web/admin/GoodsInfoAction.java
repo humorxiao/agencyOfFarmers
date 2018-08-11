@@ -31,7 +31,8 @@ public class GoodsInfoAction {
   private IOrderInfoService orderInfoService;
   @Autowired
   private HttpServletRequest request;
-
+  @Autowired
+  private HttpSession session;
   @RequestMapping(value = "getOneGood", method = RequestMethod.POST)
   public void getOneGood( HttpServletResponse response) throws Exception {
     JSONObject data= ReadJSONUtil.readJSONStr(request);
@@ -326,7 +327,8 @@ public class GoodsInfoAction {
 
   @RequestMapping(value = "guessYouLike", method = RequestMethod.POST)
   public void guessYouLike( HttpServletResponse response) throws Exception {
-    JSONObject data= ReadJSONUtil.readJSONStr(request);
+    JSONObject data= new JSONObject();
+    data.put("User_PK",session.getAttribute("User_PK"));
     JSONArray jsonArray = new JSONArray();
     String r = "";
     Conditions conditions = new Conditions();
@@ -378,7 +380,8 @@ public class GoodsInfoAction {
   @RequestMapping(value = "recentlyPerchase", method = RequestMethod.POST)
   public void recentlyPerchase( HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject data= ReadJSONUtil.readJSONStr(request);
+    JSONObject data= new JSONObject();
+    data.put("User_PK",session.getAttribute("User_PK").toString());
     Conditions conditions = new Conditions();
     List list = orderInfoService.list(conditions.eq("user_info_id", data.get("User_PK").toString()).and().eq("order_isPay", 1));
     ArrayList<String> arrayList = new ArrayList<>();

@@ -23,7 +23,7 @@
     <!-- compiler setting -->
     <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
     <!-- web container jetty -->
-    <jetty-maven-plugin.version>9.3.0.M2</jetty-maven-plugin.version>
+    <jetty-maven-plugin.version>9.3.6.v20151106</jetty-maven-plugin.version>
     <project.jetty.run.port>8080</project.jetty.run.port>
     <!-- maven plugins end -->
   </properties>

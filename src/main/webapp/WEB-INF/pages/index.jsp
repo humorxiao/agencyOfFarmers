@@ -52,17 +52,17 @@
 <%--<br><br>--%>
 <%--<input type="submit" value="submit">--%>
 <%--</form>--%>
-<%
-  session.setAttribute("isAdmin", true);
-  session.setAttribute("Admin_PK", "1");
-%>
-<form action="/out" method="post">
+<form action="/test" method="post">
+  email:<input type="text" name="email">
+  <br>
+  accreditCode:<input type="text" name="accreditCode">
+  <br>
+  from:<input type="text" name="from">
+  <br>
+  count:<input type="text" name="count">
+  <br>
   <input type="submit" value="submit">
 </form>
-<%
-  out.println(session.getAttribute("isAdmin") + "<br>");
-  out.println(session.getAttribute("Admin_PK")+ "<br>");
-%>
 </body>
 </html>
 

@@ -32,7 +32,7 @@ public class CartInfoAction {
     @RequestMapping(value = "getCart",method = RequestMethod.POST)
     public void getCartAction(HttpServletResponse response) throws Exception {
         String r="";
-        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        JSONObject data= new JSONObject();
         if(session.getAttribute("User_PK")!=null){
             data.put("User_PK",session.getAttribute("User_PK"));
             data.put("Cart_PK",session.getAttribute("Cart_PK"));
