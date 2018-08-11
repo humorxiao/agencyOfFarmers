@@ -123,6 +123,7 @@ public class LoginAction {
         session.setAttribute("User_PK", temp.get("User_PK"));
       }
     }
+    r=temp.toString();
     FlushWriteUtil.flushWrite(response,r);
   }
 
