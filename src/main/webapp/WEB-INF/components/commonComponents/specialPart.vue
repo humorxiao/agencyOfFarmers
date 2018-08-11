@@ -53,7 +53,7 @@ export default {
         axios.post('/api/addCollect',this.goods_pk).then((response) => {
           // console.log(response.data)
           this.specialparts[index].Collect_pk = response.data.Collect_PK
-          alert(response.data.Collect_PK + '1')
+        //  alert(response.data.Collect_PK + '1')
           this.specialparts[index].isCollect = '取消收藏'
         }).catch(function (error) {
           console.log(error)
