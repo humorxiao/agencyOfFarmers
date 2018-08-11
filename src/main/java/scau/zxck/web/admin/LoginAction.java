@@ -48,14 +48,6 @@ public class LoginAction {
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     JSONObject temp = new JSONObject();
     if ((boolean) data.get("isAdmin")) {
-      String string = data.get("Admin_Name").toString() + data.get("Admin_Cell").toString() + data.get("Admin_Email").toString();
-      if (UserSessionListener.isAreadyEnter(session, string, response)) {
-        temp.put("isCorrect", false);
-        temp.put("reLogin", true);
-        r = temp.toString();
-        FlushWriteUtil.flushWrite(response,r);
-        return;
-      }
       Conditions conditions = new Conditions();
       List list =
         adminLoginService.list(conditions.eq("admin_password", data.get("Admin_Password").toString()).and().leftBracket()
@@ -67,13 +59,20 @@ public class LoginAction {
         temp.put("isCorrect", false);
         temp.put("reLogin", false);
       } else {
+        String string = data.get("Admin_Name").toString() + data.get("Admin_Cell").toString() + data.get("Admin_Email").toString();
+        if (UserSessionListener.isAreadyEnter(session, string, response)) {
+          temp.put("isCorrect", false);
+          temp.put("reLogin", true);
+          r = temp.toString();
+          FlushWriteUtil.flushWrite(response,r);
+          return;
+        }
         temp.put("isCorrect", true);
         AdminInfo admin = (AdminInfo) list.get(0);
         temp.put("Admin_PK", admin.getId());
         temp.put("SignIn_IsAdmin", true);
         temp.put("reLogin", false);
       }
-
     } else {
       String string = data.get("User_Name").toString() + data.get("User_Cell").toString() + data.get("User_Email").toString();
       if (UserSessionListener.isAreadyEnter(session, string, response)) {
