@@ -85,7 +85,7 @@ public class CollectInfoAction {
 
     @RequestMapping(value = "getCollect", method = RequestMethod.POST)
     public void getCollect( HttpServletResponse response) throws Exception {
-        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        JSONObject data= new JSONObject();
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
