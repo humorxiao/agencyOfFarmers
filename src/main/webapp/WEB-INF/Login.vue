@@ -162,7 +162,9 @@ export default {
           axios.post('/api/validateVCode',this.code).then(response => {  //验证码验证
            if(response.data.status == 1) {
              axios.post('/api/login', this.datas).then(response => {  //登录信息验证
-               if(response.data.isCorrect == true) {
+               if(response.data.reLogin === true) {
+                 this.info('您已在线，不可重复登录')
+               } else if(response.data.reLogin === false && response.data.isCorrect === true) {
                    if(this.checked === '1') {  // 用户
                      window.location.href = 'index.html'
                     // alert('用户登录成功，用户名为'+ JSON.stringify( response.data.User_Name))
