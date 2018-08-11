@@ -16,7 +16,6 @@ import scau.zxck.utils.ReadJSONUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,17 +26,11 @@ public class GoodsInfoAction {
   @Autowired
   private IGoodsInfoService goodsInfoService;
   @Autowired
-  private IUnionInfoService unionInfoService;
-  @Autowired
   private IUserCollectService userCollectionService;
-  @Autowired
-  private ICartInfoService cartInfoService;
   @Autowired
   private IOrderInfoService orderInfoService;
   @Autowired
   private HttpServletRequest request;
-  @Autowired
-  private HttpSession session;
 
   @RequestMapping(value = "getOneGood", method = RequestMethod.POST)
   public void getOneGood( HttpServletResponse response) throws Exception {
@@ -67,7 +60,6 @@ public class GoodsInfoAction {
   @RequestMapping(value = "getAllTypeGoods", method = RequestMethod.POST)
   public void getAllTypesGoods( HttpServletResponse response) throws Exception {
     long startTime = System.currentTimeMillis();
-    JSONObject data= ReadJSONUtil.readJSONStr(request);
     JSONArray jsonarr1 = new JSONArray();
     String r = "";
     for (int i = 1; i <= 6; i++) {
@@ -306,7 +298,7 @@ public class GoodsInfoAction {
   public void getLikesAction( HttpServletResponse response) throws Exception {
     JSONObject data= ReadJSONUtil.readJSONStr(request);
     String r = "";
-    String likes = request.getParameter("likes");
+    String likes = data.get("likes").toString();
     likes = java.net.URLDecoder.decode(likes, "utf-8");
     Conditions conditions = new Conditions();
     JSONArray jsonarr = new JSONArray();

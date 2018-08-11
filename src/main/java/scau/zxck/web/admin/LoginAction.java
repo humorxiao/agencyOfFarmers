@@ -21,13 +21,8 @@ import scau.zxck.web.listener.UserSessionListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.List;
-
-/**
- * Created by suruijia on 2016/2/6.
- */
 @Controller
 @RequestMapping("/")
 public class LoginAction {
@@ -63,25 +58,16 @@ public class LoginAction {
         if (UserSessionListener.isAreadyEnter(session, string, response)) {
           temp.put("isCorrect", false);
           temp.put("reLogin", true);
-          r = temp.toString();
           FlushWriteUtil.flushWrite(response,r);
-          return;
+        }else {
+          temp.put("isCorrect", true);
+          AdminInfo admin = (AdminInfo) list.get(0);
+          temp.put("Admin_PK", admin.getId());
+          temp.put("SignIn_IsAdmin", true);
+          temp.put("reLogin", false);
         }
-        temp.put("isCorrect", true);
-        AdminInfo admin = (AdminInfo) list.get(0);
-        temp.put("Admin_PK", admin.getId());
-        temp.put("SignIn_IsAdmin", true);
-        temp.put("reLogin", false);
       }
     } else {
-      String string = data.get("User_Name").toString() + data.get("User_Cell").toString() + data.get("User_Email").toString();
-      if (UserSessionListener.isAreadyEnter(session, string, response)) {
-        temp.put("isCorrect", false);
-        temp.put("reLogin", true);
-        r = temp.toString();
-        FlushWriteUtil.flushWrite(response,r);
-        return;
-      }
       Conditions conditions = new Conditions();
       List list = null;
       list = userLoginService.list(conditions.eq("user_password", data.get("User_Password").toString()).and().leftBracket()
@@ -93,11 +79,18 @@ public class LoginAction {
         temp.put("isCorrect", false);
         temp.put("reLogin", false);
       } else {
-        temp.put("isCorrect", true);
-        UserInfo user = (UserInfo) list.get(0);
-        temp.put("User_PK", user.getId());
-        temp.put("SignIn_IsAdmin", false);
-        temp.put("reLogin", false);
+        String string = data.get("User_Name").toString() + data.get("User_Cell").toString() + data.get("User_Email").toString();
+        if (UserSessionListener.isAreadyEnter(session, string, response)) {
+          temp.put("isCorrect", false);
+          temp.put("reLogin", true);
+          FlushWriteUtil.flushWrite(response,r);
+        }else {
+          temp.put("isCorrect", true);
+          UserInfo user = (UserInfo) list.get(0);
+          temp.put("User_PK", user.getId());
+          temp.put("SignIn_IsAdmin", false);
+          temp.put("reLogin", false);
+        }
       }
     }
 

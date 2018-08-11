@@ -49,7 +49,8 @@ public class RegisterAction {
     List list =
       userRegisterService.list(conditions.eq("user_name", data.get("User_Name").toString()).or()
         .eq("user_cell", data.get("User_Cell").toString()).or()
-        .eq("user_email", data.get("User_Email").toString()).or().eq("user_id", data.get("User_ID").toString()));
+        .eq("user_email", data.get("User_Email").toString()).or()
+        .eq("user_id", data.get("User_ID").toString()));
     boolean flag;
     temp.put("User_Name", true);
     temp.put("User_Email", true);
@@ -78,8 +79,8 @@ public class RegisterAction {
       userInfo.setCart(new CartInfo());
       userInfo.setDeliveryaddress(new DeliveryAddress());
       userRegisterService.add(userInfo);
-      UserInfo user = (UserInfo) list.get(0);
-      temp.put("User_PK", user.getId());
+//      UserInfo user = (UserInfo) list.get(0);
+      temp.put("User_PK", userInfo.getId());
       data.put("Cart_PK", temp.get("User_PK").toString());
       CartInfo cartInfo = new CartInfo();
       cartInfo.setId(data.get("Cart_PK").toString());
