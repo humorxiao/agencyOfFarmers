@@ -2,16 +2,7 @@
 <template>
 <div id = "register">
   <div id="fl-reg" class="container-fluid" >
-    <div v-show="show">
-     <!-- 警告标语-->
-    <div class = "info">
-      <transition name="info-fade">
-        <div class="alert alert-danger" role="alert" id="fl-error" v-if="point == 1" :style="{opacity: 1}">
-          <span id="fl-error-icon"></span>
-          <span id="fl-error-body" >{{this.msg}}</span>
-        </div>
-      </transition>
-    </div>
+    <div>
       <!-- 注册面板 -->
     <div class="panel panel-default">
       <!-- 面板主体 -->
@@ -262,11 +253,6 @@
         </div>
     </div>
     </transition>
-    <!-- 注册成功界面-->
-    <div id = "success" v-show="success_page">
-      <h3><p align="center">注册成功，请登陆！</p></h3>
-      <a href="login.html" ><button id = "returnLogin">立即登录</button></a>
-    </div>
   <router-view/>
   </div>
 </div>
@@ -288,12 +274,10 @@ export default {
       id: '',
       cell: '',
       checked: false,
-      point: '-1',
       msg: '',
       datas: '',
-      show: true,
       modal_point: -1,
-      success_page: false
+      password: ''
     }
   },
   methods: {
@@ -325,7 +309,6 @@ export default {
       } else if (this.cell === '') {
         this.alertError('请输入手机号码')
       } else if(!correctCell) {
-        alert(this.cell.length)
         this.alertError('请输入有效的手机号码')
       }else if (this.newPassword === '') {
         this.alertError('请输入密码')
@@ -338,17 +321,11 @@ export default {
       }
     },
     register: function () {
-     // else {
-        // if(this.sex === '1') {
-        //   alert('男性')
-        // } else if(this.sex === '2') {
-        //   alert('女性')
-        // } else if(this.sex === '3'){
-        //
-        // }
+        this.checkInformation()
+        this.password = hex_md5(this.newPassword)
         this.datas = {
           'User_ID': this.id,
-          'User_Password': this.newPassword,
+          'User_Password': this.password,
           'User_Name': this.name,
           'User_Email': this.email,
           'User_RegTime': '',
@@ -356,39 +333,29 @@ export default {
           'User_Sex':this.sex,
           'User_Realname': this.realname
         }
-        // this.alertError('发送数据成功') // 发送后端数据
-        // // console.log(this.datas)
-        // var obj = JSON.stringify(this.data)
-        // axios.post('operation', {obj}).then(response => {
-        //   console.log(response)
-        // }).catch(function (error) {
-        //   console.log(error)
-        // })
-        // if (this.response.status === '1') { // 获取后台返回变量测试
-        //   this.alertError('账号已被注册。')
-        // } else {
-        //   axios.post('', {obj}).then(response => {
-        //     console.log(response)
-        //   }).catch(function (error) {
-        //     console.log(error)
-        //   })
-        //   if (this.response.isSuccess) { // 注册成功界面
-        //     this.show = false
-        //     this.success_page = true
-        //   }
-        // }
-      }
-    },
+        axios.post('/api/register',this.datas).then((response) =>{
+            if(response.data.isSuccess === true) {
+              window.location.href = "registerSuccess.html"
+            } else if(response.data.User_Email === false) {
+              this.alertError('邮箱已被注册，请重新输入')
+            } else if (response.data.User_Name === false) {
+              this.alertError('用户名已被注册，请重新输入')
+            } else if (response.data.User_ID === false) {
+              this.alertError('身份证号码已被注册，请重新输入')
+            } else if(response.data.User_Cell === false) {
+              this.alertError('电话号码已被注册，请重新输入')
+            }
+        }).catch(function (error) {
+          console.log(error)
+        })
+      },
     alertError: function (msg) {
-      this.point = '1'
-      this.msg = msg
+      this.$message.error(msg);
     },
     modalShow () {
       this.modal_point = 1
     },
     toClose () {
-      // this.$emit('childByValue', this.hide)
-      // alert(this.hide)
       this.modal_point = -1
     },
     admit () {
@@ -399,37 +366,13 @@ export default {
       this.checked = false
       this.modal_point = -1
     }
-    /*
- childByValue: function (childValue) {
-       childValue就是子组件传过来的值
-       alert('子组件传给父组件为' + this.childValue)
-       this.childValue = false
-     }
-*/
- // }
+ }
 }
 </script>
 
 <style scoped>
   #register {
     height: 100%;
-  }
-  #success {
-    margin-top: 200px;
-    text-align: center;
-  }
-  #returnLogin{
-    background-color:#6db11b;
-    border: 1px #6db11b solid;
-    border-radius: 4px;
-    box-shadow: 0 5px 8px 0 rgba(24,95,255,.1);
-    color: #fff;
-    text-align: center;
-    font-weight: lighter;
-    width: 135px;
-    height: 40px;
-    margin: 40px 0 8px;
-    font-size: 18px;
   }
   .info{
     margin-top: 30px;
