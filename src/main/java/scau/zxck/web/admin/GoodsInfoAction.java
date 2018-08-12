@@ -300,12 +300,13 @@ public class GoodsInfoAction {
     JSONObject data= ReadJSONUtil.readJSONStr(request);
     String r = "";
     String likes = data.get("likes").toString();
+    System.out.println(likes);
     likes = java.net.URLDecoder.decode(likes, "utf-8");
     Conditions conditions = new Conditions();
     JSONArray jsonarr = new JSONArray();
     if (likes != null) {
       List list =
-        goodsInfoService.list(conditions.like("goods_name", "%" + data.get("Goods_Name") + "%"));
+        goodsInfoService.list(conditions.like("goods_name", "%" + likes + "%"));
       for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
         JSONObject temp = new JSONObject();
         GoodsInfo goods = (GoodsInfo) iter.next();
