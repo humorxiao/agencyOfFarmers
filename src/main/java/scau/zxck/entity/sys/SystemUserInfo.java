@@ -13,6 +13,16 @@ public class SystemUserInfo extends Unique {
     @Column(name = "remark")
     private String remark;
 
+    private String system_user_info_id;
+
+    public String getSystem_user_info_id() {
+        return system_user_info_id;
+    }
+
+    public void setSystem_user_info_id(String system_user_info_id) {
+        this.system_user_info_id = system_user_info_id;
+    }
+
     public String getSystem_user_password() {
         return system_user_password;
     }
