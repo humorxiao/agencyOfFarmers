@@ -89,7 +89,7 @@ public class NewsAction {
 
   @RequestMapping(value = "addNews", method = RequestMethod.POST)
 //  @Test
-  public void addNews(String jsonStr, HttpServletResponse response) throws Exception {
+  public void addNews( HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     String News_Title =
@@ -125,7 +125,7 @@ public class NewsAction {
   }
 
   @RequestMapping(value = "getLikesNews", method = RequestMethod.POST)
-  public void getLikesNews(String jsonStr, HttpServletResponse response) throws Exception, UnsupportedEncodingException, IOException {
+  public void getLikesNews( HttpServletResponse response) throws Exception, UnsupportedEncodingException, IOException {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     String likes = data.get("likes").toString();
@@ -150,7 +150,7 @@ public class NewsAction {
 
   @RequestMapping(value = "getOneNews", method = RequestMethod.POST)
 //  @Test
-  public void getOneNews(String jsonStr, HttpServletResponse response) throws Exception {
+  public void getOneNews( HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
