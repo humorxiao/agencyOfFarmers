@@ -29,7 +29,8 @@ module.exports = {
     moreNews:resolve('WEB-INF/moreNews.js'),
     details:resolve('WEB-INF/details.js'),
     goodsDetails:resolve('WEB-INF/goodsDetails.js'),
-    collection:resolve('WEB-INF/collection.js')
+    collection:resolve('WEB-INF/collection.js'),
+    registerSuccess:resolve('WEB-INF/registerSuccess.js')
   },
   output: {
     path: config.build.assetsRoot,

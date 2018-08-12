@@ -3,10 +3,9 @@
 import Vue from 'vue'
 import Collection from './Collection.vue'
 import router from './router'
-import { Button, MessageBox, Message } from 'element-ui';
+import { MessageBox, Message } from 'element-ui'
 
 Vue.config.productionTip = false
-Vue.use(Button)
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$message = Message;
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
