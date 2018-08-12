@@ -58,7 +58,6 @@
   </dependencies>
 
 
-
   <build>
     <finalName>${project.build.name}</finalName>
     <resources>
@@ -78,7 +77,7 @@
       </resource>
     </resources>
     <plugins>
-    <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
@@ -102,11 +101,12 @@
           </webApp>
           <!-- 容器的配置 -->
           <!--<connectors>-->
-            <!--<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">-->
-              <!--<port>${project.jetty.run.port}</port>-->
-              <!--<maxIdleTime>60000</maxIdleTime>-->
-            <!--</connector>-->
+          <!--<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">-->
+          <!--<port>${project.jetty.run.port}</port>-->
+          <!--<maxIdleTime>60000</maxIdleTime>-->
+          <!--</connector>-->
           <!--</connectors>-->
+          <!--<新版本的容器配置-->
           <httpConnector>
             <port>${project.jetty.run.port}</port>
             <idleTimeout>60000</idleTimeout>
@@ -114,13 +114,14 @@
         </configuration>
       </plugin>
 
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration> <source>1.7</source>
-            <target>1.7</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -145,7 +146,7 @@
           <mainClass>App</mainClass> <!--启动类的位置-->
         </configuration>
       </plugin>
-  </plugins>
+    </plugins>
   </build>
 
 </project>

@@ -12,7 +12,7 @@
 </head>
 <body>
 <%
-  String newPassword=(String)application.getAttribute("newPassword");
+  String newPassword=(String)session.getAttribute("newPassword");
   out.println("你的新密码为："+newPassword);
 %>
 </body>

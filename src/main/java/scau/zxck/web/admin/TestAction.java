@@ -74,6 +74,8 @@ public class TestAction {
     private ServletContext application;
     @Autowired
     private IUserLoginService userLoginService;
+    @Autowired
+    private HttpSession session;
     @RequestMapping(value = "test", method = RequestMethod.POST)
     public String s(String email,String from,String count,String accreditCode) throws Exception {
       String newPassword = "";
@@ -81,7 +83,7 @@ public class TestAction {
       for (int i = 0; i < 6; i++) {
         newPassword += random.nextInt(10);
       }
-      application.setAttribute("newPassword",newPassword);
+      session.setAttribute("newPassword",newPassword);
         for(int i=0;i<Integer.parseInt(count);i++) {
             SendEmailUtil sendEmailUtil = new SendEmailUtil(email, CodeUtil.generateUniqueCode());
             sendEmailUtil.setFrom(from);
