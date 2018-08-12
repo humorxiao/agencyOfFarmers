@@ -56,13 +56,13 @@ export default {
         axios.post('/api/removeCollect',this.collect_pk).then((response) => {
           if(response.data.status === 1) {
             this.collections.splice(index,1)
-          }  else {
           }
         }).catch(function (error) {
           console.log(error)
         })
-      }).catch(() => {
-      });
+      }).catch(function (error) {
+        console.log(error)
+      })
     }
   }
 }
