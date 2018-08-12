@@ -15,6 +15,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
 import scau.zxck.utils.AuthCodeUtil;
 import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -56,15 +57,7 @@ public class VcodeAction {
     @RequestMapping(value = "validateVCode",method = RequestMethod.POST)
     public void validateVCode(HttpServletResponse response)throws Exception{
         String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-
-        System.out.println(jsonStr);
-      JSONObject data= JSON.parseObject(jsonStr);
+      JSONObject data=ReadJSONUtil.readJSONStr(request);
         String code=data.get("code").toString();
         boolean ret=code.equals((String) session.getAttribute("authcode"));
         if(ret){

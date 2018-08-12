@@ -257,7 +257,7 @@ public class OrderStateAction {
     String r = "";
     JSONObject data= ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
-      data.put("User_PK", (int) session.getAttribute("User_PK"));
+      data.put("User_PK", session.getAttribute("User_PK"));
     } else {
       data.put("User_PK", "");
     }
@@ -304,7 +304,7 @@ public class OrderStateAction {
     String r = "";
     JSONObject data= ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
-      data.put("User_PK", (int) session.getAttribute("User_PK"));
+      data.put("User_PK",  session.getAttribute("User_PK"));
     } else {
       data.put("User_PK", "");
     }

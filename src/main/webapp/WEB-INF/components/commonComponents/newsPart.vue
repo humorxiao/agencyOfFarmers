@@ -11,16 +11,18 @@
       <div id="fl-news-list" class="row">
         <div v-for="(item) in newsparts" :key="item.id">
         <div class="fl-news-col-item">
+          <a :href="item.src" target="_blank">
           <div class="col-md-4 fl-news-img-wrap">
             <img class="lazy fl-news-img img-thumbnail" width="248" height="185"  alt="" v-bind:src="item.pictureSrc" >
           </div>
           <div class="col-md-8">
             <ul>
-              <li class="fl-news-title"><a href="item.src">{{item.newsTitle}}</a></li>
+              <li class="fl-news-title"><a :href="item.src" target="_blank">{{item.newsTitle}}</a></li>
               <li class="fl-news-time">{{item. newsTime}}</li>
               <li class="fl-news-body">{{item.newsContent}}</li>
             </ul>
           </div>
+          </a>
         </div>
       </div>
       </div>

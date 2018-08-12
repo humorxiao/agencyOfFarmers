@@ -23,8 +23,8 @@
     <!-- compiler setting -->
     <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
     <!-- web container jetty -->
-    <jetty-maven-plugin.version>8.1.16.v20140903</jetty-maven-plugin.version>
-    <project.jetty.run.port>8888</project.jetty.run.port>
+    <jetty-maven-plugin.version>9.3.6.v20151106</jetty-maven-plugin.version>
+    <project.jetty.run.port>8080</project.jetty.run.port>
     <!-- maven plugins end -->
   </properties>
 
@@ -34,7 +34,12 @@
       <artifactId>ssm-base</artifactId>
       <version>${ssm-base.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
+      <scope>provide</scope>
+    </dependency>
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
@@ -45,12 +50,6 @@
       <artifactId>activation</artifactId>
       <version>1.1.1</version>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>javaee</groupId>-->
-      <!--<artifactId>javaee-api</artifactId>-->
-      <!--<version>5</version>-->
-      <!--<scope>test</scope>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>taglibs</groupId>
       <artifactId>standard</artifactId>
@@ -90,7 +89,7 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.mortbay.jetty</groupId>
+        <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty-maven-plugin.version}</version>
         <configuration>

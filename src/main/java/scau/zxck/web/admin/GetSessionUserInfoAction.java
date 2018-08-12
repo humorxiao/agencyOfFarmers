@@ -30,9 +30,9 @@ public class GetSessionUserInfoAction {
 //  @Test
     public void getSessionUserInfo( HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data = ReadJSONUtil.readJSONStr(request);
+        JSONObject data = new JSONObject();
         if (session.getAttribute("User_PK") != null) {
-            Conditions conditions = new Conditions();
+            data.put("User_PK",session.getAttribute("User_PK").toString());
             UserInfo user = userLoginService.findById(data.get("User_PK").toString());
             JSONObject temp = new JSONObject();
             temp.put("User_PK", user.getId());

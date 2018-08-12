@@ -14,7 +14,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.fruit" >
-          <li class = "goods">{{item.fruit}}</li>
+          <a :href="item.src" target="_blank"><li class = "goods">{{item.fruit}}</li></a>
           </div>
         </ul>
       </li>
@@ -25,7 +25,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.processedGoods">
-          <li class = "goods">{{item.processedGoods}}</li>
+          <a :href="item.src" target="_blank"><li class = "goods">{{item.processedGoods}}</li></a>
         </div></ul>
       </li>
       <li id="fl-menu-vegetable-item" class="list-group-item fl-list-group-item">
@@ -35,7 +35,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.vegetable">
-            <li class = "goods">{{item.vegetable}}</li>
+            <a :href="item.src" target="_blank"><li class = "goods">{{item.vegetable}}</li></a>
           </div>
         </ul>
       </li>
@@ -46,7 +46,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.fish">
-          <li class = "goods">{{item.fish}}</li>
+          <a :href="item.src" target="_blank"><li class = "goods">{{item.fish}}</li></a>
         </div></ul>
       </li>
       <li id="fl-menu-livestock-item" class="list-group-item fl-list-group-item">
@@ -56,7 +56,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.livestock">
-          <li class = "goods">{{item.livestock}}</li>
+          <a :href="item.src" target="_blank"><li class = "goods">{{item.livestock}}</li></a>
         </div></ul>
       </li>
       <li id="fl-menu-plant-item" class="list-group-item fl-list-group-item">
@@ -66,7 +66,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.plant">
-          <li class = "goods">{{item.plant}}</li>
+          <a :href="item.src" target="_blank"><li class = "goods">{{item.plant}}</li></a>
         </div></ul>
       </li>
     </ul>
@@ -98,14 +98,14 @@ export default {
   methods: {
    scrollToTop () {
      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      console.log(scrollTop)
+      //console.log(scrollTop)
      if (scrollTop >= 545) {
        this.showMenu = 1
-        console.log(this.data().showMenu)
+       // console.log(this.data().showMenu)
      } else {
        this.showMenu = -1
      }
-      console.log(this.showMenu)
+     // console.log(this.showMenu)
    },
    destroyed () {
      window.removeEventListener('scroll', this.scrollToTop)
@@ -122,7 +122,6 @@ export default {
     opacity: 0
   }
   #fl-menu{
-    margin-top: 200px;
   }
   .goods{
     padding: 4px 20px

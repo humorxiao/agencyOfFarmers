@@ -26,7 +26,6 @@ public class NodeAction {
 
     @RequestMapping(value = "addNode", method = RequestMethod.POST)
     public void addNode(HttpServletResponse response) throws Exception {
-        String jsonStr;
         String r = "";
         JSONObject data = ReadJSONUtil.readJSONStr(request);
         String nodepk = data.get("nodeid").toString();

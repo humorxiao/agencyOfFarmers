@@ -33,6 +33,15 @@ public class UserInfo extends Unique {
   @Column(name = "remark")
   private String remark;
   private CartInfo cart;
+  private String newPassword;
+
+  public String getNewPassword() {
+    return newPassword;
+  }
+
+  public void setNewPassword(String newPassword) {
+    this.newPassword = newPassword;
+  }
 
   public UserInfo() {
   }

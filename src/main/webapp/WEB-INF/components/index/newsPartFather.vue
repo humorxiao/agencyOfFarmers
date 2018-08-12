@@ -17,7 +17,7 @@ export default {
             newsTitle: response.data[i].News_Title,
             newsTime: response.data[i].News_Timeb,
             newsContent: response.data[i].News_Text,
-            src: ''
+            src: 'details.html?'+ response.data[i].News_PK
           })
        }
     }).catch(function (error) {

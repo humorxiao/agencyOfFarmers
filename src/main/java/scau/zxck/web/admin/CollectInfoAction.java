@@ -37,6 +37,7 @@ public class CollectInfoAction {
     @RequestMapping(value = "addCollect", method = RequestMethod.POST)
     public void addCollection( HttpServletResponse response) throws Exception {
         String r = "";
+        JSONObject temp=new JSONObject();
        JSONObject data= ReadJSONUtil.readJSONStr(request);
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
@@ -52,11 +53,13 @@ public class CollectInfoAction {
         userCollection.setGoodsinfo(new GoodsInfo());
         try {
             userCollectService.add(userCollection);
-            r = "{\"status\":1}";
+           temp.put("status",1);
         } catch (Exception e) {
             e.printStackTrace();
-            r = "{\"status\":0}";
+          temp.put("status",0);
         }
+        temp.put("Collect_PK",userCollection.getId());
+        r=temp.toString();
         FlushWriteUtil.flushWrite(response,r);
     }
 
@@ -64,7 +67,7 @@ public class CollectInfoAction {
     @RequestMapping(value = "removeCollect", method = RequestMethod.POST)
     public void removeCollect( HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        JSONObject data= new JSONObject();
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -82,7 +85,7 @@ public class CollectInfoAction {
 
     @RequestMapping(value = "getCollect", method = RequestMethod.POST)
     public void getCollect( HttpServletResponse response) throws Exception {
-        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        JSONObject data= new JSONObject();
         if (session.getAttribute("User_PK") != null) {
             data.put("User_PK", session.getAttribute("User_PK"));
         } else {

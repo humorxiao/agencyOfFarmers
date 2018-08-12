@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <div id="fl-login" class="container-fluid">
+  <div id="fl-login" class="container-fluid">
       <div class = "info" >
         <transition name="slide-fade">
           <div class="alert alert-danger" role="alert" id="fl-error" v-if="point == 1" :style="{display: block}">
@@ -11,7 +11,7 @@
       </div>
       <div class="panel panel-default">
         <!-- 面板主体 -->
-        <div class="panel-body">
+    <div class="panel-body">
           <form class="form-horizontal">
             <div class="form-group">
               <label for="inputId" class="col-md-3 control-label">帐号</label>
@@ -52,14 +52,16 @@
           </form>
         </div>
         <!-- 面板脚 -->
-        <div class="panel-footer">
+       <div class="panel-footer">
           <a href="index.html">返回首页</a>
           <a href="register.html">立即注册</a>
         </div>
       </div>
     </div>
     <router-view/>
+
   </div>
+
 </template>
 
 <script>
@@ -88,13 +90,14 @@ export default {
   methods: {
     login: function () {
       if (this.id === '') {
-        this.alertError('账号不能为空，请填写昵称或者手机号码或者邮箱号码')
+        this.info('账号不能为空，请填写昵称或者手机号码或者邮箱号码')
       } else if (this.input_password === '') {
-        this.alertError('请输入密码')
+        this.info('请输入密码')
       } else if (this.inputVCode === '') {
-        this.alertError('请输入验证码')
+        this.info('请输入验证码')
       } else {
-       this.password = hex_md5(this.input_password);
+       this.password = hex_md5(this.input_password); // 密码加密
+       // alert(this.password)
        this.code = {'code' : this.inputVCode}
         if (this.checked === '1') { // 用户管理员登录数据
           if (/0?(13|14|15|18|17)[0-9]{9}/.test(this.id) === true) { // 手机
@@ -156,23 +159,27 @@ export default {
           /**
            * 嵌套验证，先发送请求，验证验证码是否正确，再进行验证用户信息
            */
-          axios.post('/api/validateVCode',this.code).then(response => {
+          axios.post('/api/validateVCode',this.code).then(response => {  //验证码验证
            if(response.data.status == 1) {
-             axios.post('/api/login', this.datas).then(response => {
-               if(response.data.isCorrect == true) {
-                   if(this.checked === '1') {
-                     alert('用户登录成功，用户名为'+ JSON.stringify( response.data.User_Name))
-                   } else if(this.checked === '2') {
-                     alert('管理员登录成功，用户名为' + JSON.stringify(response.data.Admin_Name))
+             axios.post('/api/login', this.datas).then(response => {  //登录信息验证
+               if(response.data.reLogin === true) {
+                 this.info('您已在线，不可重复登录')
+               } else if(response.data.reLogin === false && response.data.isCorrect === true) {
+                   if(this.checked === '1') {  // 用户
+                     window.location.href = 'index.html'
+                    // alert('用户登录成功，用户名为'+ JSON.stringify( response.data.User_Name))
+                   } else if(this.checked === '2') {  // 管理员
+                     window.location.href = 'editinfo.html'
+                    // alert('管理员登录成功，用户名为' + JSON.stringify(response.data.Admin_Name))
                    }
                  } else {
-                 this.alertError('用户名或密码错误')
+                 this.info('用户名或密码错误')
                }
              }).catch(function (error) {
                console.log(error)
              })
            } else {
-             this.alertError('验证码错误')
+             this.info('验证码错误')
            }
           }).catch(function (error) {
             console.log(error)
@@ -180,9 +187,11 @@ export default {
         }
       }
     },
-    alertError: function (msg) {
-      this.point = '1'
-      this.msg = msg
+    /**
+     * 信息提示
+     */
+    info: function(msg) {
+      this.$message.error(msg);
     },
     /**
      * 获取验证码

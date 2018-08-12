@@ -74,7 +74,15 @@
     <servlet-name>dispatcher</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-
+<!--<跳转的页面/>-->
+  <!--<servlet>-->
+    <!--<servlet-name>runtain</servlet-name>-->
+    <!--<jsp-file>/WEB-INF/pages/success.jsp</jsp-file>-->
+  <!--</servlet>-->
+  <!--<servlet-mapping>-->
+    <!--<servlet-name>runtain</servlet-name>-->
+    <!--<url-pattern>runtain/success.jsp</url-pattern>-->
+  <!--</servlet-mapping>-->
   <!-- 默认访问的页面 相对位置 /webapp/下文件-->
   <welcome-file-list>
     <welcome-file>/WEB-INF/pages/index.jsp</welcome-file>

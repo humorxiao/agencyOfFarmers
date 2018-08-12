@@ -20,7 +20,39 @@
           <div class="form-group">
             <label for="User_Name" class="col-md-3 control-label">用户名</label>
             <div class="col-md-7">
-              <input type="text" class="form-control" id="User_Name" placeholder="昵称" v-model="newId">
+              <input type="text" class="form-control" id="User_Name" placeholder="昵称" v-model="name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="User_Sex" class="col-md-3 control-label">性别</label>
+            <div id = "User_Sex" class="col-md-7">
+              <div class="sexChoose">男 <input type="radio" name="Sex" value="1" v-model="sex"></div>
+              <div class="sexChoose">女 <input type="radio" name="Sex" value="2" v-model="sex"></div>
+              <div class="sexChoose">保密 <input type="radio" name="Sex" value="3" v-model="sex"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="User_Email" class="col-md-3 control-label">邮箱</label>
+            <div class="col-md-7">
+              <input type="text" class="form-control" id="User_Email" placeholder="请输入邮箱" v-model="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="User_Realname" class="col-md-3 control-label">真实姓名</label>
+            <div class="col-md-7">
+              <input type="text" class="form-control" id="User_Realname" placeholder="请输入真实姓名" v-model="realname">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="User_ID" class="col-md-3 control-label">身份证号码</label>
+            <div class="col-md-7">
+              <input type="text" class="form-control" id="User_ID" placeholder="请输入身份证号码" v-model="id">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="User_Cell" class="col-md-3 control-label">手机号码</label>
+            <div class="col-md-7">
+              <input type="text" class="form-control" id="User_Cell" placeholder="请输入手机号码" v-model="cell">
             </div>
           </div>
           <div class="form-group">
@@ -33,12 +65,6 @@
             <label for="User_PasswordAgain" class="col-md-3 control-label">确认密码</label>
             <div class="col-md-7">
               <input type="password" class="form-control" id="User_PasswordAgain" placeholder="请输入确认密码" v-model="checkPassword">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="User_Email" class="col-md-3 control-label">邮箱</label>
-            <div class="col-md-7">
-              <input type="text" class="form-control" id="User_Email" placeholder="请输入邮箱" v-model="email">
             </div>
           </div>
           <div class="form-group">
@@ -253,10 +279,14 @@ export default {
   name: 'register',
   data () {
     return {
-      newId: '',
+      name: '',
       newPassword: '',
       checkPassword: '',
+      sex:'1',
       email: '',
+      realname: '',
+      id: '',
+      cell: '',
       checked: false,
       point: '-1',
       msg: '',
@@ -267,55 +297,86 @@ export default {
     }
   },
   methods: {
-    register: function () {
-      if (this.newId === '') {
+    checkInformation: function() {
+      var nicknameNoNumber = /[^0-9]/.test(this.name)
+      var nicknameSymbol = /[@]/.test(this.name)
+      var regName =/^[\u4e00-\u9fa5]{2,4}$/.test(this.realname)
+      var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.id)
+      var correctCell = /^[1][3,4,5,7,8][0-9]{9}$/.test(this.cell)
+      var correctEmail = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(this.email)
+      if (this.name === '') {
         this.alertError('请创建一个昵称')
-      } else if (/[^0-9]/.test(this.newId) !== true) {
+      } else if (!nicknameNoNumber) {
         this.alertError('请填写正确的昵称,不允许全数字')
-      } else if (/[@]/.test(this.newId) === true) {
+      } else if (nicknameSymbol) {
         this.alertError('请填写正确的昵称,不允许有符号@')
-      } else if (this.newPassword === '') {
+      }else if (this.email === '') {
+        this.alertError('请输入邮箱地址')
+      }else if (!correctEmail) {
+        this.alertError('请输入正确的邮箱地址')
+      }else if (this.realname === '') {
+        this.alertError('请输入真实姓名')
+      }else if (!regName) {
+        this.alertError('请输入有效的真实姓名')
+      } else if (this.id === '') {
+        this.alertError('请输入身份证号码')
+      } else if (!regIdNo) {
+        this.alertError('身份证号码有误')
+      } else if (this.cell === '') {
+        this.alertError('请输入手机号码')
+      } else if(!correctCell) {
+        alert(this.cell.length)
+        this.alertError('请输入有效的手机号码')
+      }else if (this.newPassword === '') {
         this.alertError('请输入密码')
       } else if (this.newPassword.length < 8 || this.newPassword.length > 16) {
         this.alertError('密码应不低于8位，不高于16位，不含有特殊字符')
       } else if (this.newPassword !== this.checkPassword) {
         this.alertError('两次密码不一致，请重新输入')
-      } else if (this.email === '') {
-        this.alertError('请输入邮箱地址')
-      } else if (/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(this.email) !== true) {
-        this.alertError('请输入正确的邮箱地址')
-      } else if (this.checked !== true) {
+      }  else if (this.checked !== true) {
         this.alertError('注册用户需阅读并同意用户协议')
-      } else {
+      }
+    },
+    register: function () {
+     // else {
+        // if(this.sex === '1') {
+        //   alert('男性')
+        // } else if(this.sex === '2') {
+        //   alert('女性')
+        // } else if(this.sex === '3'){
+        //
+        // }
         this.datas = {
-          'User_PK': '',
+          'User_ID': this.id,
           'User_Password': this.newPassword,
-          'User_Name': this.newId,
+          'User_Name': this.name,
           'User_Email': this.email,
           'User_RegTime': '',
-          'User_Mark': 0
+          'User_Cell':this.cell,
+          'User_Sex':this.sex,
+          'User_Realname': this.realname
         }
-        this.alertError('发送数据成功') // 发送后端数据
-        // console.log(this.datas)
-        var obj = JSON.stringify(this.data)
-        axios.post('operation', {obj}).then(response => {
-          console.log(response)
-        }).catch(function (error) {
-          console.log(error)
-        })
-        if (this.response.status === '1') { // 获取后台返回变量测试
-          this.alertError('账号已被注册。')
-        } else {
-          axios.post('', {obj}).then(response => {
-            console.log(response)
-          }).catch(function (error) {
-            console.log(error)
-          })
-          if (this.response.isSuccess) { // 注册成功界面
-            this.show = false
-            this.success_page = true
-          }
-        }
+        // this.alertError('发送数据成功') // 发送后端数据
+        // // console.log(this.datas)
+        // var obj = JSON.stringify(this.data)
+        // axios.post('operation', {obj}).then(response => {
+        //   console.log(response)
+        // }).catch(function (error) {
+        //   console.log(error)
+        // })
+        // if (this.response.status === '1') { // 获取后台返回变量测试
+        //   this.alertError('账号已被注册。')
+        // } else {
+        //   axios.post('', {obj}).then(response => {
+        //     console.log(response)
+        //   }).catch(function (error) {
+        //     console.log(error)
+        //   })
+        //   if (this.response.isSuccess) { // 注册成功界面
+        //     this.show = false
+        //     this.success_page = true
+        //   }
+        // }
       }
     },
     alertError: function (msg) {
@@ -345,7 +406,7 @@ export default {
        this.childValue = false
      }
 */
-  }
+ // }
 }
 </script>
 
@@ -394,8 +455,12 @@ export default {
     opacity: 0
   }
   .modal-content {
-    height: 700px;
+    height: 650px;
     overflow-x: hidden;
     overflow-y: auto;
+  }
+  .sexChoose{
+    margin:5px 6px;
+    display: inline-block;
   }
 </style>

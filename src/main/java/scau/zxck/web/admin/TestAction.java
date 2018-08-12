@@ -55,11 +55,14 @@ import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.service.market.ILoginService;
 import scau.zxck.service.sys.IUserLoginService;
 import scau.zxck.utils.CodeUtil;
+import scau.zxck.utils.SendEmail2Util;
 import scau.zxck.utils.SendEmailUtil;
 import scau.zxck.web.listener.UserSessionListener;
 
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.*;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/")
@@ -68,18 +71,38 @@ public class TestAction {
     @Autowired
     private HttpServletRequest request;
     @Autowired
-    private HttpSession session;
+    private ServletContext application;
     @Autowired
     private IUserLoginService userLoginService;
     @RequestMapping(value = "test", method = RequestMethod.POST)
-    public String s(String email,String from,String count,String shouquanCode) throws Exception {
+    public String s(String email,String from,String count,String accreditCode) throws Exception {
+      String newPassword = "";
+      Random random=new Random();
+      for (int i = 0; i < 6; i++) {
+        newPassword += random.nextInt(10);
+      }
+      application.setAttribute("newPassword",newPassword);
         for(int i=0;i<Integer.parseInt(count);i++) {
             SendEmailUtil sendEmailUtil = new SendEmailUtil(email, CodeUtil.generateUniqueCode());
             sendEmailUtil.setFrom(from);
-            sendEmailUtil.setShouquanCode(shouquanCode);
+            sendEmailUtil.setAccreditCode(accreditCode);
             new Thread(sendEmailUtil).start();
         }
         return "success";
     }
+    @RequestMapping(value = "admin", method = RequestMethod.POST)
+    public String test2() throws Exception {
+        System.out.println("test2");
+        return "success";
+    }
+  @RequestMapping(value = "testEmail", method = RequestMethod.POST)
+  public String test3(String from,String to,String accreditCode) throws Exception {
+    SendEmail2Util sendEmail2Util=new SendEmail2Util();
+    sendEmail2Util.setAccreditCode(accreditCode);
+    sendEmail2Util.setFrom(from);
+    sendEmail2Util.setTo(to);
+    new Thread(sendEmail2Util).start();
+    return "success";
+  }
 
 }
