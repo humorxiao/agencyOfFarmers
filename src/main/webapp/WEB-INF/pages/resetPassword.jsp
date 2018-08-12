@@ -12,8 +12,13 @@
 </head>
 <body>
 <%
-  String newPassword=(String)session.getAttribute("newPassword");
-  out.println("你的新密码为："+newPassword);
+  if(session.getAttribute("newPassword") == null){
+    out.println("你的邮件已失效");
+  }else {
+    String newPassword=(String)session.getAttribute("newPassword");
+    out.println("你的新密码为："+newPassword);
+
+  }
 %>
 </body>
 </html>

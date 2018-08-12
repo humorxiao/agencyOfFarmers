@@ -10,9 +10,6 @@
 </head>
 
 <body>
-<%
-  session.setAttribute("User_PK", "1000");
-%>
 <%--<form action="/check" method="POST">--%>
 <%--自己的邮箱：<input type="text" name="from">--%>
 <%--<br>--%>

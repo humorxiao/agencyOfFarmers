@@ -84,6 +84,7 @@ public class TestAction {
         newPassword += random.nextInt(10);
       }
       session.setAttribute("newPassword",newPassword);
+      System.out.println(session.getAttribute("newPassword"));
         for(int i=0;i<Integer.parseInt(count);i++) {
             SendEmailUtil sendEmailUtil = new SendEmailUtil(email, CodeUtil.generateUniqueCode());
             sendEmailUtil.setFrom(from);
