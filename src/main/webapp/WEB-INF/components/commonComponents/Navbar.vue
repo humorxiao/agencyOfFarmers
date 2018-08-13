@@ -24,9 +24,10 @@
             <li><a href="contactus.html" target="_blank">联系我们</a></li>
           </ul>
           <div class="input-group navbar-form navbar-left"  id="fl-home-search-input-group">
-            <input id="fl-home-search-input" type="text" class="form-control" placeholder="搜索 商品">
+            <input id="fl-home-search-input" type="text" class="form-control" placeholder="搜索 商品" v-model="search">
             <span id="fl-home-search-btn" class="input-group-addon">
-                <span class="glyphicon glyphicon-search"></span></span>
+              <a :href="'goodsSearch.html?search='+ this.search"> <span class="glyphicon glyphicon-search"></span></a>
+               </span>
           </div>
           <ul class="nav navbar-nav navbar-right">
             <li id="user-1" v-if="login_status == 0" :style="{display: block}"><a href="login.html" >登录</a></li>
@@ -60,11 +61,11 @@ export default {
       show: false,
       block: '',
       usesName: '',
-      userPK: ''
+      userPK: '',
+      search:''
     }
   },
   mounted: function() {
-
     axios.post('/api/checkLoginRank').then((response) => {
       // console.log(response.data) // 判断登录状态
       this.login_status = response.data.status
