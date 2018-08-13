@@ -1,5 +1,6 @@
 package test.scau.zxck.web.admin;
 
+import com.sun.xml.internal.rngom.binary.DataExceptPattern;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -22,7 +23,9 @@ import scau.zxck.web.admin.TestAction;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -118,5 +121,11 @@ public class TestActionTest {
             PrintWriter out = new PrintWriter(file);
             out.print("abcd");
         }
+    }
+  private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    @Test
+  public void test3(){
+      String s=simpleDateFormat.format(new Date());
+      System.out.println(s);
     }
 }

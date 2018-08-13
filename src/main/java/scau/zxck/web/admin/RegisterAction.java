@@ -37,14 +37,14 @@ public class RegisterAction {
   private IDeliveryAddressService deliveryAddressService;
   @Autowired
   private HttpServletRequest request;
-
+  private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   @RequestMapping(value = "register", method = RequestMethod.POST)
 //  @Test
   public void register(HttpServletResponse response) throws Exception {
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     JSONObject temp = new JSONObject();
     String r = "";
-    data.put("User_RegTime", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss").format(new Date())).toString());
+    data.put("User_RegTime", simpleDateFormat.format(new Date()));
     Conditions conditions = new Conditions();
     List list =
       userRegisterService.list(conditions.eq("user_name", data.get("User_Name").toString()).or()
@@ -73,7 +73,7 @@ public class RegisterAction {
       userInfo.setUser_cell(data.get("User_Cell").toString());
       userInfo.setUser_email(data.get("User_Email").toString());
       userInfo.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
-      userInfo.setUser_regtime(Timestamp.valueOf(data.get("User_RegTime").toString()).toString());
+      userInfo.setUser_regtime(data.get("User_RegTime").toString());
       userInfo.setUser_realname(data.get("User_Realname").toString());
       userInfo.setUser_id(data.get("User_ID").toString());
       userInfo.setCart(new CartInfo());
@@ -97,6 +97,7 @@ public class RegisterAction {
       deliveryAddressService.add(deliveryAddress);
     }
     temp.put("isSuccess", flag);
+    temp.put("time",data.get("User_RegTime").toString());
     r = temp.toString();
     FlushWriteUtil.flushWrite(response, r);
   }
