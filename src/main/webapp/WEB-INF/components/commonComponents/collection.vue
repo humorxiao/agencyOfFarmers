@@ -3,7 +3,7 @@
     <div class="container-fluid fl-container-fluid">
       <div class="row">
         <div class="fl-home-model-title-collection">
-          收藏区
+          个人收藏
         </div>
         <div class="fl-home-model-title-line">————</div>
       </div>

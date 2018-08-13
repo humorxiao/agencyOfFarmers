@@ -1,21 +1,21 @@
 <template>
 <div id ="collection">
   <smallnavbar></smallnavbar>
-  <leftmenufather></leftmenufather>
   <collectionfather></collectionfather>
+  <bottom></bottom>
 </div>
 </template>
 
 <script>
 import mySmallNavBar from './components/commonComponents/smallNavBar.vue'
 import myCollectionFather from './components/collection/collectionFather'
-import myMenuFather from './components/index/myMenuFather'
+import myBottom from './components/commonComponents/bottom.vue'
 export default {
   name: 'collection',
   components: {
     smallnavbar: mySmallNavBar,
     collectionfather: myCollectionFather,
-    leftmenufather: myMenuFather
+    bottom: myBottom
   }
 }
 </script>
