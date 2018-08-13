@@ -99,14 +99,7 @@
             <contextPath>/</contextPath>
             <defaultsDescriptor>src/test/resources/webdefault.xml</defaultsDescriptor>
           </webApp>
-          <!-- 容器的配置 -->
-          <!--<connectors>-->
-          <!--<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">-->
-          <!--<port>${project.jetty.run.port}</port>-->
-          <!--<maxIdleTime>60000</maxIdleTime>-->
-          <!--</connector>-->
-          <!--</connectors>-->
-          <!--<新版本的容器配置-->
+          <!--容器配置-->
           <httpConnector>
             <port>${project.jetty.run.port}</port>
             <idleTimeout>60000</idleTimeout>
