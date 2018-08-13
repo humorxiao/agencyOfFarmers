@@ -40,7 +40,7 @@
                 <li><a href="collection.html">收藏</a></li>
                 <li><a href="history.html">历史订单</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#" onclick="out()">安全退出</a></li>
+                <li><a href="index.html" @click="out()">安全退出</a></li>
               </ul>
             </li>
           </ul>
@@ -81,7 +81,22 @@ export default {
     }).catch(function (error) {
       console.log(error)
     })
+  },
+  methods: {
+    out() {
+      axios.post('/api/out', this.userPK).then((response) => {
+        if(response.data.status === 1) {
+          this.show = false
+          this.login_status = 0
+        } else {
+          alert('Error!')
+        }
+      }).catch(function (error) {
+        console.log(error)
+      })
+    }
   }
+
 }
 </script>
 
