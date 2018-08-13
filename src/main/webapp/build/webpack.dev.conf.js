@@ -111,6 +111,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       inject: true,
       chunks: ['registerSuccess']
     }),
+    new HtmlWebpackPlugin({
+      filename: 'goodsSearch.html',
+      template: resolve('goodsSearch.html'),
+      inject: true,
+      chunks: ['goodsSearch']
+    }),
     // copy custom static assets
     new CopyWebpackPlugin([
       {
