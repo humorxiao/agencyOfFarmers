@@ -17,9 +17,9 @@
     <div class = "Page">
       <div class = "pages">
         <ul class="pagination pagination-lg">
-          <li><a href="" @click = "lastPage">&laquo;</a></li>
+          <li><span @click = "lastPage">&laquo;</span></li>
           <li v-for="item in pageLists" :key="item.id"><span @click="switchPage(item.page)">{{item.page}}</span></li>
-          <li><a href="#">&raquo;</a></li>
+          <li><span @click = "nextPage">&raquo;</span></li>
         </ul>
       </div>
     </div>
@@ -54,6 +54,9 @@ export default{
     },
     lastPage: function () {
       this.$emit('lastPage')
+    },
+    nextPage: function () {
+      this.$emit('nextPage')
     }
   },
   data () {
