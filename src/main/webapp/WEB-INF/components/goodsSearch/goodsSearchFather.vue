@@ -5,27 +5,27 @@
 <script>
 import mygoodsSearch from '../commonComponents/goodsSearch'
 import axios from 'axios'
-    export default {
-      name: "goodsSearchFather",
-      data () {
-        return {
-          searchGoods: '',
-          goodsSearchs: [],
-        }
-      },
-      methods: {
-        getSearch(name){
-          // 用该属性获取页面 URL 地址从问号 (?) 开始的 URL（查询部分）
-          var url = window.location.search;
-          // 正则筛选地址栏
-          var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-          // 匹配目标参数
-          var result = url.substr(1).match(reg);
-          //返回参数值
-          return result ? decodeURIComponent(result[2]) : null;
-        }
-      },
-      mounted: function() {
+export default {
+  name: 'goodsSearchFather',
+  data () {
+    return {
+      searchGoods: '',
+      goodsSearchs: [],
+    }
+  },
+  methods: {
+    getSearch(name){
+      // 用该属性获取页面 URL 地址从问号 (?) 开始的 URL（查询部分）
+      var url = window.location.search;
+      // 正则筛选地址栏
+      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+      // 匹配目标参数
+      var result = url.substr(1).match(reg);
+      //返回参数值
+      return result ? decodeURIComponent(result[2]) : null;
+    }
+  },
+  mounted: function() {
         var searchGoodsNames = this.getSearch("search")
         this.searchGoods = {"likes" : searchGoodsNames}
         var collectStatus
@@ -69,7 +69,7 @@ import axios from 'axios'
       components: {
        goodsSearch: mygoodsSearch
       }
-    }
+}
 
 </script>
 

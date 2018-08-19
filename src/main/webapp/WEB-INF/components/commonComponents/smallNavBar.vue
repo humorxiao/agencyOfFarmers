@@ -48,13 +48,13 @@ export default{
       usesName: ''
     }
   },
-  mounted: function() {
+  mounted: function () {
     axios.post('/api/checkLoginRank').then((response) => {
       // console.log(response.data) // 判断登录状态
       this.login_status = response.data.status
-      if(this.login_status == '1') {
+      if (this.login_status === 1) {
         // alert(response.data.User_PK)
-        this.userPK = {"User_PK": response.data.User_PK}
+        this.userPK = {'User_PK': response.data.User_PK}
         axios.post('/api/getUserInfo', this.userPK).then((response) => {
           this.usesName = response.data.User_Name
           this.show = true
@@ -67,9 +67,9 @@ export default{
     })
   },
   methods: {
-    out() {
+    out () {
       axios.post('/api/out', this.userPK).then((response) => {
-        if(response.data.status === 1) {
+        if (response.data.status === 1) {
           this.show = false
           this.login_status = 0
         } else {

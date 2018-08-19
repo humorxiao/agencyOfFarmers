@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import Contactus from './Contactus.vue'
 import router from './router'
+import "babel-polyfill"
 
 Vue.config.productionTip = false
 
