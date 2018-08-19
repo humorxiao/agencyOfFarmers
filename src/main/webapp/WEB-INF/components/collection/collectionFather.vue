@@ -14,11 +14,11 @@ export default {
       collect_pk: []
     }
   },
-  mounted: function() {
+  mounted: function () {
     axios.post('/api/getCollect', {}).then(Collectresponse => {
       for (var i = 0; i < Collectresponse.data.length; i++) {
-        this.goods_pk = {"Goods_PK" : Collectresponse.data[i].Goods_PK}
-        this.collect_pk[i] = Collectresponse.data[i].Collect_PK //保存在数组中，此处防止axios异步回调导致出错
+        this.goods_pk = {'Goods_PK': Collectresponse.data[i].Goods_PK}
+        this.collect_pk[i] = Collectresponse.data[i].Collect_PK // 保存在数组中，此处防止axios异步回调导致出错
         var j = 0
         axios.post('/api/getOneGood', this.goods_pk).then(response => {
           this.collections.push({

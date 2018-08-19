@@ -9,9 +9,9 @@
 </template>
 
 <script>
-    export default {
-        name: "RegisterSuccess"
-    }
+export default {
+  name: 'RegisterSuccess'
+}
 </script>
 
 <style scoped>

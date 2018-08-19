@@ -268,7 +268,7 @@ export default {
       name: '',
       newPassword: '',
       checkPassword: '',
-      sex:'1',
+      sex: '1',
       email: '',
       realname: '',
       id: '',
@@ -281,10 +281,10 @@ export default {
     }
   },
   methods: {
-    checkInformation: function() {
+    checkInformation: function () {
       var nicknameNoNumber = /[^0-9]/.test(this.name)
       var nicknameSymbol = /[@]/.test(this.name)
-      var regName =/^[\u4e00-\u9fa5]{2,4}$/.test(this.realname)
+      var regName = /^[\u4e00-\u9fa5]{2,4}$/.test(this.realname)
       var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.id)
       var correctCell = /^[1][3,4,5,7,8][0-9]{9}$/.test(this.cell)
       var correctEmail = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(this.email)
@@ -294,13 +294,13 @@ export default {
         this.alertError('请填写正确的昵称,不允许全数字')
       } else if (nicknameSymbol) {
         this.alertError('请填写正确的昵称,不允许有符号@')
-      }else if (this.email === '') {
+      } else if (this.email === '') {
         this.alertError('请输入邮箱地址')
-      }else if (!correctEmail) {
+      } else if (!correctEmail) {
         this.alertError('请输入正确的邮箱地址')
-      }else if (this.realname === '') {
+      } else if (this.realname === '') {
         this.alertError('请输入真实姓名')
-      }else if (!regName) {
+      } else if (!regName) {
         this.alertError('请输入有效的真实姓名')
       } else if (this.id === '') {
         this.alertError('请输入身份证号码')
@@ -308,49 +308,49 @@ export default {
         this.alertError('身份证号码有误')
       } else if (this.cell === '') {
         this.alertError('请输入手机号码')
-      } else if(!correctCell) {
+      } else if (!correctCell) {
         this.alertError('请输入有效的手机号码')
-      }else if (this.newPassword === '') {
+      } else if (this.newPassword === '') {
         this.alertError('请输入密码')
       } else if (this.newPassword.length < 8 || this.newPassword.length > 16) {
         this.alertError('密码应不低于8位，不高于16位，不含有特殊字符')
       } else if (this.newPassword !== this.checkPassword) {
         this.alertError('两次密码不一致，请重新输入')
-      }  else if (this.checked !== true) {
+      } else if (this.checked !== true) {
         this.alertError('注册用户需阅读并同意用户协议')
       }
     },
     register: function () {
-        this.checkInformation()
-        this.password = hex_md5(this.newPassword)
-        this.datas = {
-          'User_ID': this.id,
-          'User_Password': this.password,
-          'User_Name': this.name,
-          'User_Email': this.email,
-          'User_RegTime': '',
-          'User_Cell':this.cell,
-          'User_Sex':this.sex,
-          'User_Realname': this.realname
+      this.checkInformation()
+      this.password = hex_md5(this.newPassword)
+      this.datas = {
+        'User_ID': this.id,
+        'User_Password': this.password,
+        'User_Name': this.name,
+        'User_Email': this.email,
+        'User_RegTime': '',
+        'User_Cell': this.cell,
+        'User_Sex': this.sex,
+        'User_Realname': this.realname
+      }
+      axios.post('/api/register', this.datas).then((response) => {
+        if (response.data.isSuccess === true) {
+          window.location.href = 'registerSuccess.html'
+        } else if (response.data.User_Email === false) {
+          this.alertError('邮箱已被注册，请重新输入')
+        } else if (response.data.User_Name === false) {
+          this.alertError('用户名已被注册，请重新输入')
+        } else if (response.data.User_ID === false) {
+          this.alertError('身份证号码已被注册，请重新输入')
+        } else if (response.data.User_Cell === false) {
+          this.alertError('电话号码已被注册，请重新输入')
         }
-        axios.post('/api/register',this.datas).then((response) =>{
-            if(response.data.isSuccess === true) {
-              window.location.href = "registerSuccess.html"
-            } else if(response.data.User_Email === false) {
-              this.alertError('邮箱已被注册，请重新输入')
-            } else if (response.data.User_Name === false) {
-              this.alertError('用户名已被注册，请重新输入')
-            } else if (response.data.User_ID === false) {
-              this.alertError('身份证号码已被注册，请重新输入')
-            } else if(response.data.User_Cell === false) {
-              this.alertError('电话号码已被注册，请重新输入')
-            }
-        }).catch(function (error) {
-          console.log(error)
-        })
-      },
+      }).catch(function (error) {
+        console.log(error)
+      })
+    },
     alertError: function (msg) {
-      this.$message.error(msg);
+      this.$message.error(msg)
     },
     modalShow () {
       this.modal_point = 1
@@ -366,7 +366,7 @@ export default {
       this.checked = false
       this.modal_point = -1
     }
- }
+  }
 }
 </script>
 
