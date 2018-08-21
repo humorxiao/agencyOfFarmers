@@ -37,7 +37,9 @@ public class UserSessionListener implements HttpSessionListener {
   public static boolean isOnline(HttpSession session) {
     return sessionuserMap.containsKey(session.getId());
   }
-
+  public static void out(HttpSession session){
+    usersessionMap.remove(sessionuserMap.remove(session.getId()));
+  }
   @Override
   public void sessionCreated(HttpSessionEvent httpSessionEvent) {
     System.out.println("session创建成功！！！！");
