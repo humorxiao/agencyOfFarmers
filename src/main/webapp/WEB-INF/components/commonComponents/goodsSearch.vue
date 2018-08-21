@@ -1,5 +1,5 @@
 <template>
-  <!-- 特色区模块 -->
+  <!-- 搜索结果模块 -->
   <div id="fl-special" class="fl-container">
     <div class="container-fluid fl-container-fluid">
       <div class="row">

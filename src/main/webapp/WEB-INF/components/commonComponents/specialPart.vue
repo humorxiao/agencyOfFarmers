@@ -48,7 +48,7 @@ export default {
         } else if (response.data.status === 1) {
           this.goods_pk = {'Goods_PK': goodsID}
           if (goodsCollectStatus === '收藏') {
-            axios.post('/api/addCollect', this.goods_pk).then((response) => {
+              axios.post('/api/addCollect', this.goods_pk).then((response) => {
               // console.log(response.data)
               this.specialparts[index].Collect_pk = response.data.Collect_PK
               //  alert(response.data.Collect_PK + '1')
