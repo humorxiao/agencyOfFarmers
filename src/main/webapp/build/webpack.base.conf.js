@@ -31,8 +31,13 @@ module.exports = {
     details:resolve('WEB-INF/details.js'),
     goodsDetails:resolve('WEB-INF/goodsDetails.js'),
     collection:resolve('WEB-INF/collection.js'),
+
     registerSuccess:resolve('WEB-INF/registerSuccess.js'),
     goodsSearch:resolve('WEB-INF/goodsSearch.js'),
+    myinfo:resolve('WEB-INF/myinfo.js'),
+    shoppingbag: resolve('WEB-INF/shoppingbag.js'),
+    history:resolve('WEB-INF/history.js')
+
   },
   output: {
     path: config.build.assetsRoot,
