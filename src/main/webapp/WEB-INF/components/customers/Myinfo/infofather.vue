@@ -8,6 +8,7 @@
 
 <script>
 import myinfo1 from './myinfo1.vue'
+<<<<<<< HEAD
 import axios from 'axios'
 export default {
   name: 'infofather',
@@ -32,11 +33,16 @@ export default {
     })
 
   },
+=======
+export default {
+  name: 'infofather',
+>>>>>>> src\main\webapp\WEB-INF\History.vue
   components: {
     'myinfo1': myinfo1
   },
   data () {
     return {
+<<<<<<< HEAD
       username: '',
       name: '',
       phone: '',
@@ -44,6 +50,15 @@ export default {
       time: '',
       id: '',
       male: '',
+=======
+      username: 'sadsfdfg',
+      name: 'aa',
+      phone: '1111',
+      email: '000',
+      time: '111',
+      id: '111',
+      male: '111',
+>>>>>>> src\main\webapp\WEB-INF\History.vue
       Deliv_Name: '',
       Deliv_Cell: '',
       Deliv_code: '',
