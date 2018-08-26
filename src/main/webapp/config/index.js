@@ -67,6 +67,9 @@ module.exports = {
     goodsSearch: path.resolve(__dirname, '../dist/ goodsSearch.html'),
     adminLogin: path.resolve(__dirname, '../dist/ adminLogin.html'),
     editinfo: path.resolve(__dirname, '../dist/ editinfo.html'),
+    shoppingbag: path.resolve(__dirname, '../dist/shoppingbag.html'),
+    myinfo:path.resolve(__dirname, '../dist/myinfo.html'),
+    history:path.resolve(__dirname, '../dist/history.html'),
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
