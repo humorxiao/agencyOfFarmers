@@ -9,10 +9,10 @@
 
 <script>
   import comment from './components/customers/Historyorders/comment.vue'
-  import './dist/css/bootstrap.min.css'
-  import './css/NewFile1.css'
-  import './css/index.css'
-  import './dist/js/bootstrap.min.js'
+ // import './pages/static/dist/css/bootstrap.min.css'
+  import './pages/static/css/NewFile1.css'
+  import './pages/static/css/index.css'
+  import './pages/static/dist/js/bootstrap.min.js'
   import Orderfather from './components/customers/Historyorders/orderfather.vue'
   export default {
     name: 'History',
