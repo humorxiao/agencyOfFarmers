@@ -3399,7 +3399,7 @@ tbody.collapse.in {
   top: 100%;
   left: 0;
   z-index: 1000;
-  display: none;
+
   float: left;
   min-width: 160px;
   padding: 5px 0;
@@ -5129,6 +5129,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
   color: #843534
 }
 
+
 -webkit-keyframes progress-bar-stripes {
 from {background-position: 40px 0
 }
@@ -5148,6 +5149,7 @@ to {
 }
 
 }
+
 keyframes progress-bar-stripes {
 from {background-position: 40px 0
 }

@@ -59,9 +59,12 @@ module.exports = {
     details: path.resolve(__dirname, '../dist/details.html'),
     goodDetails: path.resolve(__dirname, '../dist/goodsDetails.html'),
     collection: path.resolve(__dirname, '../dist/collection.html'),
+<<<<<<< HEAD
 
     registerSuccess: path.resolve(__dirname, '../dist/ registerSuccess.html'),
 
+=======
+>>>>>>> src\main\webapp\WEB-INF\pages\static\css\NewFile1.css
     shoppingbag: path.resolve(__dirname, '../dist/shoppingbag.html'),
     myinfo:path.resolve(__dirname, '../dist/myinfo.html'),
     history:path.resolve(__dirname, '../dist/history.html'),
