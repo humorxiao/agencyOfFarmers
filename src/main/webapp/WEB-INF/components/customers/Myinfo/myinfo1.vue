@@ -39,7 +39,7 @@
           <dd>详细地址：{{Deliv_Address}}</dd>
           <br>
           <dd><a class="btn btn-lg yellow" id="modal-735678"
-                 onclick=initAddr() role="button" href="#modal-container-735678"
+                 @click=initAddr() role="button" href="#modal-container-735678"
                  data-toggle="modal">修改默认地址</a>
           </dd>
         </dl>
@@ -97,6 +97,9 @@ export default {
     Deliv_Address: {type: String, required: true}
   },
   methods: {
+    initAddr: function () {
+      alert(1)
+   },
     updateAddress: function () {
       var Name = (document.getElementById('Deliv_Name').value)
       if (Name === '') {
