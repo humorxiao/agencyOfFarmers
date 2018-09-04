@@ -101,7 +101,7 @@ public class NewsAction {
     data.put("News_Title", News_Title);
     data.put("News_Text", htmlData);
     data.put("News_Mark", News_Mark);
-    data.put("News_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
+    data.put("News_Time", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
     boolean ret;
     UnionNews temp = new UnionNews();
     temp.setNews_title(data.get("News_Title").toString());

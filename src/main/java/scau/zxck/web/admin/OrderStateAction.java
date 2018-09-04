@@ -82,7 +82,7 @@ public class OrderStateAction {
         log.put("Goods_In", goodsnum[i]);
         log.put("Goods_Out", 0);
         log.put("Goods_PriceChange", 0);
-        log.put("GL_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
+        log.put("GL_Time", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
         // 增加进销存日志
         GoodsLog temp1 = new GoodsLog();
         temp1.setGoods_info_id(log.get("Goods_PK").toString());

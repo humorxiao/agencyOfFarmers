@@ -71,7 +71,7 @@ public class CommentsAction {
     } else {
       data.put("User_PK", "");
     }
-    data.put("Comm_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
+    data.put("Comm_Time", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
     UserComments temp = new UserComments();
     temp.setUser_info_id(data.get("User_PK").toString());
     temp.setGoods_info_id(data.get("Goods_PK").toString());
