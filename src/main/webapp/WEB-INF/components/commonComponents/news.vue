@@ -10,14 +10,14 @@
       <ul class="list-group">
         <li class="list-group-item" v-for="item in newlists" :key="item.id">
           <span class="badge">{{item.time}}</span>
-          <a href = "../../pages/details.html" target="_blank">{{item.title}}</a>
+          <a target="_blank" :href = "'../pages/details.html'">{{item.title}}</a>
         </li>
       </ul>
     </div>
     <div class = "Page">
       <div class = "pages">
         <ul class="pagination pagination-lg">
-          <li><span @click = "lastPage">&laquo;</span></li>
+          <li><span  @click = "lastPage">&laquo;</span></li>
           <li v-for="item in pageLists" :key="item.id"><span @click="switchPage(item.page)">{{item.page}}</span></li>
           <li><span @click = "nextPage">&raquo;</span></li>
         </ul>
@@ -28,40 +28,43 @@
 </template>
 
 <script>
-export default{
-  props: {
-    newlists: {
-      type: Array,
-      required: true,
-      default: function () {
-        return []
+  export default{
+    props: {
+      newlists: {
+        type: Array,
+        required: true,
+        default: function () {
+          return []
+        }
+      },
+      pageLists: {
+        type: Array,
+        required: true,
+        default: function () {
+          return []
+        }
       }
     },
-    pageLists: {
-      type: Array,
-      required: true,
-      default: function () {
-        return []
+    methods: {
+      getNews: function () {
+        this.$emit('getNews')
+      },
+      switchPage: function (nowPage) {
+        this.$emit('switchPage', nowPage)
+      },
+      lastPage: function () {
+        this.$emit('lastPage')
+      },
+      nextPage: function () {
+        this.$emit('nextPage')
+      },
+      toNewsDetails: function () {
+        this.$emit('toNewsDetails')
       }
-    }
-  },
-  methods: {
-    getNews: function () {
-      this.$emit('getNews')
     },
-    switchPage: function (nowPage) {
-      this.$emit('switchPage', nowPage)
-    },
-    lastPage: function () {
-      this.$emit('lastPage')
-    },
-    nextPage: function () {
-      this.$emit('nextPage')
-    }
-  },
-  data () {
-    return {
+    data () {
+      return {
+      }
     }
   }
-}
 </script>

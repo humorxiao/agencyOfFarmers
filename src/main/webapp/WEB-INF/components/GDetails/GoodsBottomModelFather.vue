@@ -6,29 +6,60 @@
 
 <script>
 import goodsBottomModel from '../commonComponents/goods-bottom-model.vue'
+import axios from 'axios'
 export default {
   name: 'GoodsBottomModel',
   data () {
     return {
-      name: '鹰（省内）',
-      goodClass: '水果',
-      period: '一年一季',
-      flower: '5',
-      result: '4-6月份',
-      mature: '7月份',
-      quality: '5-7天',
-      msg: '每箱8斤',
+      name: '',
+      goodClass: '无',
+      period: '无',
+      flower: '',
+      result: '',
+      mature: '',
+      quality: '',
+      msg: '',
       img1: '../../static/image/yingzuitao.jpg',
       img2: '../../static/image/timg1.jpg',
-      commandList: [
-        {userName: '用户名1', content: 'ws评论内容1,这是评论内容，它超级长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长', stars: '★★★★', time: '2017-5-25 1:05:35'},
-        {userName: '用2', content: '评论内容2,它不太长长长长长长长长长长长长长长长长', stars: '★★★', time: '2017-5-10 1:05:35', seller: '我是商家', reply: '你的评论真的很长', replyTime: '2017-5-25 13:34:35'},
-        {userName: '用户名3', content: '评论内容34567', stars: '★★', time: '2017-5-20 9:20:10'}
-      ]
+      commandList: [],
+      goods_pk: location.search.substr(1)
     }
   },
   components: {
     'goodsBottomModel': goodsBottomModel
+  },
+  mounted: function () {
+    this.Goods_pk = {'Goods_PK':this.goods_pk}
+    //alert(JSON.stringify(this.Goods_pk))
+    axios.post('/api/getOneGood', this.Goods_pk).then(response => {
+      //alert(JSON.stringify(response.data))
+      this.name = response.data.Goods_Name
+      //this.goodClass = response.data.
+      //this.period = response.data.
+      this.flower = response.data.Goods_Blossom
+      this.result = response.data.Goods_Fruit
+      this.mature = response.data.Goods_Mature
+      this.quality = response.data.Goods_Expiration
+      this.msg = response.data.Goods_Reserve_1
+
+    }).catch(function (error) {
+      console.log(error)
+    })
+    axios.post('/api/getGoodsComments', this.Goods_pk).then(response => {
+      for (var i = 0; i < response.data.length; i++) {
+        this.commandList.push({
+          useName: response.data[i].User_PK,
+          content: response.data[i].Comm_Text,
+          stars: response.data[i].Comm_Rank,
+          time: response.data[i].Comm_Time
+        })
+      }
+    }).catch(function (error) {
+      console.log(error)
+    })
+  },
+  methods: {
+
   }
 }
 </script>
