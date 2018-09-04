@@ -1,8 +1,8 @@
 <!--新闻列表页——父组件-->
 <template>
   <div id="morenews">
-    <news :newlists = "newlists" :pageLists = "pageLists" @switchPage = "switchPage" @lastPage = "lastPage"></news>
-    <router-view/>
+    <news :newlists = "newlists" :pageLists = "pageLists" :nowInPage = "nowInPage" :pageNum = "pageNum" @switchPage = "switchPage" @lastPage = "lastPage" @nextPage = "nextPage" @toNewsDetails = "toNewsDetails"></news>
+
   </div>
 </template>
 
@@ -90,7 +90,6 @@
         }
       },
       toNewsDetails: function () {
-
       }
     },
     //打开新闻列表页，向后台请求数据
