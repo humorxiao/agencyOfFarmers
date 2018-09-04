@@ -16,8 +16,6 @@ import scau.zxck.utils.ReadJSONUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
-
 @Controller
 @RequestMapping("/")
 public class CartInfoAction {

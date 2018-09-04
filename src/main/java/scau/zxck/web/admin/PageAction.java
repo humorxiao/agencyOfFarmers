@@ -57,6 +57,7 @@ public class PageAction {
   public void getBulletin(HttpServletResponse response) throws Exception {
     JSONObject pageInfo = ReadJSONUtil.readJSONStr(request);
     JSONArray jsonarr = new JSONArray();
+    JSONArray jsonArray=new JSONArray();
     List list = unionNewsService.listAll();
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
       JSONObject temp = new JSONObject();
@@ -65,11 +66,14 @@ public class PageAction {
       temp.put("News_Title", news.getNews_title());
       temp.put("News_Text", news.getNews_text());
       temp.put("News_Time", news.getNews_time());
-      if (news.getNews_mark() == 2) {
+      if (news.getNews_mark() == 1) {
         jsonarr.add(temp);
+        jsonArray.add(temp);
       }
     }
-    String r = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo).toString();
+    jsonarr=JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo);
+    jsonarr.add(jsonArray);
+    String r=jsonarr.toString();
     FlushWriteUtil.flushWrite(response, r);
   }
 
