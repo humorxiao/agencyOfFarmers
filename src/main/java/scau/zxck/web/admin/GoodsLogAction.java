@@ -111,7 +111,7 @@ public class GoodsLogAction {
         tempx.setGoods_mature(temp.get("Goods_Mature").toString());
         tempx.setGoods_expiration(temp.get("Goods_Expiration").toString());
         goodsInfoService.updateById(tempx);
-        data.put("GL_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
+        data.put("GL_Time", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
         GoodsLog tempy = new GoodsLog();
         tempy.setGoods_info_id(data.get("Goods_PK").toString());
         tempy.setGoods_in((int) Integer.parseInt(data.get("Goods_In").toString()));

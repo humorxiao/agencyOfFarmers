@@ -45,7 +45,7 @@ public class CollectInfoAction {
     } else {
       data.put("User_PK", "");
     }
-    data.put("Collect_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
+    data.put("Collect_Time", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
     UserCollection userCollection = new UserCollection();
     userCollection.setUser_info_id(data.get("User_PK").toString());
     userCollection.setGoods_info_id(data.get("Goods_PK").toString());
