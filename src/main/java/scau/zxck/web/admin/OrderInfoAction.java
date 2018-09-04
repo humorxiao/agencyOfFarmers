@@ -148,7 +148,7 @@ public class OrderInfoAction {
             log.put("Goods_In", 0);
             log.put("Goods_Out", goodsnum[i]);
             log.put("Goods_PriceChange", 0);
-            log.put("GL_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
+            log.put("GL_Time", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
             GoodsLog tempg = new GoodsLog();
             tempg.setGoods_info_id(log.get("Goods_PK").toString());
             tempg.setGoods_in((int) Integer.parseInt(log.get("Goods_In").toString()));
@@ -310,7 +310,7 @@ public class OrderInfoAction {
         temp.put("Order_Aftersale", order.getOrder_aftersale());
         temp.put("Order_Reserve_1", order.getOrder_reserve_1());
         Date date = new Date();
-        temp.put("Order_PayTime", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss").format(date)));
+        temp.put("Order_PayTime", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)));
         temp.put("Order_IsPay", true);
         temp.put("Order_State", "6");
         OrderInfo tempx = orderInfoService.findById(temp.get("Order_PK").toString());

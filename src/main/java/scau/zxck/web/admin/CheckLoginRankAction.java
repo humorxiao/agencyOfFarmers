@@ -34,6 +34,5 @@ public class CheckLoginRankAction {
     }
     r=temp.toString();
     FlushWriteUtil.flushWrite(response, r);
-
   }
 }
