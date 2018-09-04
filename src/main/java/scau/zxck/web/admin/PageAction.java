@@ -18,7 +18,6 @@ import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
@@ -69,11 +68,9 @@ public class PageAction {
       temp.put("News_Time", news.getNews_time());
       if (news.getNews_mark() == 1) {
         jsonarr.add(temp);
-        jsonArray.add(temp);
       }
     }
     jsonarr=JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo);
-    jsonarr.add(jsonArray);
     String r=jsonarr.toString();
     FlushWriteUtil.flushWrite(response, r);
   }
@@ -85,7 +82,6 @@ public class PageAction {
     int state = (int) Integer.parseInt(data.get("afterSale").toString());
     JSONObject pageInfo = JSONObject.parseObject(jsonStr2);
     JSONArray jsonarr = new JSONArray();
-    JSONArray jsonarr1 = new JSONArray();
     Conditions conditions = new Conditions();
     List list = orderInfoService.list(conditions.eq("order_aftersale", state));
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
