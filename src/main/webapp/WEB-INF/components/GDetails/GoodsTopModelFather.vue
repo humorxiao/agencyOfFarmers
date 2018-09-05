@@ -66,6 +66,7 @@
       }).catch(function (error) {
         console.log(error)
       })
+
     },
     methods: {
       reduceNum: function(){
@@ -79,7 +80,19 @@
         }
       },
       alterCard: function () {
-        
+        if(loginStstus === 1){
+          var goodsPk = {'Goods_List':this.goods_pk}
+          var goodsNum = {'Goods_Num':this.number}
+          alert(goodsPk)
+          alert(goodsNum)
+          axios.post('/api/alertCard', {goodsPk,goodsNum}).then(response => {
+            alert(goodsPk)
+            alert(goodsNum)
+            alert(response.data)
+          }).catch(function (error) {
+            console.log(error)
+          })
+        }
       }
     }
   }
