@@ -68,6 +68,7 @@ public class CartInfoAction {
     public void alterCart(HttpServletResponse response) throws Exception {
         String r="";
         JSONObject data= ReadJSONUtil.readJSONStr(request);
+        data.put("Cart_PK",session.getAttribute("User_PK").toString());
         CartInfo cartInfo=cartInfoService.findById(data.get("Cart_PK").toString());
         cartInfo.setGoods_list(data.get("Goods_List").toString());
         cartInfo.setGoods_num(data.get("Goods_Num").toString());
