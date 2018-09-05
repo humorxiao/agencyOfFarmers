@@ -21,7 +21,6 @@
         Goods_pk: '',
         isCollect: '',
         Collect_pk:'',
-
         goods_pk: location.search.substr(1)
       }
     },
