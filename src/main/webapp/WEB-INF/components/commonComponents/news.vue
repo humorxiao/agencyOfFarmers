@@ -17,7 +17,7 @@
     <div class = "Page">
       <div class = "pages">
         <ul class="pagination pagination-lg">
-          <li><span @click = "lastPage">&laquo;</span></li>
+          <li><span  @click = "lastPage">&laquo;</span></li>
           <li v-for="item in pageLists" :key="item.id"><span @click="switchPage(item.page)">{{item.page}}</span></li>
           <li><span @click = "nextPage">&raquo;</span></li>
         </ul>

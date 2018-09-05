@@ -94,7 +94,6 @@
       var NumPerPage = 2
       var Page = this.page
       axios.post('/api/getBulletin', {Page, NumPerPage}).then(response => {
-        alert(JSON.stringify(response.data))
         this.nowInPage = response.data[0].NowPage
         this.pageNum = response.data[0].PageNum
         for (var i = 1; i < response.data.length; i++) {
@@ -113,7 +112,6 @@
       })
     }
   }
-
 </script>
 
 <style>

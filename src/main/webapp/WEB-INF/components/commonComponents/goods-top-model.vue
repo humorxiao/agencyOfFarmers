@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td colspan="2">
-              <button class="btn btn-success">加入菜篮子</button>
+              <button class="btn btn-success" @click="alterCard">加入菜篮子</button>
               <button class="btn btn-primary" @click="Collect(Goods_pk,isCollect,Collect_pk)">{{isCollect}}</button>
             </td>
           </tr>
@@ -93,19 +93,14 @@
         this.$emit('addNum')
       },
       Collect: function (goodsID,goodsCollectStatus, collectPk) {
-        alert(JSON.stringify(goodsID))
         axios.post('/api/checkLoginRank').then((response) => {
           console.log(response.status) // 判断登录状态
           if (response.data.status === 0) {
             this.info('请先登录')
-            alert('请先登录')
           } else if (response.data.status === 1) {
-            //this.goods_pk = goodsID
             if (goodsCollectStatus === '加入收藏夹') {
               axios.post('/api/addCollect', goodsID).then((response) => {
-                // console.log(response.data)
                 this.Collect_pk = response.data.Collect_PK
-                //  alert(response.data.Collect_PK + '1')
                 this.isCollect = '取消收藏'
               }).catch(function (error) {
                 console.log(error)
@@ -114,7 +109,6 @@
             this.collect_pk = {'Collect_PK': collectPk}
             if (goodsCollectStatus === '取消收藏') {
               axios.post('/api/removeCollect', this.collect_pk).then((response) => {
-                //  console.log(response.data)
                 this.isCollect = '加入收藏夹'
               }).catch(function (error) {
                 console.log(error)
@@ -127,6 +121,9 @@
       },
       info: function (msg) {
         this.$message.error(msg)
+      },
+      alterCard: function () {
+        this.$emit('alterCard');
       }
     }
   }
