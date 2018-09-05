@@ -1,6 +1,6 @@
 <template>
   <div>
-    <goods-bottom-model :name = "name" :goodClass = "goodClass" :period="period" :flower = "flower" :result="result" :mature = "mature" :quality="quality" :msg="msg" :img1="img1" :img2 = "img2" :commandList = "commandList"></goods-bottom-model>
+    <goods-bottom-model :name = "name" :goodClass = "goodClass" :period="period" :flower = "flower" :result="result" :mature = "mature" :quality="quality" :msg="msg" :imgList="imgList" :img1="img1" :img2 = "img2" :commandList = "commandList"></goods-bottom-model>
   </div>
 </template>
 
@@ -21,6 +21,7 @@ export default {
       msg: '',
       img1: '../../static/image/yingzuitao.jpg',
       img2: '../../static/image/timg1.jpg',
+      imgList: [],
       commandList: [],
       goods_pk: location.search.substr(1)
     }
@@ -30,9 +31,7 @@ export default {
   },
   mounted: function () {
     this.Goods_pk = {'Goods_PK':this.goods_pk}
-    //alert(JSON.stringify(this.Goods_pk))
     axios.post('/api/getOneGood', this.Goods_pk).then(response => {
-      //alert(JSON.stringify(response.data))
       this.name = response.data.Goods_Name
       //this.goodClass = response.data.
       //this.period = response.data.
@@ -41,6 +40,16 @@ export default {
       this.mature = response.data.Goods_Mature
       this.quality = response.data.Goods_Expiration
       this.msg = response.data.Goods_Reserve_1
+
+      var imgs = response.data.Goods_Reserve_2
+      var arr = imgs.split("#");
+      for(var i = 0; i < arr.length; i++){
+        this.imgList.push({
+          img: "../../static/image/" + arr[i]
+        })
+      }
+      //alert(arr)
+      //alert(arr[0])
 
     }).catch(function (error) {
       console.log(error)

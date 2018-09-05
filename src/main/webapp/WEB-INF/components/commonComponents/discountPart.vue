@@ -12,7 +12,7 @@
       <div v-for="(item, index) in discountparts" :key="item.id">
         <div class="col-md-4">
           <div class="panel panel-default fl-panel">
-            <a :href="item.src" target="_blank">
+            <a :href="item.src">
               <div class="fl-home-goods-img">
                 <img class="lazy" width="248" height="185"  v-bind:src="item.pictureSrc"  alt="item.name">
               </div>

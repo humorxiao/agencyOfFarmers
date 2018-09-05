@@ -1,6 +1,6 @@
 <template>
   <div>
-    <goods-top-model :goodsMsg="goodsMsg" :imgUrl="imgUrl" :goodName="goodName" :price = "price" :number="number" :stock="stock" :Goods_pk="Goods_pk" @reduceNum="reduceNum" @addNum = "addNum" :isCollect="isCollect" :Collect_pk="Collect_pk"></goods-top-model>
+    <goods-top-model :goodsMsg="goodsMsg" :imgUrl="imgUrl" :goodName="goodName" :price = "price" :number="number" :stock="stock" :Goods_pk="Goods_pk" @reduceNum="reduceNum" @addNum = "addNum" :isCollect="isCollect" :Collect_pk="Collect_pk" @alterCard="alterCard"></goods-top-model>
   </div>
 </template>
 
@@ -21,6 +21,7 @@
         Goods_pk: '',
         isCollect: '',
         Collect_pk:'',
+
         goods_pk: location.search.substr(1)
       }
     },
@@ -33,6 +34,7 @@
       //获取该商品的信息
       axios.post('/api/getOneGood', this.Goods_pk).then(response => {
         //alert(JSON.stringify(response.data))
+        var img
         this.imgUrl = '../../static/image/' + response.data.Goods_Picture
         this.goodName = response.data.Goods_Name
         this.price = response.data.Goods_Price
@@ -42,7 +44,7 @@
         console.log(error)
       })
 
-      //加入购物车
+      //加入收藏夹
       var collectStatus
       var collect_pk
       axios.post('/api/getCollect', {}).then(Collectresponse => {
@@ -77,7 +79,8 @@
           this.number++;
         }
       },
-      getCollect: function () {
+      alterCard: function () {
+        
       }
     }
   }
