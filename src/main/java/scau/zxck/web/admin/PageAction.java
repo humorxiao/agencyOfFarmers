@@ -68,11 +68,9 @@ public class PageAction {
       temp.put("News_Time", news.getNews_time());
       if (news.getNews_mark() == 1) {
         jsonarr.add(temp);
-        jsonArray.add(temp);
       }
     }
     jsonarr=JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo);
-    jsonarr.add(jsonArray);
     String r=jsonarr.toString();
     FlushWriteUtil.flushWrite(response, r);
   }
