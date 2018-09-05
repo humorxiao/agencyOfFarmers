@@ -4,12 +4,12 @@
          style="height: 21px;"></div>
     <br><br><br>
     <div class="row1 clearfix div-bg-color">
-      <div class="col-md-11 col-md-offset-1 column div-bg-color">
+      <div class="col-md-11 col-md-offset-5 column div-bg-color">
         <h3 class="text-left">个人信息资料管理</h3>
       </div>
     </div>
     <div class="row1 clearfix div-bg-color">
-      <div class="col-md-5 col-md-offset-0 column" id="info">
+      <div class="col-md-5 col-md-offset-4 column" id="info">
         <dl class="dl-horizontal">
           <dt>{{username}}</dt>
           <dd>用户昵称：{{name}}</dd>
@@ -23,14 +23,14 @@
     </div>
     <br>
     <div class="row1 clearfix div-bg-color">
-      <div class="col-md-11  col-md-offset-1 column">
+      <div class="col-md-11  col-md-offset-5 column">
         <h3 class="text-left">
           默认收货信息管理
         </h3>
       </div>
     </div>
     <div class="row1 clearfix div-bg-color">
-      <div class="col-md-10  col-md-offset-0  column" id="addr">
+      <div class="col-md-10  col-md-offset-4  column" id="addr">
         <dl class="dl-horizontal">
           <dt>地址1</dt>
           <dd>收件人姓名:{{Deliv_Name}}</dd>
@@ -60,10 +60,10 @@
                 <h4 class="modal-title" id="myModalLabel">填写默认收货信息</h4>
               </div>
               <div class="modal-body">
-                收货人名字:<input id='Deliv_Name' type="text"/><br> 收货人手机:<input
-                id='Deliv_Cell' type="text"/><br> 邮政编码：<input id="Deliv_code" type="text" placeholder="邮编"/><br>
-                <br> 详细地址：
-                <textarea id="Deliv_Address" placeholder="详细地址"></textarea>
+                收货人名字:<input id='Deliv_Name' placeholder="姓名" /><br>
+                收货人手机:<input id='Deliv_Cell' type="text" placeholder="手机号"/><br>
+                邮政编码：<input id="Deliv_code" type="text" placeholder="邮编"/><br>
+                <br> 详细地址：<textarea id="Deliv_Address" placeholder="详细地址"></textarea>
                 <br>
                 <span id="msg" style="color: red;"></span>
               </div>
@@ -81,6 +81,7 @@
   </div>
 </template>
 <script>
+  import axios from 'axios'
 export default {
   name: 'myinfo1',
   props: {
@@ -98,7 +99,7 @@ export default {
   },
   methods: {
     initAddr: function () {
-      alert(1)
+
    },
     updateAddress: function () {
       var Name = (document.getElementById('Deliv_Name').value)
@@ -127,12 +128,19 @@ export default {
         document.getElementById('msg').innerHTML = '请填写详细地址'
         return
       }
-      var s = document.getElementById('modal-container-735678')
-      s.style.display = 'none'
-      this.Deliv_Name = Name
-      this.Deliv_Cell = Cell
-      this.Deliv_code = code
-      this.Deliv_Address = Address
+      var data = {'Deliv_Cell':this.Cell,'Deliv_Name':this.Name,
+        'Deliv_Address':this.Address,'Deliv_Zipcode':this.code}
+      axios.post('/api/updateUserDeliveryAddress', data).then((response) => {
+        console.log(response.data.status)
+        if(response.data.status === 1)
+        { var s = document.getElementById('modal-container-735678')
+        s.style.display = 'none'
+        this.Deliv_Name = Name
+        this.Deliv_Cell = Cell
+        this.Deliv_code = code
+        this.Deliv_Address = Address
+      } else {alert('error')}
+      })
     }
   }
 }
