@@ -82,7 +82,8 @@
       return {
         login_status: '0',
         goods_pk: '',
-        collect_pk: ''
+        collect_pk: '',
+        loginStatus: 0
       }
     },
     methods: {
@@ -123,7 +124,17 @@
         this.$message.error(msg)
       },
       alterCard: function () {
-        this.$emit('alterCard');
+        axios.post('/api/checkLoginRank').then((response) => {
+          if (response.data.status === 0) {
+            this.info('请先登录')
+            this.loginStatus = 0;
+          } else if (response.data.status === 1) {
+            this.loginStatus = 1;
+          }
+          this.$emit('alterCard',this.loginStatus);
+        }).catch(function (error) {
+          console.log(error)
+        })
       }
     }
   }
