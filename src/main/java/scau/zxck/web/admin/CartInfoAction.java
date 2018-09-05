@@ -89,45 +89,45 @@ public class CartInfoAction {
 
   @RequestMapping(value = "addCart", method = RequestMethod.POST)
   public void addCart(HttpServletResponse response) throws Exception {
-      JSONObject data=ReadJSONUtil.readJSONStr(request);
-      String goods_pk=data.get("Goods_PK").toString();
-      int num=Integer.parseInt(data.get("Goods_Num").toString());
-      String cart_pk=session.getAttribute("User_PK").toString();
-      CartInfo cartInfo=cartInfoService.findById(cart_pk);
-      String[] goods_list=cartInfo.getGoods_list().split("#");
-      String[] goods_num=cartInfo.getGoods_num().split("#");
-      int k=0;
-      boolean flag=false;
-      for(int i=0;i<goods_list.length;i++){
-        if(goods_list[i].equals(goods_pk)){
-          flag=true;
-          k=i;
-          break;
-        }
+    JSONObject data=ReadJSONUtil.readJSONStr(request);
+    String goods_pk=data.get("Goods_PK").toString();
+    int num=Integer.parseInt(data.get("Goods_Num").toString());
+    String cart_pk=session.getAttribute("User_PK").toString();
+    CartInfo cartInfo=cartInfoService.findById(cart_pk);
+    String[] goods_list=cartInfo.getGoods_list().split("#");
+    String[] goods_num=cartInfo.getGoods_num().split("#");
+    int k=0;
+    boolean flag=false;
+    for(int i=0;i<goods_list.length;i++){
+      if(goods_list[i].equals(goods_pk)){
+        flag=true;
+        k=i;
+        break;
       }
-      if(flag){
-        int later=Integer.parseInt(goods_num[k])+num;
-        String s="";
-        for(int i=0;i<goods_num.length;i++){
-          if(i==k) s+=later+"#";
-          else s+=goods_num[i]+"#";
-        }
-        cartInfo.setGoods_num(s);
-      }else{
-        String s=cartInfo.getGoods_list();
-        String s2=cartInfo.getGoods_num();
-        cartInfo.setGoods_list(s+goods_pk+"#");
-        cartInfo.setGoods_num(s2+num+"#");
+    }
+    if(flag){
+      int later=Integer.parseInt(goods_num[k])+num;
+      String s="";
+      for(int i=0;i<goods_num.length;i++){
+        if(i==k) s+=later+"#";
+        else s+=goods_num[i]+"#";
       }
-      JSONObject temp=new JSONObject();
-      try {
-        cartInfoService.updateById(cartInfo);
-        temp.put("status",1);
-        FlushWriteUtil.flushWrite(response,temp.toString());
-      }catch (Exception e){
-        e.printStackTrace();
-        temp.put("status",0);
-        FlushWriteUtil.flushWrite(response,temp.toString());
-      }
+      cartInfo.setGoods_num(s);
+    }else{
+      String s=cartInfo.getGoods_list();
+      String s2=cartInfo.getGoods_num();
+      cartInfo.setGoods_list(s+goods_pk+"#");
+      cartInfo.setGoods_num(s2+num+"#");
+    }
+    JSONObject temp=new JSONObject();
+    try {
+      cartInfoService.updateById(cartInfo);
+      temp.put("status",1);
+      FlushWriteUtil.flushWrite(response,temp.toString());
+    }catch (Exception e){
+      e.printStackTrace();
+      temp.put("status",0);
+      FlushWriteUtil.flushWrite(response,temp.toString());
+    }
   }
 }
