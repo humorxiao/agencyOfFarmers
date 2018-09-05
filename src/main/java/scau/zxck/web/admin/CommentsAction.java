@@ -12,6 +12,7 @@ import scau.zxck.entity.market.UserComments;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IGoodsInfoService;
 import scau.zxck.service.market.IUserCommentsService;
+import scau.zxck.service.sys.IUserLoginService;
 import scau.zxck.utils.FlushWriteUtil;
 import scau.zxck.utils.ReadJSONUtil;
 
@@ -35,6 +36,8 @@ public class CommentsAction {
   @Autowired
   private HttpServletRequest request;
   @Autowired
+  private IUserLoginService userLoginService;
+  @Autowired
   private HttpSession session;
   @RequestMapping(value = "getGoodsComments", method = RequestMethod.POST)
   public void getGoodsComments( HttpServletResponse response) throws Exception {
@@ -48,9 +51,18 @@ public class CommentsAction {
       for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
         JSONObject temp = new JSONObject();
         UserComments comm = (UserComments) iter.next();
-
         temp.put("Comm_PK", comm.getId());
         temp.put("User_PK", comm.getUser_info_id());
+        UserInfo user=userLoginService.findById(comm.getUser_info_id());
+        temp.put("User_Name", user.getUser_name());
+        temp.put("User_Cell", user.getUser_cell());
+        temp.put("User_Email", user.getUser_email());
+        temp.put("User_Sex", user.getUser_sex());
+        SimpleDateFormat m1 = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        temp.put("User_RegTime", user.getUser_regtime());
+        temp.put("User_Realname", user.getUser_realname());
+        temp.put("User_ID", user.getUser_id());
+        temp.put("User_Mark", user.getUser_mark());
         temp.put("Goods_PK", comm.getGoods_info_id());
         temp.put("Comm_Rank", comm.getComm_rank());
         temp.put("Comm_Text", comm.getComm_text());
