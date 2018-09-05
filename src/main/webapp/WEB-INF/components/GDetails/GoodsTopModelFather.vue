@@ -8,7 +8,6 @@
 <script>
   import goodsTopModel from '../commonComponents/goods-top-model.vue'
   import axios from 'axios'
-
   export default {
     name: 'GoodsTopModel',
     data () {
@@ -38,11 +37,9 @@
         this.goodName = response.data.Goods_Name
         this.price = response.data.Goods_Price
         this.stock = response.data.Goods_Num
-
       }).catch(function (error) {
         console.log(error)
       })
-
       //加入收藏夹
       var collectStatus
       var collect_pk
@@ -66,7 +63,6 @@
       }).catch(function (error) {
         console.log(error)
       })
-
     },
     methods: {
       //减少购买数量
@@ -84,26 +80,26 @@
       //加入菜篮子
       alterCard: function (loginStatus) {
         //先判断用户是否已登录
-          axios.post('/api/checkLoginRank').then((response) => {
-            if (response.data.status === 0) {
-              this.info('请先登录')
-              loginStatus = response.data.status;
-            } else if (response.data.status === 1) {
-              var goodsPk = {'Goods_List':this.goods_pk,'Goods_Num':this.number}
-              axios.post('/api/alterCart', goodsPk).then(response => {
-                if(response.data.status === 1){
-                  this.ifo('成功加入菜篮子');
-                }else{
-                  this.info('加入菜篮子失败');
-                }
-              }).catch(function (error) {
-                console.log(error)
-              })
-            }
-          }).catch(function (error) {
-            console.log(error)
-          })
-        },
+        axios.post('/api/checkLoginRank').then((response) => {
+          if (response.data.status === 0) {
+            this.info('请先登录')
+            loginStatus = response.data.status;
+          } else if (response.data.status === 1) {
+            var goodsPk = {'Goods_List':this.goods_pk,'Goods_Num':this.number}
+            axios.post('/api/alterCart', goodsPk).then(response => {
+              if(response.data.status === 1){
+                this.ifo('成功加入菜篮子');
+              }else{
+                this.info('加入菜篮子失败');
+              }
+            }).catch(function (error) {
+              console.log(error)
+            })
+          }
+        }).catch(function (error) {
+          console.log(error)
+        })
+      },
       //出错提示
       info: function (msg) {
         this.$message.error(msg)
