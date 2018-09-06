@@ -1,3 +1,4 @@
+<!--新闻列表页——父组件-->
 <template>
   <div id="morenews">
     <news :newlists = "newlists" :pageLists = "pageLists" :nowInPage = "nowInPage" :pageNum = "pageNum" @switchPage = "switchPage" @lastPage = "lastPage" @nextPage = "nextPage" @toNewsDetails = "toNewsDetails"></news>
@@ -37,6 +38,7 @@
             this.newlists.push({
               title: response.data[i].News_Title,
               time: response.data[i].News_Time,
+              src: 'details.html?'+response.data[i].News_PK
             })
           }
         }).catch(function (error) {
@@ -57,6 +59,7 @@
               this.newlists.push({
                 title: response.data[i].News_Title,
                 time: response.data[i].News_Time,
+                src: 'details.html?'+response.data[i].News_PK
               })
             }
           }).catch(function (error) {
@@ -78,6 +81,7 @@
               this.newlists.push({
                 title: response.data[i].News_Title,
                 time: response.data[i].News_Time,
+                src: 'details.html?'+response.data[i].News_PK
               })
             }
           }).catch(function (error) {
@@ -100,6 +104,7 @@
           this.newlists.push({
             title: response.data[i].News_Title,
             time: response.data[i].News_Time,
+            src: 'details.html?'+response.data[i].News_PK
           })
         }
         for (var j = 0; j < response.data[0].PageNum; j++) {

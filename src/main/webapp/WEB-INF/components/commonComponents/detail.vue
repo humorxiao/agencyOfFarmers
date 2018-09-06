@@ -1,3 +1,4 @@
+<!--新闻详情页——子组件-->
 <template>
   <div>
     <div class = "head_picture">

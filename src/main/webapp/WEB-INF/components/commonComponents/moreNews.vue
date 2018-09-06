@@ -1,3 +1,4 @@
+<!--新闻列表页子组件-->
 <template>
   <div>
      <div id="top">
