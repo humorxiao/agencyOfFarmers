@@ -1,3 +1,4 @@
+<!--商品详情页——顶部子组件-->
 <template>
   <!-- 商品价格、数量模块 -->
   <div id="fl-goods-top-model" class="container fl-container">
@@ -28,7 +29,7 @@
           </tr>
           <tr>
             <td colspan="2">
-              <button class="btn btn-success" @click="alterCard">加入菜篮子</button>
+              <button class="btn btn-success" @click="alterCard()">{{addCard}}</button>
               <button class="btn btn-primary" @click="Collect(Goods_pk,isCollect,Collect_pk)">{{isCollect}}</button>
             </td>
           </tr>
@@ -74,6 +75,10 @@
         required: true
       },
       Goods_pk: {
+        type: String,
+        required: true
+      },
+      addCard: {
         type: String,
         required: true
       }
@@ -124,17 +129,7 @@
         this.$message.error(msg)
       },
       alterCard: function () {
-        axios.post('/api/checkLoginRank').then((response) => {
-          if (response.data.status === 0) {
-            this.info('请先登录')
-            this.loginStatus = 0;
-          } else if (response.data.status === 1) {
-            this.loginStatus = 1;
-          }
-          this.$emit('alterCard',this.loginStatus);
-        }).catch(function (error) {
-          console.log(error)
-        })
+        this.$emit('alterCard')
       }
     }
   }

@@ -1,3 +1,4 @@
+<!--商品详情页——底部子组件-->
 <template>
   <!-- 商品详情、评论模块 -->
   <div id="fl-goods-bottom-model" class="container fl-container">
