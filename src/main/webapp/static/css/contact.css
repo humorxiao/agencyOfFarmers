@@ -92,19 +92,19 @@
 }
 
 #fl-contact-more ul li:nth-child(1) .fl-contact-item-head {
-  background-image: url(/agencyOfFarmers/icon-img/address.svg);
+  background-image: url(../image/address.svg);
 }
 
 #fl-contact-more ul li:nth-child(2) .fl-contact-item-head {
-  background-image: url(/agencyOfFarmers/icon-img/phone.svg);
+  background-image: url(../image/phone.svg);
 }
 
 #fl-contact-more ul li:nth-child(3) .fl-contact-item-head {
-  background-image: url(/agencyOfFarmers/icon-img/email.svg);
+  background-image: url(../image/email.svg);
 }
 
 #fl-contact-more ul li:nth-child(4) .fl-contact-item-head {
-  background-image: url(/agencyOfFarmers/icon-img/postcode.svg);
+  background-image: url(../image/postcode.svg);
 }
 
 #fl-contact-more ul li:nth-child(1) .fl-contact-item-body {
