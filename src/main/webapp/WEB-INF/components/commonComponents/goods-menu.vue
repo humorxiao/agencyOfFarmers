@@ -1,8 +1,10 @@
+<!--商品详情页——菜单导航子组件-->
 <template>
   <!-- 商品目录 -->
   <div id="fl-goods-menu" class="fl-container">
     <ol class="breadcrumb">
-      <li v-for = "item in menuList" :key="item.id"><a href="#">{{item.address}}</a></li>
+      <li><a href="index.html">{{indexPage}}</a></li>
+      <li>{{goodClass}}</li>
       <li class = "active">{{lastMenu}}</li>
     </ol>
   </div>
@@ -11,8 +13,12 @@
 <script>
 export default{
   props: {
-    menuList: {
-      type: Array,
+    indexPage: {
+      type: String,
+      required: true
+    },
+    goodClass: {
+      type: String,
       required: true
     },
     lastMenu: {

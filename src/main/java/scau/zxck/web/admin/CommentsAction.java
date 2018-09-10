@@ -46,7 +46,7 @@ public class CommentsAction {
     JSONArray jsonArray = new JSONArray();
     Conditions conditions = new Conditions();
     List list =
-        userCommentsService.list(conditions.eq("goods_info_id", data.get("Goods_PK").toString()));
+      userCommentsService.list(conditions.eq("goods_info_id", data.get("Goods_PK").toString()));
     if (!list.isEmpty()) {
       for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
         JSONObject temp = new JSONObject();
@@ -118,19 +118,19 @@ public class CommentsAction {
       data.put("User_PK", "");
     }
     List list =
-        userCommentsService.list(conditions.eq("goods_info_id", data.get("Goods_PK").toString())
-            .and().eq("user_info_id", data.get("User_PK").toString()));
-      if(!list.isEmpty()){
-          UserComments comm =(UserComments)list.get(0);
+      userCommentsService.list(conditions.eq("goods_info_id", data.get("Goods_PK").toString())
+        .and().eq("user_info_id", data.get("User_PK").toString()));
+    if(!list.isEmpty()){
+      UserComments comm =(UserComments)list.get(0);
 
-          temp.put("Comm_PK", comm.getId());
-          temp.put("User_PK", comm.getUser_info_id());
-          temp.put("Goods_PK", comm.getGoods_info_id());
-          temp.put("Comm_Rank", comm.getComm_rank());
-          temp.put("Comm_Text", comm.getComm_text());
-          temp.put("Comm_Time", comm.getComm_time());
-      }
-      r=temp.toString();
+      temp.put("Comm_PK", comm.getId());
+      temp.put("User_PK", comm.getUser_info_id());
+      temp.put("Goods_PK", comm.getGoods_info_id());
+      temp.put("Comm_Rank", comm.getComm_rank());
+      temp.put("Comm_Text", comm.getComm_text());
+      temp.put("Comm_Time", comm.getComm_time());
+    }
+    r=temp.toString();
     FlushWriteUtil.flushWrite(response,r);
   }
   @RequestMapping(value = "deleteComments",method = RequestMethod.POST)
@@ -141,7 +141,7 @@ public class CommentsAction {
       userCommentsService.deleteByIds(data.get("Comm_PK").toString());
       r="{\"status\":1}";
     }catch (Exception e){
-        e.printStackTrace();
+      e.printStackTrace();
       r="{\"status\":0}";
     }
     FlushWriteUtil.flushWrite(response,r);

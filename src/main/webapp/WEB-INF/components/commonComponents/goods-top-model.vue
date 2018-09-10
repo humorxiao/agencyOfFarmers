@@ -1,3 +1,4 @@
+<!--商品详情页——顶部子组件-->
 <template>
   <!-- 商品价格、数量模块 -->
   <div id="fl-goods-top-model" class="container fl-container">
@@ -28,7 +29,7 @@
           </tr>
           <tr>
             <td colspan="2">
-              <button class="btn btn-success" @click="alterCard">加入菜篮子</button>
+              <button class="btn btn-success" @click="alterCard()">{{addCard}}</button>
               <button class="btn btn-primary" @click="Collect(Goods_pk,isCollect,Collect_pk)">{{isCollect}}</button>
             </td>
           </tr>
@@ -76,13 +77,18 @@
       Goods_pk: {
         type: String,
         required: true
+      },
+      addCard: {
+        type: String,
+        required: true
       }
     },
     data() {
       return {
         login_status: '0',
         goods_pk: '',
-        collect_pk: ''
+        collect_pk: '',
+        loginStatus: 0
       }
     },
     methods: {
@@ -123,7 +129,7 @@
         this.$message.error(msg)
       },
       alterCard: function () {
-        this.$emit('alterCard');
+        this.$emit('alterCard')
       }
     }
   }

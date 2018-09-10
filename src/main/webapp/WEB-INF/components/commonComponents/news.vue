@@ -1,3 +1,4 @@
+<!--新闻列表页——子组件-->
 <template>
   <div>
     <div class = "head_picture">
@@ -10,7 +11,7 @@
       <ul class="list-group">
         <li class="list-group-item" v-for="item in newlists" :key="item.id">
           <span class="badge">{{item.time}}</span>
-          <a target="_blank" :href = "'../pages/details.html'">{{item.title}}</a>
+          <a target="_blank" :href = "item.src">{{item.title}}</a>
         </li>
       </ul>
     </div>
