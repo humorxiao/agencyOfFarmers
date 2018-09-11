@@ -86,10 +86,9 @@ public class OrderStateAction {
         // 增加进销存日志
         GoodsLog temp1 = new GoodsLog();
         temp1.setGoods_info_id(log.get("Goods_PK").toString());
-        temp1.setGoods_in((int) Integer.parseInt(log.get("Goods_In").toString()));
-        temp1.setGoods_out((int) Integer.parseInt(log.get("Goods_Out").toString()));
-        temp1.setGoods_pricechange(
-                (float) Float.parseFloat(log.get("Goods_PriceChange").toString()));
+        temp1.setGoods_in( Integer.parseInt(log.get("Goods_In").toString()));
+        temp1.setGoods_out( Integer.parseInt(log.get("Goods_Out").toString()));
+        temp1.setGoods_pricechange(Float.parseFloat(log.get("Goods_PriceChange").toString()));
         temp1.setGl_time(Timestamp.valueOf(log.get("GL_Time").toString()).toString());
         goodsLogService.add(temp1);
         JSONObject goodspk = new JSONObject();
@@ -311,7 +310,7 @@ public class OrderStateAction {
     JSONArray jsonarr = new JSONArray();
     Conditions conditions = new Conditions();
     List list = orderInfoService.list(conditions
-            .eq("order_aftersale", (int) Integer.parseInt(data.get("Order_Aftersale").toString())).and()
+            .eq("order_aftersale", Integer.parseInt(data.get("Order_Aftersale").toString())).and()
             .eq("user_info_id", data.get("User_PK").toString()));
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
       JSONObject temp = new JSONObject();
