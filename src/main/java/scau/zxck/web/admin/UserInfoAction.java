@@ -142,8 +142,8 @@ public class UserInfoAction {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
-      data.put("Deliv_PK", (int) session.getAttribute("User_PK"));
-      data.put("User_PK", (int) session.getAttribute("User_PK"));
+      data.put("Deliv_PK",  session.getAttribute("User_PK"));
+      data.put("User_PK",  session.getAttribute("User_PK"));
     } else {
       data.put("Deliv_PK", "");
       data.put("User_PK", "");

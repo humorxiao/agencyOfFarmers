@@ -6,7 +6,7 @@
     <GoodsMenu></GoodsMenu>
     <goods-top-model></goods-top-model>
     <goods-bottom-model></goods-bottom-model>
-    <foot></foot>
+    <bottom></bottom>
     <router-view/>
   </div>
 </template>
@@ -17,7 +17,7 @@ import myMenuFather from './components/index/myMenuFather.vue'
 import GoodsMenu from './components/GDetails/GoodsMenuFather.vue'
 import GoodsTopModel from './components/GDetails/GoodsTopModelFather.vue'
 import GoodsBottomModel from './components/GDetails/GoodsBottomModelFather.vue'
-import foot from './components/commonComponents/foot.vue'
+import bottom from './components/commonComponents/bottom.vue'
 export default {
   name: 'goodsDetails',
   data () {
@@ -30,7 +30,7 @@ export default {
     'GoodsMenu': GoodsMenu,
     'GoodsTopModel': GoodsTopModel,
     'GoodsBottomModel': GoodsBottomModel,
-    'foot': foot
+    'bottom': bottom
   }
 }
 </script>

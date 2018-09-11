@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import moreNews from './News.vue'
 import router from './router'
+import "babel-polyfill"
 
 Vue.config.productionTip = false
 

@@ -9,20 +9,13 @@
 </head>
 
 <body>
-<%--<form action="login.jsp" method="POST">--%>
-<%--<input type="submit" value="提交">--%>
-<%--</form>--%>
-
-<%--<form action="/test" method="POST" enctype="multipart/form-data">--%>
-    <%--<label>Profile Picture</label>--%>
-    <%--<input type="file" name="profilePicture" accept="image/jpeg,image/png,image/gif">--%>
-    <%--<br>--%>
-    <%--<input type="submit" value="submit">--%>
-
-<%--</form>--%>
-<%
-    response.setHeader("Refresh","1;url=http://www.baidu.com");
-%>
+<
+<form action="/login" method="post">
+  <input type="text" name="jsonStr">
+  <br>
+  <input type="submit" value="提交">
+  <br>
+</form>
 </body>
 </html>
 

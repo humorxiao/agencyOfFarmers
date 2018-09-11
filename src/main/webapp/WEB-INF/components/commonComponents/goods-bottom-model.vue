@@ -1,3 +1,4 @@
+<!--商品详情页——底部子组件-->
 <template>
   <!-- 商品详情、评论模块 -->
   <div id="fl-goods-bottom-model" class="container fl-container">
@@ -39,9 +40,8 @@
         </div>
       </div>
       <div id="fl-goods-bottom-detail-pictures">
-        <ul>
-          <li><img :src="img1" alt=""></li>
-          <li><img :src="img2" alt=""></li>
+        <ul v-for="item in imgList" :key="item.id">
+          <li><img :src="item.img" alt=""></li>
         </ul>
       </div>
     </div>
@@ -96,6 +96,10 @@ export default{
     },
     msg: {
       type: String,
+      required: true
+    },
+    imgList: {
+      type: Array,
       required: true
     },
     img1: {
