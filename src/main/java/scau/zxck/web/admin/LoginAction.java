@@ -39,10 +39,10 @@ public class LoginAction {
   private HttpSession session;
 
   @RequestMapping(value = "login", method = RequestMethod.POST)
-  public void login(HttpServletResponse response, String jsonStr) throws Exception {
+  public void login(HttpServletResponse response) throws Exception {
     String r = "";
-//    JSONObject data = ReadJSONUtil.readJSONStr(request);
-    JSONObject data = JSONObject.parseObject(jsonStr);
+    JSONObject data = ReadJSONUtil.readJSONStr(request);
+//    JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     if ((boolean) data.get("isAdmin")) {
       Conditions conditions = new Conditions();
@@ -60,11 +60,12 @@ public class LoginAction {
          * 管理员在同一台浏览器重复登录返回值-1，在不同浏览器重复登录返回0,（虽然会登录成功
          * ，但是前一次登录的账号会被刷掉），正常登录返回1
          */
-        if (UserSessionListener.isAreadyEnter2(session, (AdminInfo) list.get(0), response) == -1) {
+        int yhx=UserSessionListener.isAreadyEnter2(session, (AdminInfo) list.get(0), response);
+        if (yhx == -1) {
           temp.put("isCorrect", false);
           temp.put("reLogin", true);
           FlushWriteUtil.flushWrite(response, r);
-        } else if (UserSessionListener.isAreadyEnter2(session, (AdminInfo) list.get(0), response) == 0) {
+        } else if (yhx == 0) {
           temp.put("isCorrect", true);
           AdminInfo admin = (AdminInfo) list.get(0);
           temp.put("Admin_PK", admin.getId());
