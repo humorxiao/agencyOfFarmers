@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.List;
+
 @Controller
 @RequestMapping("/")
 public class LoginAction {
@@ -38,9 +39,10 @@ public class LoginAction {
   private HttpSession session;
 
   @RequestMapping(value = "login", method = RequestMethod.POST)
-  public void login(HttpServletResponse response) throws Exception {
+  public void login(HttpServletResponse response, String jsonStr) throws Exception {
     String r = "";
-    JSONObject data = ReadJSONUtil.readJSONStr(request);
+//    JSONObject data = ReadJSONUtil.readJSONStr(request);
+    JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     if ((boolean) data.get("isAdmin")) {
       Conditions conditions = new Conditions();
@@ -54,12 +56,21 @@ public class LoginAction {
         temp.put("isCorrect", false);
         temp.put("reLogin", false);
       } else {
-        String string = data.get("Admin_Name").toString() + data.get("Admin_Cell").toString() + data.get("Admin_Email").toString();
-        if (UserSessionListener.isAreadyEnter(session, string, response)) {
+        /**
+         * 管理员在同一台浏览器重复登录返回值-1，在不同浏览器重复登录返回0,（虽然会登录成功
+         * ，但是前一次登录的账号会被刷掉），正常登录返回1
+         */
+        if (UserSessionListener.isAreadyEnter2(session, (AdminInfo) list.get(0), response) == -1) {
           temp.put("isCorrect", false);
           temp.put("reLogin", true);
-          FlushWriteUtil.flushWrite(response,r);
-        }else {
+          FlushWriteUtil.flushWrite(response, r);
+        } else if (UserSessionListener.isAreadyEnter2(session, (AdminInfo) list.get(0), response) == 0) {
+          temp.put("isCorrect", true);
+          AdminInfo admin = (AdminInfo) list.get(0);
+          temp.put("Admin_PK", admin.getId());
+          temp.put("SignIn_IsAdmin", true);
+          temp.put("reLogin", true);
+        } else {
           temp.put("isCorrect", true);
           AdminInfo admin = (AdminInfo) list.get(0);
           temp.put("Admin_PK", admin.getId());
@@ -73,18 +84,29 @@ public class LoginAction {
       list = userLoginService.list(conditions.eq("user_password", data.get("User_Password").toString()).and().leftBracket()
         .eq("user_name", data.get("User_Name").toString()).or()
         .eq("user_cell", data.get("User_Cell").toString()).or()
-        .eq("user_email", data.get("User_Email").toString()).rightBracket()
+        .eq("user_email", data.get("User_Email").toString()).rightBracket().and()
+        .eq("user_mark", 0)
       );
       if (list.isEmpty()) {
         temp.put("isCorrect", false);
         temp.put("reLogin", false);
       } else {
-        String string = data.get("User_Name").toString() + data.get("User_Cell").toString() + data.get("User_Email").toString();
-        if (UserSessionListener.isAreadyEnter(session, string, response)) {
+        /**
+         * 普通用户在同一台浏览器重复登录返回值-1（这样的重复登录在第二次的时候不会成功），在不同浏览器重复登录返回0,（虽然会登录成功
+         * ，但是前一次登录的账号会被刷掉），正常登录返回1
+         */
+        int yhx=UserSessionListener.isAreadyEnter(session, (UserInfo) list.get(0), response);
+        if (yhx==-1) {
           temp.put("isCorrect", false);
           temp.put("reLogin", true);
-          FlushWriteUtil.flushWrite(response,r);
-        }else {
+          FlushWriteUtil.flushWrite(response, r);
+        } else if (yhx == 0) {
+          temp.put("isCorrect", true);
+          UserInfo user = (UserInfo) list.get(0);
+          temp.put("User_PK", user.getId());
+          temp.put("SignIn_IsAdmin", false);
+          temp.put("reLogin", true);
+        } else {
           temp.put("isCorrect", true);
           UserInfo user = (UserInfo) list.get(0);
           temp.put("User_PK", user.getId());
@@ -94,7 +116,7 @@ public class LoginAction {
       }
     }
 
-    if ((boolean)temp.get("isCorrect")) {
+    if ((boolean) temp.get("isCorrect")) {
       // 登录日志
       temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
       if (temp.get("SignIn_IsAdmin") == "true") {
@@ -119,8 +141,8 @@ public class LoginAction {
         session.setAttribute("User_PK", temp.get("User_PK"));
       }
     }
-    r=temp.toString();
-    FlushWriteUtil.flushWrite(response,r);
+    r = temp.toString();
+    FlushWriteUtil.flushWrite(response, r);
   }
 
 }

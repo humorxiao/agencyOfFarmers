@@ -62,6 +62,7 @@ import scau.zxck.web.listener.UserSessionListener;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.*;
+import java.util.List;
 import java.util.Random;
 
 @Controller
@@ -107,5 +108,11 @@ public class TestAction {
     new Thread(sendEmail2Util).start();
     return "success";
   }
-
+  @RequestMapping(value = "loginTest", method = RequestMethod.POST)
+  public String loginTest(String name,String password)throws Exception{
+      Conditions conditions=new Conditions();
+      List list=userLoginService.list(conditions.eq("user_name",name).and().eq("user_password",password));
+      if(list!=null) return "success";
+      else return "fail";
+  }
 }
