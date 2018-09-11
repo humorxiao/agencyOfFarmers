@@ -39,10 +39,10 @@ public class LoginAction {
   private HttpSession session;
 
   @RequestMapping(value = "login", method = RequestMethod.POST)
-  public void login(HttpServletResponse response, String jsonStr) throws Exception {
+  public void login(HttpServletResponse response) throws Exception {
     String r = "";
-//    JSONObject data = ReadJSONUtil.readJSONStr(request);
-    JSONObject data = JSONObject.parseObject(jsonStr);
+    JSONObject data = ReadJSONUtil.readJSONStr(request);
+//    JSONObject data = JSONObject.parseObject(jsonStr);
     JSONObject temp = new JSONObject();
     if ((boolean) data.get("isAdmin")) {
       Conditions conditions = new Conditions();
