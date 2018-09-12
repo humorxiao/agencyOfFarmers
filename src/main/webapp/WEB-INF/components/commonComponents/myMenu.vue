@@ -14,7 +14,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.fruit" >
-          <a :href="item.src" target="_blank"><li class = "goods">{{item.fruit}}</li></a>
+          <a :href="item.src"><li class = "goods">{{item.fruit}}</li></a>
           </div>
         </ul>
       </li>
@@ -25,7 +25,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.processedGoods">
-          <a :href="item.src" target="_blank"><li class = "goods">{{item.processedGoods}}</li></a>
+          <a :href="item.src"><li class = "goods">{{item.processedGoods}}</li></a>
         </div></ul>
       </li>
       <li id="fl-menu-vegetable-item" class="list-group-item fl-list-group-item">
@@ -35,7 +35,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.vegetable">
-            <a :href="item.src" target="_blank"><li class = "goods">{{item.vegetable}}</li></a>
+            <a :href="item.src"><li class = "goods">{{item.vegetable}}</li></a>
           </div>
         </ul>
       </li>
@@ -46,7 +46,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.fish">
-          <a :href="item.src" target="_blank"><li class = "goods">{{item.fish}}</li></a>
+          <a :href="item.src"><li class = "goods">{{item.fish}}</li></a>
         </div></ul>
       </li>
       <li id="fl-menu-livestock-item" class="list-group-item fl-list-group-item">
@@ -56,7 +56,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.livestock">
-          <a :href="item.src" target="_blank"><li class = "goods">{{item.livestock}}</li></a>
+          <a :href="item.src"><li class = "goods">{{item.livestock}}</li></a>
         </div></ul>
       </li>
       <li id="fl-menu-plant-item" class="list-group-item fl-list-group-item">
@@ -66,7 +66,7 @@
         </a>
         <ul class="dropdown-menu">
           <div v-for="(item) in menus" :key="item.id" v-if="item.plant">
-          <a :href="item.src" target="_blank"><li class = "goods">{{item.plant}}</li></a>
+          <a :href="item.src"><li class = "goods">{{item.plant}}</li></a>
         </div></ul>
       </li>
     </ul>

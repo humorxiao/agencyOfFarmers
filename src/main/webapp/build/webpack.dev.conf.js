@@ -117,6 +117,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       inject: true,
       chunks: ['goodsSearch']
     }),
+    new HtmlWebpackPlugin({
+      filename: 'adminLogin.html',
+      template: resolve('adminLogin.html'),
+      inject: true,
+      chunks: ['adminLogin']
+    }),
     // copy custom static assets
     new CopyWebpackPlugin([
       {
