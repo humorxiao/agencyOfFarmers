@@ -81,10 +81,8 @@ public class UserInfoAction {
     userLoginService.updateById(userInfo);
     SendEmailUtil sendEmailUtil = new SendEmailUtil(userInfo.getUser_email(), CodeUtil.generateUniqueCode());
     new Thread(sendEmailUtil).start();
-//    temp.put("New_Password", newPassword);
-//    temp.put("URL", sendEmailUtil.getContent());
-//    String r = temp.toString();
-//    FlushWriteUtil.flushWrite(response, r);
+    temp.put("status",1);
+    FlushWriteUtil.flushWrite(response, temp.toString());
   }
 
   @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST)
