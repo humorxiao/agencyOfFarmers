@@ -9,9 +9,10 @@
 </head>
 
 <body>
-<
-<form action="/login" method="post">
-  <input type="text" name="jsonStr">
+<form action="/loginTest" method="post">
+  <input type="text" name="name">
+  <br>
+  <input type="text" name="email">
   <br>
   <input type="submit" value="提交">
   <br>

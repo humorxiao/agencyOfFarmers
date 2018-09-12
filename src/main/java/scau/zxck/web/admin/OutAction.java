@@ -10,7 +10,6 @@ import scau.zxck.web.listener.UserSessionListener;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 
 @Controller
 @RequestMapping("/")
@@ -18,14 +17,14 @@ public class OutAction {
 
   @Autowired
   private HttpSession session;
-
   @RequestMapping(value = "out", method = RequestMethod.POST)
   public void out(HttpServletResponse response)throws Exception{
     JSONObject temp=new JSONObject();
     if(session.getAttribute("isAdmin")!=null){
       if((boolean)session.getAttribute("isAdmin")){
         session.removeAttribute("Admin_PK");
-      } else {
+      }
+      else{
         session.removeAttribute("User_PK");
       }
     }
