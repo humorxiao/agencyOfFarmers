@@ -109,10 +109,10 @@ public class TestAction {
     return "success";
   }
   @RequestMapping(value = "loginTest", method = RequestMethod.POST)
-  public String loginTest(String name,String password)throws Exception{
+  public String loginTest(String name,String email)throws Exception{
       Conditions conditions=new Conditions();
-      List list=userLoginService.list(conditions.eq("user_name",name).and().eq("user_password",password));
-      if(list!=null) return "success";
-      else return "fail";
+      List list=userLoginService.list(conditions.eq("user_name",name).and().eq("user_email",email));
+      if(!list.isEmpty()) return "yhx";
+      else return "yhxq";
   }
 }
