@@ -90,7 +90,7 @@
     <property name="prefix" value="/WEB-INF/pages/"/>
     <property name="suffix" value=".jsp"/>
   </bean>
-<!-- 如果找不到jsp文件就去找html文件-->
+  <!-- 如果找不到jsp文件就去找html文件-->
   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
     <property name="order" value="99"/>
     <property name="viewClass" value="scau.zxck.web.view.DefaultJstlView"/>
