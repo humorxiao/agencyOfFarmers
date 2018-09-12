@@ -33,6 +33,7 @@ module.exports = {
     collection:resolve('WEB-INF/collection.js'),
     registerSuccess:resolve('WEB-INF/registerSuccess.js'),
     goodsSearch:resolve('WEB-INF/goodsSearch.js'),
+    adminLogin:resolve('WEB-INF/adminLogin.js'),
   },
   output: {
     path: config.build.assetsRoot,

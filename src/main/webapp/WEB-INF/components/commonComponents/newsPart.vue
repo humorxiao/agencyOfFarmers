@@ -15,11 +15,11 @@
           <div class="col-md-4 fl-news-img-wrap">
             <img class="lazy fl-news-img img-thumbnail" width="248" height="185"  alt="" v-bind:src="item.pictureSrc" >
           </div>
-          <div class="col-md-8">
+          <div class="col-md-8 news-title">
             <ul>
               <li class="fl-news-title"><a :href="item.src" target="_blank">{{item.newsTitle}}</a></li>
               <li class="fl-news-time">{{item. newsTime}}</li>
-              <li class="fl-news-body">{{item.newsContent}}</li>
+              <!--<li class="fl-news-body">{{item.newsContent}}</li>-->
             </ul>
           </div>
           </a>
@@ -55,6 +55,7 @@ export default {
   padding-left: 825px;
   font-size: medium;
 }
-#more_news a {
+.news-title{
+  margin-top: 80px;
 }
 </style>
