@@ -37,7 +37,8 @@ module.exports = {
     editinfo:resolve('WEB-INF/editinfo.js'),
     myinfo:resolve('WEB-INF/myinfo.js'),
     shoppingbag: resolve('WEB-INF/shoppingbag.js'),
-    history:resolve('WEB-INF/history.js')
+    history:resolve('WEB-INF/history.js'),
+    adminLogin:resolve('WEB-INF/adminLogin.js'),
   },
   output: {
     path: config.build.assetsRoot,
