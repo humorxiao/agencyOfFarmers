@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-  <div id="fl-login" class="container-fluid">
+    <div id="fl-login" class="container-fluid">
       <div class = "info" >
         <transition name="slide-fade">
           <div class="alert alert-danger" role="alert" id="fl-error" v-if="point == 1" :style="{display: block}">
@@ -11,7 +11,7 @@
       </div>
       <div class="panel panel-default">
         <!-- 面板主体 -->
-    <div class="panel-body">
+        <div class="panel-body">
           <form class="form-horizontal">
             <div class="form-group">
               <label for="inputId" class="col-md-3 control-label">帐号</label>
@@ -27,15 +27,15 @@
             </div>
             <!--用户管理员选择按钮，更改需求-->
             <!--<div id="User_Position" class="form-group">-->
-              <!--<label class="col-md-3 control-label">登录身份</label>-->
-              <!--<div class="col-md-9">-->
-                <!--<label class="radio-inline col-md-3">-->
-                  <!--<input type="radio" name="User_Position" value="1" v-model="checked"> 用户-->
-                <!--</label>-->
-                <!--<label class="radio-inline col-md-5">-->
-                  <!--<input type="radio" name="User_Position" value="2" v-model="checked"> 管理员-->
-                <!--</label>-->
-              <!--</div>-->
+            <!--<label class="col-md-3 control-label">登录身份</label>-->
+            <!--<div class="col-md-9">-->
+            <!--<label class="radio-inline col-md-3">-->
+            <!--<input type="radio" name="User_Position" value="1" v-model="checked"> 用户-->
+            <!--</label>-->
+            <!--<label class="radio-inline col-md-5">-->
+            <!--<input type="radio" name="User_Position" value="2" v-model="checked"> 管理员-->
+            <!--</label>-->
+            <!--</div>-->
             <!--</div>-->
             <div class="form-group">
               <label for="yzm" class="col-md-3 control-label">验证码</label>
@@ -53,7 +53,7 @@
           </form>
         </div>
         <!-- 面板脚 -->
-       <div class="panel-footer">
+        <div class="panel-footer">
           <a href="index.html">返回首页</a>
           <a href="register.html">立即注册</a>
           <a href = "adminLogin.html">管理员登录</a>
@@ -68,53 +68,52 @@
 </template>
 
 <script>
-import axios from 'axios'
-export default {
-  name: 'Login',
-  data () {
-    return {
-      id: '',
-      input_password: '',
-      password: '',
-      datas: '',
-      point: '-1',
-      msg: '',
-      checked: '1',
-      block: '',
-      picturesSrc: '/api/getVCODE',
-      login_information: '',
-      login_VCode: '',
-      code: '',
-      inputVCode: '',
-      user_name: '',
-      admin_name: ''
-    }
-  },
-  methods: {
-    open() {
-      if (this.id === '') {
-        this.info('账号不能为空，请填写昵称或者手机号码或者邮箱号码')
-      } else {
-        axios.post().then(response => {
-          if(response.status === 1) {
-            this.$alert('请前往注册邮箱找回密码', '', {
-              confirmButtonText: '确定',
-            });
-          }
-        })
-
+  import axios from 'axios'
+  export default {
+    name: 'Login',
+    data () {
+      return {
+        id: '',
+        input_password: '',
+        password: '',
+        datas: '',
+        point: '-1',
+        msg: '',
+        checked: '1',
+        block: '',
+        picturesSrc: '/api/getVCODE',
+        login_information: '',
+        login_VCode: '',
+        code: '',
+        inputVCode: '',
+        user_name: '',
+        admin_name: ''
       }
     },
-    login: function () {
-      if (this.id === '') {
-        this.info('账号不能为空，请填写昵称或者手机号码或者邮箱号码')
-      } else if (this.input_password === '') {
-        this.info('请输入密码')
-      } else if (this.inputVCode === '') {
-        this.info('请输入验证码')
-      } else {
-        this.password = hex_md5(this.input_password) // 密码加密
-        this.code = {'code': this.inputVCode}
+    methods: {
+      open() {
+        if (this.id === '') {
+          this.info('账号不能为空，请填写昵称或者手机号码或者邮箱号码')
+        } else {
+          axios.post().then(response => {
+            if(response.status === 1) {
+              this.$alert('请前往注册邮箱找回密码', '', {
+                confirmButtonText: '确定',
+              });
+            }
+          })
+        }
+      },
+      login: function () {
+        if (this.id === '') {
+          this.info('账号不能为空，请填写昵称或者手机号码或者邮箱号码')
+        } else if (this.input_password === '') {
+          this.info('请输入密码')
+        } else if (this.inputVCode === '') {
+          this.info('请输入验证码')
+        } else {
+          this.password = hex_md5(this.input_password) // 密码加密
+          this.code = {'code': this.inputVCode}
           if (/0?(13|14|15|18|17)[0-9]{9}/.test(this.id) === true) { // 手机
             this.datas = {
               'isAdmin': false,
@@ -140,7 +139,6 @@ export default {
               'User_Email': ''
             }
           }
-
           /**
            * 嵌套验证，先发送请求，验证验证码是否正确，再进行验证用户信息
            */
@@ -150,7 +148,7 @@ export default {
                 if (response.data.reLogin === true) {
                   this.info('您已在线，不可重复登录')
                 } else if (response.data.reLogin === false && response.data.isCorrect === true) {
-                    window.location.href = 'index.html'
+                  window.location.href = 'index.html'
                 } else {
                   this.info('用户名或密码错误')
                 }
@@ -163,23 +161,22 @@ export default {
           }).catch(function (error) {
             console.log(error)
           })
+        }
+      },
+      /**
+       * 信息提示
+       */
+      info: function (msg) {
+        this.$message.error(msg)
+      },
+      /**
+       * 获取验证码
+       */
+      getVCode: function () {
+        this.picturesSrc= '/api/getVCODE?operation=getVCode&&='+ Math.random()
       }
-    },
-    /**
-     * 信息提示
-     */
-    info: function (msg) {
-      this.$message.error(msg)
-    },
-    /**
-     * 获取验证码
-     */
-    getVCode: function () {
-      this.picturesSrc= '/api/getVCODE?operation=getVCode&&='+ Math.random()
     }
   }
-}
-
 </script>
 
 <style scoped>

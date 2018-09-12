@@ -146,7 +146,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       filename: 'myinfo.html',
       template: resolve('myinfo.html'),
       inject: true,
-      chunks:['myinfo']
+      chunks: ['myinfo']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'adminLogin.html',
+      template: resolve('adminLogin.html'),
+      inject: true,
+      chunks: ['adminLogin']
     }),
     // copy custom static assets
     new CopyWebpackPlugin([

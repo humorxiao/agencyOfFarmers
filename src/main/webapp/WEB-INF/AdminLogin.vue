@@ -104,54 +104,53 @@
         } else {
           this.password = hex_md5(this.input_password) // 密码加密
           this.code = {'code': this.inputVCode}
-            if (/0?(13|14|15|18|17)[0-9]{9}/.test(this.id) === true) { // 手机
-              this.datas = {
-                'isAdmin': true,
-                'Admin_Password': this.password,
-                'Admin_Cell': this.id,
-                'Admin_Name': '',
-                'Admin_Email': ''
-              }
-            } else if (/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(this.id) === true) { // 邮箱
-              this.datas = {
-                'isAdmin': true,
-                'Admin_Password': this.password,
-                'Admin_Cell': '',
-                'Admin_Name': '',
-                'Admin_Email': this.id}
-            } else { // 昵称
-              this.datas = {
-                'isAdmin': true,
-                'Admin_Password': this.password,
-                'Admin_Cell': '',
-                'Admin_Name': this.id,
-                'Admin_Email': ''
-              }
+          if (/0?(13|14|15|18|17)[0-9]{9}/.test(this.id) === true) { // 手机
+            this.datas = {
+              'isAdmin': true,
+              'Admin_Password': this.password,
+              'Admin_Cell': this.id,
+              'Admin_Name': '',
+              'Admin_Email': ''
             }
-            /**
-             * 嵌套验证，先发送请求，验证验证码是否正确，再进行验证用户信息
-             */
-            axios.post('/api/validateVCode', this.code).then(response => { // 验证码验证
-              if (response.data.status === 1) {
-                axios.post('/api/login', this.datas).then(response => { // 登录信息验证
-                  if (response.data.reLogin === true) {
-                    this.info('您已在线，不可重复登录')
-                  } else if (response.data.reLogin === false && response.data.isCorrect === true) {
-                      window.location.href = 'editinfo.html'
-                      // alert('管理员登录成功，用户名为' + JSON.stringify(response.data.Admin_Name))
-                  } else {
-                    this.info('用户名或密码错误')
-                  }
-                }).catch(function (error) {
-                  console.log(error)
-                })
-              } else {
-                this.info('验证码错误')
-              }
-            }).catch(function (error) {
-              console.log(error)
-            })
-
+          } else if (/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(this.id) === true) { // 邮箱
+            this.datas = {
+              'isAdmin': true,
+              'Admin_Password': this.password,
+              'Admin_Cell': '',
+              'Admin_Name': '',
+              'Admin_Email': this.id}
+          } else { // 昵称
+            this.datas = {
+              'isAdmin': true,
+              'Admin_Password': this.password,
+              'Admin_Cell': '',
+              'Admin_Name': this.id,
+              'Admin_Email': ''
+            }
+          }
+          /**
+           * 嵌套验证，先发送请求，验证验证码是否正确，再进行验证用户信息
+           */
+          axios.post('/api/validateVCode', this.code).then(response => { // 验证码验证
+            if (response.data.status === 1) {
+              axios.post('/api/login', this.datas).then(response => { // 登录信息验证
+                if (response.data.reLogin === true) {
+                  this.info('您已在线，不可重复登录')
+                } else if (response.data.reLogin === false && response.data.isCorrect === true) {
+                  window.location.href = 'editinfo.html'
+                  // alert('管理员登录成功，用户名为' + JSON.stringify(response.data.Admin_Name))
+                } else {
+                  this.info('用户名或密码错误')
+                }
+              }).catch(function (error) {
+                console.log(error)
+              })
+            } else {
+              this.info('验证码错误')
+            }
+          }).catch(function (error) {
+            console.log(error)
+          })
         }
       },
       /**
@@ -168,7 +167,6 @@
       }
     }
   }
-
 </script>
 
 <style scoped>
