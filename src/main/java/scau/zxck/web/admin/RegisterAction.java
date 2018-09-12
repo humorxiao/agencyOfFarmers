@@ -49,13 +49,11 @@ public class RegisterAction {
     List list =
       userRegisterService.list(conditions.eq("user_name", data.get("User_Name").toString()).or()
         .eq("user_cell", data.get("User_Cell").toString()).or()
-        .eq("user_email", data.get("User_Email").toString()).or()
-        .eq("user_id", data.get("User_ID").toString()));
+        .eq("user_email", data.get("User_Email").toString()));
     boolean flag;
     temp.put("User_Name", true);
     temp.put("User_Email", true);
     temp.put("User_Cell", true);
-    temp.put("User_ID", true);
     if (list.isEmpty()) {
       flag = true;
     } else {
@@ -64,7 +62,6 @@ public class RegisterAction {
       if (userInfo.getUser_name().equals(data.get("User_Name").toString())) temp.put("User_Name", false);
       if (userInfo.getUser_email().equals(data.get("User_Email").toString())) temp.put("User_Email", false);
       if (userInfo.getUser_cell().equals(data.get("User_Cell").toString())) temp.put("User_Cell", false);
-      if (userInfo.getUser_id().equals(data.get("User_ID").toString())) temp.put("User_ID", false);
     }
     if (flag) {
       UserInfo userInfo = new UserInfo();
@@ -74,8 +71,6 @@ public class RegisterAction {
       userInfo.setUser_email(data.get("User_Email").toString());
       userInfo.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
       userInfo.setUser_regtime(data.get("User_RegTime").toString());
-      userInfo.setUser_realname(data.get("User_Realname").toString());
-      userInfo.setUser_id(data.get("User_ID").toString());
       userInfo.setCart(new CartInfo());
       userInfo.setDeliveryaddress(new DeliveryAddress());
       userRegisterService.add(userInfo);
