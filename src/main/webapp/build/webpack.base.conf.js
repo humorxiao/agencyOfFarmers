@@ -35,7 +35,8 @@ module.exports = {
     goodsSearch:resolve('WEB-INF/goodsSearch.js'),
     myinfo:resolve('WEB-INF/myinfo.js'),
     shoppingbag: resolve('WEB-INF/shoppingbag.js'),
-    history:resolve('WEB-INF/history.js')
+    history:resolve('WEB-INF/history.js'),
+    adminLogin:resolve('WEB-INF/adminLogin.js'),
   },
   output: {
     path: config.build.assetsRoot,

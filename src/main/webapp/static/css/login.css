@@ -13,7 +13,7 @@ html, body {
 #fl-login .panel {
   position: absolute;
   width: 390px;
-  height: 370px;
+  height: 300px;
   top: 0;
   bottom: 0;
   left: 0;
@@ -55,8 +55,8 @@ html, body {
   text-decoration: none;
 }
 
-#fl-login .panel-footer a:first-child {
-  margin-right: 60px;
+#fl-login .panel-footer a {
+  margin: 0 15px;
 }
 
 #fl-login .panel-footer a:hover, #fl-login .panel-footer a:focus {
@@ -79,4 +79,25 @@ html, body {
   background-image: url(../image/error.svg);
   background-repeat: no-repeat;
   background-size: 100%;
+}
+#login {
+  height: 100%;
+}
+#adminLogin {
+  height: 100%;
+}
+.info{
+  margin-top: 30px;
+  text-align: center;
+}
+.slide-fade-enter-active {
+  transition: all .4s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active 用于 2.1.8 以下版本 */ {
+  transform: translateY(-100px);
+  opacity: 0;
 }

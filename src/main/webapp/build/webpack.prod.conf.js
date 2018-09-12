@@ -260,7 +260,6 @@ const webpackConfig = merge(baseWebpackConfig, {
       thunks: ['manifest', 'vendor', 'demo']
 
     }),
-
     new HtmlWebpackPlugin({
       filename: process.env.NODE_ENV === 'testing'
         ? 'myinfo.html'
@@ -278,7 +277,23 @@ const webpackConfig = merge(baseWebpackConfig, {
       chunksSortMode: 'dependency',
       chunks: ['manifest','vendor','myinfo']
     }),
-
+    new HtmlWebpackPlugin({
+      filename: process.env.NODE_ENV === 'testing'
+        ? 'adminLogin.html'
+        : config.build.adminLogin,
+      template: 'adminLogin.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency',
+      chunks: ['manifest','vendor','myinfo']
+    }),
     new HtmlWebpackPlugin({
       filename: process.env.NODE_ENV === 'testing'
         ? 'history.html'
@@ -296,7 +311,6 @@ const webpackConfig = merge(baseWebpackConfig, {
       chunksSortMode: 'dependency',
       chunks: ['manifest','vendor','history']
     }),
-
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting
