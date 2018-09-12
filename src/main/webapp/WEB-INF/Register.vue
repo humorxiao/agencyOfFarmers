@@ -28,18 +28,18 @@
               <input type="text" class="form-control" id="User_Email" placeholder="请输入邮箱" v-model="email">
             </div>
           </div>
-          <div class="form-group">
-            <label for="User_Realname" class="col-md-3 control-label">真实姓名</label>
-            <div class="col-md-7">
-              <input type="text" class="form-control" id="User_Realname" placeholder="请输入真实姓名" v-model="realname">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="User_ID" class="col-md-3 control-label">身份证号码</label>
-            <div class="col-md-7">
-              <input type="text" class="form-control" id="User_ID" placeholder="请输入身份证号码" v-model="id">
-            </div>
-          </div>
+          <!--<div class="form-group">-->
+            <!--<label for="User_Realname" class="col-md-3 control-label">真实姓名</label>-->
+            <!--<div class="col-md-7">-->
+              <!--<input type="text" class="form-control" id="User_Realname" placeholder="请输入真实姓名" v-model="realname">-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="form-group">-->
+            <!--<label for="User_ID" class="col-md-3 control-label">身份证号码</label>-->
+            <!--<div class="col-md-7">-->
+              <!--<input type="text" class="form-control" id="User_ID" placeholder="请输入身份证号码" v-model="id">-->
+            <!--</div>-->
+          <!--</div>-->
           <div class="form-group">
             <label for="User_Cell" class="col-md-3 control-label">手机号码</label>
             <div class="col-md-7">
@@ -298,15 +298,17 @@ export default {
         this.alertError('请输入邮箱地址')
       } else if (!correctEmail) {
         this.alertError('请输入正确的邮箱地址')
-      } else if (this.realname === '') {
-        this.alertError('请输入真实姓名')
-      } else if (!regName) {
-        this.alertError('请输入有效的真实姓名')
-      } else if (this.id === '') {
-        this.alertError('请输入身份证号码')
-      } else if (!regIdNo) {
-        this.alertError('身份证号码有误')
-      } else if (this.cell === '') {
+      }
+      // else if (this.realname === '') {
+      //   this.alertError('请输入真实姓名')
+      // } else if (!regName) {
+      //   this.alertError('请输入有效的真实姓名')
+      // } else if (this.id === '') {
+      //   this.alertError('请输入身份证号码')
+      // } else if (!regIdNo) {
+      //   this.alertError('身份证号码有误')
+      // }
+      else if (this.cell === '') {
         this.alertError('请输入手机号码')
       } else if (!correctCell) {
         this.alertError('请输入有效的手机号码')
@@ -324,14 +326,14 @@ export default {
       this.checkInformation()
       this.password = hex_md5(this.newPassword)
       this.datas = {
-        'User_ID': this.id,
+        // 'User_ID': this.id,
         'User_Password': this.password,
         'User_Name': this.name,
         'User_Email': this.email,
         'User_RegTime': '',
         'User_Cell': this.cell,
         'User_Sex': this.sex,
-        'User_Realname': this.realname
+        // 'User_Realname': this.realname
       }
       axios.post('/api/register', this.datas).then((response) => {
         if (response.data.isSuccess === true) {
@@ -340,9 +342,11 @@ export default {
           this.alertError('邮箱已被注册，请重新输入')
         } else if (response.data.User_Name === false) {
           this.alertError('用户名已被注册，请重新输入')
-        } else if (response.data.User_ID === false) {
-          this.alertError('身份证号码已被注册，请重新输入')
-        } else if (response.data.User_Cell === false) {
+        }
+        // else if (response.data.User_ID === false) {
+        //   this.alertError('身份证号码已被注册，请重新输入')
+        // }
+        else if (response.data.User_Cell === false) {
           this.alertError('电话号码已被注册，请重新输入')
         }
       }).catch(function (error) {
