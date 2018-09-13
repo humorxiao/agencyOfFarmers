@@ -104,7 +104,6 @@ export default {
         })
 
       }
-
     },
     login: function () {
       if (this.id === '') {
