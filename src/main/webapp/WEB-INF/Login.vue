@@ -92,9 +92,19 @@ export default {
   },
   methods: {
     open() {
-      this.$alert('请前往注册邮箱找回密码', '', {
-        confirmButtonText: '确定',
-      });
+      if (this.id === '') {
+        this.info('账号不能为空，请填写昵称或者手机号码或者邮箱号码')
+      } else {
+        axios.post().then(response => {
+          if(response.status === 1) {
+            this.$alert('请前往注册邮箱找回密码', '', {
+              confirmButtonText: '确定',
+            });
+          }
+        })
+
+      }
+
     },
     login: function () {
       if (this.id === '') {
