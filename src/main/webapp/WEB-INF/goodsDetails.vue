@@ -7,7 +7,7 @@
     <goods-top-model></goods-top-model>
     <goods-bottom-model></goods-bottom-model>
     <bottom></bottom>
-    <router-view/>
+
   </div>
 </template>
 
