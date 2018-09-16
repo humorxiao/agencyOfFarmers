@@ -9,7 +9,6 @@
     <newspartfather></newspartfather>
     <bottom></bottom>
     <returnbottom></returnbottom>
-    <router-view/>
   </div>
 
 </template>

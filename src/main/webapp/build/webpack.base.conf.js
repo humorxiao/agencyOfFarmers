@@ -37,6 +37,7 @@ module.exports = {
     shoppingbag: resolve('WEB-INF/shoppingbag.js'),
     history:resolve('WEB-INF/history.js'),
     adminLogin:resolve('WEB-INF/adminLogin.js'),
+    editinfo:resolve('WEB-INF/editinfo.js'),
   },
   output: {
     path: config.build.assetsRoot,

@@ -142,6 +142,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       inject: true,
       chunks: ['adminLogin']
     }),
+    new HtmlWebpackPlugin({
+      filename: 'editinfo.html',
+      template: resolve('editinfo.html'),
+      inject: true,
+      chunks: ['editinfo']
+    }),
     // copy custom static assets
     new CopyWebpackPlugin([
       {

@@ -253,7 +253,7 @@
         </div>
     </div>
     </transition>
-  <router-view/>
+
   </div>
 </div>
 

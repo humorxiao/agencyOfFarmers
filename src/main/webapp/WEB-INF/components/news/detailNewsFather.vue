@@ -2,7 +2,7 @@
 <template>
   <div id="details">
     <detail :title="title" :timeAndSource="timeAndSource" :content="content"></detail>
-    <router-view/>
+
   </div>
 </template>
 

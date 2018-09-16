@@ -3,7 +3,7 @@
     <contactnavbar></contactnavbar>
     <aboutus></aboutus>
     <menberintroduce></menberintroduce>
-  <router-view/>
+
   </div>
 </template>
 
