@@ -2,7 +2,6 @@
   <div id="morenews">
     <morenewsfather></morenewsfather>
     <bottom></bottom>
-    <router-view/>
   </div>
 </template>
 

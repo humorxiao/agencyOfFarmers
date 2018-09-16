@@ -2,7 +2,7 @@
   <div id="details">
     <detailnewsfather></detailnewsfather>
     <bottom></bottom>
-    <router-view/>
+
   </div>
 </template>
 
