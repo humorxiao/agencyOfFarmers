@@ -2,8 +2,8 @@
   <div>
   <div class="col-xs-8 col-xs-offset-2 column slide"
        style="height: 21px;"></div>
-  <edit v-bind:goodsname="goodsname_edit" :goodsid ="goodsid_edit" :input="input" :local_Goods_List="this.local_Goods_List" :local_Goods_Num="this.local_Goods_Num"></edit>
-  <pay v-bind:sum="sum" :count="count" :Goods_List_BackUp="Goods_List_BackUp" :Goods_Num_BackUp="Goods_Num_BackUp"></pay>
+  <edit v-bind:goodsname="goodsname_edit" :goodsid ="goodsid_edit" :input="input" :local_Goods_List="this.local_Goods_List"> </edit>
+  <pay v-bind:sum="this.sum" :count="this.count" :Goods_List_pay="this.Goods_List_pay":goods_list="this.goods_list" ></pay>
   <br>
   <br>
   <br>
@@ -19,7 +19,7 @@
         <table class="table">
           <thead>
           <tr>
-            <th><input type="checkbox"  @click="selectAll()">全选</th>
+            <th><input type="checkbox"  @click="selectAll()":checked="checked.length==goods_list.length">全选</th>
             <th>商品名称</th>
             <th>单价(单位：元)</th>
             <th>数量(单位：份)</th>
@@ -28,8 +28,8 @@
           </tr>
           </thead>
           <tbody >
-          <tr v-for="(good,index) of goods_list" >
-            <td><input type="checkbox" v-bind:value="index"  v-model="checked" @click="countTotal()" ></td>
+          <tr v-for="(good, index) in  goods_list" :key="good.id" >
+            <td><input type="checkbox" :value="good" v-model="checked"  ></td>
             <td>{{good.name}}</td>
             <td>{{good.price}}</td>
             <td v-bind:id="good.id">{{good.num}}</td>
@@ -55,9 +55,9 @@
                id="bs-example-navbar-collapse-1">
 
             <ul id="account-panel" class="nav navbar-nav navbar-right">
-              <li><a><b>已选产品：<span id="currentcount">{{count}}</span>项
+              <li><a><b>已选产品：<span id="currentcount">{{sum}}</span>项
               </b></a></li>
-              <li><a><b>共计：<span id="currentmoney">{{sum}}</span>元
+              <li><a><b>共计：<span id="currentmoney">{{count}}</span>元
               </b></a></li>
               <li>
                 <!-- <a onclick=addOrder()><b>提交订单</b></a> -->
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
 import pay from './bag-pay.vue'
 import edit from './bag-edit.vue'
 export default {
@@ -85,91 +86,73 @@ export default {
   props: {
     goods_list: {type: Array, required: true},
     local_Goods_List: {type: Array, required: true},
-    local_Goods_Num: {type: Array, required: true}
-
   },
   data () {
     return {
-      Goods_List_pay: '',
-      Goods_Num_pay: '',
-      Goods_Prices_pay: '',
+      Goods_List_pay: [],
       checked: [],
-      isCheckedall: false,
       goodsname_edit: '',
       goodsnum_edit: '',
       goodsid_edit: '',
       num: '',
       input: '',
-      sum: '',
-      count: '',
-      Goods_List_BackUp: [],
-      Goods_Num_BackUp: []
+      Goods_List:'',
+      Goods_Num:''
     }
   },
+ computed: {
+    count(){
+      let price =0
+      this.checked.forEach(item =>{
+        price += item.price*item.num
+      })
+      return price.toString()
+    },
+   sum(){
+      let num1 = 0
+     this.checked.forEach(item =>{
+      num1++
+     })
+     return num1.toString()
+   }
+ },
   methods: {
     selectAll: function () {
-      this.isCheckedall = !this.isCheckedall
-      if (this.isCheckedall) {
-        this.checked = []
-        for (let i = 0; i < this.goods_list.length; i++) {
-          this.checked.push(i)
-        }
-      } else {
-        this.checked = []
-      }
+     if(this.checked.length>0)
+     {this.checked = []}
+     else{
+       this.goods_list.forEach(item=>{
+         this.checked.push(item)
+       })
+     }
     },
 
     showEditPanel: function (id, name, number) {
-      this.input = number
+      this.input = number.toString()
       this.goodsname_edit = name
       this.goodsnum_edit = number
       this.goodsid_edit = id
     },
     deleteCartGoods: function (index) {
       this.goods_list.splice(index, 1)
-      // var index = local_Goods_List.indexOf(Goods_PK);
-      //  if (index > -1) {
-      //   local_Goods_List.splice(index, 1);
-      //  local_Goods_Num.splice(index, 1);
-      //   var ret = alterCart();
-      //   if (ret == 1) {
-
-      //     this.goods_list.splice(index, 1)
-      //   } else {
-      //     alert("删除商品失败");
-      //
-      //   }
-      //   countTotal();
-      // }
-    },
-
-    alterCart: function () {
-
-    },
-    countTotal: function () {
-      var sum1 = 0
-      var count1 = 0
-      for (let i = 0; i < this.checked.length; i++) {
-        var n = this.checked[i]
-        sum1 += this.goods_list[n].num * this.goods_list[n].price
-        count1++
+      for(let i = 0; i<this.goods_list.length;i++)
+      {
+          this.Goods_List += this.goods_list[i].id+'#'
+          this.Goods_Num += this.goods_list[i].num+'#'
       }
-      this.sum = sum1
-      this.count = count1
-    },
-    pay: function () {
-      this.Goods_List_BackUp = this.local_Goods_List
-      this.Goods_Num_BackUp = this.local_Goods_Num
-      for (let i = 0; i < this.checked.length; i++) {
-        this.Goods_List_pay += this.goods_list[i].id + '#'
-        this.Goods_Num_pay += this.goods_list[i].num + '#'
-        this.Goods_Prices_pay += this.goods_list[i].price + '#'
-        var index = this.Goods_List_BackUp.indexOf(this.goods_list[i].id)
-        if (index > -1) {
-          this.Goods_List_BackUp.splice(index, 1)
-          this.Goods_Num_BackUp.splice(index, 1)
+      var data={'Goods_List':this.Goods_List,'Goods_Num':this.Goods_Num}
+      console.log(data)
+     axios.post('/api/alterCart', data).then(response => {
+        if(response.data.status === 1)
+        {
+          console.log('true')
         }
-      }
+        else {alert('error')}
+      })
+    },
+
+    pay: function () {
+    this.Goods_List_pay = this.checked
     }
   }
 }
