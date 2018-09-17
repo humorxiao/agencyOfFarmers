@@ -6,20 +6,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.entity.market.NodeInfo;
-import scau.zxck.entity.market.TypeInfo;
 import scau.zxck.entity.market.ValueItemInfo;
 import scau.zxck.entity.sys.SystemUserInfo;
 import scau.zxck.service.market.INodeInfoService;
 import scau.zxck.service.market.ITypeInfoService;
 import scau.zxck.service.market.IValueItemService;
 import scau.zxck.service.sys.ISystemUserService;
-import scau.zxck.utils.ReadJSON;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -44,15 +42,15 @@ public class ValueAction {
 
     @RequestMapping(value = "addValue", method = RequestMethod.POST)
     public void addValue(HttpServletResponse response) throws Exception {
-        String jsonStr;
         String r = "";
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         String value = data.get("value").toString();
         String type_info_id = data.get("typeid").toString();
         String node_info_id = data.get("nodeid").toString();
         String recordingtime = data.get("recordingtime").toString();
         String note = data.get("note").toString();
-        String system_info_id = session.getAttribute("loginUser").toString();
+        SystemUserInfo systemUserInfo=(SystemUserInfo)session.getAttribute("loginUser");
+        String system_info_id = systemUserInfo.getId();
         ValueItemInfo valueItemInfo = new ValueItemInfo();
         valueItemInfo.setValue(value);
         valueItemInfo.setNote(note);
@@ -64,25 +62,20 @@ public class ValueAction {
         valueItemInfo.setType(typeInfoService.findById(type_info_id));
         Date date = simpleDateFormat.parse(recordingtime);
         valueItemInfo.setRecordingtime(simpleDateFormat.format(date).toString());
-        PrintWriter out = response.getWriter();
         try {
             valueItemService.add(valueItemInfo);
             r = "{\"status\":\"1\",\"msg\":\"添加成功\",\"userid\":\"" + valueItemInfo.getUser().getId() + "\"," + "\"username:\""
                     + valueItemInfo.getUser().getSystem_user_name() + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
                     + "\",\"recordingtime\":\"" + valueItemInfo.getRecordingtime() +
                     "\"}";
-            out.flush();
-            out.write(r);
-            out.flush();
+            FlushWriteUtil.flushWrite(response,r);
         } catch (Exception e) {
             e.printStackTrace();
             r = "{\"status\":\"0\",\"msg\":\"添加失败\",\"userid\":\"" + valueItemInfo.getUser().getId() + "\"," + "\"username:\""
                     + valueItemInfo.getUser().getSystem_user_name() + "\",\"typename\":\"" + valueItemInfo.getType().getType_name()
                     + "\",\"recordingtime\":\"" + valueItemInfo.getRecordingtime() +
                     "\"}";
-            out.flush();
-            out.write(r);
-            out.flush();
+            FlushWriteUtil.flushWrite(response,r);
         }
     }
 
@@ -113,29 +106,28 @@ public class ValueAction {
         }
         r.append("]}");
         System.out.println(r);
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
 
     @RequestMapping(value = "deleteValueItem", method = RequestMethod.POST)
     public void deleteValueItem(HttpServletResponse response) throws Exception {
         String r = "{\"status\":\"\",\"msg\":\"\"}";//返回的字符串
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         String id = data.get("itemid").toString();
         SystemUserInfo user = (SystemUserInfo) session.getAttribute("loginUser");
-        valueItemService.deleteByIds(id);
-        r = "{\"status\":\"1\",\"msg\":\"删除成功\"}";
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        try {
+          valueItemService.deleteByIds(id);
+          r = "{\"status\":\"1\",\"msg\":\"删除成功\"}";
+        }catch (Exception e){
+          e.printStackTrace();
+          r = "{\"status\":\"0\",\"msg\":\"删除失败\"}";
+        }
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getMyValues", method = RequestMethod.POST)
     public void getMyValues(HttpServletResponse response) throws Exception {
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         System.out.println("test2");
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
@@ -149,12 +141,14 @@ public class ValueAction {
         String endtime = data.get("endtime").toString();
         String typeid = data.get("typeid").toString();
         String nodeid = data.get("nodeid").toString();
-        Date begin = simpleDateFormat.parse(starttime);
-        Date end = simpleDateFormat.parse(endtime);
+        String begin=starttime;
+        String end=endtime;
+
         SystemUserInfo user = (SystemUserInfo) session.getAttribute("loginUser");
         List list = null;
         List list1 = null;
         int count = 0;
+        System.out.println("a-------------------");
         if (user != null) {//管理员
             Conditions conditions = new Conditions();
             /**
@@ -163,14 +157,19 @@ public class ValueAction {
              * 				+ " and en.node.nodeid=:nodeid"
              * 				+ " order by en.recordingtime asc";
              */
-            list = valueItemService.list(conditions.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid).limit((currentpage - 1) * rows, rows).asc("recordingtime"));
+          //conditions=conditions.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid).asc("recordingtime").limit((currentpage - 1) * rows, rows);
+          System.out.println(conditions.toWhereSQL());
+            list = valueItemService.list(conditions.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid).asc("recordingtime").limit((currentpage - 1) * rows, rows));
+
             /**
              * String hql="select count(*) from ValueItem en where en.recordingtime between :begin and :end and"
              * 				+ " en.type.typeid=:typeid"
              * 				+ " and en.node.nodeid=:nodeid";
              */
             Conditions conditions1 = new Conditions();
+            //conditions1=conditions1.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid);
             list1 = valueItemService.list(conditions1.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid));
+            System.out.println("--------------hello world");
             if (list1 != null && list1.size() == 1) {
                 count = (int) list1.get(0);
             } else count = 0;
@@ -203,17 +202,14 @@ public class ValueAction {
             pages = count / rows + 1;
         }
         r.append("\"pages\":\"" + pages + "\"}");
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
 
     @RequestMapping(value = "getValueItem", method = RequestMethod.POST)
     public void getValueItem(HttpServletResponse response) throws Exception {
         StringBuffer r = new StringBuffer();//返回的字符串
         request.setCharacterEncoding("utf-8");
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         String id = data.get("itemid").toString();
         ValueItemInfo n = valueItemService.findById(id);
         n.setNode(nodeInfoService.findById(n.getNode_info_id()));
@@ -234,16 +230,13 @@ public class ValueAction {
         } else {
             r.append("{\"status\":\"0\"}");
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
 
     @RequestMapping(value = "searchAllValuesByType", method = RequestMethod.POST)
     public void searchAllValuesByType(HttpServletResponse response) throws Exception {
         System.out.println("test2");
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
         request.setCharacterEncoding("utf-8");
@@ -289,10 +282,7 @@ public class ValueAction {
             pages = count / rows + 1;
         }
         r.append("\"pages\":\"" + pages + "\"}");
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
 
     @RequestMapping(value = "searchValues", method = RequestMethod.POST)
@@ -301,7 +291,7 @@ public class ValueAction {
         StringBuffer r = new StringBuffer();//返回的字符串
         r.append("{\"status\":\"1\",\"ValueList\":[");
         request.setCharacterEncoding("utf-8");
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         int currentpage = 1;
         int rows = 0;
         int count = 0;
@@ -309,21 +299,22 @@ public class ValueAction {
         String endtime = data.get("endtime").toString();
         String typeid = data.get("typeid").toString();
         String nodeid = data.get("nodeid").toString();
-        Date begin = simpleDateFormat.parse(starttime);
-        Date end = simpleDateFormat.parse(endtime);
+        String begin = starttime;
+        String end = endtime;
         List list = null;
         List list1 = null;
         if (data.get("page") != null && Integer.parseInt(data.get("page").toString()) != 0) {
             currentpage = Integer.parseInt(data.get("page").toString());
             rows = Integer.parseInt(data.get("rows").toString());
             Conditions conditions = new Conditions();
-            list = valueItemService.list(conditions.eq("type_info_id", typeid).and().eq("node_info_id", nodeid).between("recordingtime", begin, end));
+            list = valueItemService.list(conditions.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid));
             if (list != null && list.size() == 1) {
                 count = (int) list.get(0);
             } else count = 0;
+            Conditions conditions1=new Conditions();
 //            count=(int)uService.getCount(typeid, nodeid, begin, end);
 //            list = uService.search(typeid, nodeid, begin, end, currentpage, rows);
-            list1 = valueItemService.list(conditions.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid).limit((currentpage - 1) * rows, rows).asc("recordingtime"));
+            list1 = valueItemService.list(conditions1.between("recordingtime", begin, end).and().eq("type_info_id", typeid).and().eq("node_info_id", nodeid).asc("recordingtime").limit((currentpage - 1) * rows, rows));
         } else {
             currentpage = 1;
 //            count = (int) uService.getCount(typeid, nodeid, begin, end);
@@ -364,9 +355,6 @@ public class ValueAction {
             pages = count / rows + 1;
         }
         r.append("\"pages\":\"" + pages + "\"}");
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r.toString());
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r.toString());
     }
 }

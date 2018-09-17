@@ -1,29 +1,22 @@
 package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.CartInfo;
 import scau.zxck.entity.market.DeliveryAddress;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.ICartInfoService;
 import scau.zxck.service.market.IDeliveryAddressService;
 import scau.zxck.service.sys.IUserRegisterService;
-import scau.zxck.utils.JSONclass;
-import scau.zxck.web.test.UserInfo2Test;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -47,15 +40,8 @@ public class RegisterAction {
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
 //  @Test
-    public void register( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject data = JSONObject.parseObject(jsonStr);
+    public void register(HttpServletResponse response) throws Exception {
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         JSONObject temp = new JSONObject();
         data.put("User_RegTime", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss").format(new Date())).toString());
         boolean flag;
@@ -90,8 +76,6 @@ public class RegisterAction {
         } else {
             UserInfo user = (UserInfo) list.get(0);
             temp.put("User_PK", user.getId());
-
-            // 生成购物车和收货地址ַ
             data.put("Cart_PK", temp.get("User_PK").toString());
             CartInfo cartInfo = new CartInfo();
             cartInfo.setId(data.get("Cart_PK").toString());
@@ -111,14 +95,8 @@ public class RegisterAction {
 
     @RequestMapping(value = "validateAccount", method = RequestMethod.POST)
     public void validateAccount( HttpServletResponse response) throws Exception {
-      String r="";
-      BufferedReader br = request.getReader();
-      String str, wholeStr = "";
-      while((str = br.readLine()) != null){
-        wholeStr += str;
-      }
-      String jsonStr=wholeStr;
-        JSONObject data = JSONObject.parseObject(jsonStr);
+        String r = "";
+        JSONObject data= ReadJSONUtil.readJSONStr(request);
         Conditions conditions = new Conditions();
         if (!data.get("User_Name").toString().equals("")) {
             List list =
@@ -144,9 +122,6 @@ public class RegisterAction {
             } else
                 r = "{\"status\":1}";
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }

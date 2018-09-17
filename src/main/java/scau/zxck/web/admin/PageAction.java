@@ -2,25 +2,22 @@ package scau.zxck.web.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.base.exception.BaseException;
 import scau.zxck.entity.market.OrderInfo;
 import scau.zxck.entity.market.UnionNews;
 import scau.zxck.service.market.IOrderInfoService;
 import scau.zxck.service.market.IUnionNewsService;
 import scau.zxck.service.sys.IUserLoginService;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.JSONArrayPagingUtil;
+import scau.zxck.utils.ReadJSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
@@ -52,22 +49,12 @@ public class PageAction {
       }
     }
     String r = jsonarr.toString();
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
+    FlushWriteUtil.flushWrite(response,r);
   }
 
   @RequestMapping(value = "getBulletin", method = RequestMethod.POST)
   public void getBulletin(HttpServletResponse response) throws Exception {
-    String r="";
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    String jsonStr=wholeStr;
-    JSONObject pageInfo = JSONObject.parseObject(jsonStr);
+    JSONObject pageInfo= ReadJSONUtil.readJSONStr(request);
     JSONArray jsonarr = new JSONArray();
     List list = unionNewsService.listAll();
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
@@ -81,23 +68,13 @@ public class PageAction {
         jsonarr.add(temp);
       }
     }
-     r = JSONArrayPaging(jsonarr, pageInfo).toString();
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
+    String r = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo).toString();
+    FlushWriteUtil.flushWrite(response,r);
   }
 //  @Test
   @RequestMapping(value = "getAfterSaleOrderPaging", method = RequestMethod.POST)
-  public void getAfterSaleOrderPaging(String jsonStr2,HttpServletResponse response) throws Exception {
-    String r="";
-    BufferedReader br = request.getReader();
-    String str, wholeStr = "";
-    while((str = br.readLine()) != null){
-      wholeStr += str;
-    }
-    String jsonStr=wholeStr;
-    JSONObject data = JSONObject.parseObject(jsonStr);
+  public void getAfterSaleOrderPaging( String jsonStr2,HttpServletResponse response) throws Exception {
+    JSONObject data= ReadJSONUtil.readJSONStr(request);
     int state = (int) Integer.parseInt(data.get("afterSale").toString());
     JSONObject pageInfo = JSONObject.parseObject(jsonStr2);
     JSONArray jsonarr = new JSONArray();
@@ -129,39 +106,7 @@ public class PageAction {
       temp.put("Order_Reserve_1", order.getOrder_reserve_1());
       jsonarr.add(temp);
     }
-  r = JSONArrayPaging(jsonarr, pageInfo).toString();
-    PrintWriter out=response.getWriter();
-    out.flush();
-    out.write(r);
-    out.flush();
-  }
-
-  public JSONArray JSONArrayPaging(JSONArray arr, JSONObject json) {
-    JSONArray temparr = new JSONArray();
-    JSONObject firstjson = new JSONObject();
-
-    firstjson.put("Size", arr.size());
-
-    if (arr.size() < json.getIntValue("NumPerPage")) {
-      firstjson.put("PageNum", 1);
-    } else {
-      if (arr.size() % json.getIntValue("NumPerPage") == 0) {
-        firstjson.put("PageNum", arr.size() / json.getIntValue("NumPerPage"));
-      } else {
-        firstjson.put("PageNum", (arr.size() / json.getIntValue("NumPerPage")) + 1);
-      }
-    }
-    firstjson.put("NowPage", json.getIntValue("Page"));
-    firstjson.put("NumPerPage", json.getIntValue("NumPerPage"));
-
-    temparr.add(firstjson);
-    for (int i = (json.getIntValue("Page") - 1) * json.getIntValue("NumPerPage"); i < arr
-        .size(); i++) {
-      temparr.add(arr.get(i));
-      if (i >= json.getIntValue("Page") * json.getIntValue("NumPerPage") - 1)
-        break;
-    }
-
-    return temparr;
+    String r = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo).toString();
+    FlushWriteUtil.flushWrite(response,r);
   }
 }

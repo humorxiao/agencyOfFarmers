@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.entity.sys.SystemUserInfo;
+import scau.zxck.utils.FlushWriteUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,10 +26,6 @@ public class CheckLoginUserAction {
         else {
             r = "{\"status\":\"0\",\"loginName\":\"\"}";
         }
-        PrintWriter out=response.getWriter();
-        System.out.println(r);
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }

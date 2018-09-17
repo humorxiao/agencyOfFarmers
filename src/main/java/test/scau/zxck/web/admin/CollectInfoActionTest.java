@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import scau.zxck.entity.market.UserCollection;
-import scau.zxck.utils.ToJSONString;
+import scau.zxck.utils.ToJSONStringUtil;
 import scau.zxck.web.admin.CartInfoAction;
 import scau.zxck.web.admin.CollectInfoAction;
 
@@ -69,7 +69,7 @@ public void testAddCollection() throws Exception {
     UserCollection userCollection = new UserCollection("100003");
     String jsonStr = mapper.writeValueAsString(userCollection);
     System.out.println(jsonStr);
-    jsonStr=ToJSONString.toJSON(jsonStr);
+    jsonStr=ToJSONStringUtil.toJSON(jsonStr);
     System.out.println(jsonStr);
     mockHttpSession.setAttribute("User_PK","100003");
     mockMvc = standaloneSetup(collectInfoAction).build();

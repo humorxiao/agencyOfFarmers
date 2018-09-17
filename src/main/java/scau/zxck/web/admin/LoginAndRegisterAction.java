@@ -9,14 +9,14 @@ import scau.zxck.entity.market.SystemUserLog;
 import scau.zxck.entity.sys.SystemUserInfo;
 import scau.zxck.service.market.ISystemLogService;
 import scau.zxck.service.sys.ISystemUserService;
-import scau.zxck.utils.ReadJSON;
-import scau.zxck.utils.TransformToMD5;
+import scau.zxck.utils.FlushWriteUtil;
+import scau.zxck.utils.ReadJSONUtil;
+import scau.zxck.utils.TransformToMD5Util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -34,7 +34,7 @@ public class LoginAndRegisterAction {
     @RequestMapping(value = "loginAndRegister", method = RequestMethod.POST)
     public void loginAndRegister(HttpServletResponse response) throws Exception {
         String r = "{\"status\":\"\",\"msg\":\"\",\"loginId\":\"\"}";//返回的字符串
-        JSONObject data = ReadJSON.readJSONStr(request);
+        JSONObject data = ReadJSONUtil.readJSONStr(request);
         request.setCharacterEncoding("utf-8");
         String userid = data.get("userid").toString();
         String username = data.get("username").toString();
@@ -67,15 +67,12 @@ public class LoginAndRegisterAction {
                 SystemUserInfo user = new SystemUserInfo();
                 user.setId(userid);
                 user.setSystem_user_name(username);
-                user.setSystem_user_password(TransformToMD5.makeMD5(password));
+                user.setSystem_user_password(TransformToMD5Util.makeMD5(password));
                 systemUserService.add(user);//成功
                 r = "{\"status\":\"1\",\"msg\":\"注册成功\"}";
             }
         }
-        PrintWriter out = response.getWriter();
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "loginout", method = RequestMethod.POST)
@@ -92,11 +89,6 @@ public class LoginAndRegisterAction {
         } else {
             r = "{\"status\":\"-1\",\"msg\":\"登出失败\"}";
         }
-        PrintWriter out = response.getWriter();
-       System.out.println(r);
-      System.out.println(r);
-        out.flush();
-        out.write(r);
-        out.flush();
+        FlushWriteUtil.flushWrite(response,r);
     }
 }
