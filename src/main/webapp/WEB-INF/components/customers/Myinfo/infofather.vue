@@ -25,6 +25,15 @@ export default {
         this.userPK = {'User_PK': response.data.User_PK}
         axios.post('/api/getUserInfo', this.userPK).then((response) => {
           console.log(response.data)
+          this.username = response.data.User_Realname
+          this.name = response.data.User_Name
+          this.phone = response.data.User_Cell
+          this.email = response.data.User_Email
+          this.id = response.data.User_ID
+          this.time = response.data.User_RegTime
+          if(response.data.User_Sex === 2)
+          {this.male = '女'}
+          else {this.male = '男'}
          // this.usesName = response.data.User_Name
         }).catch(function (error) {
           console.log(error)

@@ -1250,7 +1250,7 @@ h6, .h6 {
 }
 
 p {
-  margin: 0 0 10px
+  margin: 0 20px 10px
 }
 
 .lead {
@@ -3892,7 +3892,7 @@ select[multiple].input-group-sm>.input-group-addon, select[multiple].input-group
 }
 
 .nav {
-  padding-left: 0;
+  padding-left: 60px;
   margin-bottom: 0;
   list-style: none
 }
