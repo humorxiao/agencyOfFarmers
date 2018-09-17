@@ -12,11 +12,11 @@
           </div>
           <div class="modal-body">
             <span id='msg' style='color: red'></span> 收货人名字:<input
-            id='Deliv_Name' type="text" placeholder="姓名"/><br> 收货人手机:<input
-            id='Deliv_Cell' type="text" placeholder="（重要）手机号码"/><br>
-            邮政编码：<input id="Deliv_Zipcode" type="text" placeholder="邮编"/><br>
+             type="text" v-model="Deliv_Name"/><br> 收货人手机:<input
+             type="text" v-model="Deliv_Cell"/><br>
+            邮政编码：<input  type="text" v-model="Deliv_code"/><br>
             <br> 详细地址：
-            <textarea id="Deliv_Address" placeholder="详细地址"></textarea>
+            <textarea type="text" v-model="Deliv_Address"></textarea>
           </div>
           <div class="modal-footer">
             <button class="btn btn-default" type="button" data-dismiss="modal">取消购物</button>
@@ -35,23 +35,23 @@
         <div class="modal-content">
           <div class="modal-header">
             <button class="close" aria-hidden="true" type="button"
-                    onclick="refresh()" data-dismiss="modal">×
+                    @click="refresh()" data-dismiss="modal">×
             </button>
             <h4 class="modal-title" id="edit_title">订单详情(请24小时内支付订单）</h4>
           </div>
           <p class="modal-body" id="edit_body">
             <p id="order_detail"> 订单号：{{orderid}}<br>订单状态:已下订单未支付<br>
-              交易额:{{ordercost}}<br>收货信息:<br>手机:{{phone}}<br>联系人:{{name}}<br>
-              地址:{{orderaddress}} <br>邮编：{{code}}<br>商品清单:<br> <li v-for="good in goods">
-            {{good.name}}({{good.prize}}元/斤){{good.num}}斤,小计{{good.count}}元</li><br>
-            选择支付方式：<select id="payWay1">
+              交易额：{{ordercost}}<br>收货信息：<br>手机：{{phone}}<br>联系人：{{name}}<br>
+              地址：{{orderaddress}} <br>邮编：{{code}}<br>商品清单: <li v-for="good in Goods_List_pay">
+            {{good.name}}&nbsp&nbsp({{good.price}}元/斤){{good.num}}斤,小计{{count}}元</li><br>
+           <p id="pagway">选择支付方式： <select id="payWay1">
             <option value="2">支付宝支付</option>
             <option value="3">微信支付</option>
-          </select><br> <span style="color: red" id="order-msg"></span>
+           </select><br></p> <span style="color: red" id="order-msg"></span>
           </div>
           <div class="modal-footer">
            <button class="btn yellow" type="button" @click="payOrder()">支付</button>
-            <button class="btn yellow" type="button" onclick="refresh()"
+            <button class="btn yellow" type="button" @click="refresh()"
                     data-dismiss="modal">
               暂不支付<br></button>
             <span id="updateState-btn"></span>
@@ -59,157 +59,177 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 <script>
+  import axios from 'axios'
 export default {
   name: 'pay',
   props: {
-    Goods_List_BackUp: {type: Array, required: true},
-    Goods_Num_BackUp: {type: Array, required: true},
+    Goods_List_pay: {type: Array, required: true},
+    goods_list:{type: Array, required:true},
     sum: {type: String, required: true},
     count: {type: String, required: true}
   },
-  data () {
+  data() {
     return {
+      Deliv_Name: '',
+      Deliv_Address: '',
+      Deliv_Cell: '',
+      Deliv_code: '',
       Address: '',
-      local_Goods_List: [],
-      local_Goods_Num: [],
       Goods_List: '',
       Goods_Num: '',
-      orderid: '0000',
-      ordercost: '111',
-      phone: '111',
-      name: 'xxx',
-      orderaddress: '1111',
-      code: '4444',
-      goods: [{name: '李子', prize: '11', num: '44', count: '44'}]
+      Goods_List_New: '',
+      Goods_price: '',
+      Goods_Num_New: '',
+      orderid: '',
+      ordercost: '',
+      phone: '',
+      name: '',
+      orderaddress: '',
+      code: '',
+      goods: [],
+      userPK: ''
     }
   },
+  mounted: function () {
+    axios.post('/api/getUserDeliveryAddress', {}).then(response => {
+      this.Deliv_Name = response.data.Deliv_Name;
+      this.Deliv_Address = response.data.Deliv_Address;
+      this.Deliv_Cell = response.data.Deliv_Cell;
+      this.Deliv_code = response.data.Deliv_Zipcode;
+    })
+    axios.post('/api/checkLoginRank').then((response) => {
+      // console.log(response.data) // 判断登录状态
+      if (response.data.status === 1) {
+        this.userPK = response.data.User_PK
+      }
+    })
+  },
   methods: {
-    getname: function (name) {
-      var ret = '' // doAjax("../jsp/operation.jsp", {'data': JSON.stringify({'Goods_PK': Goods_PK}), 'operation': 'getOneGood'});
-      if (ret !== '') {
-        return ret['Goods_Name']
-      }
-      return ''
+    refresh:function(){
+    /*  for(let i = 0;i<this.Goods_List_pay.length;i++) {
+        this.goods_list.splice(this.goods_list.indexOf(this.Goods_List_pay[i]),1)
+      }*/
+     // console.log(this.goods_list)
+     // this.alterCart()
+      window.location.href = 'shoppingbag.html'
     },
-    initOrder: function (order) {
-      var array = order['Order_Reserve_1'].split(';')
-      var list = order['Goods_List'].split('#')
-      var num = order['Goods_Num'].split('#')
-      var prices = order['Goods_Prices'].split('#')
-      this.orderid = order['Order_ID']
-      this.ordercost = order['Order_PayPrice']
-      this.phone = array[0]
-      this.name = array[1]
-      this.orderaddress = array[2]
-      this.code = array[3]
-      for (var j = 0; j < list.length && j < prices.length - 1 && j < num.length - 1; j++) {
-        this.goods.name[j] = this.getName(list[j])
-        this.goods.prize[j] = prices[j]
-        this.goods.num = num[j]
-        this.goods.count = num[j] * prices[j]
-      }
-    },
+   formatDate : function(){  //获取格式化时间
+     var currentDate = new Date();
+     let y=currentDate.getFullYear()
+     let mm = currentDate.getMonth()+1
+     mm = mm < 10?('0' +mm):mm
+     let d = currentDate.getDate()
+     d = d < 10?('0'+d):d
+     let h = currentDate.getHours()
+     h = h < 10?('0'+h):h
+     var strMinute = currentDate.getMinutes() < 10 ? ("0" + currentDate.getMinutes()) : currentDate.getMinutes();
+     var strSecond = currentDate.getSeconds() < 10 ? ("0" + currentDate.getSeconds()) : currentDate.getSeconds();
+     var time
+     time = y.toString() + mm.toString() + d.toString()
+       + h.toString() + strMinute.toString() + strSecond.toString() + this.userPK
+     return time
+   },
     alterCart: function () {
-      for (var i = 0; i < this.local_Goods_List.length - 1; i++) {
-        this.Goods_List += this.local_Goods_List[i] + '#'
-        this.Goods_Num += this.local_Goods_Num[i] + '#'
+      for (var i = 0; i < this.goods_list.length; i++) {
+        this.Goods_List_New += this.goods_list[i].id + '#'
+        this.Goods_Num_New += this.goods_list[i].num + '#'
       }
-      var data = {'Cart_PK': this.local_Cart_PK, 'Goods_List': this.Goods_List, 'Goods_Num': this.Goods_Num}
-      var ret = 1 // 修改购物车
-      if (ret !== undefined && ret.status === 1) {
-        return 1
-      } else {
-        return 0
-      }
+      var data = { 'Goods_List': this.Goods_List_New, 'Goods_Num': this.Goods_Num_New}
+      axios.post('/api/alterCart', data).then(response => {
+        if (response.data.status === 1) {
+          console.log('成功')
+          window.location.href = 'shoppingbag.html'
+        }
+        else {
+          console.log('失败')
+          window.location.href = 'shoppingbag.html'
+        }
+      })
+    },
+    initorder:function (){
+     this.orderid = this.formatDate()
+      this.ordercost = this.count
+      this.phone = this.Deliv_Cell
+      this.name = this.Deliv_Name
+      this.orderaddress = this.Deliv_Address
+      this.code = this.Deliv_code
     },
     addOrder: function () {
-      var data = {
-        'Order_PK': '',
-        'Order_ID': '',
-        'Order_No': '',
-        'User_PK': '',
-        'Goods_List': this.Goods_List_BackUp,
-        'Goods_Num': this.Goods_Num_BackUp,
-        'Goods_Prices': this.count,
-        'Order_Time': '',
-        'Order_IsPay': false,
-        'Order_PayTime': '',
-        'Order_PayPrice': this.sum,
-        'Order_State': 1,
-        'Order_TrackNum': '',
-        'Order_Company': '',
-        'Order_Website': '',
-        'Order_Aftersale': 0,
-        'Order_Reserve_1': this.address
+      for (var i = 0; i < this.Goods_List_pay.length; i++) {
+        this.Goods_List += this.Goods_List_pay[i].id + '#'
+        this.Goods_Num += this.Goods_List_pay[i].num + '#'
+        this.Goods_Price +=this.Goods_List_pay[i].price + '#'
       }
-      var ret = 1 // doAjax("./jsp/operation.jsp", {'data': JSON.stringify(data), 'operation': 'addOrder'});
-      this.initOrder(ret)
-      if (ret !== undefined && ret !== '') {
-        this.local_Goods_List = this.Goods_List_BackUp
-        this.local_Goods_Num = this.Goods_Num_BackUp
-        this.alterCart()
-      } else {
-        document.getElementById('order-msg').innerHTML('生成订单失败')
-        //  $("#order-msg").html('生成订单失败');
-        return false
+       var data = {
+         "User_PK":this.userPK,
+         "Order_ID":this.formatDate(),
+         "Order_No":"",
+         "Goods_List":this.Goods_List,
+         "Goods_Num":this.Goods_Num,
+         "Goods_Price":this.Goods_Price,
+         "Goods_Type":"2",
+         "Order_Time":"2018-09-15 20:03:46",
+         "Order_IsPay":false,
+         "Order_PayTime":"2018-09-15 20:03:46",
+         "Order_Tracknum":"",
+         "Order_Company":"",
+         "Order_Website":"",
+         "Order_Aftersale":"0",
+         "Order_PayPrice":"20",
+         "Order_State":1,
+         "Order_Reserve_1":"13416137226;65;65;656565;"
       }
+     console.log(data)
+      this.initorder()
+     axios.post('/api/addOrder', data).then(response => {
+         if(response.data)
+         {document.getElementById('edit_body').innerHTML = '添加订单成功'}
+         else{document.getElementById('edit_body').innerHTML = '添加订单失败'}
+      })
     },
+
     updateAddress: function (n) {
-      var s = document.getElementById('modal-container-735678')
-      s.style.display = 'none'
-      var Name = (document.getElementById('Deliv_Name').value)
-      if (Name === '') {
+      if (this.Deliv_Name === '') {
         document.getElementById('msg').innerHTML = '请填写收件人姓名'
         return false
       }
-      var Cell = (document.getElementById('Deliv_Cell').value)
-      if (Cell === '') {
+      if (this.Deliv_Cell === '') {
         document.getElementById('msg').innerHTML = '请填写联系号码'
         return
-      } else if (Cell.length < 11) {
+      } else if (this.Deliv_Cell.length < 11) {
         document.getElementById('msg').innerHTML = '请填写正确的手机号码'
         return
       }
 
-      var code = (document.getElementById('Deliv_code').value)
-      if (code === '') {
+      if (this.Deliv_code === '') {
         document.getElementById('msg').innerHTML = '请填写邮政编码'
         return
       }
 
-      var Address = (document.getElementById('Deliv_Address').value)
-      if (Address === '') {
+      if (this.Deliv_Address === '') {
         document.getElementById('msg').innerHTML = '请填写详细地址'
         return
       }
-      this.Deliv_Name = Name
-      this.Deliv_Cell = Cell
-      this.Deliv_code = code
-      this.Deliv_Address = Address
       var data = {
-        'Deliv_PK': '',
         'Deliv_Cell': this.Deliv_Cell,
         'Deliv_Name': this.Deliv_Name,
         'Deliv_Address': this.Deliv_Address,
-        'Deliv_Zipcode': this.Deliv_Zipcode
+        'Deliv_Zipcode': this.Deliv_code
       }
       this.address = this.Deliv_Cell + ';' + this.Deliv_Name + ';' + this.Deliv_Address + ';' + this.Deliv_Zipcode + ';';
-
       if (n === 1) {
-        /* doAjax('./jsp/operation.jsp', {
-            'data': JSON.stringify(data),
-            'operation': 'updateUserDeliveryAddress'
-          }) */
-        var ret = ''
-        if (ret.status === 1) {
-          var b = document.getElementById('modal-container-735678')
-          b.style.display = 'none'
-          var c = document.getElementById('modal-container-766236')
-          c.style.display = 'block'
-        } else alert('更新默认收货地址失败')
+        axios.post('/api/updateUserDeliveryAddress', data).then((response) => {
+          console.log(response.data.status)
+          if (response.data.status === 1) {
+            var b = document.getElementById('modal-container-735678')
+            b.style.display = 'none'
+            var c = document.getElementById('modal-container-766236')
+            c.style.display = 'block'
+            this.addOrder()
+          } else alert('更新默认收货地址失败')
+        })
       } else {
         var d = document.getElementById('modal-container-735678')
         d.style.display = 'none'
@@ -217,7 +237,9 @@ export default {
         f.style.display = 'block'
         this.addOrder()
       }
-    }}}
+    },
+  }
+  }
 </script>
 <style>
 </style>

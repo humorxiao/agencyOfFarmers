@@ -85,6 +85,10 @@
   import axios from 'axios'
 export default {
   name: 'myinfo1',
+  data(){
+    return {
+    }
+  },
   props: {
     username: {type: String, required: true},
     name: {type: String, required: true},
@@ -100,7 +104,6 @@ export default {
   },
   methods: {
     initAddr: function () {
-
    },
     updateAddress: function () {
       var Name = (document.getElementById('Deliv_Name').value)
@@ -129,11 +132,11 @@ export default {
         document.getElementById('msg').innerHTML = '请填写详细地址'
         return
       }
-      var data = {'Deliv_Cell':this.Cell,'Deliv_Name':this.Name,
-        'Deliv_Address':this.Address,'Deliv_Zipcode':this.code}
+      var data = {'Deliv_Cell':Cell,'Deliv_Name':Name,
+        'Deliv_Address':Address,'Deliv_Zipcode':code}
       axios.post('/api/updateUserDeliveryAddress', data).then((response) => {
         console.log(response.data.status)
-        if(response.data.status === 1)
+        if(response.data.status === 0)
         { var s = document.getElementById('modal-container-735678')
         s.style.display = 'none'
         this.Deliv_Name = Name
