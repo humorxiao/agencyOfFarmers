@@ -1,0 +1,40 @@
+html { overflow-x: hidden; overflow-y: auto; }
+	body{
+	font-family:"Microsoft Yahei";
+	}
+	.ul-li{
+    list-style-type:none;
+    }
+    .page-foot{position:fixed;bottom:0;background:rgba(125,201,105,0.5);min-width:100%;}
+    .breadcrumb{margin-bottom:0px;}
+    .div-bg-color{
+   	background-color:#ffffff;
+    }
+    .bg-color{
+     background-color:rgba(125,201,105,0.6); 
+    }
+    .tab-pane{
+    padding-top:10px;
+    padding-bottom:170px
+    }
+    .tab-pane>ol>li{
+    padding-top:15px;
+    padding-bottom:15px
+    }
+	li.active>a>.badge{
+	    background-color:#93e57e;
+	}
+	.tab-pane>ol>li>a{
+		color:#000000;
+	}
+    .tab-pane>ol>li>a:hover, .tab-pane>ol>li>a:focus
+	{
+		color:#93e57e;
+	}
+	.nav-tabs>li>a{
+		color:#93e57e;
+	}
+	
+	.div-center{text-align: center;margin: 0 auto;}
+	 input+a,a+a{margin-left:50px;}
+@CHARSET "UTF-8";
