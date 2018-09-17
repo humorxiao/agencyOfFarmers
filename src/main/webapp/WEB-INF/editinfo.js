@@ -3,9 +3,15 @@
 import Vue from 'vue'
 import Editinfo from './Editinfo.vue'
 import router from './router'
+import {Button,Message,  Table, TableColumn,  Popover, Tag} from 'element-ui'
 import "babel-polyfill"
 
 Vue.config.productionTip = false
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Popover)
+Vue.use(Button)
+Vue.use(Tag)
 
 /* eslint-disable no-new */
 new Vue({
