@@ -124,6 +124,23 @@ public class NewsAction {
     FlushWriteUtil.flushWrite(response, r);
   }
 
+  @RequestMapping(value = "deleteNews",method = RequestMethod.POST)
+  public void deleteNews(HttpServletResponse response) throws Exception{
+    JSONObject data=ReadJSONUtil.readJSONStr(request);
+    String news_id=data.get("News_PK").toString();
+    JSONObject temp=new JSONObject();
+    String r=null;
+    try {
+      unionNewsService.deleteByIds(news_id);
+      temp.put("status",true);
+    }catch (Exception e){
+      temp.put("status",false);
+      r=temp.toString();
+      FlushWriteUtil.flushWrite(response,r);
+    }
+    r=temp.toString();
+    FlushWriteUtil.flushWrite(response,r);
+  }
   @RequestMapping(value = "getLikesNews", method = RequestMethod.POST)
   public void getLikesNews( HttpServletResponse response) throws Exception, UnsupportedEncodingException, IOException {
     String r = "";

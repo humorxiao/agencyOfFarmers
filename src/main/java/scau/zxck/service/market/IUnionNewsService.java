@@ -8,4 +8,5 @@ import java.util.List;
 public interface IUnionNewsService {
     <V> List<V> listAll() throws BaseException;
     <V> List<V> list(Conditions conditions) throws BaseException;
+    void deleteByIds(Object... ids) throws BaseException;
 }

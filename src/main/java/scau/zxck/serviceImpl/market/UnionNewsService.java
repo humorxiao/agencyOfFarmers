@@ -11,16 +11,21 @@ import java.util.List;
 
 @Service
 public class UnionNewsService implements IUnionNewsService {
-    @Autowired
-    private UnionNewsDao unionNewsDao;
+  @Autowired
+  private UnionNewsDao unionNewsDao;
 
-    @Override
-    public <V> List<V> listAll() throws BaseException {
-        return unionNewsDao.listAll();
-    }
+  @Override
+  public <V> List<V> listAll() throws BaseException {
+    return unionNewsDao.listAll();
+  }
 
-    @Override
-    public <V> List<V> list(Conditions conditions) throws BaseException {
-        return unionNewsDao.list(conditions);
-    }
+  @Override
+  public <V> List<V> list(Conditions conditions) throws BaseException {
+    return unionNewsDao.list(conditions);
+  }
+
+  @Override
+  public void deleteByIds(Object... ids) throws BaseException {
+    unionNewsDao.deleteByIds(ids);
+  }
 }

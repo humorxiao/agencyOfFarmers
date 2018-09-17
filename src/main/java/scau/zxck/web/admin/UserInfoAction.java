@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
 import scau.zxck.entity.market.CartInfo;
 import scau.zxck.entity.market.DeliveryAddress;
+import scau.zxck.entity.sys.User;
 import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IDeliveryAddressService;
 import scau.zxck.service.sys.IUserLoginService;
@@ -224,17 +225,41 @@ public class UserInfoAction {
   @RequestMapping(value = "getBannedUserInfo", method = RequestMethod.POST)
   public void getBannedUserInfo(HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject data = ReadJSONUtil.readJSONStr(request);
     JSONObject temp = new JSONObject();
-    UserInfo user = userLoginService.findById(data.get("User_PK").toString());
-    temp.put("User_PK", user.getId());
-    temp.put("User_Name", user.getUser_name());
-    temp.put("User_Cell", user.getUser_cell());
-    temp.put("User_Email", user.getUser_email());
-    temp.put("User_Sex", user.getUser_sex());
-    temp.put("User_RegTime", user.getUser_regtime().toString());
-    temp.put("User_Realname", user.getUser_realname());
-    temp.put("User_ID", user.getUser_id());
+    Conditions conditions=new Conditions();
+    List list=userLoginService.list(conditions.eq("user_mark",1));
+    for (Iterator iter = ((List) list).iterator(); iter.hasNext(); ) {
+      UserInfo user=(UserInfo) iter.next();
+      temp.put("User_PK", user.getId());
+      temp.put("User_Name", user.getUser_name());
+      temp.put("User_Cell", user.getUser_cell());
+      temp.put("User_Email", user.getUser_email());
+      temp.put("User_Sex", user.getUser_sex());
+      temp.put("User_RegTime", user.getUser_regtime().toString());
+      temp.put("User_Realname", user.getUser_realname());
+      temp.put("User_ID", user.getUser_id());
+    }
+    r = temp.toString();
+    FlushWriteUtil.flushWrite(response, r);
+  }
+
+  @RequestMapping(value = "getCommonUserInfo", method = RequestMethod.POST)
+  public void getCommonUserInfo(HttpServletResponse response) throws Exception {
+    String r = "";
+    JSONObject temp = new JSONObject();
+    Conditions conditions=new Conditions();
+    List list=userLoginService.list(conditions.eq("user_mark",0));
+    for (Iterator iter = ((List) list).iterator(); iter.hasNext(); ) {
+      UserInfo user=(UserInfo) iter.next();
+      temp.put("User_PK", user.getId());
+      temp.put("User_Name", user.getUser_name());
+      temp.put("User_Cell", user.getUser_cell());
+      temp.put("User_Email", user.getUser_email());
+      temp.put("User_Sex", user.getUser_sex());
+      temp.put("User_RegTime", user.getUser_regtime().toString());
+      temp.put("User_Realname", user.getUser_realname());
+      temp.put("User_ID", user.getUser_id());
+    }
     r = temp.toString();
     FlushWriteUtil.flushWrite(response, r);
   }
