@@ -2,7 +2,7 @@
   <div class="tab-pane" id="panel-923724">
     <br>
     <el-input v-model="input" placeholder="请输入动态新闻标题"></el-input>
-    <el-button type="primary">搜索</el-button>
+    <el-button type="primary" @click = "search()">搜索</el-button>
     <br><br>
     <el-table
       :data="tableData"
@@ -63,6 +63,9 @@
     methods: {
       handleDelete(index, row) {
         console.log(index, row);
+      },
+      search(){
+          console.log(this.input)
       }
     }
   }
