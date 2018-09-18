@@ -7,10 +7,10 @@
         <br>
         <adminuserandnewstabs></adminuserandnewstabs>
         <div class="tab-content div-bg-color">
-          <f_adminuserandnews></f_adminuserandnews>
-          <forth_adminuserandnews></forth_adminuserandnews>
-          <s_adminuserandnews></s_adminuserandnews>
-          <t_adminuserandnews></t_adminuserandnews>
+          <one_adminuserandnewsfather></one_adminuserandnewsfather>
+          <two_adminuserandnewsfather></two_adminuserandnewsfather>
+          <three_adminuserandnewsfather></three_adminuserandnewsfather>
+          <four_adminuserandnews></four_adminuserandnews>
         </div>
       </div>
     </div>
@@ -22,21 +22,21 @@
 <script>
 import myadminNavar from './commonComponents/adminUserAndNewsNavar.vue'
 import myadminUserAndNewsTabs from  './commonComponents/adminUserAndNewsTabs.vue'
-import myf_adminUserAndNews from './commonComponents/f_adminUserAndNews.vue'
-import mys_adminUserAndNews from './commonComponents/s_adminUserAndNews.vue'
-import myt_adminUserAndNews from './commonComponents/t_adminUserAndNews.vue'
+import myone_adminUserAndNewsFather from './admin/one_adminUserAndNewsFather.vue'
+import mythree_adminUserAndNewsFather from './admin/three_adminUserAndNewsFather.vue'
+import myfour_adminUserAndNews from './commonComponents/four_adminUserAndNews.vue'
 import myadminfooter from './commonComponents/adminfooter.vue'
-import myforth_adminUserAndNews from './commonComponents/forth_adminUserAndNews.vue'
+import mytwo_adminUserAndNewsFather from './admin/two_adminUserAndNewsFather'
 export default {
         name: "userAndnewsManagePage",
       components: {
         adminnavar: myadminNavar,
         adminuserandnewstabs: myadminUserAndNewsTabs,
-        f_adminuserandnews : myf_adminUserAndNews,
-        s_adminuserandnews: mys_adminUserAndNews,
-        t_adminuserandnews: myt_adminUserAndNews,
+        one_adminuserandnewsfather : myone_adminUserAndNewsFather,
+        three_adminuserandnewsfather: mythree_adminUserAndNewsFather,
+        four_adminuserandnews: myfour_adminUserAndNews,
         adminfooter : myadminfooter,
-        forth_adminuserandnews: myforth_adminUserAndNews
+        two_adminuserandnewsfather: mytwo_adminUserAndNewsFather
       }
     }
 </script>

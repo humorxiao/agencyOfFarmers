@@ -1,6 +1,6 @@
 <template>
   <div class="app-container calendar-list-container">
-    <div style="margin:0 5%; width: 90%;">
+    <div style="margin:2% 0px; width: 90%;">
       <editor
         class="editor"
         :value="content"
