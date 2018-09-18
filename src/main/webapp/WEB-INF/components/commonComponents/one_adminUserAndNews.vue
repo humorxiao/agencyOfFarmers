@@ -4,12 +4,12 @@
     <el-input v-model="input" placeholder="搜索用户(昵称、手机)"></el-input>
     <el-button type="primary">搜索</el-button>
     <el-table
-      :data="tableData4"
+      :data="tableData1"
       style="width: 100%"
       max-height="510">
       <el-table-column
         fixed
-        prop="date"
+        prop="telephone"
         label="手机号码"
         width="300">
       </el-table-column>
@@ -19,17 +19,17 @@
         width="200">
       </el-table-column>
       <el-table-column
-        prop="province"
+        prop="sex"
         label="性别"
         width="200">
       </el-table-column>
       <el-table-column
-        prop="city"
+        prop="email"
         label="邮箱"
         width="350">
       </el-table-column>
       <el-table-column
-        prop="address"
+        prop="time"
         label="注册时间"
         width="300">
       </el-table-column>
@@ -56,7 +56,7 @@
     export default {
         name: "f_adminUserAndNews",
       props: {
-        tableData4: {
+        tableData1: {
           type: Array,
           default: function () {
             return []
@@ -70,8 +70,7 @@
       },
       data() {
         return {
-          input: '',
-          tableData4: []
+          input: ''
         }
       }
     }
