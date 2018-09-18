@@ -39,7 +39,8 @@
         width="120">
         <template slot-scope="scope">
           <el-button
-            @click.native.prevent="deleteRow(scope.$index, tableData4)"
+            @click.native.prevent="deleteRow(scope.$index,scope.row.telephone,scope.row.name,scope.row.sex,
+            scope.row.email,scope.row.time,scope.row.userPk)"
             type="text"
             size="small">
             移除至白名单
@@ -64,13 +65,20 @@
         }
       },
       methods: {
-        deleteRow(index, rows) {
-          rows.splice(index, 1);
+        deleteRow(index,telephone,name,sex,email,time,userPk) {
+          // rows.splice(index, 1);
+          console.log(telephone,name,sex,email,time,userPk)
         }
       },
       data() {
         return {
-          input: ''
+          input: '',
+          telephone: '',
+          name: '',
+          sex: '',
+          email: '',
+          time: '',
+          userPk: ''
         }
       }
     }

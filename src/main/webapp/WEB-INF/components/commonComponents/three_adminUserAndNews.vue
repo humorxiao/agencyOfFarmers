@@ -34,7 +34,7 @@
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除
+            @click="handleDelete(scope.row.news_pk,scope.$index, scope.row)">删除
           </el-button>
         </template>
       </el-table-column>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     name: "s_adminUserAndNews",
     props: {
@@ -58,14 +59,37 @@
     data() {
       return {
         input: '',
+        data: '',
+        deleteData: ''
       }
     },
     methods: {
-      handleDelete(index, row) {
-        console.log(index, row);
+      handleDelete(newsPk, index, row) {
+        this.deleteData = {"News_PK": newsPk}
+        axios.post('/api/deleteNews', this.deleteData).then(response => {
+          if(response.data.status === true) {
+            this.tableData.splice(index, 1)
+          }
+        }).catch(function (error) {
+          console.log(error)
+        })
       },
       search(){
-          console.log(this.input)
+        this.data = {"likes": this.input}
+        // console.log(this.input)
+        // console.log(this.data)
+        axios.post('/api/getLikesNews', this.data).then(response => {
+          this.tableData.splice(0,this.tableData.length)
+          for (var i = 0; i < response.data.length; i++) {
+            this.tableData.push({
+              name: response.data[i].News_Title,
+              date: response.data[i].News_Time,
+              url: 'details.html?'+ response.data[i].News_PK
+            })
+          }
+        }).catch(function (error) {
+          console.log(error)
+        })
       }
     }
   }

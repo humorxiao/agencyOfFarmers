@@ -14,7 +14,8 @@ export default {
         this.tableData.push({
           name: response.data[i].News_Title,
           date: response.data[i].News_Time,
-          url: 'details.html?'+ response.data[i].News_PK
+          url: 'details.html?'+ response.data[i].News_PK,
+          news_pk: response.data[i].News_PK,
         })
       }
     }).catch(function (error) {

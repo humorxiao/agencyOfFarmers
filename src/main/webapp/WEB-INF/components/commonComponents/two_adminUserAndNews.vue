@@ -9,7 +9,7 @@
       max-height="510">
       <el-table-column
         fixed
-        prop="date"
+        prop="telephone"
         label="手机号码"
         width="300">
       </el-table-column>
@@ -19,17 +19,17 @@
         width="200">
       </el-table-column>
       <el-table-column
-        prop="province"
+        prop="sex"
         label="性别"
         width="200">
       </el-table-column>
       <el-table-column
-        prop="city"
+        prop="email"
         label="邮箱"
         width="350">
       </el-table-column>
       <el-table-column
-        prop="address"
+        prop="time"
         label="注册时间"
         width="300">
       </el-table-column>
@@ -39,10 +39,11 @@
         width="120">
         <template slot-scope="scope">
           <el-button
-            @click.native.prevent="deleteRow(scope.$index, tableData4)"
+            @click.native.prevent="deleteRow(scope.$index, scope.row.telephone,scope.row.name,scope.row.sex,
+            scope.row.email,scope.row.time,scope.row.userPk)"
             type="text"
             size="small">
-            移除至白名单
+            移除至黑名单
           </el-button>
         </template>
       </el-table-column>
@@ -64,8 +65,8 @@
       }
     },
     methods: {
-      deleteRow(index, rows) {
-        rows.splice(index, 1);
+      deleteRow(index,telephone,name,sex,email,time,userPk) {
+        console.log(telephone,name,sex,email,time,userPk)
       }
     },
     data() {
