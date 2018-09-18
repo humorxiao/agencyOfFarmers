@@ -11,11 +11,15 @@
         axios.post('/api/getBannedUserInfo', {}).then(response => {
           // console.log(JSON.stringify(response.data))
           for (var i = 0; i < response.data.length; i++) {
-            alert(response.data[i].User_Cell)
+            if(response.data[i].User_Sex === 1) {
+              this.mysex = '男'
+            } else if(response.data[i].User_Sex === 2) {
+              this.mysex = '女'
+            } else this.mysex = '无'
             this.tableData1.push({
               telephone: response.data[i].User_Cell,
               name: response.data[i].User_Name ,
-              sex: response.data[i].User_Sex,
+              sex: this.mysex,
               email: response.data[i].User_Email,
               time: response.data[i].User_RegTime,
               // zip: 200333
@@ -30,7 +34,8 @@
       },
       data () {
         return {
-          tableData1: []
+          tableData1: [],
+          mysex: ''
         }
       },
     }
