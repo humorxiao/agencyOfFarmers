@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-pane active" id="panel-221257">
+  <div class="tab-pane" id="panel-221257">
     <br>
     <el-input v-model="input" placeholder="搜索用户(昵称、手机)"></el-input>
     <el-button type="primary">搜索</el-button>
@@ -70,8 +70,7 @@
     },
     data() {
       return {
-        input: '',
-        tableData4: []
+        input: ''
       }
     }
   }
