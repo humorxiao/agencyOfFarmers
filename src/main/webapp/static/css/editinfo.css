@@ -11,7 +11,7 @@ html { overflow-x: hidden; overflow-y: auto; }
    	background-color:#ffffff;
     }
     .bg-color{
-     background-color:rgba(125,201,105,0.6); 
+     background-color:rgba(125,201,105,0.6);
     }
     .tab-pane{
     padding-top:10px;
@@ -34,7 +34,7 @@ html { overflow-x: hidden; overflow-y: auto; }
 	.nav-tabs>li>a{
 		color:#93e57e;
 	}
-	
+
 	.div-center{text-align: center;margin: 0 auto;}
 	 input+a,a+a{margin-left:50px;}
 @CHARSET "UTF-8";
