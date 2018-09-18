@@ -107,7 +107,6 @@
         console.log(index, row);
       }
     }
-
   }
 </script>
 
