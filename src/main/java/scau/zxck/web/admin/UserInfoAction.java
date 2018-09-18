@@ -228,6 +228,7 @@ public class UserInfoAction {
     JSONObject temp = new JSONObject();
     Conditions conditions=new Conditions();
     List list=userLoginService.list(conditions.eq("user_mark",1));
+	JSONArray jsonarr = new JSONArray();
     for (Iterator iter = ((List) list).iterator(); iter.hasNext(); ) {
       UserInfo user=(UserInfo) iter.next();
       temp.put("User_PK", user.getId());
@@ -238,8 +239,9 @@ public class UserInfoAction {
       temp.put("User_RegTime", user.getUser_regtime().toString());
       temp.put("User_Realname", user.getUser_realname());
       temp.put("User_ID", user.getUser_id());
+	  jsonarr.add(temp);
     }
-    r = temp.toString();
+    r = jsonarr.toString();
     FlushWriteUtil.flushWrite(response, r);
   }
 
@@ -247,6 +249,7 @@ public class UserInfoAction {
   public void getCommonUserInfo(HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject temp = new JSONObject();
+	JSONArray jsonarr = new JSONArray();
     Conditions conditions=new Conditions();
     List list=userLoginService.list(conditions.eq("user_mark",0));
     for (Iterator iter = ((List) list).iterator(); iter.hasNext(); ) {
@@ -259,8 +262,9 @@ public class UserInfoAction {
       temp.put("User_RegTime", user.getUser_regtime().toString());
       temp.put("User_Realname", user.getUser_realname());
       temp.put("User_ID", user.getUser_id());
+	  jsonarr.add(temp);
     }
-    r = temp.toString();
+   r = jsonarr.toString();
     FlushWriteUtil.flushWrite(response, r);
   }
 
