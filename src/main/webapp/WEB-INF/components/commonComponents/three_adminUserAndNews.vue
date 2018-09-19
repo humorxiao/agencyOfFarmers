@@ -96,32 +96,6 @@
           });
         });
       },
-      open2(newsPk, index, row) {
-        // this.$confirm('此操作将永久删除该新闻, 是否继续?', '提示', {
-        //   confirmButtonText: '确定',
-        //   cancelButtonText: '取消',
-        //   type: 'warning'
-        // }).then(() => {
-        //   if(this.handleDelete(newsPk)) {
-        //     this.tableData.splice(index, 1)
-        //     this.$message({
-        //       type: 'success',
-        //       message: '删除成功!'
-        //     });
-        //   } else{
-        //     this.$message({
-        //       type: 'info',
-        //       message: '删除失败!'
-        //     });
-        //   }
-        //
-        // }).catch(() => {
-        //   this.$message({
-        //     type: 'info',
-        //     message: '已取消删除'
-        //   });
-        // });
-      },
       search(){
         this.data = {"likes": this.input}
         // console.log(this.input)
