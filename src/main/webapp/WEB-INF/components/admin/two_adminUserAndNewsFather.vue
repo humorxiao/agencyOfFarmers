@@ -8,7 +8,7 @@
   export default {
     name: "forth_adminUserAndNewsFather", mounted: function () {
       axios.post('/api/getCommonUserInfo', {}).then(response => {
-        // console.log(JSON.stringify(response.data))
+        console.log(JSON.stringify(response.data))
         for (var i = 0; i < response.data.length; i++) {
           if(response.data[i].User_Sex === 1) {
             this.mysex = '男'
