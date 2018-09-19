@@ -178,8 +178,8 @@ public class UserInfoAction {
     temp.setUser_email(data.get("User_Email").toString());
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
     temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()).toString());
-    temp.setUser_realname(data.get("User_Realname").toString());
-    temp.setUser_id(data.get("User_ID").toString());
+    //temp.setUser_realname(data.get("User_Realname").toString());
+    //temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();
     temp.setUser_mark(c);
     temp.setCart(new CartInfo());
@@ -200,7 +200,7 @@ public class UserInfoAction {
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     data.put("User_Mark", "1");
     data.put("User_Realname","Nothing");
-    data.put("User_ID","Nothing");
+    data.put("User_ID","Nothing"+CodeUtil.generateUniqueCode());
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
     data.put("User_Password", userInfo.getUser_password());
     UserInfo temp = userLoginService.findById(data.get("User_PK").toString());
