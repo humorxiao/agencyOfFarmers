@@ -343,9 +343,7 @@ public class OrderInfoAction {
     }
 
     @RequestMapping(value = "getNoPayOrder", method = RequestMethod.POST)
-//    @Test
     public void getNoPayOrder( HttpServletResponse response) throws Exception {
-        JSONObject pageInfo= ReadJSONUtil.readJSONStr(request);
         String r = "";
         JSONArray jsonarr = new JSONArray();
         Conditions conditions = new Conditions();
@@ -376,7 +374,7 @@ public class OrderInfoAction {
             temp.put("Order_Reserve_1", order.getOrder_reserve_1());
             jsonarr.add(temp);
         }
-        r = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo).toString();
+        r=jsonarr.toString();
         FlushWriteUtil.flushWrite(response,r);
     }
 
@@ -389,7 +387,6 @@ public class OrderInfoAction {
         List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
         if (!list.isEmpty()) {
             OrderInfo order = (OrderInfo) list.get(0);
-
             temp.put("Order_PK", order.getId());
             temp.put("User_PK", order.getUser_info_id());
             temp.put("Order_ID", order.getOrder_id());
