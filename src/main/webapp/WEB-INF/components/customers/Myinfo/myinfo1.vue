@@ -136,7 +136,7 @@ export default {
         'Deliv_Address':Address,'Deliv_Zipcode':code}
       axios.post('/api/updateUserDeliveryAddress', data).then((response) => {
         console.log(response.data.status)
-        if(response.data.status === 0)
+        if(response.data.status === 1)
         { var s = document.getElementById('modal-container-735678')
         s.style.display = 'none'
         this.Deliv_Name = Name
