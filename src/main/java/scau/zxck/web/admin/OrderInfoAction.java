@@ -376,7 +376,7 @@ public class OrderInfoAction {
             temp.put("Order_Reserve_1", order.getOrder_reserve_1());
             jsonarr.add(temp);
         }
-        r = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo).toString();
+        //r = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo).toString();
         FlushWriteUtil.flushWrite(response,r);
     }
 
