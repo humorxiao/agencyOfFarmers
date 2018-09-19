@@ -93,19 +93,12 @@ public class OrderInfoAction {
     public void getStateOrderPaging(HttpServletResponse response) throws Exception {
         String r = "";
         JSONObject data= ReadJSONUtil.readJSONStr(request);
-        if (session.getAttribute("User_PK") != null) {
-            data.put("User_PK", session.getAttribute("User_PK"));
-        } else {
-            data.put("User_PK", "");
-        }
         JSONArray jsonarr = new JSONArray();
         Conditions conditions = new Conditions();
-        List list = orderInfoService.list(conditions.eq("user_info_id", data.get("User_PK").toString())
-                .and().eq("order_state", data.get("Order_State").toString()));
+        List list = orderInfoService.list(conditions.eq("order_state", data.get("Order_State").toString()));
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             JSONObject temp = new JSONObject();
             OrderInfo order = (OrderInfo) iter.next();
-
             temp.put("Order_PK", order.getId());
             temp.put("User_PK", order.getUser_info_id());
             temp.put("Order_ID", order.getOrder_id());
@@ -127,11 +120,9 @@ public class OrderInfoAction {
             temp.put("Order_Website", order.getOrder_website());
             temp.put("Order_Aftersale", order.getOrder_aftersale());
             temp.put("Order_Reserve_1", order.getOrder_reserve_1());
-
             jsonarr.add(temp);
         }
-        JSONArray temparr = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, data);
-        r = temparr.toString();
+        r = jsonarr.toString();
         FlushWriteUtil.flushWrite(response,r);
     }
 
