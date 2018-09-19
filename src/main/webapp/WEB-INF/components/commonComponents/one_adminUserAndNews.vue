@@ -39,7 +39,7 @@
         width="120">
         <template slot-scope="scope">
           <el-button
-            @click.native.prevent="deleteRow(scope.$index,scope.row.telephone,scope.row.name,scope.row.sex,
+            @click.native.prevent="deleteRow(scope.$index,scope.row.telephone,scope.row.name,scope.row.sexid,
             scope.row.email,scope.row.time,scope.row.userPk)"
             type="text"
             size="small">
@@ -66,9 +66,46 @@ import axios from 'axios'
         }
       },
       methods: {
-        deleteRow(index,telephone,name,sex,email,time,userPk) {
-          // rows.splice(index, 1);
-          console.log(telephone,name,sex,email,time,userPk)
+        deleteRow(index,telephone,name,sexid,email,time,userPk) {
+         // console.log(telephone,name,sexid,email,time,userPk)
+          this.data = {
+            'User_Name': name,
+            'User_PK': userPk,
+            'User_Cell': telephone,
+            'User_Email': email,
+            'User_Sex': sexid,
+            'User_RegTime' : time
+          }
+          this.$confirm('是否添加至白名单, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            //console.log(newsPk)
+            // console.log(this.data)
+            axios.post('/api/removeBannedUser', this.data).then(response => {
+              console.log(JSON.stringify(response.data))
+              if(response.data.status === 1) {
+                this.tableData1.splice(index, 1)
+                this.$message({
+                  type: 'success',
+                  message: '移除成功!'
+                })
+              } else {
+                this.$message({
+                  type: 'info',
+                  message: '移除失败!'
+                })
+              }
+            }).catch(function (error) {
+              console.log(error)
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消操作'
+            });
+          });
         },
         search() {
           this.searchData = {"likes": this.input}
@@ -99,6 +136,8 @@ import axios from 'axios'
       data() {
         return {
           input: '',
+          searchData: '',
+          data: '',
           telephone: '',
           name: '',
           sex: '',
