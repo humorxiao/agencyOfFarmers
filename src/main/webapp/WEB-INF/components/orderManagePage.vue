@@ -8,13 +8,13 @@
         <br>
         <order-tabs></order-tabs>
         <div class="tab-content div-bg-color">
-          <unpay-order></unpay-order>
-          <unship-order></unship-order>
-          <unsign-order></unsign-order>
-          <unrecept-order></unrecept-order>
-          <return-order></return-order>
-          <exchange-order></exchange-order>
-          <search-order></search-order>
+          <unpay-order-father></unpay-order-father>
+          <unship-order-father></unship-order-father>
+          <unsign-order-father></unsign-order-father>
+          <unrecept-order-father></unrecept-order-father>
+          <return-order-father></return-order-father>
+          <exchange-order-father></exchange-order-father>
+          <search-order-father></search-order-father>
         </div>
       </div>
     </div>
@@ -30,32 +30,35 @@
 <script>
 import orderNavar from './commonComponents/adminOrderMamageNavar.vue';
 import orderTabs from './commonComponents/adminOrderMamageTabs.vue';
-import unpayOrder from './commonComponents/adminUnpayOrder.vue';
-import unshipOrder from './commonComponents/adminUnshipOrder.vue';
-import unsignOrder from './commonComponents/adminUnsignOrder.vue';
-import unreceptOrder from './commonComponents/adminUnreceptOrder.vue';
-import returnOrder from './commonComponents/adminReturnOrder.vue';
-import exchangeOrder from './commonComponents/adminExchangeOrder.vue';
-import searchOrder from './commonComponents/adminSearchOrder.vue';
+import unpayOrderFather from './admin/unpayOrderFather.vue';
+import unshipOrderFather from './admin/unshipOrderFather.vue';
+import unsignOrderFather from './admin/unsignOrderFather.vue';
+import unreceptOrderFather from './admin/unreceptOrderFather.vue';
+import returnOrderFather from './admin/returnOrderFather.vue';
+import exchangeOrderFather from './admin/exchangeOrderFather.vue';
+import searchOrderFather from './admin/searchOrderFather.vue';
 import OrderMsg from './commonComponents/adminOrderMsg.vue'
 import OrderDetail from './commonComponents/adminOrderDetail.vue'
 import reviseOrder from './commonComponents/adminReviseOrder.vue'
 import closeOrder from './commonComponents/adminCloseOrder.vue'
 import Adminfooter from "./commonComponents/adminfooter.vue";
+import UnshipOrderFather from "./admin/unshipOrderFather.vue";
+import UnsignOrderFather from "./admin/unsignOrderFather.vue";
+import UnreceptOrderFather from "./admin/unreceptOrderFather.vue";
   export default {
     components: {
+      searchOrderFather,
+      exchangeOrderFather,
+      returnOrderFather,
+      unreceptOrderFather,
+      unsignOrderFather,
+      unshipOrderFather,
+      unpayOrderFather,
       closeOrder,
       reviseOrder,
       OrderDetail,
       OrderMsg,
       Adminfooter,
-      searchOrder,
-      exchangeOrder,
-      returnOrder,
-      unreceptOrder,
-      unsignOrder,
-      unshipOrder,
-      unpayOrder,
       orderNavar,
       orderTabs},
     name: "orderManagePage",
