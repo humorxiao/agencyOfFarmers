@@ -67,7 +67,7 @@
     },
     methods: {
       deleteRow(index,telephone,name,sexid,email,time,userPk) {
-        console.log(telephone,name,sexid,email,time,userPk)
+       // console.log(telephone,name,sexid,email,time,userPk)
         this.data = {
           'User_Name': name,
           'User_PK': userPk,
@@ -89,12 +89,12 @@
                 this.tableData4.splice(index, 1)
                 this.$message({
                   type: 'success',
-                  message: '添加成功!'
+                  message: '移除成功!'
                 })
               } else {
                 this.$message({
                   type: 'info',
-                  message: '添加失败!'
+                  message: '移除失败!'
                 })
               }
             }).catch(function (error) {
@@ -137,7 +137,13 @@
       return {
         input: '',
         searchData: '',
-        data: ''
+        data: '',
+        telephone: '',
+        name: '',
+        sex: '',
+        email: '',
+        time: '',
+        userPk: ''
       }
     }
   }

@@ -22,7 +22,8 @@
               sex: this.mysex,
               email: response.data[i].User_Email,
               time: response.data[i].User_RegTime,
-              userPk: response.data[i].User_PK
+              userPk: response.data[i].User_PK,
+              sexid: response.data[i].User_Sex
               // zip: 200333
             })
           }
