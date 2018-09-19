@@ -1,7 +1,6 @@
 <!--卖家已发货.3-->
 <template>
   <div class="tab-pane" id="panel-923726">
-
     <el-table
       :data="tableOrder3"
       style="width: 100%"
