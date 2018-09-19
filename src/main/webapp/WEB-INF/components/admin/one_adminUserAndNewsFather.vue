@@ -22,6 +22,7 @@
               sex: this.mysex,
               email: response.data[i].User_Email,
               time: response.data[i].User_RegTime,
+              userPk: response.data[i].User_PK
               // zip: 200333
             })
           }
