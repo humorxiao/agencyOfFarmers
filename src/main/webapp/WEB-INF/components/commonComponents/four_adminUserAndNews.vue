@@ -10,15 +10,6 @@
       </div>
       <editorfather></editorfather>
       <div>
-      <span>动态类别：</span>
-      <el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
       <el-button type="primary">提交</el-button>
       </div>
   </div>
@@ -34,13 +25,6 @@ import myeditorfather from '../admin/editorFather.vue'
       },
       data() {
           return{
-            options: [{
-              value: '选项1',
-              label: '联合社动态'
-            }, {
-              value: '选项2',
-              label: '产供销快报'
-            }],
             value: '',
             input: '',
             ruleForm: {

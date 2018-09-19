@@ -45,7 +45,7 @@ public class NewsAction {
     String r = "";
     List list = newsService.listAll();
     JSONArray jsonarr = new JSONArray();
-    int cnt=0;
+    int cnt = 0;
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
       JSONObject temp = new JSONObject();
       UnionNews news = (UnionNews) iter.next();
@@ -55,11 +55,9 @@ public class NewsAction {
       temp.put("News_Time", news.getNews_time());
       temp.put("News_Picture", news.getNews_picture());
       temp.put("Remark", news.getRemark());
-      if (news.getNews_mark() == 1) {
-        jsonarr.add(temp);
-        cnt++;
-      }
-      if(cnt==4) break;
+      jsonarr.add(temp);
+      cnt++;
+      if (cnt == 4) break;
     }
     r = jsonarr.toString();
     FlushWriteUtil.flushWrite(response, r);
@@ -79,9 +77,7 @@ public class NewsAction {
       temp.put("News_Time", news.getNews_time());
       temp.put("News_Picture", news.getNews_picture());
       temp.put("Remark", news.getRemark());
-      if (news.getNews_mark() == 1) {
-        jsonarr.add(temp);
-      }
+      jsonarr.add(temp);
     }
     r = jsonarr.toString();
     FlushWriteUtil.flushWrite(response, r);
@@ -89,25 +85,25 @@ public class NewsAction {
 
   @RequestMapping(value = "addNews", method = RequestMethod.POST)
 //  @Test
-  public void addNews( HttpServletResponse response) throws Exception {
+  public void addNews(HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     String News_Title =
       data.get("News_Title") != null ? data.get("News_Title").toString() : "";
     String htmlData =
       data.get("content1") != null ? data.get("content1").toString() : "";
-    String News_Mark =
-      data.get("News_Mark") != null ? data.get("News_Mark").toString() : "";
+//    String News_Mark =
+//      data.get("News_Mark") != null ? data.get("News_Mark").toString() : "";
     data.put("News_Title", News_Title);
     data.put("News_Text", htmlData);
-    data.put("News_Mark", News_Mark);
+//    data.put("News_Mark", News_Mark);
     data.put("News_Time", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
     boolean ret;
     UnionNews temp = new UnionNews();
     temp.setNews_title(data.get("News_Title").toString());
     temp.setNews_text(data.get("News_Text").toString());
     temp.setNews_time(Timestamp.valueOf(data.get("News_Time").toString()).toString());
-    temp.setNews_mark((int) Integer.parseInt(data.get("News_Mark").toString()));
+//    temp.setNews_mark((int) Integer.parseInt(data.get("News_Mark").toString()));
     try {
       newsService.add(temp);
       ret = true;
@@ -124,25 +120,26 @@ public class NewsAction {
     FlushWriteUtil.flushWrite(response, r);
   }
 
-  @RequestMapping(value = "deleteNews",method = RequestMethod.POST)
-  public void deleteNews(HttpServletResponse response) throws Exception{
-    JSONObject data=ReadJSONUtil.readJSONStr(request);
-    String news_id=data.get("News_PK").toString();
-    JSONObject temp=new JSONObject();
-    String r=null;
+  @RequestMapping(value = "deleteNews", method = RequestMethod.POST)
+  public void deleteNews(HttpServletResponse response) throws Exception {
+    JSONObject data = ReadJSONUtil.readJSONStr(request);
+    String news_id = data.get("News_PK").toString();
+    JSONObject temp = new JSONObject();
+    String r = null;
     try {
       unionNewsService.deleteByIds(news_id);
-      temp.put("status",true);
-    }catch (Exception e){
-      temp.put("status",false);
-      r=temp.toString();
-      FlushWriteUtil.flushWrite(response,r);
+      temp.put("status", true);
+    } catch (Exception e) {
+      temp.put("status", false);
+      r = temp.toString();
+      FlushWriteUtil.flushWrite(response, r);
     }
-    r=temp.toString();
-    FlushWriteUtil.flushWrite(response,r);
+    r = temp.toString();
+    FlushWriteUtil.flushWrite(response, r);
   }
+
   @RequestMapping(value = "getLikesNews", method = RequestMethod.POST)
-  public void getLikesNews( HttpServletResponse response) throws Exception, UnsupportedEncodingException, IOException {
+  public void getLikesNews(HttpServletResponse response) throws Exception, UnsupportedEncodingException, IOException {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     String likes = data.get("likes").toString();
@@ -167,7 +164,7 @@ public class NewsAction {
 
   @RequestMapping(value = "getOneNews", method = RequestMethod.POST)
 //  @Test
-  public void getOneNews( HttpServletResponse response) throws Exception {
+  public void getOneNews(HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
