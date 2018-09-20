@@ -10,22 +10,37 @@
         fixed
         prop="orderID"
         label="订单号"
-        width="240">
+        width="180">
       </el-table-column>
       <el-table-column
         prop="userPK"
         label="用户主键"
-        width="240">
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="userName"
+        label="收件人"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="userTel"
+        label="联系电话"
+        width="180">
       </el-table-column>
       <el-table-column
         prop="orderTime"
         label="订单生成时间"
-        width="240">
+        width="180">
       </el-table-column>
       <el-table-column
         prop="orderPayPrice"
         label="订单应支付价格"
-        width="240">
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="address"
+        label="收货地址"
+        width="260">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -35,6 +50,10 @@
           <el-button
             size="mini"
             @click="EditMoney">修改金额</el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            @click="EditMoney">修改地址</el-button>
           <el-button
             size="mini"
             type="danger"
