@@ -76,7 +76,7 @@ public class CartInfoAction {
     CartInfo cartInfo = cartInfoService.findById(data.get("Cart_PK").toString());
     cartInfo.setGoods_list(data.get("Goods_List").toString());
     cartInfo.setGoods_num(data.get("Goods_Num").toString());
-    try {
+	try {
       cartInfoService.updateById(cartInfo);
       r = "{\"status\":1}";
     } catch (Exception e) {
