@@ -53,12 +53,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.service.market.ILoginService;
 import scau.zxck.service.sys.IUserLoginService;
 import scau.zxck.utils.CodeUtil;
 import scau.zxck.utils.SendEmail2Util;
 import scau.zxck.utils.SendEmailUtil;
-import scau.zxck.web.listener.UserSessionListener;
 
 
 import javax.servlet.ServletContext;
@@ -119,7 +117,7 @@ public class TestAction {
   }
   @RequestMapping(value = "testUploadPicture",method = RequestMethod.POST)
   public String testuploadPicture(MultipartFile image) throws Exception{
-    String path="E:/agencyOfFarmers/src/main/webapp/static/image/";
+    String path="src/main/webapp/static/image/";
     image.transferTo(new File(path+image.getOriginalFilename()));
     return "success";
   }
