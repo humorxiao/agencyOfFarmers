@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -45,13 +46,12 @@ public class OrderStateAction {
   public void changeOrderState( HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject data= ReadJSONUtil.readJSONStr(request);
-    if ((int) data.get("Order_State") == 2) { // 取消订单
+    if (Integer.parseInt(data.get("Order_State").toString()) == 2) { // 取消订单
       Conditions conditions = new Conditions();
-      List list = orderInfoService.list(conditions.eq("id", data.get("Order_ID").toString()));
+      List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
       JSONObject temp = new JSONObject();
       if (!list.isEmpty()) {
         OrderInfo order = (OrderInfo) list.get(0);
-
         temp.put("Order_PK", order.getId());
         temp.put("User_PK", order.getUser_info_id());
         temp.put("Order_ID", order.getOrder_id());
@@ -61,10 +61,10 @@ public class OrderStateAction {
         temp.put("Goods_Prices", order.getGoods_prices());
         temp.put("Order_Time", order.getOrder_time());
         temp.put("Order_IsPay", order.isOrder_ispay());
-        if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
-          temp.put("Order_PayTime", "");
-        } else {
-          temp.put("Order_PayTime", order.getOrder_paytime());
+        if(order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))){
+          temp.put("Order_PayTime","");
+        }else{
+          temp.put("Order_PayTime",order.getOrder_paytime());
         }
         temp.put("Order_PayPrice", order.getOrder_payprice());
         temp.put("Order_State", order.getOrder_state());
@@ -74,8 +74,8 @@ public class OrderStateAction {
         temp.put("Order_Aftersale", order.getOrder_aftersale());
         temp.put("Order_Reserve_1", order.getOrder_reserve_1());
       }
-      String[] goodslist = ((String) temp.get("Goods_List")).split("#");
-      String[] goodsnum = ((String) temp.get("Goods_Num")).split("#");
+      String[] goodslist = temp.get("Goods_List").toString().split("#");
+      String[] goodsnum = temp.get("Goods_Num").toString().split("#");
       for (int i = 0; i < goodslist.length; i++) {// 循环操作订单中的每一项商品
         JSONObject log = new JSONObject();
         log.put("Goods_PK", goodslist[i]);
@@ -93,12 +93,11 @@ public class OrderStateAction {
         goodsLogService.add(temp1);
         JSONObject goodspk = new JSONObject();
         goodspk.put("Goods_PK", goodslist[i]);
-        JSONObject temp2 = new JSONObject();
-
-        List list1 = goodsInfoService.list(conditions.eq("id", goodspk.get("Goods_PK").toString()));
+        JSONObject temp2 = new JSONObject();//goods
+        Conditions conditions1=new Conditions();
+        List list1 = goodsInfoService.list(conditions1.eq("id", goodspk.get("Goods_PK").toString()));
         if (!list1.isEmpty()) {
           GoodsInfo goods = (GoodsInfo) list1.get(0);
-
           temp2.put("Goods_PK", goods.getId());
           temp2.put("Goods_Name", goods.getGoods_name());
           temp2.put("Goods_Type", goods.getGoods_type());
@@ -132,13 +131,13 @@ public class OrderStateAction {
         temp3.setGoods_expiration(temp2.get("Goods_Expiration").toString());
         goodsInfoService.updateById(temp3);
       }
+      //
     }
     JSONObject tempy = new JSONObject();
     Conditions conditions = new Conditions();
     List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID")));
     if (!list.isEmpty()) {
       OrderInfo order = (OrderInfo) list.get(0);
-
       tempy.put("Order_PK", order.getId());
       tempy.put("User_PK", order.getUser_info_id());
       tempy.put("Order_ID", order.getOrder_id());
@@ -340,5 +339,48 @@ public class OrderStateAction {
     }
     r=jsonarr.toString();
     FlushWriteUtil.flushWrite(response,r);
+  }
+  @RequestMapping(value = "rewriteAddress",method = RequestMethod.POST)
+  public void rewriteAddress(HttpServletResponse response)throws Exception{
+    String r = "";
+    JSONObject data= ReadJSONUtil.readJSONStr(request);
+    String strings=data.get("User_Messages").toString();
+    Conditions conditions=new Conditions();
+    List list=orderInfoService.list(conditions.eq("id",data.get("Order_PK")));
+    OrderInfo orderInfo=(OrderInfo)list.get(0);
+    JSONObject temp=new JSONObject();
+    orderInfo.setOrder_reserve_1(strings);
+    try {
+      orderInfoService.updateById(orderInfo);
+      temp.put("status",1);
+      r=temp.toString();
+      FlushWriteUtil.flushWrite(response,r);
+    }catch (Exception e){
+      e.printStackTrace();
+      temp.put("status",0);
+      r=temp.toString();
+      FlushWriteUtil.flushWrite(response,r);
+    }
+  }
+  @RequestMapping(value = "rewriteOrderPrice",method = RequestMethod.POST)
+  public void rewriteOrderPrice(HttpServletResponse response)throws Exception{
+    String r = "";
+    JSONObject data= ReadJSONUtil.readJSONStr(request);
+    Float order_payPrice=Float.parseFloat(data.get("Order_PayPrice").toString());
+    Conditions conditions=new Conditions();
+    List list=orderInfoService.list(conditions.eq("id",data.get("Order_PK")));
+    OrderInfo orderInfo=(OrderInfo)list.get(0);
+    orderInfo.setOrder_payprice(order_payPrice);
+    JSONObject temp=new JSONObject();
+    try {
+      orderInfoService.updateById(orderInfo);
+      temp.put("status",1);
+      r=temp.toString();
+      FlushWriteUtil.flushWrite(response,r);
+    }catch (Exception e){
+      temp.put("status",0);
+      r=temp.toString();
+      FlushWriteUtil.flushWrite(response,r);
+    }
   }
 }

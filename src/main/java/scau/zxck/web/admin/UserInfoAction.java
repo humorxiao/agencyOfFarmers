@@ -200,7 +200,7 @@ public class UserInfoAction {
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     data.put("User_Mark", "1");
     data.put("User_Realname","Nothing");
-    data.put("User_ID","Nothing");
+    data.put("User_ID","Nothing"+CodeUtil.generateUniqueCode());
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
     data.put("User_Password", userInfo.getUser_password());
     UserInfo temp = userLoginService.findById(data.get("User_PK").toString());

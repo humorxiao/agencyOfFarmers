@@ -89,7 +89,6 @@ public class OrderInfoAction {
     }
 
     @RequestMapping(value = "getStateOrderPaging", method = RequestMethod.POST)
-//    @Test
     public void getStateOrderPaging(HttpServletResponse response) throws Exception {
         String r = "";
         JSONObject data= ReadJSONUtil.readJSONStr(request);
@@ -108,6 +107,11 @@ public class OrderInfoAction {
             temp.put("Goods_Prices", order.getGoods_prices());
             temp.put("Order_Time", order.getOrder_time());
             temp.put("Order_IsPay", order.isOrder_ispay());
+            String[] reverse_1=order.getOrder_reserve_1().split(";");
+            temp.put("User_Cell",reverse_1[0]);
+            temp.put("User_Name",reverse_1[1]);
+            temp.put("User_Address",reverse_1[2]);
+            temp.put("User_PostCode",reverse_1[3]);
             if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
                 temp.put("Order_PayTime", "");
             } else {
