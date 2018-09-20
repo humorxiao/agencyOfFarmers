@@ -8,7 +8,6 @@
       clearable>
     </el-input>
     <el-button type="primary" icon="el-icon-search" @click="searchID(input10)">搜索</el-button>
-
     <el-table
       :data="tableOrder7"
       style="width: 100%"
@@ -56,6 +55,7 @@
       </el-table-column>
 
     </el-table>
+
   </div>
 </template>
 
