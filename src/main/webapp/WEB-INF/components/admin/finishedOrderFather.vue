@@ -1,27 +1,27 @@
-<!--未确认收货父组件.4-->
+<!--已完成订单父组件.5-->
 <template>
-  <unrecept-order :tableOrder4="tableOrder4"></unrecept-order>
+  <finished-order :tableOrder5="tableOrder5"></finished-order>
 </template>
 
 <script>
-  import unreceptOrder from '../commonComponents/adminUnreceptOrder.vue'
+  import finishedOrder from '../commonComponents/adminFinishedOrder.vue'
   import axios from 'axios'
   export default {
-    name: "unreceptOrderFather",
+    name: "finishedOrderFather",
     components: {
-      unreceptOrder: unreceptOrder
+      finishedOrder: finishedOrder
     },
     data() {
       return {
-        tableOrder4: []
+        tableOrder5: []
       }
     },
     mounted: function () {
-      var stste = {'Order_State':4}
+      var stste = {'Order_State':5}
       axios.post('/api/getStateOrderPaging',stste).then(response =>{
         for(var i = 0; i < response.data.length; i++){
 
-          this.tableOrder4.push({
+          this.tableOrder5.push({
             orderID: response.data[i].Order_ID,
             orderPK: response.data[i].Order_PK,
             userPK: response.data[i].User_PK,

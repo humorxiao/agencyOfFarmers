@@ -1,9 +1,11 @@
+<!--卖家已发货父组件.3-->
 <template>
   <unsign-order :tableOrder3="tableOrder3"></unsign-order>
 </template>
 
 <script>
   import unsignOrder from '../commonComponents/adminUnsignOrder.vue'
+  import axios from 'axios'
   export default {
     name: "unsignOrderFather",
     components: {
@@ -11,22 +13,28 @@
     },
     data() {
       return {
-        tableOrder3: [{
-          date: '2016-05-03',
-          name: '嘻嘻嘻',
-          province: '刚好',
-          city: '多少你多少',
-          address: '啊是的你哦手机费第三届佛寺',
-          zip: 200333
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }]
+        tableOrder3: []
       }
+    },
+    mounted: function () {
+      var stste = {'Order_State':3}
+      axios.post('/api/getStateOrderPaging',stste).then(response =>{
+        for(var i = 0; i < response.data.length; i++){
+
+          this.tableOrder3.push({
+            orderID: response.data[i].Order_ID,
+            orderPK: response.data[i].Order_PK,
+            userPK: response.data[i].User_PK,
+            orderTime: response.data[i].Order_Time,
+            orderPayPrice: response.data[i].Order_PayPrice,
+            orderTrackNum: response.data[i].Order_TrackNum,
+            userMsg: response.data[i].Order_Reserve_1
+          })
+        }
+
+      }).catch(function (error) {
+        console.log(error)
+      })
     }
   }
 

@@ -13,14 +13,14 @@
         width="180">
       </el-table-column>
       <el-table-column
-        prop="userPK"
-        label="用户主键"
-        width="180">
+        prop="orderPK"
+        label="订单主键"
+        width="130">
       </el-table-column>
       <el-table-column
         prop="userName"
         label="收件人"
-        width="180">
+        width="130">
       </el-table-column>
       <el-table-column
         prop="userTel"
@@ -34,13 +34,19 @@
       </el-table-column>
       <el-table-column
         prop="orderPayPrice"
-        label="订单应支付价格"
+        label="支付价格"
         width="180">
+        <template slot-scope="scope">
+          <span>{{scope.row.orderPayPrice}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="address"
         label="收货地址"
         width="260">
+        <template slot-scope="scope">
+          <span>{{scope.row.address}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -49,15 +55,15 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="EditMoney">修改金额</el-button>
+            @click="EditMoney(scope.$index, scope.row)">修改金额</el-button>
           <el-button
             size="mini"
             type="primary"
-            @click="EditMoney">修改地址</el-button>
+            @click="EditAddress(scope.$index, scope.row)">修改地址</el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">取消订单</el-button>
+            @click="handleDelete()">取消订单</el-button>
         </template>
 
       </el-table-column>
@@ -78,28 +84,46 @@
     },
     data() {
       return {
-        showEdit: [], //显示编辑框
-        showBtn: [],
-        showBtnOrdinary: true,
-        visible2: false,
+
       }
     },
     methods: {
-      EditMoney() {
+      EditMoney: function(index,row) {
         this.$prompt('请输入金额', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(({ value }) => {
           this.$message({
             type: 'success',
-            message: '修改成功'+ value
+            message: '修改成功'
           });
+          this.$emit('EditMoney',value,index,row.orderPK)
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '取消输入'
           });
         });
+      },
+      EditAddress: function(index,row) {
+        this.$prompt('请输入地址', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({ value }) => {
+          this.$message({
+            type: 'success',
+            message: '修改成功'
+          });
+          this.$emit('EditAddress',value,index,row.orderPK)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });
+        });
+      },
+      handleDelete() {
+
       }
     }
   }
