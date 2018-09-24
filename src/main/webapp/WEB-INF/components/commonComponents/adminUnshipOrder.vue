@@ -8,39 +8,42 @@
       max-height="620">
       <el-table-column
         fixed
-        prop="date"
+        prop="orderID"
         label="订单号"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="交易号"
+        prop="orderPK"
+        label="订单主键"
+        width="130">
+      </el-table-column>
+      <el-table-column
+        prop="userName"
+        label="收件人"
+        width="130">
+      </el-table-column>
+      <el-table-column
+        prop="userTel"
+        label="联系电话"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="用户主键"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="province"
+        prop="orderTime"
         label="订单生成时间"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="city"
-        label="订单支付时间"
+        prop="orderPayPrice"
+        label="支付价格"
         width="180">
+        <template slot-scope="scope">
+          <span>{{scope.row.orderPayPrice}}</span>
+        </template>
       </el-table-column>
       <el-table-column
-        prop="city"
-        label="订单支付价格"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="city"
-        label="收货信息"
-        width="180">
+        prop="address"
+        label="收货地址"
+        width="260">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -49,12 +52,17 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">修改金额</el-button>
+            @click="EditMoney2(scope.$index, scope.row)">修改金额</el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            @click="EditAddress2">修改地址</el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">取消订单</el-button>
+            @click="handleDelete2(scope.$index, scope.row)">取消订单</el-button>
         </template>
+
       </el-table-column>
     </el-table>
 
@@ -74,21 +82,32 @@
     },
     data() {
       return {
-        showEdit: [], //显示编辑框
-        showBtn: [],
-        showBtnOrdinary: true
+
       }
     },
     methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-        this.showEdit[index] = true;
-        this.showBtn[index] = true;
-        this.$set(this.showEdit,row,true)
-        this.$set(this.showBtn,row,true)
+      EditMoney2: function(index,row) {
+        this.$prompt('请输入金额', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({ value }) => {
+          this.$message({
+            type: 'success',
+            message: '修改成功'
+          });
+          this.$emit('EditMoney2',value,index,row.orderPK)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });
+        });
       },
-      handleDelete(index, row) {
-        console.log(index, row);
+      EditAddress2() {
+
+      },
+      handleDelete2() {
+
       }
     }
   }
