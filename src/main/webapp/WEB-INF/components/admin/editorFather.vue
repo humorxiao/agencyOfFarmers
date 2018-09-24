@@ -23,7 +23,7 @@
         editorSetting: { // 配置富文本编辑器高
           height: 300
         },
-        Url: 'D:/java-project/agencyOfFarmers/src/main/webapp/static/image', // 图片对应的上传地址
+        Url: 'http://localhost:9528/api/PublicTransaction-SYS-Web/upload/singleUpload', // 图片对应的上传地址
         MaxSize: 5242880, // 文件大小
         Accept: 'image/jpeg, image/png', // 文件格式
         withCredentials: true,
