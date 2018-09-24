@@ -1,4 +1,4 @@
-<!--未确认收货订单.4-->
+<!--未确认收货.4-->
 <template>
   <div class="tab-pane" id="panel-923727">
 
@@ -8,45 +8,40 @@
       max-height="620">
       <el-table-column
         fixed
-        prop="date"
+        prop="orderID"
         label="订单号"
-        width="160">
+        width="180">
       </el-table-column>
       <el-table-column
         fixed
-        prop="date"
+        prop="orderPK"
         label="交易号"
-        width="160">
+        width="130">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="userPK"
         label="用户主键"
-        width="160">
+        width="130">
       </el-table-column>
       <el-table-column
-        prop="province"
+        prop="orderTime"
         label="订单生成时间"
         width="160">
       </el-table-column>
       <el-table-column
-        prop="province"
-        label="订单支付时间"
-        width="160">
-      </el-table-column>
-      <el-table-column
-        prop="province"
+        prop="orderPayPrice"
         label="订单支付价格"
         width="160">
       </el-table-column>
       <el-table-column
-        prop="province"
+        prop="orderTrackNum"
         label="快递单号"
         width="160">
       </el-table-column>
       <el-table-column
-        prop="city"
+        prop="userMsg"
         label="收货信息"
-        width="160">
+        width="260">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -55,7 +50,8 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">修改金额</el-button>
+            type="primary"
+            @click="handleEdit(scope.$index, scope.row)">确认收货</el-button>
         </template>
       </el-table-column>
     </el-table>

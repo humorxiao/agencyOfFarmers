@@ -1,9 +1,9 @@
-<!--卖家已发货.3-->
+<!--订单已完成.5-->
 <template>
-  <div class="tab-pane" id="panel-923726">
+  <div class="tab-pane" id="panel-923728">
 
     <el-table
-      :data="tableOrder3"
+      :data="tableOrder5"
       style="width: 100%"
       max-height="620">
       <el-table-column
@@ -51,7 +51,7 @@
           <el-button
             size="mini"
             type="primary"
-            @click="handleEdit(scope.$index, scope.row)">修改金额</el-button>
+            @click="handleEdit(scope.$index, scope.row)">订单详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -61,9 +61,9 @@
 
 <script>
   export default {
-    name: "unsignOrder",
+    name: "finishedOrder",
     props: {
-      tableOrder3: {
+      tableOrder5: {
         type: Array,
         default: function () {
           return []
