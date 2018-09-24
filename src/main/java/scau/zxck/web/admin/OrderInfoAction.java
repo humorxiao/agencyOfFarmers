@@ -83,8 +83,8 @@ public class OrderInfoAction {
 
             jsonarr.add(temp);
         }
-        JSONArray temparr = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo);
-        r = temparr.toString();
+//        JSONArray temparr = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo);
+        r = jsonarr.toString();
         FlushWriteUtil.flushWrite(response,r);
     }
 

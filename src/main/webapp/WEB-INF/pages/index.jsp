@@ -45,6 +45,7 @@
   <input type="file" name="image" accept="image/jpeg,image/png,image/gif">
   <br>
   <input type="submit" value="submit">
+</form>
 
 <%--</form>--%>
 <%--<form action="/test" method="post">--%>
