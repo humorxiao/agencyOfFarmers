@@ -63,7 +63,7 @@
           <el-button
             size="mini"
             type="primary"
-            @click="EditMoney">修改地址</el-button>
+            @click="EditAddress(scope.$index, scope.row)">修改地址</el-button>
           <el-button
             size="mini"
             type="danger"

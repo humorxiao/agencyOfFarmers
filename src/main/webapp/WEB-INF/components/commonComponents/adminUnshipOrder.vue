@@ -62,6 +62,7 @@
             type="danger"
             @click="handleDelete2(scope.$index, scope.row)">取消订单</el-button>
         </template>
+
       </el-table-column>
     </el-table>
 

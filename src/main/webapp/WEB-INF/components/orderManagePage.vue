@@ -44,9 +44,6 @@ import searchOrderFather from './admin/searchOrderFather.vue';
 //import reviseOrder from './commonComponents/adminReviseOrder.vue'
 //import closeOrder from './commonComponents/adminCloseOrder.vue'
 import Adminfooter from "./commonComponents/adminfooter.vue";
-import UnshipOrderFather from "./admin/unshipOrderFather.vue";
-import UnsignOrderFather from "./admin/unsignOrderFather.vue";
-import UnreceptOrderFather from "./admin/unreceptOrderFather.vue";
   export default {
     components: {
       finishedOrderFather,
