@@ -35,17 +35,17 @@
 <%--<br><br>--%>
 <%--</form>--%>
 
-<%--<form action="/headImgUpload" method="POST" enctype="multipart/form-data">--%>
-<%--<label>Profile Picture</label>--%>
-<%--<input type="file" name="file" accept="image/jpeg,image/png,image/gif">--%>
-<%--<br>--%>
-<%--<input type="submit" value="submit">--%>
-<form action="/uploadPictures" method="POST" enctype="multipart/form-data">
-  <label>Profile Picture</label>
-  <input type="file" name="image" accept="image/jpeg,image/png,image/gif">
-  <br>
-  <input type="submit" value="submit">
-</form>
+<form action="/headImgUpload" method="POST" enctype="multipart/form-data">
+<label>Profile Picture</label>
+<input type="file" name="file" accept="image/jpeg,image/png,image/gif">
+<br>
+<input type="submit" value="submit">
+<%--<form action="/uploadPictures" method="POST" enctype="multipart/form-data">--%>
+  <%--<label>Profile Picture</label>--%>
+  <%--<input type="file" name="image" accept="image/jpeg,image/png,image/gif">--%>
+  <%--<br>--%>
+  <%--<input type="submit" value="submit">--%>
+<%--</form>--%>
 
 <%--</form>--%>
 <%--<form action="/test" method="post">--%>
