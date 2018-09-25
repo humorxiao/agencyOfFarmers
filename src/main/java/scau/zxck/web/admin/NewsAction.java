@@ -96,7 +96,7 @@ public class NewsAction {
 //      data.get("News_Mark") != null ? data.get("News_Mark").toString() : "";
     data.put("News_Title", News_Title);
     data.put("News_Text", htmlData);
-//    data.put("News_Mark", News_Mark);
+    data.put("News_Mark", "1");
     data.put("News_Time", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
     boolean ret;
     UnionNews temp = new UnionNews();
@@ -116,7 +116,7 @@ public class NewsAction {
     } else {
       r = "{\"status\":0}";
     }
-    response.sendRedirect("../user&newsManagePage.html#panel-923725");
+//    response.sendRedirect("../user&newsManagePage.html#panel-923725");
     FlushWriteUtil.flushWrite(response, r);
   }
 
