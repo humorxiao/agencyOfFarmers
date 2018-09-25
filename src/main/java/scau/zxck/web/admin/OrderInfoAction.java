@@ -45,7 +45,7 @@ public class OrderInfoAction {
 //    @Test
     public void getUserOrderListPaging(HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject pageInfo = ReadJSONUtil.readJSONStr(request);
+        JSONObject pageInfo = new JSONObject();
         if (session.getAttribute("User_PK") != null) {
             pageInfo.put("User_PK", session.getAttribute("User_PK"));
         } else {
