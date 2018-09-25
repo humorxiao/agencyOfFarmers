@@ -17,7 +17,7 @@
                     @focus="onEditorFocus($event)"
                     @ready="onEditorReady($event)">
       </quill-editor>
-      <div class="content ql-editor" v-html="content"></div>
+      <!--<div class="content ql-editor" v-html="content"></div>-->
     </div>
 
       <div>
