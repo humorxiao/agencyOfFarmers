@@ -28,23 +28,17 @@ import myfour_adminUserAndNews from './commonComponents/four_adminUserAndNews.vu
 import myadminfooter from './commonComponents/adminfooter.vue'
 import mytwo_adminUserAndNewsFather from './admin/two_adminUserAndNewsFather'
 export default {
-        name: "userAndnewsManagePage",
-      components: {
-        adminnavar: myadminNavar,
-        adminuserandnewstabs: myadminUserAndNewsTabs,
-        one_adminuserandnewsfather : myone_adminUserAndNewsFather,
-        three_adminuserandnewsfather: mythree_adminUserAndNewsFather,
-        four_adminuserandnews: myfour_adminUserAndNews,
-        adminfooter : myadminfooter,
-        two_adminuserandnewsfather: mytwo_adminUserAndNewsFather
-      }
-<h1>用户和动态编辑</h1>
-</template>
-
-<script>
-    export default {
-        name: "userAndnewsManagePage"
-    }
+  name: "userAndnewsManagePage",
+  components: {
+    adminnavar: myadminNavar,
+    adminuserandnewstabs: myadminUserAndNewsTabs,
+    one_adminuserandnewsfather: myone_adminUserAndNewsFather,
+    three_adminuserandnewsfather: mythree_adminUserAndNewsFather,
+    four_adminuserandnews: myfour_adminUserAndNews,
+    adminfooter: myadminfooter,
+    two_adminuserandnewsfather: mytwo_adminUserAndNewsFather
+  }
+}
 </script>
 
 <style scoped>
