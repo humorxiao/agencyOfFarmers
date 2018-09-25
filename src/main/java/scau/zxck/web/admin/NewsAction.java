@@ -90,16 +90,10 @@ public class NewsAction {
   public void addNews(HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
-    String News_Title =
-      data.get("News_Title") != null ? data.get("News_Title").toString() : "";
-    String htmlData =
-      data.get("content1") != null ? data.get("content1").toString() : "";
-//    String News_Mark =
-//      data.get("News_Mark") != null ? data.get("News_Mark").toString() : "";
-    data.put("News_Title", News_Title);
-    data.put("News_Text", htmlData);
-    data.put("News_Mark", "1");
-    data.put("News_Time", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
+    String news_title=data.get("News_Title").toString();
+    String news_text=data.get("News_Text").toString();
+    String time=data.get("News_Time").toString();
+    data.put("News_Mark","1");
     boolean ret;
     UnionNews temp = new UnionNews();
     temp.setNews_title(data.get("News_Title").toString());
