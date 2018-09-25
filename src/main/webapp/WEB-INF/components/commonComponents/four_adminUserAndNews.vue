@@ -37,6 +37,7 @@
             value: '',
             input: '',
             content: '',
+            data: '',
             ruleForm: {
               name: ''
             },
@@ -56,28 +57,27 @@
       },
       methods: {
         onEditorBlur(quill) {
-          console.log('editor blur!', quill)
+          // console.log('editor blur!', quill)
         },
         onEditorFocus(quill) {
-          console.log('editor focus!', quill)
+          // console.log('editor focus!', quill)
         },
         onEditorReady(quill) {
-          console.log('editor ready!', quill)
+          // console.log('editor ready!', quill)
         },
         tosubmit() {
+          var time = this.gettime()
+          this.data = {
+            'News_Title' : this.ruleForm.name,
+            'News_Text' : this.content,
+            'News_Time' : time
+          }
           console.log(this.content)
           console.log(this.ruleForm.name)
-          var time = this.gettime()
           console.log(time)
         },
         gettime() {
           var myDate = new Date();//获取系统当前时间
-          // console.log(myDate.getFullYear()) //获取完整的年份(4位,1970-????)
-          // console.log(myDate.getMonth()) //获取当前月份(0-11,0代表1月)
-          // console.log(myDate.getDate()) //获取当前日(1-31)
-          // console.log(myDate.getHours())// 时
-          // console.log( myDate.getMinutes()) //分
-          // console.log( myDate.getSeconds()) //秒
           var time = myDate.getFullYear() + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate() + ' ' + myDate.getHours() + ':' +  myDate.getMinutes() + ':' + myDate.getSeconds()
           return time
         }
@@ -86,13 +86,13 @@
         editorA() {
           return this.$refs.quillEditorA.quill
         },
-        editorB() {
-          return this.$refs.quillEditorB.quill
-        }
+        // editorB() {
+        //   return this.$refs.quillEditorB.quill
+        // }
       },
-      mounted() {
-        console.log('this is quill A instance object', this.editorA, 'B instance', this.editorB)
-      }
+      // mounted() {
+      //   console.log('this is quill A instance object', this.editorA, 'B instance', this.editorB)
+      // }
     }
 </script>
 
