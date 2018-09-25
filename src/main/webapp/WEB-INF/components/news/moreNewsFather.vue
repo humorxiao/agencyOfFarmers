@@ -90,7 +90,6 @@
         }
       },
       toNewsDetails: function () {
-
       }
     },
     //打开新闻列表页，向后台请求数据
