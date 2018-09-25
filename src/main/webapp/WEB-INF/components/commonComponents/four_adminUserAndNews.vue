@@ -72,6 +72,7 @@
             'News_Text' : this.content,
             'News_Time' : time
           }
+          console.log(this.data)
           console.log(this.content)
           console.log(this.ruleForm.name)
           console.log(time)
