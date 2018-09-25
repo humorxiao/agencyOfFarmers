@@ -1,48 +1,47 @@
 <template>
   <div>
-    <div class="tab-pane active" id="panel-923725">
+    <div class="tab-pane" id="panel-923728">
       <br>
-      <el-input v-model="input" placeholder="搜索商品"  width="20%"></el-input>
-      <a class="btn" href="#modal-container-Goods" @click=addUnion1()
-         data-toggle="modal"><img style="width: 25px;"
-         src="../ico-img/add.jpg">新增商品</a> <br><br>
+      <a class="btn" href="#modal-container-UnionGoods" @click=addProd1()
+         data-toggle="modal"><img style="width: 25px;" src="../ico-img/add.jpg">新增生产关系</a> <br><br>
       <el-table
         :data="message"
-        style="width: 90%"
-        max-height="610">
+        style="width: 100%"
+        margin="10px"
+        max-height="510">
         <el-table-column
-          prop="goodsname"
-          label="商品名称"
+          prop="union"
+          label="合作社"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="goodstype"
-          label="商品类别"
+          prop="product"
+          label="农产品"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="goodsleft"
-          label="商品库存"
+          prop="area"
+          label="面积"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="goodsprice"
-          label="商品价格"
+          prop="treesnum"
+          label="株数"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="sales"
-          label="商品是否售卖"
+          prop="production"
+          label="产量"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="goodsplace"
-          label="商品展示位置"
+          prop="price"
+          label="价格"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="pictures"
-          label="商品图片路径"
+          prop="time"
+          label="上市时间"
           width="150">
         </el-table-column>
         <el-table-column
@@ -72,20 +71,18 @@
 
 <script>
     export default {
-        name: "two_union",
+        name: "six_union",
       props:{
-          message:{type:Array,required:true}
+        message:{type:Array,required:true}
       },
       data(){
-          return{
-         input:''
-          }
+        return{
+          input:''
+        }
       }
     }
 </script>
 
 <style scoped>
-  .el-input{
-    width: 20%;
-  }
+
 </style>

@@ -45,7 +45,7 @@ public class OrderInfoAction {
 //    @Test
     public void getUserOrderListPaging(HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject pageInfo = ReadJSONUtil.readJSONStr(request);
+        JSONObject pageInfo = new JSONObject();
         if (session.getAttribute("User_PK") != null) {
             pageInfo.put("User_PK", session.getAttribute("User_PK"));
         } else {
@@ -83,8 +83,8 @@ public class OrderInfoAction {
 
             jsonarr.add(temp);
         }
-        JSONArray temparr = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo);
-        r = temparr.toString();
+//        JSONArray temparr = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo);
+        r = jsonarr.toString();
         FlushWriteUtil.flushWrite(response,r);
     }
 

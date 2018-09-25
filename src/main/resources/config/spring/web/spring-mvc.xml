@@ -62,6 +62,11 @@
   <mvc:interceptors>
     <!--拦截所有请求-->
     <bean class="scau.zxck.base.web.interceptor.StopWatchHandlerInterceptor"/>
+    <!--拦截指定请求-->
+    <!--<mvc:interceptor>-->
+    <!--<mvc:mapping path="/admin/**"/>-->
+    <!--<bean class="scau.zxck.web.interceptor.LogInterceptor"/>-->
+    <!--</mvc:interceptor>-->
     <mvc:interceptor>
       <mvc:mapping path="/admin/**"/>
       <bean class="scau.zxck.web.interceptor.TestInterceptor"/>
@@ -85,18 +90,9 @@
 
   <!-- 定义跳转的文件前后缀，视图模式配置 -->
   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-    <property name="order" value="100"/>
-    <property name="viewClass" value="scau.zxck.web.view.DefaultJstlViews"/>
+    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
     <property name="prefix" value="/WEB-INF/pages/"/>
     <property name="suffix" value=".jsp"/>
-  </bean>
-<!-- 如果找不到jsp文件就去找html文件-->
-  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-    <property name="order" value="99"/>
-    <property name="viewClass" value="scau.zxck.web.view.DefaultJstlViews"/>
-    <property name="prefix" value="/WEB-INF/pages/"/>
-
-    <property name="suffix" value=".html"/>
   </bean>
 
 
