@@ -19,6 +19,7 @@
             telephone: response.data[i].User_Cell,
             name: response.data[i].User_Name ,
             sex: this.mysex,
+            sexid: response.data[i].User_Sex,
             email: response.data[i].User_Email,
             time: response.data[i].User_RegTime,
             userPk: response.data[i].User_PK

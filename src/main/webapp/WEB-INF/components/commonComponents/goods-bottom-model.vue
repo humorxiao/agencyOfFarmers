@@ -10,32 +10,32 @@
       <div id="fl-goods-bottom-detail-description">
         <div class="row">
           <div class="col-md-4">
-            名称:<span>{{name}}</span>
+            名称：<span>{{name}}</span>
           </div>
           <div class="col-md-4">
-            类别:<span>{{goodClass}}</span>
+            类别：<span>{{goodClass}}</span>
           </div>
           <div class="col-md-4">
-            生长周期:<span>{{period}}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            开花期:<span>{{flower}}</span>
-          </div>
-          <div class="col-md-4">
-            挂果期:<span>{{result}}</span>
-          </div>
-          <div class="col-md-4">
-            成熟期:<span>{{mature}}</span>
+            生长周期：<span>{{period}}</span>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
-            保质期:<span>{{quality}}</span>
+            开花期：<span>{{flower}}</span>
           </div>
           <div class="col-md-4">
-            详情:<span>{{msg}}</span>
+            挂果期：<span>{{result}}</span>
+          </div>
+          <div class="col-md-4">
+            成熟期：<span>{{mature}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            保质期：<span>{{quality}}</span>
+          </div>
+          <div class="col-md-4">
+            详情：<span>{{msg}}</span>
           </div>
         </div>
       </div>
