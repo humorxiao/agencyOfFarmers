@@ -27,9 +27,9 @@ import scau.zxck.utils.FlushWriteUtil;
 import scau.zxck.utils.ReadJSONUtil;
 
 /**
- * Created by suruijia on 2016/2/6.
+ * @author YHX
+ * @DATE 2018/9/20 0020 8:43
  */
-
 @Controller
 @RequestMapping("/")
 //@RunWith(SpringJUnit4ClassRunner.class)

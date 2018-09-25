@@ -28,7 +28,10 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
+/**
+ * @author YHX
+ * @DATE 2018/9/20 0020 8:43
+ */
 @Controller
 @RequestMapping("/")
 @RunWith(SpringJUnit4ClassRunner.class)
