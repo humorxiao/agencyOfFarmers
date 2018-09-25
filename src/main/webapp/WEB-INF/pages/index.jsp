@@ -46,7 +46,6 @@
   <br>
   <input type="submit" value="submit">
 </form>
-
 <%--</form>--%>
 <%--<form action="/test" method="post">--%>
 <%--username:<input type="text" name="name">--%>
