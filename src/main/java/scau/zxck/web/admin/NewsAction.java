@@ -39,6 +39,8 @@ public class NewsAction {
   @Autowired
   private IUnionNewsService unionNewsService;
 
+  private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
   @RequestMapping(value = "getNews", method = RequestMethod.POST)
 //  @Test
   public void getNews(HttpServletResponse response) throws Exception {
@@ -102,8 +104,9 @@ public class NewsAction {
     UnionNews temp = new UnionNews();
     temp.setNews_title(data.get("News_Title").toString());
     temp.setNews_text(data.get("News_Text").toString());
-    temp.setNews_time(Timestamp.valueOf(data.get("News_Time").toString()).toString());
-//    temp.setNews_mark((int) Integer.parseInt(data.get("News_Mark").toString()));
+    Date date = simpleDateFormat.parse(data.get("News_Time").toString());
+    temp.setNews_time(simpleDateFormat.format(date));
+    temp.setNews_mark((int) Integer.parseInt(data.get("News_Mark").toString()));
     try {
       newsService.add(temp);
       ret = true;
@@ -116,7 +119,6 @@ public class NewsAction {
     } else {
       r = "{\"status\":0}";
     }
-//    response.sendRedirect("../user&newsManagePage.html#panel-923725");
     FlushWriteUtil.flushWrite(response, r);
   }
 
