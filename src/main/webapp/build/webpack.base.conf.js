@@ -36,6 +36,9 @@ module.exports = {
     adminLogin:resolve('WEB-INF/adminLogin.js'),
     editinfo:resolve('WEB-INF/editinfo.js'),
   },
+  // externals: {
+  //   "CKEDITOR": "window.CKEDITOR"
+  // },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',

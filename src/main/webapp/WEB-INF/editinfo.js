@@ -18,6 +18,7 @@ Vue.use( FormItem)
 Vue.use(Form)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(VueQuillEditor)
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$message = Message;
 Vue.prototype.$msgbox = MessageBox;
