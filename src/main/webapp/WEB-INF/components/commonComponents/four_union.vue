@@ -2,14 +2,14 @@
   <div>
     <div class="tab-pane" id="panel-923727">
       <br>
-      <el-input v-model="input" placeholder="搜索农产品"  width="20%"></el-input>
+      <el-input v-model="input" placeholder="搜索农产品"  style="width:20%"></el-input>
       <a class="btn" href="#modal-container-Prod" @click=addProd1()
          data-toggle="modal"><img style="width: 25px;"
           src="../ico-img/add.jpg">新增农产品</a> <br><br>
       <el-table
         :data="message"
-        style="width: 100%"
-        max-height="510">
+        style="width: 90%"
+        max-height="610">
         <el-table-column
           prop="goodsname"
           label="产品名称"

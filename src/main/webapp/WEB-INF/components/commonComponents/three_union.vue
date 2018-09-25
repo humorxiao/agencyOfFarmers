@@ -8,7 +8,7 @@
     <el-table
       :data="message"
       style="width: 100%"
-      max-height="510">
+      max-height="610">
       <el-table-column
         prop="name"
         label="姓名"

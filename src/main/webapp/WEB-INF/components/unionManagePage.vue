@@ -18,6 +18,12 @@
           <div class="tab-pane" id="panel-923727">
             <four></four>
           </div>
+          <div class="tab-pane" id="panel-923729">
+            <five></five>
+          </div>
+          <div class="tab-pane" id="panel-923728">
+            <six></six>
+          </div>
         </div>
       </div>
     </div>
@@ -34,6 +40,8 @@
   import two from './admin/two_unionfather'
   import three from './admin/three_unionfather'
   import four from './admin/four_unionfather'
+  import five from './admin/five_unionfather'
+  import six from './admin/six_unionfather'
     export default {
         name: "unionManagePage",
       components:{
@@ -43,7 +51,9 @@
         adminfooter,
         two,
         three,
-        four
+        four,
+        five,
+        six
       }
     }
 </script>

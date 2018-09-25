@@ -5,24 +5,33 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import one1 from '../commonComponents/one_union.vue'
     export default {
         name: "one_unionfather",
       components:{
           one1
       },
+      mounted:function() {
+        axios.post('/api/getAllUnionInfo',{}).then(response => {
+          for(let i=0;i<response.data.length;i++) {
+            this.message.push({
+              user_name: response.data[i].Union_Master,
+              union_name:response.data[i].Union_name,
+              id:response.data[i].Union_License,
+              address:response.data[i].Union_Address,
+              time:response.data[i].Union_Establish,
+              sum:response.data[i].Union_Asset,
+              fixphone:response.data[i].Union_Cell,
+              phone:response.data[i].Union_Tel,
+              email:response.data[i].Union_Email
+            })
+          }
+        })
+      },
       data(){
           return{
-            message:[{union_name:'xxx',
-              user_name:'小李子',
-              id:'12000',
-              address:'广东省xx市',
-              time:'2018-6-58',
-              sum:'200',
-              fixphone:'12345678',
-              phone:'22222',
-              email:'www.xxx'
-            }]
+            message:[]
           }
       }
     }
