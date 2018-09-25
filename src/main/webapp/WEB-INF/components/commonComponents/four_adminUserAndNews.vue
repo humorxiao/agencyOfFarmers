@@ -28,6 +28,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
     export default {
       components: {
           LocalQuillEditor: VueQuillEditor.quillEditor
@@ -72,6 +73,22 @@
             'News_Text' : this.content,
             'News_Time' : time
           }
+          axios.post('/api/addNews', this.data).then(response => {
+            // console.log(JSON.stringify(response.data))
+              if(response.data.status === 1) {
+                this.$message({
+                  type: 'info',
+                  message: '新闻发布成功！'
+                })
+              } else {
+                this.$message({
+                  type: 'info',
+                  message: '新闻发布失败！'
+                })
+              }
+          }).catch(function (error) {
+            console.log(error)
+          })
           console.log(this.data)
           console.log(this.content)
           console.log(this.ruleForm.name)
