@@ -35,7 +35,6 @@
       <artifactId>ssm-base</artifactId>
       <version>${ssm-base.version}</version>
     </dependency>
-<<<<<<< HEAD
     <!-- oss -->
     <dependency>
       <groupId>com.aliyun.oss</groupId>
@@ -47,8 +46,7 @@
       <!--<artifactId></artifactId>-->
       <!--<version></version>-->
     <!--</dependency>-->
-=======
->>>>>>> hzq1
+
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jsp-api</artifactId>
