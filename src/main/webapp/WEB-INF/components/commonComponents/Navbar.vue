@@ -30,9 +30,9 @@
                </span>
           </div>
           <ul class="nav navbar-nav navbar-right">
-            <li id="user-1" v-if="login_status == 0" :style="{display: block}"><a href="login.html" >登录</a></li>
-            <li id="user-2" v-if="login_status == 0" :style="{display: block}"><a href="register.html">注册</a></li>
-            <li id="user-4" v-if="login_status == 1" :style="{display: block}">{{usesName}}</li>
+            <li id="user-1" v-if="login_status === 0" :style="{display: block}"><a href="login.html" >登录</a></li>
+            <li id="user-2" v-if="login_status === 0" :style="{display: block}"><a href="register.html">注册</a></li>
+            <li id="user-4" v-if="login_status === 1" :style="{display: block}">{{usesName}}</li>
             <li id="user-3" class="dropdown" v-if="show">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span id="fl-user-name"></span>个人中心<span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -66,7 +66,7 @@ export default {
     }
   },
   mounted: function () {
-    axios.post('/api/checkLoginRank').then((response) => {
+      axios.post('/api/checkLoginRank').then((response) => {
       // console.log(response.data) // 判断登录状态
       this.login_status = response.data.status
       if (this.login_status === 1) {
@@ -77,6 +77,8 @@ export default {
         }).catch(function (error) {
           console.log(error)
         })
+      } else if(response.data.status === 2) {
+        window.location.href = 'http://localhost:8081/editinfo.html#/'
       }
     }).catch(function (error) {
       console.log(error)

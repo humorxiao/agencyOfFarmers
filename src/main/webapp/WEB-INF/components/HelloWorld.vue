@@ -9,16 +9,16 @@
         </div>
       </div>
 
-      <div class="row clearfix div-bg-color">
+      <div class="row clearfix div-bg-color content">
         <div class="col-md-10 col-md-offset-1 column">
-          <p>欢迎您，管理员</p>
+          <h2>欢迎您，管理员</h2>
           <p>
             合作社内部信息管理：<a href="http://localhost:8081/editinfo.html#/unionManagePage" >click here!</a><br>
             订单信息管理：<a href="http://localhost:8081/editinfo.html#/orderManagePage">click here!</a><br>
             用户和动态编辑管理：<a href="http://localhost:8081/editinfo.html#/userAndnewsManagePage">click here!</a><br>
 
           </p>
-          <a class="btn btn-success" onclick=out()>安全退出</a>
+          <el-button type="success" @click = "out()">安全退出</el-button>
         </div>
       </div>
     </div>
@@ -31,6 +31,11 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  methods : {
+    out() {
+      window.location.href = 'http://localhost:8081/#/'
     }
   }
 }
@@ -51,5 +56,18 @@ li {
 }
 a {
   color: #42b983;
+}
+  .content{
+    margin: 100px auto;
+    text-align: center;
+  }
+  h2{
+    margin: 0 20px 20px
+  }
+  p{
+    font-size: 20px
+  }
+.el-button{
+  margin: 0 20px 20px
 }
 </style>

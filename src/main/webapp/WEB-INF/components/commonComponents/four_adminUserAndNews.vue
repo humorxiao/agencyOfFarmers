@@ -19,7 +19,6 @@
       </quill-editor>
       <!--<div class="content ql-editor" v-html="content"></div>-->
     </div>
-
       <div>
       <el-button type="primary" @click = "tosubmit()">提交</el-button>
       </div>
@@ -28,9 +27,10 @@
 </template>
 
 <script>
+  import axios from 'axios'
     export default {
       components: {
-          LocalQuillEditor: VueQuillEditor.quillEditor
+         LocalQuillEditor: VueQuillEditor.quillEditor
       },
       data() {
           return{
@@ -72,10 +72,26 @@
             'News_Text' : this.content,
             'News_Time' : time
           }
-          console.log(this.data)
-          console.log(this.content)
-          console.log(this.ruleForm.name)
-          console.log(time)
+          axios.post('/api/addNews', this.data).then(response => {
+            // console.log(JSON.stringify(response.data))
+              if(response.data.status === 1) {
+                this.$message({
+                  type: 'info',
+                  message: '新闻发布成功！'
+                })
+              } else {
+                this.$message({
+                  type: 'info',
+                  message: '新闻发布失败！'
+                })
+              }
+          }).catch(function (error) {
+            console.log(error)
+          })
+          // console.log(this.data)
+          // console.log(this.content)
+          // console.log(this.ruleForm.name)
+          // console.log(time)
         },
         gettime() {
           var myDate = new Date();//获取系统当前时间

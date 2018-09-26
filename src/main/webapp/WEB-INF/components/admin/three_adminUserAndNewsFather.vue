@@ -8,7 +8,7 @@ import axios from 'axios'
 export default {
     name: "s_adminUserAndNewsFather",
   mounted: function () {
-    axios.post('/api/getNewsNoPage', {}).then(response => {
+      axios.post('/api/getNewsNoPage', {}).then(response => {
       // console.log(JSON.stringify(response.data))
       for (var i = 0; i < response.data.length; i++) {
         this.tableData.push({
