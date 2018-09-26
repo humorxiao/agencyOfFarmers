@@ -50,7 +50,7 @@
           <el-button
             size="mini"
             type="primary"
-            @click="handleEdit(scope.$index, scope.row)">修改金额</el-button>
+            @click="handleEdit(scope.$index, scope.row)">订单详情</el-button>
         </template>
       </el-table-column>
     </el-table>
