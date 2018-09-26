@@ -17,7 +17,7 @@ export default {
         if(this.titleOfLink === response.data[i].News_PK){
           this.title = response.data[i].News_Title;
           this.timeAndSource = response.data[i].News_Time;
-          this.content = response.data[i].News_Text;
+          this.content = document.querySelector(".content").innerHTML = response.data[i].News_Text;
         }
       }
     }).catch(function (error) {

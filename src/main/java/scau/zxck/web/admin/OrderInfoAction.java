@@ -379,6 +379,7 @@ public class OrderInfoAction {
     @RequestMapping(value = "getIDOrder", method = RequestMethod.POST)
 //    @Test
     public void getIDOrder( HttpServletResponse response) throws Exception {
+        request.setCharacterEncoding("utf-8");
         JSONObject data= ReadJSONUtil.readJSONStr(request);
         JSONObject temp = new JSONObject();
         Conditions conditions = new Conditions();
