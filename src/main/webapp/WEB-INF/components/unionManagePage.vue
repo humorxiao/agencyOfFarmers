@@ -38,10 +38,6 @@
   import three from './admin/three_unionfather'
   import four from './admin/four_unionfather'
   import five from './admin/five_unionfather'
-<<<<<<< HEAD
-=======
-  import six from './admin/six_unionfather'
->>>>>>> hzq1
     export default {
         name: "unionManagePage",
       components:{
@@ -52,12 +48,7 @@
         two,
         three,
         four,
-<<<<<<< HEAD
         five
-=======
-        five,
-        six
->>>>>>> hzq1
       }
     }
 </script>
