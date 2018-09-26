@@ -63,16 +63,15 @@ export default {
       let Arr = Msgs.split(";");
       let newMsg = Arr[0] + ';' + Arr[1] + ';' + value + ';' + Arr[3];
       let postData = {'Order_PK':orderpk,'User_Messages':newMsg};
-      alert(JSON.stringify(postData))
-      axios.post('/api/rewriteOrderAddress',postData).then(response => {
-        if(response.data.status === 1){
-          alert(1)
+      //alert(JSON.stringify(postData))
+      axios.post('/api/rewriteAddress',postData).then(responsei => {
+        if(responsei.data.status === 1){
           axios.post('/api/getStateOrderPaging',state).then(responseMsg => {
             alert(responseMsg.data[index].Order_Reserve_1)
-            let msgs = responseMsg.data[index].Order_Reserve_1;
-            let arr = msgs.split(";");
+            let m = responseMsg.data[index].Order_Reserve_1;
+            let a = m.split(";");
             //alert(arr[2]);
-            this.tableOrder[index].address = arr[2];
+            this.tableOrder[index].address = a[2];
             //alert(this.tableOrder[index].address)
           }).catch(function (error) {
             console.log(error);

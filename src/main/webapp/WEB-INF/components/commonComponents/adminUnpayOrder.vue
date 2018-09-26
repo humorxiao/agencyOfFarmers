@@ -62,10 +62,6 @@
             @click="EditAddress(scope.$index, scope.row)">修改地址</el-button>
           <el-button
             size="mini"
-            type="primary"
-            @click="EditAddress(scope.$index, scope.row)">修改地址</el-button>
-          <el-button
-            size="mini"
             type="danger"
             @click="handleDelete()">取消订单</el-button>
         </template>
