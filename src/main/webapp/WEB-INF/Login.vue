@@ -27,6 +27,7 @@
             </div>
             <!--用户管理员选择按钮，更改需求-->
             <!--<div id="User_Position" class="form-group">-->
+<<<<<<< HEAD
             <!--<label class="col-md-3 control-label">登录身份</label>-->
             <!--<div class="col-md-9">-->
             <!--<label class="radio-inline col-md-3">-->
@@ -36,6 +37,17 @@
             <!--<input type="radio" name="User_Position" value="2" v-model="checked"> 管理员-->
             <!--</label>-->
             <!--</div>-->
+=======
+              <!--<label class="col-md-3 control-label">登录身份</label>-->
+              <!--<div class="col-md-9">-->
+                <!--<label class="radio-inline col-md-3">-->
+                  <!--<input type="radio" name="User_Position" value="1" v-model="checked"> 用户-->
+                <!--</label>-->
+                <!--<label class="radio-inline col-md-5">-->
+                  <!--<input type="radio" name="User_Position" value="2" v-model="checked"> 管理员-->
+                <!--</label>-->
+              <!--</div>-->
+>>>>>>> hzq1
             <!--</div>-->
             <div class="form-group">
               <label for="yzm" class="col-md-3 control-label">验证码</label>
