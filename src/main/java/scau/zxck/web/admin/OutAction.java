@@ -28,10 +28,8 @@ public class OutAction {
    * 方法里面有没有用response作页面渲染，那么Spring就会默认用controller方法的方法名去/WEN-INF/pages
    * 目录下找对应的jsp文件，若找不到就会出错
    */
-  @Autowired
-  private HttpServletResponse response;
   @RequestMapping(value = "out", method = RequestMethod.POST)
-  public void out()throws Exception{
+  public void out(HttpServletResponse response)throws Exception{
     JSONObject temp=new JSONObject();
     if(session.getAttribute("isAdmin")!=null){
       if((boolean)session.getAttribute("isAdmin")){
