@@ -38,11 +38,6 @@ module.exports = {
     myinfo:resolve('WEB-INF/myinfo.js'),
     shoppingbag: resolve('WEB-INF/shoppingbag.js'),
     history:resolve('WEB-INF/history.js'),
-    adminLogin:resolve('WEB-INF/adminLogin.js'),
-    editinfo:resolve('WEB-INF/editinfo.js'),
-    myinfo:resolve('WEB-INF/myinfo.js'),
-    shoppingbag: resolve('WEB-INF/shoppingbag.js'),
-    history:resolve('WEB-INF/history.js')
   },
   // externals: {
   //   "CKEDITOR": "window.CKEDITOR"

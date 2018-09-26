@@ -11,9 +11,6 @@
         <a href="#panel-923727" data-toggle="tab">农产品信息管理</a>
       </li>
       <li>
-        <a href="#panel-923728" data-toggle="tab">合作社生产管理</a>
-      </li>
-      <li>
       <a href=#panel-923725 data-toggle="tab">商品信息管理</a>
     </li>
       <li>

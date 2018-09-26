@@ -18,10 +18,10 @@
       },
       mounted:function () {
         axios.post('/api/getAllGoods', {}).then(response => {
-          for (let i = 0; i < response.data.length; i++) {
-            this.message.push({
-            })
-          }
+        //  for (let i = 0; i < response.data.length; i++) {
+         //   this.message.push({
+         //   })
+        //  }
         })
       }
     }
