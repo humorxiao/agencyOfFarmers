@@ -21,6 +21,8 @@ Vue.use(Option)
 Vue.use(Col);
 Vue.use(DatePicker);
 // Vue.use(VueQuillEditor)
+Vue.use(VueQuillEditor)
+Vue.use(Dialog);
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$message = Message;
 Vue.prototype.$msgbox = MessageBox;
