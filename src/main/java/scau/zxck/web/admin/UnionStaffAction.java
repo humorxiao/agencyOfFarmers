@@ -77,13 +77,13 @@ public class UnionStaffAction {
   @RequestMapping(value = "getAllUnionStaff", method = RequestMethod.POST)
   public void getAllUnionStaff(HttpServletResponse response) throws Exception {
     String r = new String();
-    List<UnionStaff> list =
-      unionStaffService.listUnionStaff();
+    List list=unionStaffService.listAll();
     JSONArray jsAry = new JSONArray();
-    for (UnionStaff staff : list) {
+    for (Iterator iter = ((List) list).iterator(); iter.hasNext(); ) {
+      UnionStaff staff=(UnionStaff)iter.next();
       JSONObject temp = new JSONObject();
       temp.put("Staff_PK", staff.getId());
-      temp.put("Union_Info_Id", staff.getUnion_info_id());
+      temp.put("Union_PK", staff.getUnion_info_id());
       UnionInfo unionInfo = unionInfoService.findOne(staff.getUnion_info_id());
       temp.put("Union_name", unionInfo.getUnion_name());
       temp.put("Union_Master", unionInfo.getUnion_master());
@@ -115,6 +115,7 @@ public class UnionStaffAction {
     UnionStaff temp = new UnionStaff();
     String r = "";
     JSONObject json = ReadJSONUtil.readJSONStr(request);
+    temp.setUnion_info_id(json.get("Union_PK").toString());
     temp.setStaff_name(json.get("Staff_Name").toString());
     temp.setStaff_sex((int) Integer.parseInt(json.get("Staff_Sex").toString()));
     temp.setStaff_birthday(json.get("Staff_Birthday").toString());

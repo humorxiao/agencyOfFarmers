@@ -19,8 +19,8 @@ public interface IUnionStaffService {
 
   String addUnionStaff(UnionStaff unionStaff) throws BaseException;
 
-  List<UnionStaff> listUnionStaff() throws BaseException;
+  <V> List<V> listAll() throws BaseException;
 
-  public <V> List<V> list(Conditions conditions) throws BaseException;
+  <V> List<V> list(Conditions conditions) throws BaseException;
 
 }

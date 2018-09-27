@@ -21,7 +21,7 @@ public interface IUnionInfoService {
 
     List<UnionInfo> listUnionInfo() throws BaseException;
 
-    public <V> List<V> list(Conditions conditions) throws BaseException;
+    <V> List<V> list(Conditions conditions) throws BaseException;
 
     void update(UnionInfo unionInfo,Conditions condition )throws BaseException;
     void delete(Conditions conditions) throws BaseException;
