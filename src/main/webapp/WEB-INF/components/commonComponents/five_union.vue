@@ -32,7 +32,7 @@
         <el-table-column
           prop="time"
           label="日志时间"
-          width="150">
+          width="200">
         </el-table-column>
 
       </el-table>

@@ -17,11 +17,16 @@
         }
       },
       mounted:function () {
-        axios.post('/api/getAllGoods', {}).then(response => {
-        //  for (let i = 0; i < response.data.length; i++) {
-         //   this.message.push({
-         //   })
-        //  }
+        axios.post('/api/getAllGoodsLogPaging', {}).then(response => {
+         for (let i = 0; i < response.data.length; i++) {
+            this.message.push({
+              goodsname:response.data[i].Goods_Name,
+              buynum:response.data[i].Goods_In,
+              salenum:response.data[i].Goods_Out,
+              price:response.data[i].Goods_Price.toString(),
+              time:response.data[i].GL_Time
+           })
+          }
         })
       }
     }
