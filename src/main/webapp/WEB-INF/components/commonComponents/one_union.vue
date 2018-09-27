@@ -103,8 +103,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row.union_name, scope.row.user_name, scope.row.id,
-               scope.row.address,scope.row.time, scope.row.sum, scope.row.fixphone,scope.row.phone,scope.row.email)">删除</el-button>
+              @click="handleDelete(scope.$index, scope.row.pk)">删除</el-button>
             </template>
           </el-table-column>
           <el-table-column
@@ -259,26 +258,21 @@
             })
         },
 
-        handleDelete(names, master,lisences,addresses,establishes,assets,teles,cells,emails) {
-          this.dataDelete = {
-            'Union_Name':names,
-            'Union_Master': master,
-            'Union_License': lisences,
-            'Union_Address':addresses,
-            'Union_Establish': establishes,
-            'Union_Asset': assets,
-            'Union_Tele': teles,
-            'Union_Cell': cells,
-            'Union_Email': emails,
-            'Union_Mark': '0',
-          }
-         // console.log(JSON.stringify(this.dataDelete))
-         //  axios.post('/api/deleteUnionInfo', this.dataDelete).then(response => {
-         //    console.log(JSON.stringify(response.data))
-         //
-         //  }).catch(function (error) {
-         //    console.log(error)
-         //  })
+        handleDelete(index, pks) {
+          this.dataDelete = {'Union_PK' : pks}
+          //console.log(JSON.stringify(this.dataDelete))
+          axios.post('/api/deleteUnionInfo', this.dataDelete).then(response => {
+            // console.log(JSON.stringify(response.data))
+            if(response.data.status === 1) {
+              this.message.splice(index, 1)
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            }
+          }).catch(function (error) {
+            console.log(error)
+          })
         }
       }
     }

@@ -24,7 +24,8 @@
               sum:response.data[i].Union_Asset,
               fixphone:response.data[i].Union_Cell,
               phone:response.data[i].Union_Tel,
-              email:response.data[i].Union_Email
+              email:response.data[i].Union_Email,
+              pk: response.data[i].Union_PK
             })
           }
         })
