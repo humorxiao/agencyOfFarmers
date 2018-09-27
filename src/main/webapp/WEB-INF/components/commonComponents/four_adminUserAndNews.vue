@@ -1,28 +1,28 @@
 <template>
-  <div class="tab-pane" id="panel-923725">
-    <br><br>
-    <div class = "title_table">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="标题" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
-        </el-form-item>
-      </el-form>
-    </div>
+  <!--<div class="tab-pane" id="panel-923725">-->
+    <!--<br><br>-->
+    <!--<div class = "title_table">-->
+      <!--<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">-->
+        <!--<el-form-item label="标题" prop="name">-->
+          <!--<el-input v-model="ruleForm.name"></el-input>-->
+        <!--</el-form-item>-->
+      <!--</el-form>-->
+    <!--</div>-->
 
-    <div id="vueapp">
-      <quill-editor v-model="content"
-                    ref="quillEditorA"
-                    :options="editorOption"
-                    @blur="onEditorBlur($event)"
-                    @focus="onEditorFocus($event)"
-                    @ready="onEditorReady($event)">
-      </quill-editor>
-      <!--<div class="content ql-editor" v-html="content"></div>-->
-    </div>
-    <div>
-      <el-button type="primary" @click = "tosubmit()">提交</el-button>
-    </div>
-  </div>
+    <!--<div id="vueapp">-->
+      <!--<quill-editor v-model="content"-->
+                    <!--ref="quillEditorA"-->
+                    <!--:options="editorOption"-->
+                    <!--@blur="onEditorBlur($event)"-->
+                    <!--@focus="onEditorFocus($event)"-->
+                    <!--@ready="onEditorReady($event)">-->
+      <!--</quill-editor>-->
+      <!--&lt;!&ndash;<div class="content ql-editor" v-html="content"></div>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div>-->
+      <!--<el-button type="primary" @click = "tosubmit()">提交</el-button>-->
+    <!--</div>-->
+  <!--</div>-->
 
 </template>
 
@@ -30,7 +30,7 @@
   import axios from 'axios'
   export default {
     components: {
-      LocalQuillEditor: VueQuillEditor.quillEditor
+      // LocalQuillEditor: VueQuillEditor.quillEditor
     },
     data() {
       return{

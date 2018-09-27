@@ -8,7 +8,7 @@ import {Message} from 'element-ui'
 
 Vue.config.productionTip = false
 Vue.prototype.$message = Message
-Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
+Vue.prototype.$ELEMENT = { size: 'big', zIndex: 3000 }
 
 /* eslint-disable no-new */
 new Vue({
