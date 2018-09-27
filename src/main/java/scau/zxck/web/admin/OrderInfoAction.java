@@ -55,18 +55,39 @@ public class OrderInfoAction {
             pageInfo.put("User_PK", "");
         }
         JSONArray jsonarr = new JSONArray();
+        JSONArray jsonArray=new JSONArray();
         Conditions conditions = new Conditions();
         List list =
                 orderInfoService.list(conditions.eq("user_info_id", pageInfo.get("User_PK").toString()));
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             JSONObject temp = new JSONObject();
             OrderInfo order = (OrderInfo) iter.next();
-
             temp.put("Order_PK", order.getId());
             temp.put("User_PK", order.getUser_info_id());
             temp.put("Order_ID", order.getOrder_id());
             temp.put("Order_No", order.getOrder_no());
             temp.put("Goods_List", order.getGoods_list());
+            String[] strings=order.getGoods_list().split("#");
+            for(int i=0;i<strings.length;i++){
+              GoodsInfo goods = goodsInfoService.findById(strings[i]);
+              JSONObject temp1 = new JSONObject();
+              temp1.put("Goods_PK", goods.getId());
+              temp1.put("Goods_Name", goods.getGoods_name());
+              temp1.put("Goods_Type", goods.getGoods_type());
+              temp1.put("Goods_Num", goods.getGoods_num());
+              temp1.put("Goods_Price", goods.getGoods_price());
+              temp1.put("Goods_Mark", goods.getGoods_mark());
+              temp1.put("Goods_Show", goods.getGoods_show());
+              temp1.put("Goods_Picture", goods.getGoods_picture());
+              temp1.put("Goods_Season", goods.getGoods_season());
+              temp1.put("Goods_Blossom", goods.getGoods_blossom());
+              temp1.put("Goods_Fruit", goods.getGoods_fruit());
+              temp1.put("Goods_Mature", goods.getGoods_mature());
+              temp1.put("Goods_Expiration", goods.getGoods_expiration());
+              temp1.put("Goods_Reserve_1", goods.getGoods_reserve_1());
+              temp1.put("Goods_Reserve_2", goods.getGoods_reserve_2());
+              jsonArray.add(temp1);
+            }
             temp.put("Goods_Num", order.getGoods_num());
             temp.put("Goods_Prices", order.getGoods_prices());
             temp.put("Order_Time", order.getOrder_time());
@@ -86,8 +107,10 @@ public class OrderInfoAction {
 
             jsonarr.add(temp);
         }
-//        JSONArray temparr = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo);
-        r = jsonarr.toString();
+        JSONArray jsonArray1=new JSONArray();
+        jsonArray1.add(jsonarr);
+        jsonArray1.add(jsonArray);
+        r = jsonArray1.toString();
         FlushWriteUtil.flushWrite(response,r);
     }
 

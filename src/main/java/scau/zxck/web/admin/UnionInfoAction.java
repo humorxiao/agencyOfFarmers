@@ -54,9 +54,9 @@ public class UnionInfoAction {
     likes = java.net.URLDecoder.decode(likes, "utf-8");
     if (likes != null) {
       Conditions conditions = new Conditions();
-      List list = unionInfoService.list(conditions.like("union_name", "%" + likes + "%").or()
+      List list = unionInfoService.list(conditions.eq("union_mark",0).and().leftBracket().like("union_name", "%" + likes + "%").or()
         .like("union_master", "%" + likes + "%").or().like("union_address", "%" + likes + "%")
-        .or().like("union_cell", "%" + likes + "%"));
+        .or().like("union_cell", "%" + likes + "%").rightBracket());
 
       for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
         JSONObject temp = new JSONObject();
@@ -126,14 +126,17 @@ public class UnionInfoAction {
     temp.setUnion_email(json.get("Union_Email").toString());
     char c = json.get("Union_Mark").toString().charAt(0);
     temp.setUnion_mark(c);
-    String ret = unionInfoService.addUnionInfo(temp);//check whether success
-    String r;
-    if (ret != null) {
-      r = "{\"status\":1}";
-    } else {
-      r = "{\"status\":0}";
-    }
-    FlushWriteUtil.flushWrite(response, r);
+    JSONObject temp1=new JSONObject();
+   try {
+     unionInfoService.addUnionInfo(temp);//check whether success
+     temp1.put("status",1);
+     temp1.put("Union_PK",temp.getId());
+     FlushWriteUtil.flushWrite(response, temp1.toString());
+   }catch (Exception e){
+     e.printStackTrace();
+     temp1.put("status",0);
+     FlushWriteUtil.flushWrite(response, temp1.toString());
+   }
   }
 
   @RequestMapping(value = "updateUnionInfo", method = RequestMethod.POST)

@@ -299,7 +299,7 @@ public class GoodsInfoAction {
   }
 
   @RequestMapping(value = "getLikesGoods", method = RequestMethod.POST)
-  public void getLikesAction( HttpServletResponse response) throws Exception {
+  public void getLikesGoods( HttpServletResponse response) throws Exception {
     JSONObject data= ReadJSONUtil.readJSONStr(request);
     String r = "";
     String likes = data.get("likes").toString();
