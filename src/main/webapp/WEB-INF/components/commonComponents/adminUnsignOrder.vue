@@ -42,17 +42,17 @@
         label="收货信息"
         width="260">
       </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="操作"
-        width="300">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="primary"
-            @click="handleEdit(scope.$index, scope.row)">修改金额</el-button>
-        </template>
-      </el-table-column>
+      <!--<el-table-column-->
+        <!--fixed="right"-->
+        <!--label="操作"-->
+        <!--width="300">-->
+        <!--<template slot-scope="scope">-->
+          <!--<el-button-->
+            <!--size="mini"-->
+            <!--type="primary"-->
+            <!--@click="handleEdit(scope.$index, scope.row)">订单详情</el-button>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
     </el-table>
   </div>
 </template>

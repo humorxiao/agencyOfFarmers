@@ -85,8 +85,8 @@
             this.info('请先登录')
             loginStatus = response.data.status;
           } else if (response.data.status === 1) {
-            var goodsPk = {'Goods_List':this.goods_pk,'Goods_Num':this.number}
-            axios.post('/api/alterCart', goodsPk).then(response => {
+            var goodsPk = {'Goods_PK':this.goods_pk.toString(),'Goods_Num':this.number.toString()}
+            axios.post('/api/addCart', goodsPk).then(response => {
               if(response.data.status === 1){
                 this.ifo('成功加入菜篮子');
               }else{

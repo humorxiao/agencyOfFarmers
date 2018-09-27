@@ -10,7 +10,10 @@
         fixed
         prop="orderID"
         label="订单号"
-        width="180">
+        width="190">
+        <template slot-scope="scope">
+          <span>{{scope.row.orderID}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="orderPK"
@@ -44,6 +47,9 @@
         prop="address"
         label="收货地址"
         width="260">
+        <template slot-scope="scope">
+          <span>{{scope.row.address}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -56,7 +62,7 @@
           <el-button
             size="mini"
             type="primary"
-            @click="EditAddress2">修改地址</el-button>
+            @click="EditAddress2(scope.$index, scope.row)">修改地址</el-button>
           <el-button
             size="mini"
             type="danger"
@@ -82,7 +88,6 @@
     },
     data() {
       return {
-
       }
     },
     methods: {
@@ -103,11 +108,39 @@
           });
         });
       },
-      EditAddress2() {
-
+      EditAddress2: function(index,row) {
+        this.$prompt('请输入地址', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({ value }) => {
+          this.$message({
+            type: 'success',
+            message: '修改成功'
+          });
+          this.$emit('editAddress2',value,index,row.orderPK)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });
+        });
       },
-      handleDelete2() {
-
+      handleDelete2: function(index,row) {
+        this.$confirm('此操作将取消该订单, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '取消订单成功'
+          });
+          this.$emit('handleDelete2',index,row,row.orderID)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消操作'
+          });
+        });
       }
     }
   }

@@ -67,7 +67,34 @@
       </el-table>
       <span id="User-msg" style="color:red"></span><br>
     </div>
-  </div>
+    <div class="modal fade" id="modal-container-Union" role="dialog"
+         aria-hidden="true" aria-labelledby="myModalLabel">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" aria-hidden="true" type="button"
+                    data-dismiss="modal">×</button>
+            <h4 class="modal-title" id="myModalLabel">合作社资料填写</h4>
+          </div>
+          <div class="modal-body">
+            合作社名称：<input type="text" id="Union_Name" /><br>
+            负责人姓名：<input type="text" id="Union_Master" /><br>
+            负责人手机：<input type="tel" id="Union_Cell" /><br>
+            营业执照号：<input type="text" id="Union_Establish" value="2015-01-01" /><br>
+            出资总额：<input type="text" id="Union_Asset" /><br>
+            固定电话：<input type="tel" id="Union_Tele" /><br>
+            电子邮箱：<input type="email" id="Union_Email" /><br>
+            地址：<textarea id="Union_Address" placeholder="精准到街道门牌号的详细地址"></textarea>
+            <br> <span id='Union-msg' style="color: red"></span>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" type="button" data-dismiss="modal">关闭</button>
+            <span id="Union-AddorUpdate"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
 </template>
 
 <script>

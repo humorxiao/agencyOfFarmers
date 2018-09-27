@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 Vue.use(Button)
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$message = Message
-Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
+Vue.prototype.$ELEMENT = { size: 'big', zIndex: 3000 }
 
 /* eslint-disable no-new */
 new Vue({

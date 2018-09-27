@@ -11,6 +11,9 @@
         prop="orderID"
         label="订单号"
         width="180">
+        <template slot-scope="scope">
+          <span>{{scope.row.orderID}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         fixed
@@ -51,7 +54,7 @@
           <el-button
             size="mini"
             type="primary"
-            @click="handleEdit(scope.$index, scope.row)">订单详情</el-button>
+            @click="handleEdit(scope.$index, scope.row)">关闭订单</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -72,18 +75,25 @@
     },
     data() {
       return {
-        showEdit: [], //显示编辑框
-        showBtn: [],
-        showBtnOrdinary: true
       }
     },
     methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-        this.showEdit[index] = true;
-        this.showBtn[index] = true;
-        this.$set(this.showEdit,row,true)
-        this.$set(this.showBtn,row,true)
+      handleEdit: function(index,row) {
+        this.$confirm('此操作将永久关闭该订单, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '关闭订单成功'
+          });
+          this.$emit('handleEdit',index,row,row.orderID)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消操作'
+          });
+        });
       }
     }
   }

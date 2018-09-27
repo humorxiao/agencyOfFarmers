@@ -21,9 +21,6 @@
           <div class="tab-pane" id="panel-923729">
             <five></five>
           </div>
-          <div class="tab-pane" id="panel-923728">
-            <six></six>
-          </div>
         </div>
       </div>
     </div>
@@ -41,7 +38,6 @@
   import three from './admin/three_unionfather'
   import four from './admin/four_unionfather'
   import five from './admin/five_unionfather'
-  import six from './admin/six_unionfather'
     export default {
         name: "unionManagePage",
       components:{
@@ -52,8 +48,7 @@
         two,
         three,
         four,
-        five,
-        six
+        five
       }
     }
 </script>

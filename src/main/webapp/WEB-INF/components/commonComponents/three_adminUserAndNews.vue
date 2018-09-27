@@ -20,11 +20,11 @@
         width="800">
         <template slot-scope="scope">
           <!--<el-popover trigger="hover" placement="top">-->
-            <!--<p>姓名: {{ scope.row.name }}</p>-->
-            <!--<p>住址: {{ scope.row.address }}</p>-->
+          <!--<p>姓名: {{ scope.row.name }}</p>-->
+          <!--<p>住址: {{ scope.row.address }}</p>-->
           <a :href="scope.row.url">
             <div slot="reference" class="name-wrapper">
-             <el-tag size="medium">{{ scope.row.name }}</el-tag>
+              <el-tag size="medium">{{ scope.row.name }}</el-tag>
             </div></a>
           <!--</el-popover>-->
         </template>
@@ -32,9 +32,9 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <!--<el-button-->
-            <!--size="mini"-->
-            <!--type="danger"-->
-            <!--@click="handleDelete(scope.row.news_pk,scope.$index, scope.row)">删除-->
+          <!--size="mini"-->
+          <!--type="danger"-->
+          <!--@click="handleDelete(scope.row.news_pk,scope.$index, scope.row)">删除-->
           <!--</el-button>-->
           <el-button type="text" @click="handleDelete(scope.row.news_pk,scope.$index, scope.row)">删除</el-button>
         </template>
@@ -67,34 +67,34 @@
     methods: {
       handleDelete(newsPk, index, row) {
         this.deleteData = {"News_PK": newsPk},
-        this.$confirm('此操作将永久删除该新闻, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          //console.log(newsPk)
-          axios.post('/api/deleteNews', this.deleteData).then(response => {
-            if(response.data.status === true) {
-              this.tableData.splice(index, 1)
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              })
-            } else {
-              this.$message({
-                type: 'info',
-                message: '删除失败!'
-              })
-            }
-          }).catch(function (error) {
-            console.log(error)
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
+          this.$confirm('此操作将永久删除该新闻, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            //console.log(newsPk)
+            axios.post('/api/deleteNews', this.deleteData).then(response => {
+              if(response.data.status === true) {
+                this.tableData.splice(index, 1)
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                })
+              } else {
+                this.$message({
+                  type: 'info',
+                  message: '删除失败!'
+                })
+              }
+            }).catch(function (error) {
+              console.log(error)
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
           });
-        });
       },
       search(){
         this.data = {"likes": this.input}
@@ -115,11 +115,10 @@
       }
     }
   }
-
 </script>
 
 <style scoped>
-.el-input{
-  width: 20%;
-}
+  .el-input{
+    width: 20%;
+  }
 </style>

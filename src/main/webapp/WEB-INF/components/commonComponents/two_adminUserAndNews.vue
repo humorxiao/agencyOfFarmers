@@ -67,7 +67,7 @@
     },
     methods: {
       deleteRow(index,telephone,name,sexid,email,time,userPk) {
-       // console.log(telephone,name,sexid,email,time,userPk)
+        // console.log(telephone,name,sexid,email,time,userPk)
         this.data = {
           'User_Name': name,
           'User_PK': userPk,
@@ -76,41 +76,41 @@
           'User_Sex': sexid,
           'User_RegTime' : time
         }
-          this.$confirm('是否添加至黑名单, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            //console.log(newsPk)
-            console.log(this.data)
-            axios.post('/api/addUserBanned', this.data).then(response => {
-              console.log(JSON.stringify(response.data))
-              if(response.data.status === 1) {
-                this.tableData4.splice(index, 1)
-                this.$message({
-                  type: 'success',
-                  message: '移除成功!'
-                })
-              } else {
-                this.$message({
-                  type: 'info',
-                  message: '移除失败!'
-                })
-              }
-            }).catch(function (error) {
-              console.log(error)
-            })
-          }).catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消操作'
-            });
+        this.$confirm('是否添加至黑名单, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          //console.log(newsPk)
+          console.log(this.data)
+          axios.post('/api/addUserBanned', this.data).then(response => {
+            console.log(JSON.stringify(response.data))
+            if(response.data.status === 1) {
+              this.tableData4.splice(index, 1)
+              this.$message({
+                type: 'success',
+                message: '移除成功!'
+              })
+            } else {
+              this.$message({
+                type: 'info',
+                message: '移除失败!'
+              })
+            }
+          }).catch(function (error) {
+            console.log(error)
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
           });
+        });
       },
       search() {
         this.searchData = {"likes": this.input}
         axios.post('/api/getLikesCommonUser', this.searchData).then(response => {
-         // console.log(JSON.stringify(response.data))
+          // console.log(JSON.stringify(response.data))
           this.tableData4.splice(0,this.tableData4.length)
           for (var i = 0; i < response.data.length; i++) {
             if(response.data[i].User_Sex === 1) {

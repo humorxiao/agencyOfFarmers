@@ -11,6 +11,9 @@
         prop="orderID"
         label="订单号"
         width="180">
+        <template slot-scope="scope">
+          <span>{{scope.row.orderID}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="orderPK"
@@ -62,12 +65,8 @@
             @click="EditAddress(scope.$index, scope.row)">修改地址</el-button>
           <el-button
             size="mini"
-            type="primary"
-            @click="EditAddress(scope.$index, scope.row)">修改地址</el-button>
-          <el-button
-            size="mini"
             type="danger"
-            @click="handleDelete()">取消订单</el-button>
+            @click="handleDelete(scope.$index, scope.row)">取消订单</el-button>
         </template>
 
       </el-table-column>
@@ -88,7 +87,6 @@
     },
     data() {
       return {
-
       }
     },
     methods: {
@@ -126,8 +124,22 @@
           });
         });
       },
-      handleDelete() {
-
+      handleDelete: function(index,row) {
+        this.$confirm('此操作将取消该订单, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '取消订单成功'
+          });
+          this.$emit('handleDelete',index,row,row.orderID)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消操作'
+          });
+        });
       }
     }
   }
