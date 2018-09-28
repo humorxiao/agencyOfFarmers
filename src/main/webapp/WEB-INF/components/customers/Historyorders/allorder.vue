@@ -69,7 +69,7 @@ export default {
   name: 'allorder',
   props: {
     tableData5: {type: Array, required: true},
-  }
+  },
 }
 </script>
 
