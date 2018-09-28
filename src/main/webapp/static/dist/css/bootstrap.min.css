@@ -3892,7 +3892,7 @@ select[multiple].input-group-sm>.input-group-addon, select[multiple].input-group
 }
 
 .nav {
-  padding-left: 60px;
+  padding-left: 0px;
   margin-bottom: 0;
   list-style: none
 }
