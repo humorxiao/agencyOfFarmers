@@ -4,9 +4,8 @@ import Vue from 'vue'
 import Editinfo from './Editinfo.vue'
 import router from './router'
 import {Button,Message,  Table, TableColumn,  Popover, Tag, Input, FormItem,Form , Select,
-  Option,MessageBox, Dialog, Col,DatePicker} from 'element-ui'
+  Option,MessageBox, Dialog, Col,DatePicker,Footer} from 'element-ui'
 import "babel-polyfill"
-
 Vue.config.productionTip = false
 Vue.use(Table)
 Vue.use(TableColumn)
@@ -22,13 +21,13 @@ Vue.use(Col);
 Vue.use(DatePicker);
 Vue.use(VueQuillEditor)
 Vue.use(Dialog);
+Vue.use(Footer);
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$message = Message;
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
-Vue.use(Dialog);
 Vue.prototype.$ELEMENT = { size: 'big', zIndex: 3000 }
 /* eslint-disable no-new */
 new Vue({
