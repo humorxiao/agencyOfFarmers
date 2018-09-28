@@ -5,7 +5,7 @@
         <el-input v-model="input" placeholder="搜索合作社（名称、负责人、地址、负责人电话）"  style="width: 20%;" ></el-input>
         <el-button type="primary" icon="el-icon-search" @click = "search()">搜索</el-button>
         <!-- Form -->
-        <el-button type="text" @click="dialogFormVisible = true">添加合作社</el-button>
+        <el-button type="text" @click="addUnion()">添加合作社</el-button>
         <el-dialog title="合作社编辑" :visible.sync="dialogFormVisible">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="活动名称" prop="name">
@@ -42,7 +42,7 @@
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="addUnion('ruleForm')">确 定</el-button>
+            <el-button type="primary" @click="point('ruleForm',add)">确 定</el-button>
           </div>
         </el-dialog>
         <el-table
@@ -113,7 +113,7 @@
             <template slot-scope="scope">
               <el-button
                 size="mini"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                @click="handleEdit(scope.$index, scope.row.pk)">编辑</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -177,8 +177,11 @@
             },
             input:'',
             dataSearch: '',
-            dataAdd: '',
+            datas: '',
             dataDelete: '',
+            dataUpdate: '',
+            add: '',
+            commonpks: '',
             dialogFormVisible: false,
             formLabelWidth: '120px'
           }
@@ -207,8 +210,13 @@
             console.log(error)
           })
         },
-        addUnion(formName) {
-          this.dataAdd = {
+        addUnion() {
+          this.add = 1;
+          this.dialogFormVisible = true
+        },
+        point(formName, adds) {
+          console.log(adds)
+          this.datas = {
             'Union_Name':this.ruleForm.name,
             'Union_Master': this.ruleForm.person,
             'Union_License': this.ruleForm.number,
@@ -218,40 +226,75 @@
             'Union_Tele': this.ruleForm.fix_phone,
             'Union_Cell': this.ruleForm.telephone,
             'Union_Email': this.ruleForm.email,
-            'Union_Mark': '1',
+            'Union_Mark': '0',
+            'Union_PK' : this.commonpks
           }
             this.$refs[formName].validate((valid) => {
               if (valid) {
                 this.dialogFormVisible = false
-                // console.log(JSON.stringify(this.dataAdd))
-                axios.post('/api/addUnionInfo', this.dataAdd).then(response => {
-                 // console.log(JSON.stringify(response.data))
-                  if(response.data.status === 1) {
-                    this.message.push({
-                      user_name: this.ruleForm.person,
-                      union_name:this.ruleForm.name,
-                      id:this.ruleForm.number,
-                      address:this.ruleForm.address,
-                      time:this.ruleForm.date1,
-                      sum:this.ruleForm.money,
-                      fixphone: this.ruleForm.fix_phone,
-                      phone:this.ruleForm.telephone,
-                      email:this.ruleForm.email
-                      // zip: 200333
-                    })
-                    this.$message({
-                      type: 'success',
-                      message: '添加成功!'
-                    })
-                  } else {
-                    this.$message({
-                      type: 'info',
-                      message: '添加失败!'
-                    })
-                  }
-                }).catch(function (error) {
-                  console.log(error)
-                })
+                if(this.add === 1) {
+                  // console.log(JSON.stringify(this.dataAdd))
+                  axios.post('/api/addUnionInfo', this.datas).then(response => {
+                    //console.log(JSON.stringify(response.data))
+                    if(response.data.status === 1) {
+                      this.message.push({
+                        user_name: this.ruleForm.person,
+                        union_name:this.ruleForm.name,
+                        id:this.ruleForm.number,
+                        address:this.ruleForm.address,
+                        time:this.ruleForm.date1,
+                        sum:this.ruleForm.money,
+                        fixphone: this.ruleForm.fix_phone,
+                        phone:this.ruleForm.telephone,
+                        email:this.ruleForm.email,
+                        pk: response.data.Union_PK
+                        // zip: 200333
+                      })
+                      this.$message({
+                        type: 'success',
+                        message: '添加成功!'
+                      })
+                    } else {
+                      this.$message({
+                        type: 'info',
+                        message: '添加失败!'
+                      })
+                    }
+                  }).catch(function (error) {
+                    console.log(error)
+                  })
+                } else if(this.add === 0) {
+                  // console.log(JSON.stringify(this.dataAdd))
+                  axios.post('/api/updateUnionInfo', this.datas).then(response => {
+                    console.log(JSON.stringify(response.data))
+                    if(response.data.status === 1) {
+                      // this.message.push({
+                      //   user_name: this.ruleForm.person,
+                      //   union_name:this.ruleForm.name,
+                      //   id:this.ruleForm.number,
+                      //   address:this.ruleForm.address,
+                      //   time:this.ruleForm.date1,
+                      //   sum:this.ruleForm.money,
+                      //   fixphone: this.ruleForm.fix_phone,
+                      //   phone:this.ruleForm.telephone,
+                      //   email:this.ruleForm.email,
+                      //   pk: response.data.Union_PK
+                      //   // zip: 200333
+                      // })
+                      this.$message({
+                        type: 'success',
+                        message: '修改成功!'
+                      })
+                    } else {
+                      this.$message({
+                        type: 'info',
+                        message: '修改失败!'
+                      })
+                    }
+                  }).catch(function (error) {
+                    console.log(error)
+                  })
+                }
               } else {
                 return false;
               }
@@ -262,7 +305,7 @@
           this.dataDelete = {'Union_PK' : pks}
           //console.log(JSON.stringify(this.dataDelete))
           axios.post('/api/deleteUnionInfo', this.dataDelete).then(response => {
-            // console.log(JSON.stringify(response.data))
+            //console.log(JSON.stringify(response.data))
             if(response.data.status === 1) {
               this.message.splice(index, 1)
               this.$message({
@@ -273,6 +316,17 @@
           }).catch(function (error) {
             console.log(error)
           })
+        },
+
+        handleEdit(index, pks) {
+          this.add = 0;
+          this.dialogFormVisible = true
+          this.commonpks = pks
+          // axios.post('/api/dupdateUnionInfo', this.dataUpdate).then(response => {
+          //   console.log(JSON.stringify(response.data))
+          // }).catch(function (error) {
+          //   console.log(error)
+          // })
         }
       }
     }
