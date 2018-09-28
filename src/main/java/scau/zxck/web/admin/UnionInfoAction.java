@@ -14,7 +14,6 @@ import scau.zxck.service.market.IUnionStaffService;
 
 import scau.zxck.service.market.IUnionGoodsInfoService;
 
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
@@ -32,8 +31,6 @@ import scau.zxck.utils.ReadJSONUtil;
  */
 @Controller
 @RequestMapping("/")
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration("classpath:config/spring/spring.xml")
 public class UnionInfoAction {
   @Autowired
   private IUnionInfoService unionInfoService;
@@ -161,7 +158,7 @@ public class UnionInfoAction {
         temp.setUnion_establish(json.get("Union_Establish").toString());
       }
       if (json.get("Union_Asset") != null) {
-        temp.setUnion_asset((int) Integer.parseInt(json.get("Union_Asset").toString()));
+        temp.setUnion_asset(Integer.parseInt(json.get("Union_Asset").toString()));
       }
       if (json.get("Union_Tele") != null) {
         temp.setUnion_tele(json.get("Union_Tele").toString());
@@ -178,17 +175,14 @@ public class UnionInfoAction {
       unionInfoService.updateUnionInfo(temp);//check whether success
       r = "{\"status\":1}";
       FlushWriteUtil.flushWrite(response, r);
-
     } catch (Exception e) {
       e.printStackTrace();
       r = "{\"status\":0}";
       FlushWriteUtil.flushWrite(response, r);
     }
-    FlushWriteUtil.flushWrite(response, r);
   }
 
   @RequestMapping(value = "deleteUnionInfo", method = RequestMethod.POST)
-//    @Test
   public void deleteUnionInfo(HttpServletResponse response) throws Exception {
     String r;
     JSONObject json = ReadJSONUtil.readJSONStr(request);
