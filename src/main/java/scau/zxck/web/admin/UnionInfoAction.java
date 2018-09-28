@@ -140,6 +140,7 @@ public class UnionInfoAction {
   public void updateUnionInfo(HttpServletResponse response) throws Exception {
     JSONObject json = ReadJSONUtil.readJSONStr(request);
     String r = "";
+    JSONObject jsonObject=new JSONObject();
     try {
       UnionInfo temp = unionInfoService.findOne(json.get("Union_PK").toString());
       if (json.get("Union_Name") != null) {
@@ -173,7 +174,9 @@ public class UnionInfoAction {
         temp.setUnion_mark(json.get("Union_Mark").toString().charAt(0));
       }
       unionInfoService.updateUnionInfo(temp);//check whether success
-      r = "{\"status\":1}";
+     jsonObject.put("status",1);
+     jsonObject.put("Union_PK",temp.getId());
+     r=jsonObject.toString();
       FlushWriteUtil.flushWrite(response, r);
     } catch (Exception e) {
       e.printStackTrace();
