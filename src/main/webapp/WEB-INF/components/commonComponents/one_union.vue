@@ -45,6 +45,7 @@
             <el-button type="primary" @click="point('ruleForm',add)">确 定</el-button>
           </div>
         </el-dialog>
+        <!--information-->
         <el-table
           :data="message"
           style="width: 100%"
@@ -182,15 +183,17 @@
             dataUpdate: '',
             add: '',
             commonpks: '',
+            rewrite: '',
             dialogFormVisible: false,
             formLabelWidth: '120px'
           }
       },
       methods: {
+        // 搜索合作社
         search() {
           this.dataSearch = {"likes" : this.input}
           axios.post('/api/getLikesUnions', this.dataSearch).then(response => {
-            console.log(JSON.stringify(response.data))
+            //console.log(JSON.stringify(response.data))
             this.message.splice(0,this.message.length)
             for (var i = 0; i < response.data.length; i++) {
               this.message.push({
@@ -210,12 +213,14 @@
             console.log(error)
           })
         },
+        // 添加合作社
         addUnion() {
           this.add = 1;
           this.dialogFormVisible = true
         },
+        // 处理添加或修改合作社操作
         point(formName, adds) {
-          console.log(adds)
+          //console.log(adds)
           this.datas = {
             'Union_Name':this.ruleForm.name,
             'Union_Master': this.ruleForm.person,
@@ -266,21 +271,22 @@
                 } else if(this.add === 0) {
                   // console.log(JSON.stringify(this.dataAdd))
                   axios.post('/api/updateUnionInfo', this.datas).then(response => {
-                    console.log(JSON.stringify(response.data))
+                   // console.log(JSON.stringify(response.data))
                     if(response.data.status === 1) {
-                      // this.message.push({
-                      //   user_name: this.ruleForm.person,
-                      //   union_name:this.ruleForm.name,
-                      //   id:this.ruleForm.number,
-                      //   address:this.ruleForm.address,
-                      //   time:this.ruleForm.date1,
-                      //   sum:this.ruleForm.money,
-                      //   fixphone: this.ruleForm.fix_phone,
-                      //   phone:this.ruleForm.telephone,
-                      //   email:this.ruleForm.email,
-                      //   pk: response.data.Union_PK
-                      //   // zip: 200333
-                      // })
+                      this.message.splice(this.rewrite, 1)
+                      this.message.push({
+                        user_name: this.ruleForm.person,
+                        union_name:this.ruleForm.name,
+                        id:this.ruleForm.number,
+                        address:this.ruleForm.address,
+                        time:this.ruleForm.date1,
+                        sum:this.ruleForm.money,
+                        fixphone: this.ruleForm.fix_phone,
+                        phone:this.ruleForm.telephone,
+                        email:this.ruleForm.email,
+                        pk: response.data.Union_PK
+                        // zip: 200333
+                      })
                       this.$message({
                         type: 'success',
                         message: '修改成功!'
@@ -300,7 +306,7 @@
               }
             })
         },
-
+        // 删除合作社
         handleDelete(index, pks) {
           this.dataDelete = {'Union_PK' : pks}
           //console.log(JSON.stringify(this.dataDelete))
@@ -317,16 +323,12 @@
             console.log(error)
           })
         },
-
+        // 修改合作社
         handleEdit(index, pks) {
           this.add = 0;
           this.dialogFormVisible = true
           this.commonpks = pks
-          // axios.post('/api/dupdateUnionInfo', this.dataUpdate).then(response => {
-          //   console.log(JSON.stringify(response.data))
-          // }).catch(function (error) {
-          //   console.log(error)
-          // })
+          this.rewrite = index
         }
       }
     }
