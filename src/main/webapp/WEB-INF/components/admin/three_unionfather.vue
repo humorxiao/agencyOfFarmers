@@ -1,5 +1,5 @@
 <template>
-    <three :message="message" @searchUnion="searchUnion" @editMsg="editMsg" @addStaff="addStaff"></three>
+    <three :message="message" :unionList="unionList" @searchUnion="searchUnion" @editMsg="editMsg" @addStaff="addStaff" @handleDelete="handleDelete"></three>
 </template>
 
 <script>
@@ -12,7 +12,8 @@
           return{
             message:[],
             male:'',
-            staffNum: 0
+            staffNum: 0,
+            unionList: []
           }
       },
       mounted:function () {
@@ -30,9 +31,10 @@
               phone: response.data[i].Staff_Phone,
               id:response.data[i].Staff_ID,
               email:response.data[i].Staff_Email,
-              union:response.data[i].Union_Info_Id
+              union:response.data[i].Union_name
 
             })
+            this.unionList[i] = {Uname:response.data[i].Union_name};
           }
         }).catch(function (error) {
           console.log(error);
@@ -56,7 +58,7 @@
               phone: response.data[0].Staff_Phone,
               id:response.data[0].Staff_ID,
               email:response.data[0].Staff_Email,
-              union:response.data[0].Union_Info_Id
+              union:response.data[0].Union_name
 
             })
           }).catch(function (error) {
@@ -66,7 +68,28 @@
         editMsg: function (index,row) {
 
         },
-        addStaff: function () {
+        addStaff: function (Name) {
+
+        },
+        handleDelete: function (index,row) {
+          axios.post('/api/getAllUnionStaff', {}).then(response => {
+            let staffPK = response.data[index].Staff_PK;
+            let data = {'Staff_PK':staffPK};
+            axios.post('/api/deleteUnionStaff',data).then(responsed => {
+              if(responsed.data.status === 1){
+                this.message.splice(index,1);
+              }else{
+                this.$message({
+                  type:"error",
+                  message:"删除失败"
+                })
+              }
+            }).catch(function (error) {
+              console.log(error);
+            })
+          }).catch(function (error) {
+            console.log(error);
+          })
         }
       }
     }
