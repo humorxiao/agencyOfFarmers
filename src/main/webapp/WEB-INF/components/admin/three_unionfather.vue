@@ -1,5 +1,5 @@
 <template>
-    <three :message="message" :unionList="unionList" @searchUnion="searchUnion" @editMsg="editMsg" @addStaff="addStaff" @handleDelete="handleDelete"></three>
+    <three :message="message" :unionList="unionList" @submitForm="submitForm" @searchUnion="searchUnion" @editMsg="editMsg" @addStaff="addStaff" @handleDelete="handleDelete"></three>
 </template>
 
 <script>
@@ -31,10 +31,19 @@
               phone: response.data[i].Staff_Phone,
               id:response.data[i].Staff_ID,
               email:response.data[i].Staff_Email,
-              union:response.data[i].Union_name
-
+              union:response.data[i].Union_name,
+              union_pk: response.data[i].Union_PK
+            });
+          }
+        }).catch(function (error) {
+          console.log(error);
+        })
+        axios.post('/api/getAllUnionInfo',{}).then(response => {
+          for(let i = 0; i < response.data.length; i++){
+            this.unionList.push({
+              Uname: response.data[i].Union_name,
+              Upk: response.data[i].Union_PK
             })
-            this.unionList[i] = {Uname:response.data[i].Union_name};
           }
         }).catch(function (error) {
           console.log(error);
@@ -65,10 +74,13 @@
             console.log(error);
           })
         },
+        submitForm: function () {
+
+        },
         editMsg: function (index,row) {
 
         },
-        addStaff: function (Name) {
+        addStaff: function () {
 
         },
         handleDelete: function (index,row) {

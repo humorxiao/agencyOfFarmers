@@ -3,7 +3,7 @@
     <br>
     <el-input v-model="input" placeholder="搜索合作社人员"  style="width:20%" clearable></el-input>
     <el-button type="primary" icon="el-icon-search" @click="searchUnion(input)">搜索</el-button>
-    <el-button type="text" style="font-size: large"@click="addStaff('form')">新增合作社成员</el-button>
+    <el-button type="text" style="font-size: large"@click="addStaff()">新增合作社成员</el-button>
     <el-table
       :data="message"
       style="width: 100%"
@@ -95,20 +95,20 @@
     </el-table>
 
     <el-dialog title="合作社人员信息" :visible.sync="editFormVisible" width="30%">
-      <el-form :model="form" :rules="rules" ref="ruleForm" size="medium" class="demo-ruleForm">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="medium" class="demo-ruleForm">
         <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
         <el-form-item label="性别" :label-width="formLabelWidth" prop="male">
-          <el-select v-model="form.male" placeholder="性别">
+          <el-select v-model="ruleForm.male" placeholder="性别">
             <el-option label="男" value="man"></el-option>
             <el-option label="女" value="woman"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="出生日期" :label-width="formLabelWidth" required>
+        <el-form-item label="出生日期" :label-width="formLabelWidth" prop="birthday">
           <el-col :span="11">
           <el-date-picker
-            v-model="form.birthday"
+            v-model="ruleForm.birthday"
             type="date"
             value-format=" yyyy-MM-dd" format="yyyy-MM-dd"
             placeholder="选择日期">
@@ -116,26 +116,28 @@
           </el-col>
         </el-form-item>
         <el-form-item label="地址" :label-width="formLabelWidth" prop="address">
-          <el-input v-model="form.address"></el-input>
+          <el-input v-model="ruleForm.address"></el-input>
         </el-form-item>
-        <el-form-item label="电话" :label-width="formLabelWidth" prop="phone">
-          <el-input v-model="form.phone"></el-input>
+        <el-form-item label="手机号码" :label-width="formLabelWidth" prop="phone">
+          <el-input class="inp" v-model.number="ruleForm.phone" auto-complete="true"></el-input>
         </el-form-item>
         <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="id">
-          <el-input v-model="form.id"></el-input>
+          <el-input v-model.number="ruleForm.id"></el-input>
         </el-form-item>
         <el-form-item label="邮箱地址" :label-width="formLabelWidth" prop="email">
-          <el-input v-model="form.email"></el-input>
+          <el-input v-model="ruleForm.email"></el-input>
         </el-form-item>
         <el-form-item label="所属合作社" :label-width="formLabelWidth" prop="union">
-          <el-select v-model="form.union" placeholder="所属合作社">
-            <el-option v-for="Item in unionList" :key="Item.id" :value="Item.Uname">{{Item.Uname}}</el-option>
+          <el-select v-model="ruleForm.union" placeholder="所属合作社">
+            <el-option v-for="Item in unionList" :key="Item.id" :value="Item.Uname">
+              {{ Item.Uname }}
+            </el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="sure('form')">确 定</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm',add)">确 定</el-button>
       </div>
     </el-dialog>
     <span id="User-msg" style="color:red"></span><br>
@@ -143,8 +145,9 @@
 </template>
 
 <script>
+  import axios from 'axios'
     export default {
-        name: "three_union",
+      name: "three_union",
       props:{
         message:{
           type:Array,
@@ -158,34 +161,36 @@
       data(){
         return{
           rules:{
-            name: [{
-              required: true, message: '请输入成员的名字', trigger: 'blur'
-            }],
+            name: [
+              {required: true, message: '成员名字不能为空', trigger: 'blur'}
+            ],
             male: [{
-              required: true,message:'请选择成员的性别',trigger:'change'
+              required: true,message:'成员性别不能为空',trigger:'change'
             }],
             birthday: [{
               type: 'string', required: true, message: '请选择日期', trigger: 'change'
             }],
             address: [{
-              required: true,message:'请填写成员的地址',trigger:'blur'
+              required: true,message:'成员地址不能为空',trigger:'blur'
             }],
-            phone: [{
-              required: true,message:'请填写成员的联系电话',trigger:'blur'
-            }],
+            phone: [
+              { required: true,message:'成员联系电话不能为空'}],
             id: [{
-              required: true,message:'请填写成员的身份证号码',trigger:'blur'
+              required: true,message:'请填写成员的身份证号码'
             }],
-            email: [{
-              required: true,message:'请填写成员的邮箱',trigger:'blur'
-            }],
+            email: [
+              {required: true,message:'请填写成员的邮箱',trigger:'blur'},
+              { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
+            ],
             union: [{
               required: true,message:'请选择成员的所属合作社',trigger:'change'
             }],
           },
           input:'',
+          add: '',
+          msgs: '',
           editFormVisible: false,
-          form: {
+          ruleForm: {
             name: '',
             male: '',
             birthday: '',
@@ -194,6 +199,7 @@
             id: '',
             email: '',
             union: '',
+            staff_index: ''
           },
           formLabelWidth: '100px',
         }
@@ -204,38 +210,94 @@
         },
         editMsg: function (index,row) {
           this.editFormVisible=true;
-          this.form.name = row.name;
-          this.form.male = row.male;
-          this.form.birthday = row.birthday;
-          this.form.address = row.address;
-          this.form.phone = row.phone;
-          this.form.id = row.id;
-          this.form.email = row.email;
-          this.form.union = row.union;
+          this.ruleForm.name = row.name;
+          this.ruleForm.male = row.male;
+          this.ruleForm.birthday = row.birthday;
+          this.ruleForm.address = row.address;
+          this.ruleForm.phone = row.phone;
+          this.ruleForm.id = row.id;
+          this.ruleForm.email = row.email;
+          this.ruleForm.union = row.union;
+          this.staff_index = index;
         },
-        sure: function (formName) {
-          this.form.name = row.name;
-          this.form.male = row.male;
-          this.form.birthday = row.birthday;
-          this.form.address = row.address;
-          this.form.phone = row.phone;
-          this.form.id = row.id;
-          this.form.email = row.email;
-          this.form.union = row.union;
-          this.editFormVisible = false
-        },
-        addStaff: function (formName) {
-          this.editFormVisible=true;
+        submitForm: function (formName,add) {
+          let sex;
+          if(this.ruleForm.male === '男'){
+            sex = 1;
+          }else{
+            sex = 0;
+          }
+          this.msgs = {
+            'Staff_Name': this.ruleForm.name,
+            'Staff_Sex': sex,
+            'Staff_Birthday': this.ruleForm.birthday,
+            'Staff_Address': this.ruleForm.address,
+            'Staff_Phone': this.ruleForm.phone,
+            'Staff_ID':this.ruleForm.id,
+            'Staff_Email': this.ruleForm.email,
+            'Union_PK':100000
+          };
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              alert('submit!');
+              this.editFormVisible = false
+              if(add === 1) {
+                axios.post('/api/addUnionStaff', this.msgs).then(response => {
+                  if(response.data.status === 1) {
+                    this.message.push({
+                      name: this.ruleForm.name,
+                      male: this.ruleForm.male,
+                      birthday: this.ruleForm.birthday,
+                      address: this.ruleForm.address,
+                      phone: this.ruleForm.phone,
+                      id: this.ruleForm.id,
+                      email: this.ruleForm.email,
+                      union: this.ruleForm.union
+                    });
+                    this.$message({
+                      type: 'success',
+                      message: '添加成功!'
+                    })
+                  } else {
+                    this.$message({
+                      type: 'info',
+                      message: '添加失败!'
+                    })
+                  }
+                }).catch(function (error) {
+                  console.log(error)
+                })
+              } else if(this.add === 0) {
+                axios.post('/api/updateUnionStaff', this.msgs).then(response => {
+                  let i = this.staff_index;
+                  if(response.data.status === 1) {
+                    this.message[i].name = this.ruleForm.name;
+                    this.message[i].male = this.ruleForm.male;
+                    this.message[i].birthday = this.ruleForm.birthday;
+                    this.message[i].address = this.ruleForm.address;
+                    this.message[i].phone = this.ruleForm.phone;
+                    this.message[i].id = this.ruleForm.id;
+                    this.message[i].email = this.ruleForm.email;
+                    this.$message({
+                      type: 'success',
+                      message: '修改成功!'
+                    })
+                  }
+                    this.$message({
+                      type: 'info',
+                      message: '取消修改!'})
+                }).catch(function (error) {
+                  console.log(error)
+                })
+              }
             } else {
-              console.log('error submit!!');
               return false;
             }
           });
-
-          this.$emit('addStaff',this.form.name)
+          this.editFormVisible = false
+        },
+        addStaff: function () {
+          this.editFormVisible=true;
+          this.add = 1;
         },
         handleDelete: function (index,row) {
           this.$confirm('此操作将删除该成员, 是否继续?', '提示', {
