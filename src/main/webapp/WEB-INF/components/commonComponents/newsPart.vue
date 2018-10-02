@@ -13,7 +13,7 @@
         <div class="fl-news-col-item">
           <a :href="item.src" target="_blank">
           <div class="col-md-4 fl-news-img-wrap">
-            <img class="lazy fl-news-img img-thumbnail" width="248" height="185"  alt="" v-bind:src="item.pictureSrc" >
+            <img class="lazy fl-news-img img-thumbnail" width="248" height="185"  alt="" v-lazy ="item.pictureSrc" >
           </div>
           <div class="col-md-8 news-title">
             <ul>
