@@ -61,7 +61,7 @@
               <el-button
                 type="warning"
                 size="mini"
-                @click="handleEdit(scope.$index, scope.row)">确认收货</el-button>
+                @click="receive(scope.$index, scope.row)">确认收货</el-button>
               <el-button type="danger"
                          size="mini"
                          @click="checkdelivery(scope.$index, scope.row)">查看物流</el-button>
@@ -72,11 +72,44 @@
 </template>
 
 <script>
+  import axios from 'axios'
 export default {
   name: 'nosignorder',
   props: {
     tableData3: {type: Array, required: true},
-  }
+    database: {type: Array, required: true}
+  },
+  methods: {
+    receive(index, row) {
+      this.$confirm('是否确认收货', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.database[index].Order_State = 5
+        axios.post('/api/updateOrder', this.database[index]).then(response => {
+          if(response.data.status===1){
+            this.$message({
+              type: 'success',
+              message: '确认收货成功!'
+            });
+            this.tableData3.splice(index,1)
+          }else{
+            this.$message({
+              type: 'error',
+              message: '操作失败!'
+            });
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消操作'
+        });
+      });
+    }
+  },
+
 }
 </script>
 

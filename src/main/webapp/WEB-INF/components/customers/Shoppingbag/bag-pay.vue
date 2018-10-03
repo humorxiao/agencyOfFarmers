@@ -108,11 +108,11 @@ export default {
   },
   methods: {
     refresh:function(){
-    /*  for(let i = 0;i<this.Goods_List_pay.length;i++) {
+      for(let i = 0;i<this.Goods_List_pay.length;i++) {
         this.goods_list.splice(this.goods_list.indexOf(this.Goods_List_pay[i]),1)
-      }*/
-     // console.log(this.goods_list)
-     // this.alterCart()
+      }
+      console.log(this.goods_list)
+      this.alterCart()
       window.location.href = 'shoppingbag.html'
     },
    formatDate : function(){  //获取格式化时间
@@ -139,11 +139,9 @@ export default {
       var data = { 'Goods_List': this.Goods_List_New, 'Goods_Num': this.Goods_Num_New}
       axios.post('/api/alterCart', data).then(response => {
         if (response.data.status === 1) {
-          console.log('成功')
           window.location.href = 'shoppingbag.html'
         }
         else {
-          console.log('失败')
           window.location.href = 'shoppingbag.html'
         }
       })
@@ -168,12 +166,12 @@ export default {
          "Order_No":"",
          "Goods_List":this.Goods_List,
          "Goods_Num":this.Goods_Num,
-         "Goods_Price":this.Goods_Price,
+         "Goods_Prices":this.Goods_Price,
          "Goods_Type":"2",
          "Order_Time":"2018-09-15 20:03:46",
          "Order_IsPay":false,
          "Order_PayTime":"2018-09-15 20:03:46",
-         "Order_Tracknum":"",
+         "Order_TrackNum":"",
          "Order_Company":"",
          "Order_Website":"",
          "Order_Aftersale":"0",

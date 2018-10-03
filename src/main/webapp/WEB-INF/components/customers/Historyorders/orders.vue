@@ -28,7 +28,7 @@
           </div>
           <div class="tab-pane" id="panel-923725">
             <div  id="Orders3">
-              <nosign :tableData3="tableData3"></nosign>
+              <nosign :tableData3="tableData3" :database="database"></nosign>
             </div>
           </div>
           <div class="tab-pane" id="panel-923727">
@@ -60,7 +60,8 @@ export default {
       tableData4:[],
       tableData3:[],
       tableData2:[],
-      tableData1:[]
+      tableData1:[],
+      database:[]
     }
   },
   mounted:function () {
@@ -76,6 +77,7 @@ export default {
        {
          var num = response.data[1][j].Goods_Price*goodsnum[m]
            this.goods.push({
+             pk:response.data[1][j].Goods_PK,
            name: response.data[1][j].Goods_Name,
            price:response.data[1][j].Goods_Price.toString(),
            number:goodsnum[m].toString(),
@@ -108,6 +110,7 @@ export default {
             money:response.data[0][i].Order_PayPrice,
             goods:this.goods
           })
+          this.database.push(response.data[0][i])
         }
         else if(response.data[0][i].Order_State === 4)
         {
@@ -120,6 +123,7 @@ export default {
             money:response.data[0][i].Order_PayPrice,
             goods:this.goods
           })
+          this.database.push(response.data[0][i])
         }
         else if(response.data[0][i].Order_State === 5)
         {

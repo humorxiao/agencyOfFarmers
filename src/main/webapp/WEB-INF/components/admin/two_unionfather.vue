@@ -1,5 +1,5 @@
 <template>
-<two :message="message"></two>
+<two :message="message":goodsinfo="goodsinfo"></two>
 </template>
 
 <script>
@@ -14,14 +14,14 @@
         axios.post('/api/getAllGoods', {}).then(response => {
           for(let i=0;i<response.data.length;i++) {
             if (response.data[i].Goods_Show === "1") {
-             this.goodsplace = '特色区'
+              this.goodsplace = '特色区'
             } else if (response.data[i].Goods_Show === "2") {
               this.goodsplace = '优惠区'
             } else {
               this.goodsplace = '无展示'
             }
             if (response.data[i].Goods_Type === 1) {
-             this.goodstype = '水果'
+              this.goodstype = '水果'
             }
             else if (response.data[i].Goods_Type === 2) {
               this.goodstype = '加工品'
@@ -47,18 +47,24 @@
               goodsprice: response.data[i].Goods_Price.toString(),
               pictures: response.data[i].Goods_Picture,
               goodsplace:this.goodsplace,
-              sales:this.sale
+              sales:this.sale,
+              season:response.data[i].Goods_Season,
+              flower:response.data[i].Goods_Blossom,
+              fruit:response.data[i].Goods_Fruit,
+              grownup:response.data[i].Goods_Mature,
+              fresh:response.data[i].Goods_Expiration
             })
+            this.goodsinfo.push(response.data[i])
           }
         })
       },
       data(){
           return {
-            message: [{goodsname:'xxx',goodstype:'shucai',goodsleft:'222',goodsprice:'10',
-            sale:'1',goodsplace:'none',pictures:'xxxxx'}],
+            message: [],
             goodstype:'',
             goodsplace:'',
-            sale:''
+            sale:'',
+            goodsinfo:[]
           }
       }
     }
