@@ -203,10 +203,10 @@
             season: [
               {required: true, message: '请输入商品一年几季', trigger: 'blur'},
             ],
-            flowers: [
+            flower: [
               {required: true, message: '请输入商品开花期', trigger: 'blur'},
             ],
-            fruits: [
+            fruit: [
               {required: true, message: '请输入商品结果期', trigger: 'blur'},
             ],
             fresh: [
@@ -223,6 +223,50 @@
         }
       },
       methods: {
+        search() {
+          this.dataSearch = {"likes" : this.input}
+          axios.post('/api/getLikesUnions', this.dataSearch).then(response => {
+            this.message.splice(0,this.message.length)
+            for (var i = 0; i < response.data.length; i++) {
+                this.message.push({
+                goodsname: response.data[i].Goods_Name,
+                goodstype:this.goodstype,
+                goodsleft: response.data[i].Goods_Num.toString(),
+                goodsprice: response.data[i].Goods_Price.toString(),
+                pictures: response.data[i].Goods_Picture,
+                goodsplace:this.goodsplace,
+                sales:this.sale,
+                season:response.data[i].Goods_Season,
+                flower:response.data[i].Goods_Blossom,
+                fruit:response.data[i].Goods_Fruit,
+                grownup:response.data[i].Goods_Mature,
+                fresh:response.data[i].Goods_Expiration
+              })
+            }
+          }).catch(function (error) {
+            console.log(error)
+          })
+        },
+        handleDelete(index,row) {
+          this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+              axios.post('/api/deleteGoodsInfo', this.dataDelete).then(response => {
+                if(response.data.status===1)
+                {  this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                });}
+              })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+        },
         addgoods() {
           this.index = this.goodsinfo.length
           this.action = 1
@@ -310,6 +354,7 @@
                     this.message[this.index].flower = this.ruleForm.flower
                     this.message[this.index].fruit = this.ruleForm.fruit
                     this.message[this.index].fresh = this.ruleForm.fresh
+                    this.message[this.index].grownup = this.ruleForm.growup
                     this.message[this.index].season = this.ruleForm.season
                     this.$message({
                       type: 'success',
@@ -343,17 +388,20 @@
                 axios.post('/api/addGoods', data1).then(response => {
                   if(response.data.status === 1) {
                     this.dialogFormVisible = false
-                    this.message[this.index].goodsname = this.ruleForm.name
-                    this.message[this.index].goodstype = this.ruleForm.type
-                    this.message[this.index].goodsleft = this.ruleForm.left
-                    this.message[this.index].goodsprice = this.ruleForm.price
-                    this.message[this.index].sales = this.ruleForm.sales
-                    this.message[this.index].goodsplace = this.ruleForm.position
-                    this.message[this.index].pictures = this.ruleForm.pictures
-                    this.message[this.index].flower = this.ruleForm.flower
-                    this.message[this.index].fruit = this.ruleForm.fruit
-                    this.message[this.index].fresh = this.ruleForm.fresh
-                    this.message[this.index].season = this.ruleForm.season
+                    this.message.push({
+                      goodsname: this.ruleForm.name,
+                      goodstype:this.ruleForm.type,
+                      goodsleft: this.ruleForm.left,
+                      goodsprice: this.ruleForm.price,
+                      pictures: this.ruleForm.pictures,
+                      goodsplace:this.ruleForm.position,
+                      sales:this.ruleForm.sales,
+                      season:this.ruleForm.season,
+                      flower:this.ruleForm.flower,
+                      fruit:this.ruleForm.fruit,
+                      grownup:this.ruleForm.growup,
+                      fresh:this.ruleForm.fresh
+                    })
                     this.$message({
                       type: 'success',
                       message: '添加商品信息成功！！！'
