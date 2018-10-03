@@ -232,7 +232,6 @@ public class GoodsInfoAction {
     temp.setGoods_fruit(data.get("Goods_Fruit").toString());
     temp.setGoods_mature(data.get("Goods_Mature").toString());
     temp.setGoods_expiration(data.get("Goods_Expiration").toString());
-    temp.setGoods_expiration(data.get("Goods_Reserve_1").toString());
     try {
       goodsInfoService.add(temp);
       r = "{\"status\":1}";

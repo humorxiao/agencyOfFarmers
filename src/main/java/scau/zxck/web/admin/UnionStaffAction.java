@@ -124,10 +124,12 @@ public class UnionStaffAction {
     try {
       unionStaffService.addUnionStaff(temp);
       r = "{\"status\":1}";
+      FlushWriteUtil.flushWrite(response, r);
     } catch (Exception e) {
+      e.printStackTrace();
       r = "{\"status\":0}";
+      FlushWriteUtil.flushWrite(response, r);
     }
-    FlushWriteUtil.flushWrite(response, r);
   }
 
   @RequestMapping(value = "updateUnionStaff", method = RequestMethod.POST)
