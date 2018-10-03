@@ -274,27 +274,28 @@ public class GoodsInfoAction {
   public void deleteGoodsInfo( HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject data= ReadJSONUtil.readJSONStr(request);
-    GoodsInfo temp = goodsInfoService.findById(data.get("Goods_PK").toString());
-    temp.setGoods_name(data.get("Goods_Name").toString());
-    temp.setGoods_type((int) Integer.parseInt(data.get("Goods_Type").toString()));
-    temp.setGoods_num((int) Integer.parseInt(data.get("Goods_Num").toString()));
-    temp.setGoods_price((float) Float.parseFloat(data.get("Goods_Price").toString()));
-    temp.setGoods_mark(data.get("Goods_Mark").toString().charAt(0));
-    temp.setGoods_show(data.get("Goods_Show").toString().charAt(0));
-    temp.setGoods_picture(data.get("Goods_Picture").toString());
-    temp.setGoods_season((int) Integer.parseInt(data.get("Goods_Season").toString()));
-    temp.setGoods_blossom(data.get("Goods_Blossom").toString());
-    temp.setGoods_fruit(data.get("Goods_Fruit").toString());
-    temp.setGoods_mature(data.get("Goods_Mature").toString());
-    temp.setGoods_expiration(data.get("Goods_Expiration").toString());
+//    GoodsInfo temp = goodsInfoService.findById(data.get("Goods_PK").toString());
+//    temp.setGoods_name(data.get("Goods_Name").toString());
+//    temp.setGoods_type((int) Integer.parseInt(data.get("Goods_Type").toString()));
+//    temp.setGoods_num((int) Integer.parseInt(data.get("Goods_Num").toString()));
+//    temp.setGoods_price((float) Float.parseFloat(data.get("Goods_Price").toString()));
+//    temp.setGoods_mark(data.get("Goods_Mark").toString().charAt(0));
+//    temp.setGoods_show(data.get("Goods_Show").toString().charAt(0));
+//    temp.setGoods_picture(data.get("Goods_Picture").toString());
+//    temp.setGoods_season((int) Integer.parseInt(data.get("Goods_Season").toString()));
+//    temp.setGoods_blossom(data.get("Goods_Blossom").toString());
+//    temp.setGoods_fruit(data.get("Goods_Fruit").toString());
+//    temp.setGoods_mature(data.get("Goods_Mature").toString());
+//    temp.setGoods_expiration(data.get("Goods_Expiration").toString());
     try {
-      goodsInfoService.updateById(temp);
+      goodsInfoService.deleteByIds(data.get("Goods_PK").toString());
       r = "{\"status\":1}";
+      FlushWriteUtil.flushWrite(response,r);
     } catch (Exception e) {
       e.printStackTrace();
       r = "{\"status\":0}";
+      FlushWriteUtil.flushWrite(response,r);
     }
-    FlushWriteUtil.flushWrite(response,r);
   }
 
   @RequestMapping(value = "getLikesGoods", method = RequestMethod.POST)
