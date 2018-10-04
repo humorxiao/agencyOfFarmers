@@ -52,24 +52,35 @@
       methods: {
         searchUnion: function (input) {
           let inputS = {'likes':input.toString()};
+          let union_name
           axios.post('/api/getLikesStaffs',inputS).then(response => {
             for(let i = 0;i < this.staffNum; i++){
               this.message.pop();
             }
-            if (response.data.Staff_Sex === 1) {
+            if (response.data[0].Staff_Sex === 1) {
               this.male = '男'
             } else { this.male = '女'}
-            this.message.push({
-              name: response.data[0].Staff_Name,
-              male: this.male,
-              birthday: response.data[0].Staff_Birthday,
-              address: response.data[0].Staff_Address,
-              phone: response.data[0].Staff_Phone,
-              id:response.data[0].Staff_ID,
-              email:response.data[0].Staff_Email,
-              union:response.data[0].Union_name
-
-            })
+            axios.post('/api/getAllUnionInfo',{}).then(res => {
+              for(let j = 0; j < res.data.length; j++){
+                if(res.data[j].Union_PK === response.data[0].Union_PK){
+                  union_name = res.data[j].Union_name;
+                  alert(union_name)
+                  break;
+                }
+              }
+              this.message.push({
+                name: response.data[0].Staff_Name,
+                male: this.male,
+                birthday: response.data[0].Staff_Birthday,
+                address: response.data[0].Staff_Address,
+                phone: response.data[0].Staff_Phone,
+                id:response.data[0].Staff_ID,
+                email:response.data[0].Staff_Email,
+                union:union_name
+              })
+            }).catch(function (error) {
+              console.log(error)
+            });
           }).catch(function (error) {
             console.log(error);
           })
