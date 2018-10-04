@@ -179,7 +179,7 @@ INSERT INTO `delivery_address` VALUES ('100017', '', '', '', '', null);
 DROP TABLE IF EXISTS `goods_info`;
 CREATE TABLE `goods_info` (
   `id` varchar (255) NOT NULL ,
-  `goods_name` varchar(100) DEFAULT NULL,
+  `goods_name` varchar(100) DEFAULT NULL UNIQUE,
   `goods_type` int(11) NOT NULL COMMENT '商品类别，1为水果，2为加工品，3为粮蔬，4为水产，5为禽畜。若有补充累加1。',
   `goods_num` int(11) NOT NULL,
   `goods_price` float NOT NULL COMMENT '保留2位小数',
