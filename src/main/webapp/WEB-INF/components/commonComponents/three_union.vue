@@ -189,7 +189,8 @@
           input:'',
           add: '',
           msgs: '',
-          union_pk: '',
+          editMsgs: '',
+          union_pk: 0,
           editFormVisible: false,
           ruleForm: {
             name: '',
@@ -243,28 +244,28 @@
           axios.post('/api/getAllUnionInfo',{}).then(response => {
             for(let i = 0; i < response.data.length; i++){
               if(response.data[i].Union_name === this.ruleForm.union){
-                this.union_pk = JSON.stringify(response.data[i].Union_PK);
-                alert(this.union_pk)
+                this.union_pk = response.data[i].Union_PK;
               }
             }
+            this.msgs = {
+              'Staff_Name': this.ruleForm.name,
+              'Staff_Sex': sex,
+              'Staff_Birthday': this.ruleForm.birthday,
+              'Staff_Address': this.ruleForm.address,
+              'Staff_Phone': this.ruleForm.phone,
+              'Staff_ID': this.ruleForm.id,
+              'Staff_Email': this.ruleForm.email,
+              'Union_PK':this.union_pk
+            };
           }).catch(function (error) {
             console.log(error)
           });
-          this.msgs = {
-            'Staff_Name': this.ruleForm.name,
-            'Staff_Sex': sex,
-            'Staff_Birthday': this.ruleForm.birthday,
-            'Staff_Address': this.ruleForm.address,
-            'Staff_Phone': this.ruleForm.phone,
-            'Staff_ID': this.ruleForm.id,
-            'Staff_Email': this.ruleForm.email,
-            'Union_PK':100000
-          };
           this.$refs[formName].validate((valid) => {
             if (valid) {
               this.editFormVisible = false;
               if(add === 1) {
                 axios.post('/api/addUnionStaff', this.msgs).then(response => {
+                  alert(JSON.stringify(this.msgs))
                   if(response.data.status === 1) {
                     this.message.push({
                       name: this.ruleForm.name,
@@ -292,6 +293,7 @@
               } else if(this.add === 0) {
                 axios.post('/api/updateUnionStaff', this.msgs).then(response => {
                   let i = this.staff_index;
+                  alert(JSON.stringify(this.msgs))
                   if(response.data.status === 1) {
                     this.message[i].name = this.ruleForm.name;
                     this.message[i].male = this.ruleForm.male;
