@@ -55,6 +55,11 @@ public class CartInfoAction {
     JSONArray jsonArray = new JSONArray();
     String[] string = cartInfo.getGoods_list().split("#");
     String[] string2 = cartInfo.getGoods_num().split("#");
+    if(cartInfo.getGoods_list().equals("")){
+      r = jsonArray.toString();
+      FlushWriteUtil.flushWrite(response, r);
+      return;
+    }
     for (int i = 0; i < string.length; i++) {
       GoodsInfo goodsInfo = goodsInfoService.findById(string[i]);
       JSONObject temp1 = new JSONObject();

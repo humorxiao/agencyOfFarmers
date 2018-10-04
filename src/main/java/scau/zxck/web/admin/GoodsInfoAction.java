@@ -313,7 +313,6 @@ public class GoodsInfoAction {
       for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
         JSONObject temp = new JSONObject();
         GoodsInfo goods = (GoodsInfo) iter.next();
-
         temp.put("Goods_PK", goods.getId());
         temp.put("Goods_Name", goods.getGoods_name());
         temp.put("Goods_Type", goods.getGoods_type());
@@ -322,6 +321,13 @@ public class GoodsInfoAction {
         temp.put("Goods_Mark", goods.getGoods_mark());
         temp.put("Goods_Show", goods.getGoods_show());
         temp.put("Goods_Picture", goods.getGoods_picture());
+        temp.put("Goods_Season", goods.getGoods_season());
+        temp.put("Goods_Blossom", goods.getGoods_blossom());
+        temp.put("Goods_Fruit", goods.getGoods_fruit());
+        temp.put("Goods_Mature", goods.getGoods_mature());
+        temp.put("Goods_Expiration", goods.getGoods_expiration());
+        temp.put("Goods_Reserve_1", goods.getGoods_reserve_1());
+        temp.put("Goods_Reserve_2", goods.getGoods_reserve_2());
         jsonarr.add(temp);
       }
       r = jsonarr.toString();
