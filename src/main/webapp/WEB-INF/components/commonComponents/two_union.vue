@@ -130,22 +130,12 @@
         </el-table-column>
         <el-table-column
           fixed="right"
-          label="操作一"
+          label="操作"
           width="120">
           <template slot-scope="scope">
             <el-button
               size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column
-          fixed="right"
-          label="操作二"
-          width="120">
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
+              type="warning"
               @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           </template>
         </el-table-column>
@@ -219,15 +209,45 @@
           Goods_Mark:'',
           Goods_Show:'',
           Goods_Type:'',
-          action:''
+          action:'',
+          goodstype:'',
+          goodsplace:'',
+          sale:''
         }
       },
       methods: {
         search() {
           this.dataSearch = {"likes" : this.input}
-          axios.post('/api/getLikesUnions', this.dataSearch).then(response => {
+          axios.post('/api/getLikesGoods', this.dataSearch).then(response => {
             this.message.splice(0,this.message.length)
             for (var i = 0; i < response.data.length; i++) {
+              if (response.data[i].Goods_Show === "1") {
+                this.goodsplace = '特色区'
+              } else if (response.data[i].Goods_Show === "2") {
+                this.goodsplace = '优惠区'
+              } else {
+                this.goodsplace = '无展示'
+              }
+              if (response.data[i].Goods_Type === 1) {
+                this.goodstype = '水果'
+              }
+              else if (response.data[i].Goods_Type === 2) {
+                this.goodstype = '加工品'
+              }
+              else if (response.data[i].Goods_Type === 3) {
+                this.goodstype = '粮疏'
+              }
+              else if(response.data[i].Goods_Type === 4) {
+                this.goodstype = '水产'
+              }
+              else if(response.data[i].Goods_Type === 5) {
+                this.goodstype = '禽畜'
+              }
+              else { this.goodstype = '植物' }
+              if(response.data[i].Goods_Mark === "0") {
+                this.sale = '正常'
+              }
+              else {this.sale = '已下架'}
                 this.message.push({
                 goodsname: response.data[i].Goods_Name,
                 goodstype:this.goodstype,
@@ -246,26 +266,6 @@
           }).catch(function (error) {
             console.log(error)
           })
-        },
-        handleDelete(index,row) {
-          this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-              axios.post('/api/deleteGoodsInfo', this.dataDelete).then(response => {
-                if(response.data.status===1)
-                {  this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-                });}
-              })
-          }).catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除'
-            });
-          });
         },
         addgoods() {
           this.index = this.goodsinfo.length

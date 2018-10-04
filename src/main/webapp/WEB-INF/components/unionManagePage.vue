@@ -15,9 +15,6 @@
           <div class="tab-pane" id="panel-923726">
             <three></three>
           </div>
-          <div class="tab-pane" id="panel-923727">
-            <four></four>
-          </div>
           <div class="tab-pane" id="panel-923729">
             <five></five>
           </div>
@@ -36,7 +33,6 @@
   import adminfooter from './commonComponents/adminfooter.vue'
   import two from './admin/two_unionfather'
   import three from './admin/three_unionfather'
-  import four from './admin/four_unionfather'
   import five from './admin/five_unionfather'
     export default {
         name: "unionManagePage",
@@ -47,7 +43,6 @@
         adminfooter,
         two,
         three,
-        four,
         five
       }
     }
