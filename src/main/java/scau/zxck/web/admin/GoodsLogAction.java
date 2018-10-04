@@ -1,5 +1,6 @@
 package scau.zxck.web.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,20 +136,14 @@ public class GoodsLogAction {
     tempy.setGoods_out((int) Integer.parseInt(data.get("Goods_Out").toString()));
     tempy.setGoods_pricechange((float) Float.parseFloat(data.get("Goods_PriceChange").toString()));
     tempy.setGl_time((String) data.get("GL_Time"));
-    boolean ret;
     try {
       goodsLogService.add(tempy);
-      ret = true;
+      String r = "{\"status\":1}";
+      FlushWriteUtil.flushWrite(response, r);
     } catch (Exception e) {
       e.printStackTrace();
-      ret = false;
+      String r = "{\"status\":0}";
+      FlushWriteUtil.flushWrite(response, r);
     }
-    String r = "";
-    if (ret) {
-      r = "{\"status\":1}";
-    } else {
-      r = "{\"status\":0}";
-    }
-    FlushWriteUtil.flushWrite(response, r);
   }
 }
