@@ -101,8 +101,8 @@
         </el-form-item>
         <el-form-item label="性别" :label-width="formLabelWidth" prop="male">
           <el-select v-model="ruleForm.male" placeholder="性别">
-            <el-option label="男" value="man"></el-option>
-            <el-option label="女" value="woman"></el-option>
+            <el-option label="男" value="男"></el-option>
+            <el-option label="女" value="女"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="出生日期" :label-width="formLabelWidth" prop="birthday">
@@ -119,10 +119,10 @@
           <el-input v-model="ruleForm.address"></el-input>
         </el-form-item>
         <el-form-item label="手机号码" :label-width="formLabelWidth" prop="phone">
-          <el-input class="inp" v-model.number="ruleForm.phone" auto-complete="true"></el-input>
+          <el-input class="inp" v-model="ruleForm.phone" auto-complete="true"></el-input>
         </el-form-item>
         <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="id">
-          <el-input v-model.number="ruleForm.id"></el-input>
+          <el-input v-model="ruleForm.id"></el-input>
         </el-form-item>
         <el-form-item label="邮箱地址" :label-width="formLabelWidth" prop="email">
           <el-input v-model="ruleForm.email"></el-input>
@@ -174,9 +174,9 @@
               required: true,message:'成员地址不能为空',trigger:'blur'
             }],
             phone: [
-              { required: true,message:'成员联系电话不能为空'}],
+              { required: true,message:'成员联系电话不能为空',trigger:'blur'}],
             id: [{
-              required: true,message:'请填写成员的身份证号码'
+              required: true,message:'请填写成员的身份证号码',trigger:'blur'
             }],
             email: [
               {required: true,message:'请填写成员的邮箱',trigger:'blur'},
@@ -189,6 +189,7 @@
           input:'',
           add: '',
           msgs: '',
+          union_pk: '',
           editFormVisible: false,
           ruleForm: {
             name: '',
@@ -208,7 +209,18 @@
         searchUnion(input){
           this.$emit('searchUnion',input)
         },
+        addStaff: function () {
+          this.editFormVisible=true;
+          this.add = 1;
+          this.ruleForm.name = '';
+          this.ruleForm.birthday = '';
+          this.ruleForm.address = '';
+          this.ruleForm.phone = '';
+          this.ruleForm.id = '';
+          this.ruleForm.email = '';
+        },
         editMsg: function (index,row) {
+          this.add = 0;
           this.editFormVisible=true;
           this.ruleForm.name = row.name;
           this.ruleForm.male = row.male;
@@ -221,25 +233,36 @@
           this.staff_index = index;
         },
         submitForm: function (formName,add) {
+          let up;
           let sex;
           if(this.ruleForm.male === '男'){
             sex = 1;
           }else{
             sex = 0;
           }
+          axios.post('/api/getAllUnionInfo',{}).then(response => {
+            for(let i = 0; i < response.data.length; i++){
+              if(response.data[i].Union_name === this.ruleForm.union){
+                this.union_pk = JSON.stringify(response.data[i].Union_PK);
+                alert(this.union_pk)
+              }
+            }
+          }).catch(function (error) {
+            console.log(error)
+          });
           this.msgs = {
             'Staff_Name': this.ruleForm.name,
             'Staff_Sex': sex,
             'Staff_Birthday': this.ruleForm.birthday,
             'Staff_Address': this.ruleForm.address,
             'Staff_Phone': this.ruleForm.phone,
-            'Staff_ID':this.ruleForm.id,
+            'Staff_ID': this.ruleForm.id,
             'Staff_Email': this.ruleForm.email,
             'Union_PK':100000
           };
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              this.editFormVisible = false
+              this.editFormVisible = false;
               if(add === 1) {
                 axios.post('/api/addUnionStaff', this.msgs).then(response => {
                   if(response.data.status === 1) {
@@ -277,14 +300,17 @@
                     this.message[i].phone = this.ruleForm.phone;
                     this.message[i].id = this.ruleForm.id;
                     this.message[i].email = this.ruleForm.email;
+                    this.message[i].union = this.ruleForm.union;
                     this.$message({
                       type: 'success',
                       message: '修改成功!'
                     })
-                  }
+                  }else {
                     this.$message({
                       type: 'info',
-                      message: '取消修改!'})
+                      message: '修改失败!'
+                    })
+                  }
                 }).catch(function (error) {
                   console.log(error)
                 })
@@ -294,10 +320,6 @@
             }
           });
           this.editFormVisible = false
-        },
-        addStaff: function () {
-          this.editFormVisible=true;
-          this.add = 1;
         },
         handleDelete: function (index,row) {
           this.$confirm('此操作将删除该成员, 是否继续?', '提示', {
