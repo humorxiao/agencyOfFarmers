@@ -234,7 +234,6 @@
           this.staff_index = index;
         },
         submitForm: function (formName,add) {
-          let up;
           let sex;
           if(this.ruleForm.male === '男'){
             sex = 1;
@@ -245,6 +244,7 @@
             for(let i = 0; i < response.data.length; i++){
               if(response.data[i].Union_name === this.ruleForm.union){
                 this.union_pk = response.data[i].Union_PK;
+                break;
               }
             }
             this.msgs = {
