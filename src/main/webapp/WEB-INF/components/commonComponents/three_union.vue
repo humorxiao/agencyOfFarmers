@@ -119,10 +119,10 @@
           <el-input v-model="ruleForm.address"></el-input>
         </el-form-item>
         <el-form-item label="手机号码" :label-width="formLabelWidth" prop="phone">
-          <el-input class="inp" v-model="ruleForm.phone" auto-complete="true"></el-input>
+          <el-input type = "number" placeholder="请正确输入13位的电话号码" class="inp" v-model="ruleForm.phone" auto-complete="true"></el-input>
         </el-form-item>
         <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="id">
-          <el-input v-model="ruleForm.id"></el-input>
+          <el-input v-model="ruleForm.id" :disabled="this.use_id"></el-input>
         </el-form-item>
         <el-form-item label="邮箱地址" :label-width="formLabelWidth" prop="email">
           <el-input v-model="ruleForm.email"></el-input>
@@ -191,6 +191,7 @@
           msgs: '',
           editMsgs: '',
           union_pk: 0,
+          use_id: false,
           editFormVisible: false,
           ruleForm: {
             name: '',
@@ -211,6 +212,7 @@
           this.$emit('searchUnion',input)
         },
         addStaff: function () {
+          this.use_id = false;
           this.editFormVisible=true;
           this.add = 1;
           this.ruleForm.name = '';
@@ -222,6 +224,7 @@
         },
         editMsg: function (index,row) {
           this.add = 0;
+          this.use_id = true;
           this.editFormVisible=true;
           this.ruleForm.name = row.name;
           this.ruleForm.male = row.male;
@@ -234,18 +237,18 @@
           this.staff_index = index;
         },
         submitForm: function (formName,add) {
-          let sex;
-          if(this.ruleForm.male === '男'){
-            sex = 1;
-          }else{
-            sex = 0;
-          }
           axios.post('/api/getAllUnionInfo',{}).then(response => {
             for(let i = 0; i < response.data.length; i++){
               if(response.data[i].Union_name === this.ruleForm.union){
                 this.union_pk = response.data[i].Union_PK;
                 break;
               }
+            }
+            let sex;
+            if(this.ruleForm.male === '男'){
+              sex = 1;
+            }else{
+              sex = 0;
             }
             this.msgs = {
               'Staff_Name': this.ruleForm.name,
@@ -257,71 +260,72 @@
               'Staff_Email': this.ruleForm.email,
               'Union_PK':this.union_pk
             };
+            this.$refs[formName].validate((valid) => {
+              if (valid) {
+                this.editFormVisible = false;
+                if(add === 1) {
+                  axios.post('/api/addUnionStaff', this.msgs).then(response => {
+                    alert(JSON.stringify(this.msgs));
+                    if(response.data.status === 1) {
+                      this.message.push({
+                        name: this.ruleForm.name,
+                        male: this.ruleForm.male,
+                        birthday: this.ruleForm.birthday,
+                        address: this.ruleForm.address,
+                        phone: this.ruleForm.phone,
+                        id: this.ruleForm.id,
+                        email: this.ruleForm.email,
+                        union: this.ruleForm.union
+                      });
+                      this.$message({
+                        type: 'success',
+                        message: '添加成功!'
+                      })
+                    } else{
+                      this.$message({
+                        type: 'info',
+                        message: '添加失败!'
+                      })
+                    }
+                  }).catch(function (error) {
+                    console.log(error)
+                  })
+                } else if(this.add === 0) {
+                  axios.post('/api/updateUnionStaff', this.msgs).then(response => {
+                    let i = this.staff_index;
+                    alert(JSON.stringify(this.msgs))
+                    console.log(JSON.stringify(this.msgs))
+                    if(response.data.status === 1) {
+                      this.message[i].name = this.ruleForm.name;
+                      this.message[i].male = this.ruleForm.male;
+                      this.message[i].birthday = this.ruleForm.birthday;
+                      this.message[i].address = this.ruleForm.address;
+                      this.message[i].phone = this.ruleForm.phone;
+                      this.message[i].id = this.ruleForm.id;
+                      this.message[i].email = this.ruleForm.email;
+                      this.message[i].union = this.ruleForm.union;
+                      this.$message({
+                        type: 'success',
+                        message: '修改成功!'
+                      })
+                    }else{
+                      this.$message({
+                        type: 'info',
+                        message: '修改失败!'
+                      })
+                    }
+                  }).catch(function (error) {
+                    console.log(error)
+                  })
+                }
+              } else {
+                return false;
+              }
+            });
+            this.editFormVisible = false
           }).catch(function (error) {
             console.log(error)
           });
-          this.$refs[formName].validate((valid) => {
-            if (valid) {
-              this.editFormVisible = false;
-              if(add === 1) {
-                axios.post('/api/addUnionStaff', this.msgs).then(response => {
-                  alert(JSON.stringify(this.msgs))
-                  if(response.data.status === 1) {
-                    this.message.push({
-                      name: this.ruleForm.name,
-                      male: this.ruleForm.male,
-                      birthday: this.ruleForm.birthday,
-                      address: this.ruleForm.address,
-                      phone: this.ruleForm.phone,
-                      id: this.ruleForm.id,
-                      email: this.ruleForm.email,
-                      union: this.ruleForm.union
-                    });
-                    this.$message({
-                      type: 'success',
-                      message: '添加成功!'
-                    })
-                  } else {
-                    this.$message({
-                      type: 'info',
-                      message: '添加失败!'
-                    })
-                  }
-                }).catch(function (error) {
-                  console.log(error)
-                })
-              } else if(this.add === 0) {
-                axios.post('/api/updateUnionStaff', this.msgs).then(response => {
-                  let i = this.staff_index;
-                  alert(JSON.stringify(this.msgs))
-                  if(response.data.status === 1) {
-                    this.message[i].name = this.ruleForm.name;
-                    this.message[i].male = this.ruleForm.male;
-                    this.message[i].birthday = this.ruleForm.birthday;
-                    this.message[i].address = this.ruleForm.address;
-                    this.message[i].phone = this.ruleForm.phone;
-                    this.message[i].id = this.ruleForm.id;
-                    this.message[i].email = this.ruleForm.email;
-                    this.message[i].union = this.ruleForm.union;
-                    this.$message({
-                      type: 'success',
-                      message: '修改成功!'
-                    })
-                  }else {
-                    this.$message({
-                      type: 'info',
-                      message: '修改失败!'
-                    })
-                  }
-                }).catch(function (error) {
-                  console.log(error)
-                })
-              }
-            } else {
-              return false;
-            }
-          });
-          this.editFormVisible = false
         },
         handleDelete: function (index,row) {
           this.$confirm('此操作将删除该成员, 是否继续?', '提示', {
