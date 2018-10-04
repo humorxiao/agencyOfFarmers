@@ -147,6 +147,7 @@ public class UnionStaffAction {
     unionStaff.setStaff_phone(data.get("Staff_Phone").toString());
     unionStaff.setStaff_id(data.get("Staff_ID").toString());
     unionStaff.setStaff_email(data.get("Staff_Email").toString());
+    unionStaff.setUnion_info_id(data.get("Union_PK").toString());
     try {
       unionStaffService.updateUnionStaff(unionStaff);
       temp.put("status",1);
