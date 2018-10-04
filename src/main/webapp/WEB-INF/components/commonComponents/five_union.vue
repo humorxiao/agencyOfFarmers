@@ -2,9 +2,9 @@
   <div>
     <div class="tab-pane" id="panel-923729">
       <br>
-      <el-button type="text" @click="addGoodsLog()">添加商品修改日志</el-button>
+      <el-button type="text" @click="dialogFormVisible=true">添加商品修改日志</el-button>
       <el-dialog title="添加商品修改日志" :visible.sync="dialogFormVisible">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
           <el-form-item label="商品名称" prop="name">
             <el-input v-model="ruleForm.name"></el-input>
           </el-form-item>
@@ -18,6 +18,10 @@
             <el-input v-model="ruleForm.price"></el-input>
           </el-form-item>
         </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
+        </div>
       </el-dialog>
       <el-table
         :data="message"
@@ -69,9 +73,25 @@
             name: '',
             goodsin: '',
             goodsout: '',
-            price: '',
+            price: ''
+          },
+          rules: {
+            name: [
+              {required: true, message: '请输入商品名称', trigger: 'blur'},
+            ],
+            goodsin: [
+              {required: true, message: '请输入商品进货量', trigger: 'blur'}
+            ],
+            goodsout: [
+              {required: true, message: '请输入商品销量', trigger: 'blur'}
+            ],
+            price: [
+              {required: true, message: '请输入修改后的价格', trigger: 'blur'}
+            ]
           }
         }
+      },
+      methods:{
       }
     }
 </script>

@@ -12,8 +12,7 @@
       },
       data(){
         return {
-          message: [{goodsname:'xxx',buynum:'shucai',salenum:'222',price:'10',
-            time:'1'}]
+          message: []
         }
       },
       mounted:function () {
