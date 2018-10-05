@@ -60,10 +60,12 @@
 </template>
 
 <script>
+  import axios from 'axios'
     export default {
-        name: "five_union",
-      props:{
-        message:{type:Array,required:true}
+      name: "five_union",
+      props: {
+        message: {type: Array, required: true},
+        database: {type: Array, required: true}
       },
       data() {
         return {
@@ -88,10 +90,62 @@
             price: [
               {required: true, message: '请输入修改后的价格', trigger: 'blur'}
             ]
-          }
+          },
+          id:'',
+          sign:''
         }
       },
-      methods:{
+      methods: {
+        submitForm(formName) {
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+              this.sign=0
+                 for(let i = 0;i<this.database.length;i++){
+                   if(this.ruleForm.name === this.database[i].Goods_Name){
+                     this.id = this.database[i].Goods_PK
+                     this.sign = 1
+                     break
+                   }
+                 }
+                 if(this.sign === 1) {
+                   var data = {
+                     "Goods_PK": this.id,
+                     "Goods_In": this.ruleForm.goodsin,
+                     "Goods_Out": this.ruleForm.goodsout,
+                     "Goods_PriceChange": this.ruleForm.price
+                   }
+
+                   axios.post('/api/addGoodsLog', data).then(response => {
+                     if (response.data.status === 1) {
+                       this.message.push({
+                         goodsname:this.ruleForm.name,
+                         buynum: this.ruleForm.goodsin,
+                         salenum: this.ruleForm.goodsout,
+                         price:this.ruleForm.price
+                       })
+                       this.$message({
+                         type: 'success',
+                         message: '添加商品修改日志成功！！！'
+                       });
+                       this.dialogFormVisible= false
+                     } else {
+                       this.$message({
+                         type: 'error',
+                         message: '添加商品修改日志失败！！！'
+                       });
+                       this.dialogFormVisible= false
+                     }
+                   })
+                 }else {
+                   this.$message({
+                     type: 'error',
+                     message: '改商品不存在！！！'
+                   });
+                   this.dialogFormVisible= false
+                 }
+            }
+          });
+        }
       }
     }
 </script>

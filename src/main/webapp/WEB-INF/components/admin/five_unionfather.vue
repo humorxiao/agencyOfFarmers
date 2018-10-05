@@ -1,5 +1,5 @@
 <template>
-  <five :message="message"></five>
+  <five :message="message":database="database"></five>
 </template>
 
 <script>
@@ -12,7 +12,8 @@
       },
       data(){
         return {
-          message: []
+          message: [],
+          database:[]
         }
       },
       mounted:function () {
@@ -25,6 +26,11 @@
               price:response.data[i].Goods_Price.toString(),
               time:response.data[i].GL_Time
            })
+          }
+        })
+        axios.post('/api/getAllGoods', {}).then(response1 => {
+          for (let i = 0; i < response1.data.length; i++) {
+            this.database.push(response1.data[i])
           }
         })
       }
