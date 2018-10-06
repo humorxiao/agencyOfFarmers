@@ -4,7 +4,7 @@ import Vue from 'vue'
 import Editinfo from './Editinfo.vue'
 import router from './router'
 import {Button,Message,  Table, TableColumn,  Popover, Tag, Input, FormItem,Form , Select,
-  Option,MessageBox, Dialog, Col,DatePicker,Checkbox,Radio,CheckboxGroup,RadioGroup} from 'element-ui'
+  Option,MessageBox, Dialog, Col,DatePicker,Checkbox,Radio,CheckboxGroup,RadioGroup,Footer} from 'element-ui'
 
 import "babel-polyfill"
 Vue.config.productionTip = false
