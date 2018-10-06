@@ -71,7 +71,7 @@
           fixed
           prop="goodsname"
           label="商品名称"
-          width="150">
+          width="200">
         </el-table-column>
         <el-table-column
           prop="goodstype"
@@ -101,7 +101,7 @@
         <el-table-column
           prop="pictures"
           label="商品图片路径"
-          width="150">
+          width="200">
         </el-table-column>
         <el-table-column
           prop="season"

@@ -81,6 +81,36 @@
             prop="money"
             wide="150">
           </el-table-column>
+<<<<<<< HEAD
+=======
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button
+                type="warning"
+                size="mini"
+                @click="dialogFormVisible = true">添加评价</el-button>
+              <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+                <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                  <el-form-item label="满意度">
+                    <el-select v-model="ruleForm.region" placeholder="请选择满意度">
+                      <el-option label="非常满意" value="1"></el-option>
+                      <el-option label="还行" value="2"></el-option>
+                      <el-option label="一般" value="3"></el-option>
+                      <el-option label="不满意" value="4"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="填写评价">
+                    <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+                  </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                  <el-button @click="resetForm('ruleForm')">取 消</el-button>
+                  <el-button type="primary" @click="submitForm('ruleForm')">添加评价</el-button>
+                </div>
+              </el-dialog>
+            </template>
+          </el-table-column>
+>>>>>>> origin/HZQ
         </el-table>
       </div>
 </template>
@@ -93,6 +123,7 @@ export default {
     tableData1: {type: Array, required: true},
   },
   methods: {
+<<<<<<< HEAD
     submitForm(formName,pk) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -116,6 +147,18 @@ export default {
              return false;
            }
           })
+=======
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.dialogFormVisible = false
+          this.$message({
+            type: 'success',
+            message: '评论添加成功！！！'
+          });
+          console.log(this.ruleForm.desc)
+          console.log(this.ruleForm.region)
+>>>>>>> origin/HZQ
         } else {
           this.$message({
             type: 'warning',
