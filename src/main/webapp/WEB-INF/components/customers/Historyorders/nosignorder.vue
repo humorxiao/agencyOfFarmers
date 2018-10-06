@@ -77,7 +77,6 @@ export default {
   name: 'nosignorder',
   props: {
     tableData3: {type: Array, required: true},
-<<<<<<< HEAD
     database: {type: Array, required: true}
   },
   methods: {
@@ -109,11 +108,7 @@ export default {
         });
       });
     }
-  },
-
-=======
   }
->>>>>>> origin/HZQ
 }
 </script>
 
