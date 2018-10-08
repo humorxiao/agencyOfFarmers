@@ -222,7 +222,7 @@ public class OrderInfoAction {
         orderInfo.setUser_info_id(data.get("User_PK").toString());
         orderInfo.setGoods_list(data.get("Goods_List").toString());
         orderInfo.setGoods_num(data.get("Goods_Num").toString());
-        orderInfo.setGoods_prices(data.get("Goods_Price").toString());
+        orderInfo.setGoods_prices(data.get("Goods_Prices").toString());
         orderInfo.setOrder_aftersale((int) Integer.parseInt(data.get("Order_Aftersale").toString()));
         orderInfo.setOrder_company(data.get("Order_Company").toString());
         orderInfo.setOrder_id(data.get("Order_ID").toString());
@@ -233,7 +233,7 @@ public class OrderInfoAction {
         orderInfo.setOrder_reserve_1(data.get("Order_Reserve_1").toString());
         orderInfo.setOrder_state((int) Integer.parseInt(data.get("Order_State").toString()));
         orderInfo.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
-        orderInfo.setOrder_tracknum(data.get("Order_Tracknum").toString());
+        orderInfo.setOrder_tracknum(data.get("Order_TrackNum").toString());
         orderInfo.setOrder_website(data.get("Order_Website").toString());
         orderInfo.setUserInfo(new UserInfo());
         orderInfoService.add(orderInfo);
@@ -277,7 +277,7 @@ public class OrderInfoAction {
         temp.setOrder_no(data.get("Order_No").toString());
         temp.setGoods_list(data.get("Goods_List").toString());
         temp.setGoods_num(data.get("Goods_Num").toString());
-        temp.setGoods_prices(data.get("Goods_Price").toString());
+        temp.setGoods_prices(data.get("Goods_Prices").toString());
         temp.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
         temp.setOrder_ispay((boolean) data.get("Order_IsPay"));
         if (!data.get("Order_PayTime").equals(new String(""))) {

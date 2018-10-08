@@ -26,16 +26,48 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'HelloWorld',
   data () {
+
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      Admin_Pk: ''
     }
+  },
+  mounted: function () {
+    axios.post('/api/checkLoginRank').then((response) => {
+      //console.log(JSON.stringify(response.data))
+      if(response.data.status !== 2) {
+        window.location.href = 'http://localhost:8081/#/'
+      }
+    }).catch(function (error) {
+      console.log(error)
+    })
   },
   methods : {
     out() {
-      window.location.href = 'http://localhost:8081/#/'
+      axios.post('/api/checkLoginRank').then((response) => {
+       // console.log(JSON.stringify(response.data))
+        if (response.data.status === 2) {
+          this.Admin_Pk = {"Admin_PK": response.data.Admin_PK}
+          axios.post('/api/out', this.Admin_Pk).then((response) => {
+            if (response.data.status === 1) {
+              window.location.href = 'http://localhost:8081/#/'
+            } else {
+              alert('Error!')
+            }
+          }).catch(function (error) {
+            console.log(error)
+          })
+        } else {
+          alert('Error!')
+        }
+      }).catch(function (error) {
+        console.log(error)
+      })
+
     }
   }
 }

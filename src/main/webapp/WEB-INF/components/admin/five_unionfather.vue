@@ -1,5 +1,5 @@
 <template>
-  <five :message="message"></five>
+  <five :message="message":database="database"></five>
 </template>
 
 <script>
@@ -12,16 +12,26 @@
       },
       data(){
         return {
-          message: [{goodsname:'xxx',buynum:'shucai',salenum:'222',price:'10',
-            time:'1'}]
+          message: [],
+          database:[]
         }
       },
       mounted:function () {
-        axios.post('/api/getAllGoods', {}).then(response => {
-        //  for (let i = 0; i < response.data.length; i++) {
-         //   this.message.push({
-         //   })
-        //  }
+        axios.post('/api/getAllGoodsLogPaging', {}).then(response => {
+         for (let i = 0; i < response.data.length; i++) {
+            this.message.push({
+              goodsname:response.data[i].Goods_Name,
+              buynum:response.data[i].Goods_In,
+              salenum:response.data[i].Goods_Out,
+              price:response.data[i].Goods_Price.toString(),
+              time:response.data[i].GL_Time
+           })
+          }
+        })
+        axios.post('/api/getAllGoods', {}).then(response1 => {
+          for (let i = 0; i < response1.data.length; i++) {
+            this.database.push(response1.data[i])
+          }
         })
       }
     }
