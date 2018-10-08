@@ -64,7 +64,7 @@ public class CommentsAction {
         SimpleDateFormat m1 = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         temp.put("User_RegTime", user.getUser_regtime());
         temp.put("User_Realname", user.getUser_realname());
-        temp.put("User_ID", user.getUser_id());
+//        temp.put("User_ID", user.getUser_id());
         temp.put("User_Mark", user.getUser_mark());
         temp.put("Goods_PK", comm.getGoods_info_id());
         temp.put("Comm_Rank", comm.getComm_rank());

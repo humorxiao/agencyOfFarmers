@@ -45,7 +45,7 @@ public class GetSessionUserInfoAction {
             temp.put("User_Sex", user.getUser_sex());
             temp.put("User_RegTime", user.getUser_regtime());
             temp.put("User_Realname", user.getUser_realname());
-            temp.put("User_ID", user.getUser_id());
+//            temp.put("User_ID", user.getUser_id());
             r = temp.toJSONString();
         } else {
             r = "{\"User_Name\":\"未登录成功\"}";

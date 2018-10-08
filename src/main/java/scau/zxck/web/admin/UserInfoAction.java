@@ -62,7 +62,7 @@ public class UserInfoAction {
     temp.put("User_Sex", userInfo.getUser_sex());
     temp.put("User_RegTime", userInfo.getUser_regtime());
     temp.put("User_Realname", userInfo.getUser_realname());
-    temp.put("User_ID", userInfo.getUser_id());
+//    temp.put("User_ID", userInfo.getUser_id());
     r = temp.toString();
     FlushWriteUtil.flushWrite(response, r);
   }
@@ -104,7 +104,7 @@ public class UserInfoAction {
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
     temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()));
     temp.setUser_realname(data.get("User_Realname").toString());
-    temp.setUser_id(data.get("User_ID").toString());
+//    temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();
     temp.setUser_mark(c);
     temp.setCart(new CartInfo());
@@ -203,10 +203,10 @@ public class UserInfoAction {
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     data.put("User_Mark", "1");
     data.put("User_Realname","Nothing");
-    String s="";
-    s+=CodeUtil.generateUniqueCode();
-    s=s.substring(0,18);
-    data.put("User_ID",s);
+//    String s="";
+//    s+=CodeUtil.generateUniqueCode();
+//    s=s.substring(0,18);
+//    data.put("User_ID",s);
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
     data.put("User_Password", userInfo.getUser_password());
     UserInfo temp = userLoginService.findById(data.get("User_PK").toString());
@@ -217,7 +217,7 @@ public class UserInfoAction {
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
     temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()));
     temp.setUser_realname(data.get("User_Realname").toString());
-    temp.setUser_id(data.get("User_ID").toString());
+//    temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();
     temp.setUser_mark(c);
     temp.setCart(new CartInfo());
@@ -248,7 +248,7 @@ public class UserInfoAction {
       temp.put("User_Sex", user.getUser_sex());
       temp.put("User_RegTime", user.getUser_regtime().toString());
       temp.put("User_Realname", user.getUser_realname());
-      temp.put("User_ID", user.getUser_id());
+//      temp.put("User_ID", user.getUser_id());
       jsonarr.add(temp);
     }
     r = jsonarr.toString();
@@ -271,7 +271,7 @@ public class UserInfoAction {
       temp.put("User_Sex", user.getUser_sex());
       temp.put("User_RegTime", user.getUser_regtime().toString());
       temp.put("User_Realname", user.getUser_realname());
-      temp.put("User_ID", user.getUser_id());
+//      temp.put("User_ID", user.getUser_id());
       jsonarr.add(temp);
     }
     r = jsonarr.toString();
@@ -303,7 +303,7 @@ public class UserInfoAction {
           SimpleDateFormat m1 = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
           temp.put("User_RegTime", user.getUser_regtime());
           temp.put("User_Realname", user.getUser_realname());
-          temp.put("User_ID", user.getUser_id());
+//          temp.put("User_ID", user.getUser_id());
           temp.put("User_Mark", user.getUser_mark());
           jsonarr.add(temp);
         }
@@ -336,7 +336,7 @@ public class UserInfoAction {
           SimpleDateFormat m1 = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
           temp.put("User_RegTime", user.getUser_regtime());
           temp.put("User_Realname", user.getUser_realname());
-          temp.put("User_ID", user.getUser_id());
+//          temp.put("User_ID", user.getUser_id());
           temp.put("User_Mark", user.getUser_mark());
           jsonarr.add(temp);
         }

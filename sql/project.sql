@@ -606,7 +606,7 @@ DROP TABLE IF EXISTS `union_news`;
 CREATE TABLE `union_news` (
   `id` varchar (255) NOT NULL ,
   `news_title` varchar(200) DEFAULT NULL,
-  `news_text` text,
+  `news_text` longtext,
   `news_time` varchar(255) DEFAULT NULL,
   `news_mark` int(11) DEFAULT NULL,
    `news_picture` varchar(200) DEFAULT NULL,
@@ -755,7 +755,6 @@ CREATE TABLE `user_info` (
   `user_sex` int(11) NOT NULL COMMENT '1为男，2为女，3为保密',
   `user_regTime` varchar(255) NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
   `user_realname` varchar(10) DEFAULT NULL,
-  `user_id` varchar(18) DEFAULT NULL COMMENT '必须为18位',
   `user_mark` varchar(1) DEFAULT NULL,
   `user_reserve_1` varchar(5) DEFAULT NULL,
   `user_reserve_2` varchar(5) DEFAULT NULL,
@@ -763,25 +762,24 @@ CREATE TABLE `user_info` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNQ_User_user_name` (`user_name`),
   UNIQUE KEY `UNQ_User_user_cell` (`user_cell`),
-  UNIQUE KEY `UNQ_User_user_email` (`user_email`),
-  UNIQUE KEY `UNQ_User_user_ID` (`user_id`)
+  UNIQUE KEY `UNQ_User_user_email` (`user_email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='注册用户信息';
 
 -- ----------------------------
 -- Records of user_info
 -- ----------------------------
-INSERT INTO `user_info` VALUES ('100000', '25d55ad283aa400af464c76d713c07ad', '林莹莹', '18814167467', '1624471560@qq.com', '2', '2017-03-28 15:03:15', '林莹莹', '445202199412018022', '1', null, null, null);
-INSERT INTO `user_info` VALUES ('100003', '25d55ad283aa400af464c76d713c07ad', '林天真', '13421166393', '123@qq.com', '2', '2017-03-30 14:03:03', '林天真', '445202199412019022', '0', null, null, null);
-INSERT INTO `user_info` VALUES ('100004', '25d55ad283aa400af464c76d713c07ad', 'default', '1', '1', '2', '2017-03-28 15:03:15', 'default', '1', '0', '', '', '');
-INSERT INTO `user_info` VALUES ('100006', 'e10adc3949ba59abbe56e057f20f883e', 'jiah', '13416137226', '931319960@qq.com', '2', '2018-05-27 15:05:34', '林佳佳', '44512119970204488X', '\0', null, null, null);
-INSERT INTO `user_info` VALUES ('100007', '099b3b060154898840f0ebdfb46ec78f', 'qq', '13416133333', 'qq@qq.com', '3', '2018-05-28 23:05:40', 'qq', '445121199702044999', '\0', null, null, null);
-INSERT INTO `user_info` VALUES ('100011', '25d55ad283aa400af464c76d713c07ad', 'kjj', '13416133331', '931196698@qq.com', '3', '2018-06-14 10:06:27', 'lkj', '445121199704054815', '\0', null, null, null);
-INSERT INTO `user_info` VALUES ('100012', '25d55ad283aa400af464c76d713c07ad', 'dd', '13416137335', '96@qq.com', '3', '2018-06-14 10:06:30', 'jj', '445121199805064994', '\0', null, null, null);
-INSERT INTO `user_info` VALUES ('100014', '25d55ad283aa400af464c76d713c07ad', 'dw', '13416135698', '55@qq.com', '3', '2018-06-14 10:06:31', 'ff', '445126655978588966', '\0', null, null, null);
-INSERT INTO `user_info` VALUES ('100015', '25d55ad283aa400af464c76d713c07ad', 'de', '13416135699', '65@qq.com', '3', '2018-06-14 10:06:45', 'f', '445126655978588967', '\0', null, null, null);
-INSERT INTO `user_info` VALUES ('100016', '25d55ad283aa400af464c76d713c07ad', '1', '13416159448', '6@qq.com', '3', '2018-06-14 10:06:03', '6', '445121199568456223', '\0', null, null, null);
-INSERT INTO `user_info` VALUES ('100017', '1bbd886460827015e5d605ed44252251', 'w', '15687456235', 'q@qq.com', '3', '2018-06-14 11:06:49', 'q', '445125699874512556', '\0', null, null, null);
-INSERT INTO `user_info` VALUES ('100018', '5416521448713535359541', '', '', '', '3', '2018-06-07 19:44:39', '', '', '', '', '', '');
+INSERT INTO `user_info` VALUES ('100000', '25d55ad283aa400af464c76d713c07ad', '林莹莹', '18814167467', '1624471560@qq.com', '2', '2017-03-28 15:03:15', '林莹莹',  '1', null, null, null);
+INSERT INTO `user_info` VALUES ('100003', '25d55ad283aa400af464c76d713c07ad', '林天真', '13421166393', '123@qq.com', '2', '2017-03-30 14:03:03', '林天真',  '0', null, null, null);
+INSERT INTO `user_info` VALUES ('100004', '25d55ad283aa400af464c76d713c07ad', 'default', '1', '1', '2', '2017-03-28 15:03:15', 'default', '0', '', '', '');
+INSERT INTO `user_info` VALUES ('100006', 'e10adc3949ba59abbe56e057f20f883e', 'jiah', '13416137226', '931319960@qq.com', '2', '2018-05-27 15:05:34', '林佳佳',  '\0', null, null, null);
+INSERT INTO `user_info` VALUES ('100007', '099b3b060154898840f0ebdfb46ec78f', 'qq', '13416133333', 'qq@qq.com', '3', '2018-05-28 23:05:40', 'qq',  '\0', null, null, null);
+INSERT INTO `user_info` VALUES ('100011', '25d55ad283aa400af464c76d713c07ad', 'kjj', '13416133331', '931196698@qq.com', '3', '2018-06-14 10:06:27', 'lkj',  '\0', null, null, null);
+INSERT INTO `user_info` VALUES ('100012', '25d55ad283aa400af464c76d713c07ad', 'dd', '13416137335', '96@qq.com', '3', '2018-06-14 10:06:30', 'jj',  '\0', null, null, null);
+INSERT INTO `user_info` VALUES ('100014', '25d55ad283aa400af464c76d713c07ad', 'dw', '13416135698', '55@qq.com', '3', '2018-06-14 10:06:31', 'ff',  '\0', null, null, null);
+INSERT INTO `user_info` VALUES ('100015', '25d55ad283aa400af464c76d713c07ad', 'de', '13416135699', '65@qq.com', '3', '2018-06-14 10:06:45', 'f',  '\0', null, null, null);
+INSERT INTO `user_info` VALUES ('100016', '25d55ad283aa400af464c76d713c07ad', '1', '13416159448', '6@qq.com', '3', '2018-06-14 10:06:03', '6', '\0', null, null, null);
+INSERT INTO `user_info` VALUES ('100017', '1bbd886460827015e5d605ed44252251', 'w', '15687456235', 'q@qq.com', '3', '2018-06-14 11:06:49', 'q',  '\0', null, null, null);
+INSERT INTO `user_info` VALUES ('100018', '5416521448713535359541', '', '', '', '3', '2018-06-07 19:44:39', '', '', '', '', '');
 
 -- ----------------------------
 -- Procedure structure for Procedure_1
