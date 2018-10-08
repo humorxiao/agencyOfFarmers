@@ -44,6 +44,7 @@ public class UnionStaffAction {
   public void getLikesStaffs(HttpServletResponse response) throws Exception {
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     String likes = data.get("likes").toString();
+    System.out.println("likes="+likes);
     likes = java.net.URLDecoder.decode(likes, "utf-8");
     JSONArray jsonarr = new JSONArray();
     if (likes != null) {
@@ -65,6 +66,8 @@ public class UnionStaffAction {
         temp.put("Staff_Phone", staff.getStaff_phone());
         temp.put("Staff_ID", staff.getStaff_id());
         temp.put("Staff_Email", staff.getStaff_email());
+        UnionInfo unionInfo=unionInfoService.findOne(staff.getUnion_info_id());
+        temp.put("Union_Name",unionInfo.getUnion_name());
         jsonarr.add(temp);
       }
     }

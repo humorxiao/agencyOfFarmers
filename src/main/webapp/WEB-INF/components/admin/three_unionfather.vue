@@ -57,30 +57,48 @@
             for(let i = 0;i < this.staffNum; i++){
               this.message.pop();
             }
-            if (response.data[0].Staff_Sex === 1) {
-              this.male = '男'
-            } else { this.male = '女'}
-            axios.post('/api/getAllUnionInfo',{}).then(res => {
-              for(let j = 0; j < res.data.length; j++){
-                if(res.data[j].Union_PK === response.data[0].Union_PK){
-                  union_name = res.data[j].Union_name;
-                  alert(union_name)
-                  break;
-                }
-              }
+            for (var i = 0; i < response.data.length; i++) {
+              if(response.data[i].Staff_Sex === 1) {
+                this.male = '男'
+              } else if(response.data[i].Staff_Sex === 2) {
+                this.male = '女'
+              } else this.male = '无'
               this.message.push({
-                name: response.data[0].Staff_Name,
+                name: response.data[i].Staff_Name,
                 male: this.male,
-                birthday: response.data[0].Staff_Birthday,
-                address: response.data[0].Staff_Address,
-                phone: response.data[0].Staff_Phone,
-                id:response.data[0].Staff_ID,
-                email:response.data[0].Staff_Email,
-                union:union_name
+                birthday: response.data[i].Staff_Birthday,
+                address: response.data[i].Staff_Address,
+                phone: response.data[i].Staff_Phone,
+                id:response.data[i].Staff_ID,
+                email:response.data[i].Staff_Email,
+                union:response.data[i].Union_Name
+                // zip: 200333
               })
-            }).catch(function (error) {
-              console.log(error)
-            });
+            }
+            // if (response.data[0].Staff_Sex === 1) {
+            //   this.male = '男'
+            // } else { this.male = '女'}
+            // axios.post('/api/getAllUnionInfo',{}).then(res => {
+            //   for(let j = 0; j < res.data.length; j++){
+            //     if(res.data[j].Union_PK === response.data[0].Union_PK){
+            //       union_name = res.data[j].Union_name;
+            //       alert(union_name)
+            //       break;
+            //     }
+            //   }
+            //   this.message.push({
+            //     name: response.data[0].Staff_Name,
+            //     male: this.male,
+            //     birthday: response.data[0].Staff_Birthday,
+            //     address: response.data[0].Staff_Address,
+            //     phone: response.data[0].Staff_Phone,
+            //     id:response.data[0].Staff_ID,
+            //     email:response.data[0].Staff_Email,
+            //     union:union_name
+            //   })
+            // }).catch(function (error) {
+            //   console.log(error)
+            // });
           }).catch(function (error) {
             console.log(error);
           })

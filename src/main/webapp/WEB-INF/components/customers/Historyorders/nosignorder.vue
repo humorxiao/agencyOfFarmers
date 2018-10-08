@@ -62,10 +62,10 @@
                 type="warning"
                 size="mini"
                 @click="receive(scope.$index, scope.row)">确认收货</el-button>
+            </template>
               <el-button type="danger"
                          size="mini"
                          @click="checkdelivery(scope.$index, scope.row)">查看物流</el-button>
-            </template>
           </el-table-column>
         </el-table>
       </div>

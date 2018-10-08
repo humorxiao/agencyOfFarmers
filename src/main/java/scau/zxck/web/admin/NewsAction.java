@@ -128,13 +128,13 @@ public class NewsAction {
     try {
       unionNewsService.deleteByIds(news_id);
       temp.put("status", true);
+      r = temp.toString();
+      FlushWriteUtil.flushWrite(response, r);
     } catch (Exception e) {
       temp.put("status", false);
       r = temp.toString();
       FlushWriteUtil.flushWrite(response, r);
     }
-    r = temp.toString();
-    FlushWriteUtil.flushWrite(response, r);
   }
 
   @RequestMapping(value = "getLikesNews", method = RequestMethod.POST)
