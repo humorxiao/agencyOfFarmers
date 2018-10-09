@@ -290,14 +290,19 @@ export default {
       var correctEmail = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(this.email)
       if (this.name === '') {
         this.alertError('请创建一个昵称')
+        return false
       } else if (!nicknameNoNumber) {
         this.alertError('请填写正确的昵称,不允许全数字')
+        return false
       } else if (nicknameSymbol) {
         this.alertError('请填写正确的昵称,不允许有符号@')
+        return false
       } else if (this.email === '') {
         this.alertError('请输入邮箱地址')
+        return false
       } else if (!correctEmail) {
         this.alertError('请输入正确的邮箱地址')
+        return false
       }
       // else if (this.realname === '') {
       //   this.alertError('请输入真实姓名')
@@ -310,48 +315,57 @@ export default {
       // }
       else if (this.cell === '') {
         this.alertError('请输入手机号码')
+        return false
       } else if (!correctCell) {
         this.alertError('请输入有效的手机号码')
+        return false
       } else if (this.newPassword === '') {
         this.alertError('请输入密码')
+        return false
       } else if (this.newPassword.length < 8 || this.newPassword.length > 16) {
         this.alertError('密码应不低于8位，不高于16位，不含有特殊字符')
+        return false
       } else if (this.newPassword !== this.checkPassword) {
         this.alertError('两次密码不一致，请重新输入')
+        return false
       } else if (this.checked !== true) {
         this.alertError('注册用户需阅读并同意用户协议')
+        return false
+      } else {
+        return true
       }
     },
     register: function () {
-      this.checkInformation()
-      this.password = hex_md5(this.newPassword)
-      this.datas = {
-        // 'User_ID': this.id,
-        'User_Password': this.password,
-        'User_Name': this.name,
-        'User_Email': this.email,
-        'User_RegTime': '',
-        'User_Cell': this.cell,
-        'User_Sex': this.sex,
-        // 'User_Realname': this.realname
+      if(this.checkInformation()) {
+        this.password = hex_md5(this.newPassword)
+        this.datas = {
+          // 'User_ID': this.id,
+          'User_Password': this.password,
+          'User_Name': this.name,
+          'User_Email': this.email,
+          'User_RegTime': '',
+          'User_Cell': this.cell,
+          'User_Sex': this.sex,
+          // 'User_Realname': this.realname
+        }
+        axios.post('/api/register', this.datas).then((response) => {
+          if (response.data.isSuccess === true) {
+            window.location.href = 'registerSuccess.html'
+          } else if (response.data.User_Email === false) {
+            this.alertError('邮箱已被注册，请重新输入')
+          } else if (response.data.User_Name === false) {
+            this.alertError('用户名已被注册，请重新输入')
+          }
+          // else if (response.data.User_ID === false) {
+          //   this.alertError('身份证号码已被注册，请重新输入')
+          // }
+          else if (response.data.User_Cell === false) {
+            this.alertError('电话号码已被注册，请重新输入')
+          }
+        }).catch(function (error) {
+          console.log(error)
+        })
       }
-      axios.post('/api/register', this.datas).then((response) => {
-        if (response.data.isSuccess === true) {
-          window.location.href = 'registerSuccess.html'
-        } else if (response.data.User_Email === false) {
-          this.alertError('邮箱已被注册，请重新输入')
-        } else if (response.data.User_Name === false) {
-          this.alertError('用户名已被注册，请重新输入')
-        }
-        // else if (response.data.User_ID === false) {
-        //   this.alertError('身份证号码已被注册，请重新输入')
-        // }
-        else if (response.data.User_Cell === false) {
-          this.alertError('电话号码已被注册，请重新输入')
-        }
-      }).catch(function (error) {
-        console.log(error)
-      })
     },
     alertError: function (msg) {
       this.$message.error(msg)
