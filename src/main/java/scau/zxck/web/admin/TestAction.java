@@ -60,7 +60,10 @@ import scau.zxck.utils.SendEmailUtil;
 import scau.zxck.web.listener.UserSessionListener;
 
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.*;
+import java.util.List;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/")
@@ -69,11 +72,20 @@ public class TestAction {
     @Autowired
     private HttpServletRequest request;
     @Autowired
-    private HttpSession session;
+    private ServletContext application;
     @Autowired
     private IUserLoginService userLoginService;
+    @Autowired
+    private HttpSession session;
     @RequestMapping(value = "test", method = RequestMethod.POST)
     public String s(String email,String from,String count,String accreditCode) throws Exception {
+      String newPassword = "";
+      Random random=new Random();
+      for (int i = 0; i < 6; i++) {
+        newPassword += random.nextInt(10);
+      }
+      session.setAttribute("newPassword",newPassword);
+      System.out.println(session.getAttribute("newPassword"));
         for(int i=0;i<Integer.parseInt(count);i++) {
             SendEmailUtil sendEmailUtil = new SendEmailUtil(email, CodeUtil.generateUniqueCode());
             sendEmailUtil.setFrom(from);
@@ -96,5 +108,11 @@ public class TestAction {
     new Thread(sendEmail2Util).start();
     return "success";
   }
-
+  @RequestMapping(value = "loginTest", method = RequestMethod.POST)
+  public String loginTest(String name,String email)throws Exception{
+      Conditions conditions=new Conditions();
+      List list=userLoginService.list(conditions.eq("user_name",name).and().eq("user_email",email));
+      if(!list.isEmpty()) return "yhx";
+      else return "yhxq";
+  }
 }

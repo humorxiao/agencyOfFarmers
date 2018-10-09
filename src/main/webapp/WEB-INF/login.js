@@ -2,13 +2,13 @@
 import Vue from 'vue'
 import Login from './Login.vue'
 import router from './router'
-import { Button,Message} from 'element-ui'
+import "babel-polyfill"
+import {Button,Message} from 'element-ui'
 
 Vue.config.productionTip = false
 Vue.use(Button)
-Vue.prototype.$message = Message;
-Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
-
+Vue.prototype.$message = Message
+Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
 
 /* eslint-disable no-new */
 new Vue({

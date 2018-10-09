@@ -82,14 +82,13 @@ public class OrderStateAction {
         log.put("Goods_In", goodsnum[i]);
         log.put("Goods_Out", 0);
         log.put("Goods_PriceChange", 0);
-        log.put("GL_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
+        log.put("GL_Time", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
         // 增加进销存日志
         GoodsLog temp1 = new GoodsLog();
         temp1.setGoods_info_id(log.get("Goods_PK").toString());
-        temp1.setGoods_in((int) Integer.parseInt(log.get("Goods_In").toString()));
-        temp1.setGoods_out((int) Integer.parseInt(log.get("Goods_Out").toString()));
-        temp1.setGoods_pricechange(
-                (float) Float.parseFloat(log.get("Goods_PriceChange").toString()));
+        temp1.setGoods_in( Integer.parseInt(log.get("Goods_In").toString()));
+        temp1.setGoods_out( Integer.parseInt(log.get("Goods_Out").toString()));
+        temp1.setGoods_pricechange(Float.parseFloat(log.get("Goods_PriceChange").toString()));
         temp1.setGl_time(Timestamp.valueOf(log.get("GL_Time").toString()).toString());
         goodsLogService.add(temp1);
         JSONObject goodspk = new JSONObject();
@@ -257,7 +256,7 @@ public class OrderStateAction {
     String r = "";
     JSONObject data= ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
-      data.put("User_PK", (int) session.getAttribute("User_PK"));
+      data.put("User_PK", session.getAttribute("User_PK"));
     } else {
       data.put("User_PK", "");
     }
@@ -304,14 +303,14 @@ public class OrderStateAction {
     String r = "";
     JSONObject data= ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
-      data.put("User_PK", (int) session.getAttribute("User_PK"));
+      data.put("User_PK",  session.getAttribute("User_PK"));
     } else {
       data.put("User_PK", "");
     }
     JSONArray jsonarr = new JSONArray();
     Conditions conditions = new Conditions();
     List list = orderInfoService.list(conditions
-            .eq("order_aftersale", (int) Integer.parseInt(data.get("Order_Aftersale").toString())).and()
+            .eq("order_aftersale", Integer.parseInt(data.get("Order_Aftersale").toString())).and()
             .eq("user_info_id", data.get("User_PK").toString()));
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext();) {
       JSONObject temp = new JSONObject();

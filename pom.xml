@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -23,8 +24,8 @@
     <!-- compiler setting -->
     <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
     <!-- web container jetty -->
-    <jetty-maven-plugin.version>8.1.16.v20140903</jetty-maven-plugin.version>
-    <project.jetty.run.port>8888</project.jetty.run.port>
+    <jetty-maven-plugin.version>9.3.6.v20151106</jetty-maven-plugin.version>
+    <project.jetty.run.port>8080</project.jetty.run.port>
     <!-- maven plugins end -->
   </properties>
 
@@ -34,12 +35,13 @@
       <artifactId>ssm-base</artifactId>
       <version>${ssm-base.version}</version>
     </dependency>
-
     <dependency>
-      <groupId>javax.mail</groupId>
-      <artifactId>mail</artifactId>
-      <version>1.4.7</version>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
+      <scope>provide</scope>
     </dependency>
+
     <dependency>
       <groupId>javax.activation</groupId>
       <artifactId>activation</artifactId>
@@ -50,8 +52,18 @@
       <artifactId>standard</artifactId>
       <version>1.1.2</version>
     </dependency>
-  </dependencies>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4</version>
+    </dependency>
 
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.4.4</version>
+    </dependency>
+  </dependencies>
 
 
   <build>
@@ -73,7 +85,7 @@
       </resource>
     </resources>
     <plugins>
-    <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
@@ -84,7 +96,7 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.mortbay.jetty</groupId>
+        <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty-maven-plugin.version}</version>
         <configuration>
@@ -95,23 +107,22 @@
             <contextPath>/</contextPath>
             <defaultsDescriptor>src/test/resources/webdefault.xml</defaultsDescriptor>
           </webApp>
-          <!-- 容器的配置 -->
-          <connectors>
-            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-              <port>${project.jetty.run.port}</port>
-              <maxIdleTime>60000</maxIdleTime>
-            </connector>
-          </connectors>
+          <!--容器配置-->
+          <httpConnector>
+            <port>${project.jetty.run.port}</port>
+            <idleTimeout>60000</idleTimeout>
+          </httpConnector>
         </configuration>
       </plugin>
 
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration> <source>1.7</source>
-            <target>1.7</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -136,7 +147,7 @@
           <mainClass>App</mainClass> <!--启动类的位置-->
         </configuration>
       </plugin>
-  </plugins>
+    </plugins>
   </build>
 
 </project>

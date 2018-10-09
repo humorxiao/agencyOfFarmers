@@ -68,8 +68,8 @@ public class SendEmailUtil implements Runnable {
             // 2.3设置邮件主题
             message.setSubject("账号激活");
             // 2.4设置邮件内容
-            content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://localhost:8080/RegisterDemo/ActiveServlet?code="
-                    + code + "'>http://localhost:8080/RegisterDemo/ActiveServlet?code=" + code
+            content = "<html><head></head><body><h1>这是一封重置密码邮件,请点击以下链接获取你的新密码，邮件将在10分钟后失效！！！</h1><h3><a href='http://127.0.0.1:8080/ResetPassword/ActiveServlet?code="
+                    + code + "'>http://localhost:8080/ResetPassword/ActiveServlet?code=" + code +".com"
                     + "</href></h3></body></html>";
             message.setContent(content, "text/html;charset=UTF-8");
             // 3.发送邮件

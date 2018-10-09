@@ -1,34 +1,97 @@
+<!--商品详情页——底部父组件-->
 <template>
   <div>
-    <goods-bottom-model :name = "name" :goodClass = "goodClass" :period="period" :flower = "flower" :result="result" :mature = "mature" :quality="quality" :msg="msg" :img1="img1" :img2 = "img2" :commandList = "commandList"></goods-bottom-model>
+    <goods-bottom-model :name = "name" :goodClass = "goodClass" :period="period" :flower = "flower" :result="result" :mature = "mature" :quality="quality" :msg="msg" :imgList="imgList" :commandList = "commandList"></goods-bottom-model>
   </div>
 </template>
 
 <script>
 import goodsBottomModel from '../commonComponents/goods-bottom-model.vue'
+import axios from 'axios'
 export default {
   name: 'GoodsBottomModel',
   data () {
     return {
-      name: '鹰（省内）',
-      goodClass: '水果',
-      period: '一年一季',
-      flower: '5',
-      result: '4-6月份',
-      mature: '7月份',
-      quality: '5-7天',
-      msg: '每箱8斤',
-      img1: '../../static/image/yingzuitao.jpg',
-      img2: '../../static/image/timg1.jpg',
-      commandList: [
-        {userName: '用户名1', content: 'ws评论内容1,这是评论内容，它超级长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长', stars: '★★★★', time: '2017-5-25 1:05:35'},
-        {userName: '用2', content: '评论内容2,它不太长长长长长长长长长长长长长长长长', stars: '★★★', time: '2017-5-10 1:05:35', seller: '我是商家', reply: '你的评论真的很长', replyTime: '2017-5-25 13:34:35'},
-        {userName: '用户名3', content: '评论内容34567', stars: '★★', time: '2017-5-20 9:20:10'}
-      ]
+      name: '',
+      goodClass: '',
+      period: '无',
+      flower: '',
+      result: '',
+      mature: '',
+      quality: '',
+      msg: '',
+      imgList: [],
+      commandList: [],
+      goods_pk: location.search.substr(1)
     }
   },
   components: {
     'goodsBottomModel': goodsBottomModel
+  },
+  mounted: function () {
+    var goodsType = 0;
+    this.Goods_pk = {'Goods_PK':this.goods_pk};
+    axios.post('/api/getOneGood', this.Goods_pk).then(response => {
+      this.name = response.data.Goods_Name;
+      goodsType = response.data.Goods_Type;
+      if(goodsType === 1){
+        this.goodClass = '水果';
+      }else if(goodsType === 2){
+        this.goodClass = '加工品'
+      }else if(goodsType === 3){
+        this.goodClass = '粮蔬'
+      }else if(goodsType === 4){
+        this.goodClass = '水产'
+      }else if(goodsType === 5){
+        this.goodClass = '禽畜'
+      }else if(goodsType === 6){
+        this.goodClass = '植物'
+      }
+      //this.goodClass = response.data.
+      //this.period = response.data.
+      this.flower = response.data.Goods_Blossom;
+      this.result = response.data.Goods_Fruit;
+      this.mature = response.data.Goods_Mature;
+      this.quality = response.data.Goods_Expiration;
+      this.msg = response.data.Goods_Reserve_1;
+
+      var imgs = response.data.Goods_Reserve_2;
+      var arr = imgs.split("#");
+      for(var i = 0; i < arr.length; i++){
+        this.imgList.push({
+          img: "../../static/image/" + arr[i]
+        })
+      }
+      //alert(arr)
+      //alert(arr[0])
+
+    }).catch(function (error) {
+      console.log(error)
+    });
+    axios.post('/api/getGoodsComments', this.Goods_pk).then(response => {
+      for (var i = 0; i < response.data.length; i++) {
+        var starList = [];
+        var starOfRank = [];
+        starList[i] = response.data[i].Comm_Rank;
+        starOfRank[i] = '';
+        for(var j = 0; j < starList[i]; j++){
+          starOfRank[i] = starOfRank[i] + '★';
+        }
+        //alert(starOfRank[0])
+
+        this.commandList.push({
+          userName: response.data[i].User_Name,
+          content: '评价:  ' + response.data[i].Comm_Text,
+          stars: starOfRank[i],
+          time: response.data[i].Comm_Time
+        })
+      }
+    }).catch(function (error) {
+      console.log(error)
+    })
+  },
+  methods: {
+
   }
 }
 </script>

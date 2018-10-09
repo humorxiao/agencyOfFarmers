@@ -12,5 +12,8 @@ export default {
 </script>
 
 <style scoped>
-
+#fl-foot{
+  position:fixed;
+  bottom:0
+}
 </style>

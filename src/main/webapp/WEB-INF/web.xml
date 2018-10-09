@@ -27,7 +27,9 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
   <!-- 防止Spring内存溢出监听器 -->
   <listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
@@ -36,9 +38,9 @@
   <listener>
     <listener-class>scau.zxck.web.listener.UserSessionListener</listener-class>
   </listener>
-  <!--当用户超过1分钟不访问服务器的话就自动销毁session，先测试用下-->
+  <!--当用户超过10分钟不访问服务器的话就自动销毁session-->
   <session-config>
-    <session-timeout>1</session-timeout>
+    <session-timeout>10</session-timeout>
   </session-config>
   <!-- 编码过滤器 -->
   <filter>
@@ -85,7 +87,7 @@
   <!--</servlet-mapping>-->
   <!-- 默认访问的页面 相对位置 /webapp/下文件-->
   <welcome-file-list>
-    <welcome-file>/WEB-INF/pages/index.jsp</welcome-file>
+    <welcome-file>/WEB-INF/pages/index.html</welcome-file>
   </welcome-file-list>
 
 

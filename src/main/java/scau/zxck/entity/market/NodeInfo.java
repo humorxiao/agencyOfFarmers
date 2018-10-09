@@ -18,6 +18,17 @@ public class NodeInfo extends Unique {
     @Column(name = "south_north")
     private String south_north;
 
+    public NodeInfo() {
+    }
+
+    public NodeInfo(String east_west, double latitude, double longitude, String note, String south_north) {
+        this.east_west = east_west;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.note = note;
+        this.south_north = south_north;
+    }
+
     public String getEast_west() {
         return east_west;
     }

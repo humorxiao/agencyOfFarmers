@@ -11,7 +11,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: { '/api': {
-        target: 'http://localhost:8888/',
+        target: 'http://localhost:8080/',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'
@@ -20,7 +20,7 @@ module.exports = {
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -59,6 +59,8 @@ module.exports = {
     details: path.resolve(__dirname, '../dist/details.html'),
     goodDetails: path.resolve(__dirname, '../dist/goodsDetails.html'),
     collection: path.resolve(__dirname, '../dist/collection.html'),
+    registerSuccess: path.resolve(__dirname, '../dist/ registerSuccess.html'),
+    goodsSearch: path.resolve(__dirname, '../dist/ goodsSearch.html'),
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',

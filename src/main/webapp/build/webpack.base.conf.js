@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+require("babel-polyfill")
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -29,7 +30,9 @@ module.exports = {
     moreNews:resolve('WEB-INF/moreNews.js'),
     details:resolve('WEB-INF/details.js'),
     goodsDetails:resolve('WEB-INF/goodsDetails.js'),
-    collection:resolve('WEB-INF/collection.js')
+    collection:resolve('WEB-INF/collection.js'),
+    registerSuccess:resolve('WEB-INF/registerSuccess.js'),
+    goodsSearch:resolve('WEB-INF/goodsSearch.js'),
   },
   output: {
     path: config.build.assetsRoot,

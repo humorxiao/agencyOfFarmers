@@ -16,8 +16,6 @@ import scau.zxck.utils.ReadJSONUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
-
 @Controller
 @RequestMapping("/")
 public class CartInfoAction {
@@ -32,7 +30,7 @@ public class CartInfoAction {
     @RequestMapping(value = "getCart",method = RequestMethod.POST)
     public void getCartAction(HttpServletResponse response) throws Exception {
         String r="";
-        JSONObject data= ReadJSONUtil.readJSONStr(request);
+        JSONObject data= new JSONObject();
         if(session.getAttribute("User_PK")!=null){
             data.put("User_PK",session.getAttribute("User_PK"));
             data.put("Cart_PK",session.getAttribute("Cart_PK"));
@@ -70,6 +68,7 @@ public class CartInfoAction {
     public void alterCart(HttpServletResponse response) throws Exception {
         String r="";
         JSONObject data= ReadJSONUtil.readJSONStr(request);
+        data.put("Cart_PK",session.getAttribute("User_PK").toString());
         CartInfo cartInfo=cartInfoService.findById(data.get("Cart_PK").toString());
         cartInfo.setGoods_list(data.get("Goods_List").toString());
         cartInfo.setGoods_num(data.get("Goods_Num").toString());

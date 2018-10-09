@@ -1,9 +1,14 @@
 package scau.zxck.web.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import scau.zxck.base.dao.mybatis.Conditions;
@@ -43,12 +48,11 @@ public class OrderInfoAction {
 
     @RequestMapping(value = "getUserOrderListPaging", method = RequestMethod.POST)
 //    @Test
-    public void getUserOrderListPaging(String jsonStr, HttpServletResponse response) throws Exception {
+    public void getUserOrderListPaging(HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject data= ReadJSONUtil.readJSONStr(request);
-        JSONObject pageInfo = JSONObject.parseObject(jsonStr);
+        JSONObject pageInfo = ReadJSONUtil.readJSONStr(request);
         if (session.getAttribute("User_PK") != null) {
-            pageInfo.put("User_PK", (int) session.getAttribute("User_PK"));
+            pageInfo.put("User_PK", session.getAttribute("User_PK"));
         } else {
             pageInfo.put("User_PK", "");
         }
@@ -94,9 +98,8 @@ public class OrderInfoAction {
     public void getStateOrderPaging(HttpServletResponse response) throws Exception {
         String r = "";
         JSONObject data= ReadJSONUtil.readJSONStr(request);
-//        JSONObject pageInfo = JSONObject.parseObject(jsonStr);
         if (session.getAttribute("User_PK") != null) {
-            data.put("User_PK", (int) session.getAttribute("User_PK"));
+            data.put("User_PK", session.getAttribute("User_PK"));
         } else {
             data.put("User_PK", "");
         }
@@ -137,26 +140,16 @@ public class OrderInfoAction {
         FlushWriteUtil.flushWrite(response,r);
     }
 
-    @RequestMapping(value = "addOrder", method = RequestMethod.POST)
-//    @Test
+   @RequestMapping(value = "addOrder", method = RequestMethod.POST)
+ // @Test
     public void addOrder( HttpServletResponse response) throws Exception {
+      System.out.println("sdkfjskfj");
         String r = "";
-        JSONObject data= ReadJSONUtil.readJSONStr(request);
+     JSONObject data= ReadJSONUtil.readJSONStr(request);
         String[] goodslist = ((String) data.get("Goods_List")).split("#");
         String[] goodsnum = ((String) data.get("Goods_Num")).split("#");
         for (int i = 0; i < goodslist.length; i++) {// 循环操作订单中的每一项商品
-            JSONObject log = new JSONObject();
-            log.put("Goods_PK", goodslist[i]);
-            log.put("Goods_In", 0);
-            log.put("Goods_Out", goodsnum[i]);
-            log.put("Goods_PriceChange", 0);
-            log.put("GL_Time", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss")).format(new Date()));
-            GoodsLog tempg = new GoodsLog();
-            tempg.setGoods_info_id(log.get("Goods_PK").toString());
-            tempg.setGoods_in((int) Integer.parseInt(log.get("Goods_In").toString()));
-            tempg.setGoods_out((int) Integer.parseInt(log.get("Goods_Out").toString()));
-            tempg.setGoods_pricechange((float) Float.parseFloat(log.get("Goods_PriceChange").toString()));
-            tempg.setGl_time(Timestamp.valueOf(log.get("GL_Time").toString()).toString());
+
             JSONObject goodspk = new JSONObject();
             goodspk.put("Goods_PK", goodslist[i]);
             JSONObject temp = new JSONObject();
@@ -167,6 +160,7 @@ public class OrderInfoAction {
 
                 temp.put("Goods_PK", goods.getId());
                 temp.put("Goods_Name", goods.getGoods_name());
+
                 temp.put("Goods_Type", goods.getGoods_type());
                 temp.put("Goods_Num", goods.getGoods_num());
                 temp.put("Goods_Price", goods.getGoods_price());
@@ -185,7 +179,7 @@ public class OrderInfoAction {
             temp.put("Goods_Num", num);
             // access.updateGoodsInfo(goods);// 减去库存
             GoodsInfo temp1 = goodsInfoService.findById(temp.get("Goods_PK").toString());
-            temp1.setGoods_name(temp.get("Goods_Name").toString());
+            temp1.setGoods_name("管帅1314");
             temp1.setGoods_type((int) Integer.parseInt(temp.get("Goods_Type").toString()));
             temp1.setGoods_num((int) Integer.parseInt(temp.get("Goods_Num").toString()));
             temp1.setGoods_price((float) Float.parseFloat(temp.get("Goods_Price").toString()));
@@ -244,7 +238,9 @@ public class OrderInfoAction {
         jsonObject.put("Order_Aftersale", orderInfo1.getOrder_aftersale());
         jsonObject.put("Order_Reserve_1", orderInfo1.getOrder_reserve_1());
         r = jsonObject.toString();
-        FlushWriteUtil.flushWrite(response,r);
+        System.out.println("ojbk");
+       FlushWriteUtil.flushWrite(response,r);
+
     }
 
     @RequestMapping(value = "updateOrder", method = RequestMethod.POST)
@@ -278,7 +274,7 @@ public class OrderInfoAction {
             e.printStackTrace();
             r = "{\"status\":0}";
         }
-        FlushWriteUtil.flushWrite(response,r);
+        FlushWriteUtil.flushWrite(response,"");
     }
 
     @RequestMapping(value = "payOrder", method = RequestMethod.POST)
@@ -312,7 +308,7 @@ public class OrderInfoAction {
         temp.put("Order_Aftersale", order.getOrder_aftersale());
         temp.put("Order_Reserve_1", order.getOrder_reserve_1());
         Date date = new Date();
-        temp.put("Order_PayTime", (new SimpleDateFormat("yyyy-MM-dd HH:MM:ss").format(date)));
+        temp.put("Order_PayTime", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)));
         temp.put("Order_IsPay", true);
         temp.put("Order_State", "6");
         OrderInfo tempx = orderInfoService.findById(temp.get("Order_PK").toString());
