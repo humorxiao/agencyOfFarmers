@@ -755,7 +755,7 @@ CREATE TABLE `user_info` (
   `user_sex` int(11) NOT NULL COMMENT '1为男，2为女，3为保密',
   `user_regTime` varchar(255) NOT NULL COMMENT '格式为YYYY-MM-DD HH:MM:SS',
   `user_realname` varchar(10) DEFAULT NULL,
-  `user_mark` varchar(1) DEFAULT NULL,
+  `user_mark` varchar(1) DEFAULT '0',
   `user_reserve_1` varchar(5) DEFAULT NULL,
   `user_reserve_2` varchar(5) DEFAULT NULL,
   `remark` varchar(50) DEFAULT NULL,
