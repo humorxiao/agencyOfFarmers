@@ -276,7 +276,7 @@ public class OrderInfoAction {
         temp.setGoods_list(data.get("Goods_List").toString());
         temp.setGoods_num(data.get("Goods_Num").toString());
         temp.setGoods_prices(data.get("Goods_Prices").toString());
-        temp.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
+        temp.setOrder_time(data.get("Order_Time").toString());
         temp.setOrder_ispay((boolean) data.get("Order_IsPay"));
         if (!data.get("Order_PayTime").equals(new String(""))) {
             temp.setOrder_paytime(Timestamp.valueOf(data.get("Order_PayTime").toString()).toString());
