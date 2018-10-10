@@ -61,8 +61,8 @@ INSERT INTO `system_user_info` VALUES ('103', '25d55ad283aa400af464c76d713c07ad'
 DROP TABLE IF EXISTS `system_user_log`;
 CREATE TABLE `system_user_log` (
   `id` varchar(255) NOT NULL,
-  `leave_time` datetime DEFAULT NULL,
-  `login_time` datetime DEFAULT NULL,
+  `leave_time` varchar(255) DEFAULT NULL,
+  `login_time` varchar(255) DEFAULT NULL,
   `system_user_info_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_spxb9u1qxoxhy5nfdtpnvrvr8` (`system_user_info_id`),

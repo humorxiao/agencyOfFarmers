@@ -25,7 +25,7 @@ public class NodeInfoService implements INodeInfoService {
         return nodeInfoDao.findById(id);
     }
 
-    @Override
+   @Override
     public void deleteByIds(Object... ids) throws BaseException {
         nodeInfoDao.deleteByIds(ids);
     }
