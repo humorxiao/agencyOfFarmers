@@ -22,8 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-
+/**
+ * @author YHX
+ * @DATE 2018/9/20 0020 8:43
+ */
 @Controller
 @RequestMapping("/")
 public class LoginAction {
@@ -37,6 +42,7 @@ public class LoginAction {
   private HttpServletRequest request;
   @Autowired
   private HttpSession session;
+  private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   @RequestMapping(value = "login", method = RequestMethod.POST)
   public void login(HttpServletResponse response) throws Exception {
@@ -119,7 +125,7 @@ public class LoginAction {
 
     if ((boolean) temp.get("isCorrect")) {
       // 登录日志
-      temp.put("SignIn_Time", new Timestamp(System.currentTimeMillis()).toString());
+      temp.put("SignIn_Time", simpleDateFormat.format(new Date()));
       if ((boolean)temp.get("SignIn_IsAdmin")) {
         SignInLog temp1 = new SignInLog();
         temp1.setSignin_isadmin((boolean) temp.get("SignIn_IsAdmin"));

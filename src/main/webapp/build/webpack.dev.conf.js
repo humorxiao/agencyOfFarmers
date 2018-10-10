@@ -106,6 +106,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       chunks: ['collection']
     }),
     new HtmlWebpackPlugin({
+
       filename: 'registerSuccess.html',
       template: resolve('registerSuccess.html'),
       inject: true,
@@ -116,6 +117,36 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: resolve('goodsSearch.html'),
       inject: true,
       chunks: ['goodsSearch']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'adminLogin.html',
+      template: resolve('adminLogin.html'),
+      inject: true,
+      chunks: ['adminLogin']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'editinfo.html',
+      template: resolve('editinfo.html'),
+      inject: true,
+      chunks: ['editinfo']
+    }),
+      new HtmlWebpackPlugin({
+      filename: 'history.html',
+      template: resolve('history.html'),
+      inject: true,
+      chunks:['history']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'shoppingbag.html',
+      template: resolve('shoppingbag.html'),
+      inject: true,
+      chunks:['shoppingbag']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'myinfo.html',
+      template: resolve('myinfo.html'),
+      inject: true,
+      chunks: ['myinfo']
     }),
     // copy custom static assets
     new CopyWebpackPlugin([

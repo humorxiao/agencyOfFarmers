@@ -17,7 +17,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import scau.zxck.web.admin.GoodsInfoAction;
 import scau.zxck.web.admin.OrderInfoAction;
+import scau.zxck.web.admin.PayAction;
 
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.SimpleFormatter;
@@ -48,10 +50,10 @@ public class OrderInfoActionTest {
   private WebApplicationContext wac;
   private MockMvc mockMvc;
   @Autowired
-  private OrderInfoAction orderInfoAction;
+  private PayAction payAction;
   @Before() // 这个方法在每个方法执行之前都会执行一遍
   public void setup() {
-    mockMvc = standaloneSetup(orderInfoAction).build(); // 初始化MockMvc对象
+    mockMvc = standaloneSetup(payAction).build(); // 初始化MockMvc对象
   }
 
   @org.junit.Test
@@ -83,9 +85,9 @@ public class OrderInfoActionTest {
        "\t\"Order_State\":1,\n" +
        "\t\"Order_Reserve_1\":\"13416137226;65;65;656565;\"\n" +
        "}";
-
-
-    String responseString = mockMvc.perform( post("/addOrder").contentType(MediaType.APPLICATION_JSON_VALUE).content(s)).andDo(print())
-      .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+    String ip = InetAddress.getLocalHost().getHostAddress();
+System.out.println(ip);
+  //  String responseString = mockMvc.perform( post("/Alipay").contentType(MediaType.APPLICATION_JSON_VALUE).content("")).andDo(print())
+    //  .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
   }
 }

@@ -46,7 +46,9 @@
 		<property name="testWhileIdle" value="${jdbc.testWhileIdle}"/>
 		<property name="testOnBorrow" value="${jdbc.testOnBorrow}"/>
 		<property name="testOnReturn" value="${jdbc.testOnReturn}"/>
-		<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}"/>
+    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+
+    <property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}"/>
 		<property name="validationQuery" value="${jdbc.validationQuery}"/>
 	</bean>
 	<!-- dbcp end -->

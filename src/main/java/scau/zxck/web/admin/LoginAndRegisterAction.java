@@ -18,7 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.util.Date;
-
+/**
+ * @author YHX
+ * @DATE 2018/9/20 0020 8:43
+ */
 @Controller
 @RequestMapping("/")
 public class LoginAndRegisterAction {

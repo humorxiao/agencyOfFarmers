@@ -22,8 +22,8 @@ public class UserInfo extends Unique {
   private String user_regtime;
   @Column(name = "user_realname")
   private String user_realname;
-  @Column(name = "user_id")
-  private String user_id;
+//  @Column(name = "user_id")
+//  private String user_id;
   @Column(name = "user_mark")
   private String user_mark;
   @Column(name = "user_reserve_1")
@@ -44,21 +44,6 @@ public class UserInfo extends Unique {
   }
 
   public UserInfo() {
-  }
-
-  public UserInfo(String user_password, String user_name, String user_cell, String user_email, int user_sex, String user_regtime, String user_realname, String user_id, String user_mark, String user_reserve_1, String user_reserve_2, String remark) {
-    this.user_password = user_password;
-    this.user_name = user_name;
-    this.user_cell = user_cell;
-    this.user_email = user_email;
-    this.user_sex = user_sex;
-    this.user_regtime = user_regtime;
-    this.user_realname = user_realname;
-    this.user_id = user_id;
-    this.user_mark = user_mark;
-    this.user_reserve_1 = user_reserve_1;
-    this.user_reserve_2 = user_reserve_2;
-    this.remark = remark;
   }
 
   public CartInfo getCart() {
@@ -135,13 +120,13 @@ public class UserInfo extends Unique {
     this.user_realname = user_realname;
   }
 
-  public String getUser_id() {
-    return user_id;
-  }
-
-  public void setUser_id(String user_id) {
-    this.user_id = user_id;
-  }
+//  public String getUser_id() {
+//    return user_id;
+//  }
+//
+//  public void setUser_id(String user_id) {
+//    this.user_id = user_id;
+//  }
 
   public String getUser_mark() {
     return user_mark;

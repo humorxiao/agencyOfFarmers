@@ -35,12 +35,17 @@
 <%--<br><br>--%>
 <%--</form>--%>
 
-<%--<form action="/test" method="POST" enctype="multipart/form-data">--%>
-<%--<label>Profile Picture</label>--%>
-<%--<input type="file" name="profilePicture" accept="image/jpeg,image/png,image/gif">--%>
-<%--<br>--%>
-<%--<input type="submit" value="submit">--%>
-
+<form action="/headImgUpload" method="POST" enctype="multipart/form-data">
+<label>Profile Picture</label>
+<input type="file" name="file" accept="image/jpeg,image/png,image/gif">
+<br>
+<input type="submit" value="submit">
+<%--<form action="/uploadPictures" method="POST" enctype="multipart/form-data">--%>
+  <%--<label>Profile Picture</label>--%>
+  <%--<input type="file" name="image" accept="image/jpeg,image/png,image/gif">--%>
+  <%--<br>--%>
+  <%--<input type="submit" value="submit">--%>
+<%--</form>--%>
 <%--</form>--%>
 <%--<form action="/test" method="post">--%>
 <%--username:<input type="text" name="name">--%>
@@ -49,17 +54,17 @@
 <%--<br><br>--%>
 <%--<input type="submit" value="submit">--%>
 <%--</form>--%>
-<form action="/test" method="post">
-  email:<input type="text" name="email">
-  <br>
-  accreditCode:<input type="text" name="accreditCode">
-  <br>
-  from:<input type="text" name="from">
-  <br>
-  count:<input type="text" name="count">
-  <br>
-  <input type="submit" value="submit">
-</form>
+<%--<form action="/test" method="post">--%>
+  <%--email:<input type="text" name="email">--%>
+  <%--<br>--%>
+  <%--accreditCode:<input type="text" name="accreditCode">--%>
+  <%--<br>--%>
+  <%--from:<input type="text" name="from">--%>
+  <%--<br>--%>
+  <%--count:<input type="text" name="count">--%>
+  <%--<br>--%>
+  <%--<input type="submit" value="submit">--%>
+<%--</form>--%>
 </body>
 </html>
 

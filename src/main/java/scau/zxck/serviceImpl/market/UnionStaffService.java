@@ -40,11 +40,12 @@ public class UnionStaffService implements IUnionStaffService {
   }
 
   @Override
-  public List<UnionStaff> listUnionStaff() throws BaseException {
-    return unionStaffDao.listAll();
-  }
-  @Override
   public <V> List<V> list(Conditions conditions) throws BaseException {
     return unionStaffDao.list(conditions);
+  }
+
+  @Override
+  public <V> List<V> listAll() throws BaseException {
+    return unionStaffDao.listAll();
   }
 }

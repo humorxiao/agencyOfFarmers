@@ -19,7 +19,10 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+/**
+ * @author YHX
+ * @DATE 2018/9/20 0020 8:43
+ */
 @Controller
 @RequestMapping("/")
 public class GoodsInfoAction {
@@ -229,7 +232,6 @@ public class GoodsInfoAction {
     temp.setGoods_fruit(data.get("Goods_Fruit").toString());
     temp.setGoods_mature(data.get("Goods_Mature").toString());
     temp.setGoods_expiration(data.get("Goods_Expiration").toString());
-    temp.setGoods_expiration(data.get("Goods_Reserve_1").toString());
     try {
       goodsInfoService.add(temp);
       r = "{\"status\":1}";
@@ -288,15 +290,16 @@ public class GoodsInfoAction {
     try {
       goodsInfoService.updateById(temp);
       r = "{\"status\":1}";
+      FlushWriteUtil.flushWrite(response,r);
     } catch (Exception e) {
       e.printStackTrace();
       r = "{\"status\":0}";
+      FlushWriteUtil.flushWrite(response,r);
     }
-    FlushWriteUtil.flushWrite(response,r);
   }
 
   @RequestMapping(value = "getLikesGoods", method = RequestMethod.POST)
-  public void getLikesAction( HttpServletResponse response) throws Exception {
+  public void getLikesGoods( HttpServletResponse response) throws Exception {
     JSONObject data= ReadJSONUtil.readJSONStr(request);
     String r = "";
     String likes = data.get("likes").toString();
@@ -306,11 +309,10 @@ public class GoodsInfoAction {
     JSONArray jsonarr = new JSONArray();
     if (likes != null) {
       List list =
-        goodsInfoService.list(conditions.like("goods_name", "%" + "山" + "%"));
+        goodsInfoService.list(conditions.like("goods_name", "%" + likes + "%"));
       for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
         JSONObject temp = new JSONObject();
         GoodsInfo goods = (GoodsInfo) iter.next();
-
         temp.put("Goods_PK", goods.getId());
         temp.put("Goods_Name", goods.getGoods_name());
         temp.put("Goods_Type", goods.getGoods_type());
@@ -319,7 +321,13 @@ public class GoodsInfoAction {
         temp.put("Goods_Mark", goods.getGoods_mark());
         temp.put("Goods_Show", goods.getGoods_show());
         temp.put("Goods_Picture", goods.getGoods_picture());
-        System.out.println(temp);
+        temp.put("Goods_Season", goods.getGoods_season());
+        temp.put("Goods_Blossom", goods.getGoods_blossom());
+        temp.put("Goods_Fruit", goods.getGoods_fruit());
+        temp.put("Goods_Mature", goods.getGoods_mature());
+        temp.put("Goods_Expiration", goods.getGoods_expiration());
+        temp.put("Goods_Reserve_1", goods.getGoods_reserve_1());
+        temp.put("Goods_Reserve_2", goods.getGoods_reserve_2());
         jsonarr.add(temp);
       }
       r = jsonarr.toString();

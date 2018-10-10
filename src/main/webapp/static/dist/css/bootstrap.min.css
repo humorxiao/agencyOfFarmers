@@ -1098,7 +1098,7 @@ html {
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.42857143;
   color: #333;
   background-color: #fff
@@ -1250,7 +1250,7 @@ h6, .h6 {
 }
 
 p {
-  margin: 0 0 10px
+  margin: 0 20px 10px
 }
 
 .lead {
@@ -3892,7 +3892,7 @@ select[multiple].input-group-sm>.input-group-addon, select[multiple].input-group
 }
 
 .nav {
-  padding-left: 0;
+  padding-left: 0px;
   margin-bottom: 0;
   list-style: none
 }
@@ -5129,7 +5129,6 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
   color: #843534
 }
 
-@
 -webkit-keyframes progress-bar-stripes {
 from {background-position: 40px 0
 }
@@ -5139,7 +5138,7 @@ to {
 }
 
 }
-@
+
 -o-keyframes progress-bar-stripes {
 from {background-position: 40px 0
 }
@@ -5149,7 +5148,6 @@ to {
 }
 
 }
-@
 keyframes progress-bar-stripes {
 from {background-position: 40px 0
 }
@@ -6678,7 +6676,7 @@ button.close {
   position: fixed
 }
 
-@
+
 -ms-viewport {
   width: device-width
 }

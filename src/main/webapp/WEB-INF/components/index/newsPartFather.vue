@@ -15,7 +15,7 @@ export default {
         this.newsparts.push({
           pictureSrc: '../../../static/goodsImage/'+ response.data[i].News_Picture,
           newsTitle: response.data[i].News_Title,
-          newsTime: response.data[i].News_Timeb,
+          // newsTime: response.data[i].News_Time,
           newsContent: response.data[i].News_Text,
           src: 'details.html?'+ response.data[i].News_PK
         })

@@ -35,13 +35,33 @@
       <artifactId>ssm-base</artifactId>
       <version>${ssm-base.version}</version>
     </dependency>
+    <!-- oss -->
+    <dependency>
+      <groupId>com.aliyun.oss</groupId>
+      <artifactId>aliyun-sdk-oss</artifactId>
+      <version>2.7.0</version>
+    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>weisheng.bizhijia.oss</groupId>-->
+      <!--<artifactId></artifactId>-->
+      <!--<version></version>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jsp-api</artifactId>
       <version>2.0</version>
       <scope>provide</scope>
     </dependency>
-
+    <dependency>
+      <groupId>com.alipay.sdk</groupId>
+      <artifactId>alipay-sdk-java</artifactId>
+      <version>3.3.49.ALL</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.wxpay</groupId>
+      <artifactId>wxpay-sdk</artifactId>
+      <version>0.0.3</version>
+    </dependency>
     <dependency>
       <groupId>javax.activation</groupId>
       <artifactId>activation</artifactId>

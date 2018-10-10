@@ -24,7 +24,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
+/**
+ * @author YHX
+ * @DATE 2018/9/20 0020 8:43
+ */
 @Controller
 @RequestMapping("/")
 //@RunWith(SpringJUnit4ClassRunner.class)
@@ -39,13 +42,15 @@ public class NewsAction {
   @Autowired
   private IUnionNewsService unionNewsService;
 
+  private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
   @RequestMapping(value = "getNews", method = RequestMethod.POST)
 //  @Test
   public void getNews(HttpServletResponse response) throws Exception {
     String r = "";
     List list = newsService.listAll();
     JSONArray jsonarr = new JSONArray();
-    int cnt=0;
+    int cnt = 0;
     for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
       JSONObject temp = new JSONObject();
       UnionNews news = (UnionNews) iter.next();
@@ -55,11 +60,9 @@ public class NewsAction {
       temp.put("News_Time", news.getNews_time());
       temp.put("News_Picture", news.getNews_picture());
       temp.put("Remark", news.getRemark());
-      if (news.getNews_mark() == 1) {
-        jsonarr.add(temp);
-        cnt++;
-      }
-      if(cnt==4) break;
+      jsonarr.add(temp);
+      cnt++;
+      if (cnt == 4) break;
     }
     r = jsonarr.toString();
     FlushWriteUtil.flushWrite(response, r);
@@ -79,9 +82,7 @@ public class NewsAction {
       temp.put("News_Time", news.getNews_time());
       temp.put("News_Picture", news.getNews_picture());
       temp.put("Remark", news.getRemark());
-      if (news.getNews_mark() == 1) {
-        jsonarr.add(temp);
-      }
+      jsonarr.add(temp);
     }
     r = jsonarr.toString();
     FlushWriteUtil.flushWrite(response, r);
@@ -89,24 +90,19 @@ public class NewsAction {
 
   @RequestMapping(value = "addNews", method = RequestMethod.POST)
 //  @Test
-  public void addNews( HttpServletResponse response) throws Exception {
+  public void addNews(HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
-    String News_Title =
-      data.get("News_Title") != null ? data.get("News_Title").toString() : "";
-    String htmlData =
-      data.get("content1") != null ? data.get("content1").toString() : "";
-    String News_Mark =
-      data.get("News_Mark") != null ? data.get("News_Mark").toString() : "";
-    data.put("News_Title", News_Title);
-    data.put("News_Text", htmlData);
-    data.put("News_Mark", News_Mark);
-    data.put("News_Time", (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
+    String news_title=data.get("News_Title").toString();
+    String news_text=data.get("News_Text").toString();
+    String time=data.get("News_Time").toString();
+    data.put("News_Mark","1");
     boolean ret;
     UnionNews temp = new UnionNews();
     temp.setNews_title(data.get("News_Title").toString());
     temp.setNews_text(data.get("News_Text").toString());
-    temp.setNews_time(Timestamp.valueOf(data.get("News_Time").toString()).toString());
+    Date date = simpleDateFormat.parse(data.get("News_Time").toString());
+    temp.setNews_time(simpleDateFormat.format(date));
     temp.setNews_mark((int) Integer.parseInt(data.get("News_Mark").toString()));
     try {
       newsService.add(temp);
@@ -120,29 +116,29 @@ public class NewsAction {
     } else {
       r = "{\"status\":0}";
     }
-    response.sendRedirect("../user&newsManagePage.html#panel-923725");
     FlushWriteUtil.flushWrite(response, r);
   }
 
-  @RequestMapping(value = "deleteNews",method = RequestMethod.POST)
-  public void deleteNews(HttpServletResponse response) throws Exception{
-    JSONObject data=ReadJSONUtil.readJSONStr(request);
-    String news_id=data.get("News_PK").toString();
-    JSONObject temp=new JSONObject();
-    String r=null;
+  @RequestMapping(value = "deleteNews", method = RequestMethod.POST)
+  public void deleteNews(HttpServletResponse response) throws Exception {
+    JSONObject data = ReadJSONUtil.readJSONStr(request);
+    String news_id = data.get("News_PK").toString();
+    JSONObject temp = new JSONObject();
+    String r = null;
     try {
       unionNewsService.deleteByIds(news_id);
-      temp.put("status",true);
-    }catch (Exception e){
-      temp.put("status",false);
-      r=temp.toString();
-      FlushWriteUtil.flushWrite(response,r);
+      temp.put("status", true);
+      r = temp.toString();
+      FlushWriteUtil.flushWrite(response, r);
+    } catch (Exception e) {
+      temp.put("status", false);
+      r = temp.toString();
+      FlushWriteUtil.flushWrite(response, r);
     }
-    r=temp.toString();
-    FlushWriteUtil.flushWrite(response,r);
   }
+
   @RequestMapping(value = "getLikesNews", method = RequestMethod.POST)
-  public void getLikesNews( HttpServletResponse response) throws Exception, UnsupportedEncodingException, IOException {
+  public void getLikesNews(HttpServletResponse response) throws Exception, UnsupportedEncodingException, IOException {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     String likes = data.get("likes").toString();
@@ -167,7 +163,7 @@ public class NewsAction {
 
   @RequestMapping(value = "getOneNews", method = RequestMethod.POST)
 //  @Test
-  public void getOneNews( HttpServletResponse response) throws Exception {
+  public void getOneNews(HttpServletResponse response) throws Exception {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {

@@ -23,7 +23,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * @author YHX
+ * @DATE 2018/9/20 0020 8:43
+ */
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration("classpath:config/spring/spring.xml")
 @Controller
@@ -71,6 +74,10 @@ public class RegisterAction {
       userInfo.setUser_email(data.get("User_Email").toString());
       userInfo.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
       userInfo.setUser_regtime(data.get("User_RegTime").toString());
+      userInfo.setUser_mark("0");
+      userInfo.setUser_reserve_1("");
+      userInfo.setUser_reserve_2("");
+      userInfo.setRemark("");
       userInfo.setCart(new CartInfo());
       userInfo.setDeliveryaddress(new DeliveryAddress());
       userRegisterService.add(userInfo);

@@ -2,7 +2,7 @@
 <template>
   <div id="morenews">
     <news :newlists = "newlists" :pageLists = "pageLists" :nowInPage = "nowInPage" :pageNum = "pageNum" @switchPage = "switchPage" @lastPage = "lastPage" @nextPage = "nextPage" @toNewsDetails = "toNewsDetails"></news>
-    <router-view/>
+
   </div>
 </template>
 
@@ -90,7 +90,6 @@
         }
       },
       toNewsDetails: function () {
-
       }
     },
     //打开新闻列表页，向后台请求数据

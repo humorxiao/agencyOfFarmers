@@ -31,7 +31,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
+/**
+ * @author YHX
+ * @DATE 2018/9/20 0020 8:43
+ */
 @Controller
 @RequestMapping("/")
 //@RunWith(SpringJUnit4ClassRunner.class)
@@ -50,25 +53,46 @@ public class OrderInfoAction {
 //    @Test
     public void getUserOrderListPaging(HttpServletResponse response) throws Exception {
         String r = "";
-        JSONObject pageInfo = ReadJSONUtil.readJSONStr(request);
+        JSONObject pageInfo = new JSONObject();
         if (session.getAttribute("User_PK") != null) {
             pageInfo.put("User_PK", session.getAttribute("User_PK"));
         } else {
             pageInfo.put("User_PK", "");
         }
         JSONArray jsonarr = new JSONArray();
+        JSONArray jsonArray=new JSONArray();
         Conditions conditions = new Conditions();
         List list =
                 orderInfoService.list(conditions.eq("user_info_id", pageInfo.get("User_PK").toString()));
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             JSONObject temp = new JSONObject();
             OrderInfo order = (OrderInfo) iter.next();
-
             temp.put("Order_PK", order.getId());
             temp.put("User_PK", order.getUser_info_id());
             temp.put("Order_ID", order.getOrder_id());
             temp.put("Order_No", order.getOrder_no());
             temp.put("Goods_List", order.getGoods_list());
+            String[] strings=order.getGoods_list().split("#");
+            for(int i=0;i<strings.length;i++){
+              GoodsInfo goods = goodsInfoService.findById(strings[i]);
+              JSONObject temp1 = new JSONObject();
+              temp1.put("Goods_PK", goods.getId());
+              temp1.put("Goods_Name", goods.getGoods_name());
+              temp1.put("Goods_Type", goods.getGoods_type());
+              temp1.put("Goods_Num", goods.getGoods_num());
+              temp1.put("Goods_Price", goods.getGoods_price());
+              temp1.put("Goods_Mark", goods.getGoods_mark());
+              temp1.put("Goods_Show", goods.getGoods_show());
+              temp1.put("Goods_Picture", goods.getGoods_picture());
+              temp1.put("Goods_Season", goods.getGoods_season());
+              temp1.put("Goods_Blossom", goods.getGoods_blossom());
+              temp1.put("Goods_Fruit", goods.getGoods_fruit());
+              temp1.put("Goods_Mature", goods.getGoods_mature());
+              temp1.put("Goods_Expiration", goods.getGoods_expiration());
+              temp1.put("Goods_Reserve_1", goods.getGoods_reserve_1());
+              temp1.put("Goods_Reserve_2", goods.getGoods_reserve_2());
+              jsonArray.add(temp1);
+            }
             temp.put("Goods_Num", order.getGoods_num());
             temp.put("Goods_Prices", order.getGoods_prices());
             temp.put("Order_Time", order.getOrder_time());
@@ -88,29 +112,23 @@ public class OrderInfoAction {
 
             jsonarr.add(temp);
         }
-        JSONArray temparr = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo);
-        r = temparr.toString();
+        JSONArray jsonArray1=new JSONArray();
+        jsonArray1.add(jsonarr);
+        jsonArray1.add(jsonArray);
+        r = jsonArray1.toString();
         FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getStateOrderPaging", method = RequestMethod.POST)
-//    @Test
     public void getStateOrderPaging(HttpServletResponse response) throws Exception {
         String r = "";
         JSONObject data= ReadJSONUtil.readJSONStr(request);
-        if (session.getAttribute("User_PK") != null) {
-            data.put("User_PK", session.getAttribute("User_PK"));
-        } else {
-            data.put("User_PK", "");
-        }
         JSONArray jsonarr = new JSONArray();
         Conditions conditions = new Conditions();
-        List list = orderInfoService.list(conditions.eq("user_info_id", data.get("User_PK").toString())
-                .and().eq("order_state", data.get("Order_State").toString()));
+        List list = orderInfoService.list(conditions.eq("order_state", data.get("Order_State").toString()));
         for (Iterator iter = ((java.util.List) list).iterator(); iter.hasNext(); ) {
             JSONObject temp = new JSONObject();
             OrderInfo order = (OrderInfo) iter.next();
-
             temp.put("Order_PK", order.getId());
             temp.put("User_PK", order.getUser_info_id());
             temp.put("Order_ID", order.getOrder_id());
@@ -120,6 +138,11 @@ public class OrderInfoAction {
             temp.put("Goods_Prices", order.getGoods_prices());
             temp.put("Order_Time", order.getOrder_time());
             temp.put("Order_IsPay", order.isOrder_ispay());
+            String[] reverse_1=order.getOrder_reserve_1().split(";");
+            temp.put("User_Cell",reverse_1[0]);
+            temp.put("User_Name",reverse_1[1]);
+            temp.put("User_Address",reverse_1[2]);
+            temp.put("User_PostCode",reverse_1[3]);
             if (order.getOrder_paytime().equals(new String("0001-1-1 1:01:01"))) {
                 temp.put("Order_PayTime", "");
             } else {
@@ -132,11 +155,9 @@ public class OrderInfoAction {
             temp.put("Order_Website", order.getOrder_website());
             temp.put("Order_Aftersale", order.getOrder_aftersale());
             temp.put("Order_Reserve_1", order.getOrder_reserve_1());
-
             jsonarr.add(temp);
         }
-        JSONArray temparr = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, data);
-        r = temparr.toString();
+        r = jsonarr.toString();
         FlushWriteUtil.flushWrite(response,r);
     }
 
@@ -197,7 +218,7 @@ public class OrderInfoAction {
         orderInfo.setUser_info_id(data.get("User_PK").toString());
         orderInfo.setGoods_list(data.get("Goods_List").toString());
         orderInfo.setGoods_num(data.get("Goods_Num").toString());
-        orderInfo.setGoods_prices(data.get("Goods_Price").toString());
+        orderInfo.setGoods_prices(data.get("Goods_Prices").toString());
         orderInfo.setOrder_aftersale((int) Integer.parseInt(data.get("Order_Aftersale").toString()));
         orderInfo.setOrder_company(data.get("Order_Company").toString());
         orderInfo.setOrder_id(data.get("Order_ID").toString());
@@ -208,7 +229,7 @@ public class OrderInfoAction {
         orderInfo.setOrder_reserve_1(data.get("Order_Reserve_1").toString());
         orderInfo.setOrder_state((int) Integer.parseInt(data.get("Order_State").toString()));
         orderInfo.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
-        orderInfo.setOrder_tracknum(data.get("Order_Tracknum").toString());
+        orderInfo.setOrder_tracknum(data.get("Order_TrackNum").toString());
         orderInfo.setOrder_website(data.get("Order_Website").toString());
         orderInfo.setUserInfo(new UserInfo());
         orderInfoService.add(orderInfo);
@@ -254,7 +275,7 @@ public class OrderInfoAction {
         temp.setOrder_no(data.get("Order_No").toString());
         temp.setGoods_list(data.get("Goods_List").toString());
         temp.setGoods_num(data.get("Goods_Num").toString());
-        temp.setGoods_prices(data.get("Goods_Price").toString());
+        temp.setGoods_prices(data.get("Goods_Prices").toString());
         temp.setOrder_time(Timestamp.valueOf(data.get("Order_Time").toString()).toString());
         temp.setOrder_ispay((boolean) data.get("Order_IsPay"));
         if (!data.get("Order_PayTime").equals(new String(""))) {
@@ -341,9 +362,7 @@ public class OrderInfoAction {
     }
 
     @RequestMapping(value = "getNoPayOrder", method = RequestMethod.POST)
-//    @Test
     public void getNoPayOrder( HttpServletResponse response) throws Exception {
-        JSONObject pageInfo= ReadJSONUtil.readJSONStr(request);
         String r = "";
         JSONArray jsonarr = new JSONArray();
         Conditions conditions = new Conditions();
@@ -374,20 +393,20 @@ public class OrderInfoAction {
             temp.put("Order_Reserve_1", order.getOrder_reserve_1());
             jsonarr.add(temp);
         }
-        r = JSONArrayPagingUtil.JSONArrayPaging(jsonarr, pageInfo).toString();
+        r=jsonarr.toString();
         FlushWriteUtil.flushWrite(response,r);
     }
 
     @RequestMapping(value = "getIDOrder", method = RequestMethod.POST)
 //    @Test
     public void getIDOrder( HttpServletResponse response) throws Exception {
+        request.setCharacterEncoding("utf-8");
         JSONObject data= ReadJSONUtil.readJSONStr(request);
         JSONObject temp = new JSONObject();
         Conditions conditions = new Conditions();
         List list = orderInfoService.list(conditions.eq("order_id", data.get("Order_ID").toString()));
         if (!list.isEmpty()) {
             OrderInfo order = (OrderInfo) list.get(0);
-
             temp.put("Order_PK", order.getId());
             temp.put("User_PK", order.getUser_info_id());
             temp.put("Order_ID", order.getOrder_id());

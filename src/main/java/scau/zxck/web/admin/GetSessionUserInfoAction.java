@@ -15,7 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
-
+/**
+ * @author YHX
+ * @DATE 2018/9/20 0020 8:43
+ */
 @Controller
 @RequestMapping("/")
 public class GetSessionUserInfoAction {
@@ -42,7 +45,7 @@ public class GetSessionUserInfoAction {
             temp.put("User_Sex", user.getUser_sex());
             temp.put("User_RegTime", user.getUser_regtime());
             temp.put("User_Realname", user.getUser_realname());
-            temp.put("User_ID", user.getUser_id());
+//            temp.put("User_ID", user.getUser_id());
             r = temp.toJSONString();
         } else {
             r = "{\"User_Name\":\"未登录成功\"}";

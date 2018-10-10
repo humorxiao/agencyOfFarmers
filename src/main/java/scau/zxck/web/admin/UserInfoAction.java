@@ -17,6 +17,7 @@ import scau.zxck.entity.sys.UserInfo;
 import scau.zxck.service.market.IDeliveryAddressService;
 import scau.zxck.service.sys.IUserLoginService;
 import scau.zxck.utils.*;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +28,10 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
+/**
+ * @author YHX
+ * @DATE 2018/9/20 0020 8:43
+ */
 @Controller
 @RequestMapping("/")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -43,6 +47,7 @@ public class UserInfoAction {
   private HttpSession session;
   @Autowired
   private ServletContext application;
+
   @RequestMapping(value = "getUserInfo", method = RequestMethod.POST)
 
   public void getUserInfo(HttpServletResponse response) throws Exception {
@@ -57,7 +62,7 @@ public class UserInfoAction {
     temp.put("User_Sex", userInfo.getUser_sex());
     temp.put("User_RegTime", userInfo.getUser_regtime());
     temp.put("User_Realname", userInfo.getUser_realname());
-    temp.put("User_ID", userInfo.getUser_id());
+//    temp.put("User_ID", userInfo.getUser_id());
     r = temp.toString();
     FlushWriteUtil.flushWrite(response, r);
   }
@@ -75,14 +80,14 @@ public class UserInfoAction {
     for (int i = 0; i < 6; i++) {
       newPassword += random.nextInt(10);
     }
-    application.setAttribute("newPassword",newPassword);
-    newPassword=TransformToMD5Util.makeMD5(newPassword);
+    application.setAttribute("newPassword", newPassword);
+    newPassword = TransformToMD5Util.makeMD5(newPassword);
     userInfo.setUser_password(newPassword);
     userInfo.setNewPassword(newPassword);
     userLoginService.updateById(userInfo);
     SendEmailUtil sendEmailUtil = new SendEmailUtil(userInfo.getUser_email(), CodeUtil.generateUniqueCode());
     new Thread(sendEmailUtil).start();
-    temp.put("status",1);
+    temp.put("status", 1);
     FlushWriteUtil.flushWrite(response, temp.toString());
   }
 
@@ -99,7 +104,7 @@ public class UserInfoAction {
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
     temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()));
     temp.setUser_realname(data.get("User_Realname").toString());
-    temp.setUser_id(data.get("User_ID").toString());
+//    temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();
     temp.setUser_mark(c);
     temp.setCart(new CartInfo());
@@ -141,8 +146,8 @@ public class UserInfoAction {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     if (session.getAttribute("User_PK") != null) {
-      data.put("Deliv_PK",  session.getAttribute("User_PK"));
-      data.put("User_PK",  session.getAttribute("User_PK"));
+      data.put("Deliv_PK", session.getAttribute("User_PK"));
+      data.put("User_PK", session.getAttribute("User_PK"));
     } else {
       data.put("Deliv_PK", "");
       data.put("User_PK", "");
@@ -176,8 +181,8 @@ public class UserInfoAction {
     temp.setUser_email(data.get("User_Email").toString());
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
     temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()).toString());
-    temp.setUser_realname(data.get("User_Realname").toString());
-    temp.setUser_id(data.get("User_ID").toString());
+    //temp.setUser_realname(data.get("User_Realname").toString());
+    //temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();
     temp.setUser_mark(c);
     temp.setCart(new CartInfo());
@@ -197,6 +202,11 @@ public class UserInfoAction {
     String r = "";
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     data.put("User_Mark", "1");
+    data.put("User_Realname","Nothing");
+//    String s="";
+//    s+=CodeUtil.generateUniqueCode();
+//    s=s.substring(0,18);
+//    data.put("User_ID",s);
     UserInfo userInfo = userLoginService.findById(data.get("User_PK").toString());
     data.put("User_Password", userInfo.getUser_password());
     UserInfo temp = userLoginService.findById(data.get("User_PK").toString());
@@ -207,7 +217,7 @@ public class UserInfoAction {
     temp.setUser_sex((int) Integer.parseInt(data.get("User_Sex").toString()));
     temp.setUser_regtime(String.valueOf(data.get("User_RegTime").toString()));
     temp.setUser_realname(data.get("User_Realname").toString());
-    temp.setUser_id(data.get("User_ID").toString());
+//    temp.setUser_id(data.get("User_ID").toString());
     String c = data.get("User_Mark").toString();
     temp.setUser_mark(c);
     temp.setCart(new CartInfo());
@@ -225,11 +235,12 @@ public class UserInfoAction {
   @RequestMapping(value = "getBannedUserInfo", method = RequestMethod.POST)
   public void getBannedUserInfo(HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject temp = new JSONObject();
-    Conditions conditions=new Conditions();
-    List list=userLoginService.list(conditions.eq("user_mark",1));
-    for (Iterator iter = ((List) list).iterator(); iter.hasNext(); ) {
-      UserInfo user=(UserInfo) iter.next();
+    Conditions conditions = new Conditions();
+    List list = userLoginService.list(conditions.eq("user_mark", 1));
+    JSONArray jsonarr = new JSONArray();
+    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+      JSONObject temp = new JSONObject();
+      UserInfo user = (UserInfo) iter.next();
       temp.put("User_PK", user.getId());
       temp.put("User_Name", user.getUser_name());
       temp.put("User_Cell", user.getUser_cell());
@@ -237,20 +248,22 @@ public class UserInfoAction {
       temp.put("User_Sex", user.getUser_sex());
       temp.put("User_RegTime", user.getUser_regtime().toString());
       temp.put("User_Realname", user.getUser_realname());
-      temp.put("User_ID", user.getUser_id());
+//      temp.put("User_ID", user.getUser_id());
+      jsonarr.add(temp);
     }
-    r = temp.toString();
+    r = jsonarr.toString();
     FlushWriteUtil.flushWrite(response, r);
   }
 
   @RequestMapping(value = "getCommonUserInfo", method = RequestMethod.POST)
   public void getCommonUserInfo(HttpServletResponse response) throws Exception {
     String r = "";
-    JSONObject temp = new JSONObject();
-    Conditions conditions=new Conditions();
-    List list=userLoginService.list(conditions.eq("user_mark",0));
+    JSONArray jsonarr = new JSONArray();
+    Conditions conditions = new Conditions();
+    List list = userLoginService.list(conditions.eq("user_mark", 0));
     for (Iterator iter = ((List) list).iterator(); iter.hasNext(); ) {
-      UserInfo user=(UserInfo) iter.next();
+      JSONObject temp = new JSONObject();
+      UserInfo user = (UserInfo) iter.next();
       temp.put("User_PK", user.getId());
       temp.put("User_Name", user.getUser_name());
       temp.put("User_Cell", user.getUser_cell());
@@ -258,22 +271,26 @@ public class UserInfoAction {
       temp.put("User_Sex", user.getUser_sex());
       temp.put("User_RegTime", user.getUser_regtime().toString());
       temp.put("User_Realname", user.getUser_realname());
-      temp.put("User_ID", user.getUser_id());
+//      temp.put("User_ID", user.getUser_id());
+      jsonarr.add(temp);
     }
-    r = temp.toString();
+    r = jsonarr.toString();
+    System.out.println(r);
     FlushWriteUtil.flushWrite(response, r);
   }
 
-  @RequestMapping(value = "getLikesUser", method = RequestMethod.POST)
-  public void getLikesUser(HttpServletResponse response) throws Exception, UnsupportedEncodingException, IOException {
+  @RequestMapping(value = "getLikesCommonUser", method = RequestMethod.POST)
+  public void getLikesCommonUser(HttpServletResponse response) throws Exception {
     JSONObject data = ReadJSONUtil.readJSONStr(request);
     String likes = data.get("likes").toString();
     likes = java.net.URLDecoder.decode(likes, "utf-8");
     JSONArray jsonarr = new JSONArray();
     if (likes != null) {
       Conditions conditions = new Conditions();
-      List list = userLoginService.list(conditions.like("user_name", "%" + likes + "%").or()
-        .like("user_realname", "%" + likes + "%").or().like("user_cell", "%" + likes + "%"));
+      List list = userLoginService.list(conditions.eq("user_mark", 0).and().leftBracket()
+        .like("user_name", "%" + likes + "%").or()
+        .like("user_realname", "%" + likes + "%").or()
+        .like("user_cell", "%" + likes + "%").rightBracket());
       if (!list.isEmpty()) {
         for (Iterator iter = ((List) list).iterator(); iter.hasNext(); ) {
           JSONObject temp = new JSONObject();
@@ -286,7 +303,40 @@ public class UserInfoAction {
           SimpleDateFormat m1 = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
           temp.put("User_RegTime", user.getUser_regtime());
           temp.put("User_Realname", user.getUser_realname());
-          temp.put("User_ID", user.getUser_id());
+//          temp.put("User_ID", user.getUser_id());
+          temp.put("User_Mark", user.getUser_mark());
+          jsonarr.add(temp);
+        }
+      }
+    }
+    String r = jsonarr.toString();
+    FlushWriteUtil.flushWrite(response, r);
+  }
+  @RequestMapping(value = "getLikesBannedUser", method = RequestMethod.POST)
+  public void getLikesBannedUser(HttpServletResponse response) throws Exception {
+    JSONObject data = ReadJSONUtil.readJSONStr(request);
+    String likes = data.get("likes").toString();
+    likes = java.net.URLDecoder.decode(likes, "utf-8");
+    JSONArray jsonarr = new JSONArray();
+    if (likes != null) {
+      Conditions conditions = new Conditions();
+      List list = userLoginService.list(conditions.eq("user_mark", 1).and().leftBracket()
+        .like("user_name", "%" + likes + "%").or()
+        .like("user_realname", "%" + likes + "%").or()
+        .like("user_cell", "%" + likes + "%").rightBracket());
+      if (!list.isEmpty()) {
+        for (Iterator iter = ((List) list).iterator(); iter.hasNext(); ) {
+          JSONObject temp = new JSONObject();
+          UserInfo user = (UserInfo) iter.next();
+          temp.put("User_PK", user.getId());
+          temp.put("User_Name", user.getUser_name());
+          temp.put("User_Cell", user.getUser_cell());
+          temp.put("User_Email", user.getUser_email());
+          temp.put("User_Sex", user.getUser_sex());
+          SimpleDateFormat m1 = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+          temp.put("User_RegTime", user.getUser_regtime());
+          temp.put("User_Realname", user.getUser_realname());
+//          temp.put("User_ID", user.getUser_id());
           temp.put("User_Mark", user.getUser_mark());
           jsonarr.add(temp);
         }

@@ -51,20 +51,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import scau.zxck.base.dao.mybatis.Conditions;
-import scau.zxck.service.market.ILoginService;
 import scau.zxck.service.sys.IUserLoginService;
 import scau.zxck.utils.CodeUtil;
 import scau.zxck.utils.SendEmail2Util;
 import scau.zxck.utils.SendEmailUtil;
-import scau.zxck.web.listener.UserSessionListener;
 
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.*;
+import java.io.File;
 import java.util.List;
 import java.util.Random;
-
+/**
+ * @author YHX
+ * @DATE 2018/9/20 0020 8:43
+ */
 @Controller
 @RequestMapping("/")
 public class TestAction {
@@ -114,5 +117,11 @@ public class TestAction {
       List list=userLoginService.list(conditions.eq("user_name",name).and().eq("user_email",email));
       if(!list.isEmpty()) return "yhx";
       else return "yhxq";
+  }
+  @RequestMapping(value = "testUploadPicture",method = RequestMethod.POST)
+  public String testuploadPicture(MultipartFile image) throws Exception{
+    String path="src/main/webapp/static/image/";
+    image.transferTo(new File(path+image.getOriginalFilename()));
+    return "success";
   }
 }
