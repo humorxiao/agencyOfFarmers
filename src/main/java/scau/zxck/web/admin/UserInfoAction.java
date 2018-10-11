@@ -67,6 +67,33 @@ public class UserInfoAction {
     FlushWriteUtil.flushWrite(response, r);
   }
 
+  @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
+  public void updatePassword(HttpServletResponse response) throws Exception{
+    JSONObject data = ReadJSONUtil.readJSONStr(request);
+    String newPassword=data.get("New_Password").toString();
+    String oldPassword=data.get("Old_Password").toString();
+    String userpk=session.getAttribute("User_PK").toString();
+    UserInfo userInfo=userLoginService.findById(userpk);
+    if(userInfo.getUser_password().equals(oldPassword)){
+      JSONObject temp=new JSONObject();
+      userInfo.setUser_password(newPassword);
+      temp.put("Old_Password",1);
+      try {
+        userLoginService.updateById(userInfo);
+        temp.put("status",1);
+        FlushWriteUtil.flushWrite(response,temp.toString());
+      }catch (Exception e){
+        e.printStackTrace();
+        temp.put("status",0);
+        FlushWriteUtil.flushWrite(response,temp.toString());
+      }
+    }else{
+      JSONObject temp=new JSONObject();
+      temp.put("status",0);
+      temp.put("Old_Password",0);
+      FlushWriteUtil.flushWrite(response,temp.toString());
+    }
+  }
   @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
   public void resetPassword(HttpServletResponse response) throws Exception {
     JSONObject data = ReadJSONUtil.readJSONStr(request);
