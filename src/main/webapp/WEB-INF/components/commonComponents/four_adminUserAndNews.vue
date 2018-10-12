@@ -28,10 +28,11 @@
 
 <script>
   import axios from 'axios'
+  import 'quill/dist/quill.core.css'
+  import 'quill/dist/quill.snow.css'
+  import 'quill/dist/quill.bubble.css'
+  import { quillEditor } from 'vue-quill-editor'
   export default {
-    components: {
-      LocalQuillEditor: VueQuillEditor.quillEditor
-    },
     data() {
       return{
         value: '',
@@ -124,4 +125,5 @@
   .content {
     background-color: white;
   }
+
 </style>

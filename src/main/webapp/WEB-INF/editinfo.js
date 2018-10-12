@@ -7,7 +7,11 @@ import {Button,Message,  Table, TableColumn,  Popover, Tag, Input, FormItem,Form
   Option,MessageBox, Dialog, Col,DatePicker,Checkbox,Radio,CheckboxGroup,RadioGroup,Footer} from 'element-ui'
 
 import "babel-polyfill"
+
+import VueQuillEditor from 'vue-quill-editor'
 Vue.config.productionTip = false
+
+Vue.use(VueQuillEditor)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Popover)
@@ -24,9 +28,6 @@ Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
 Vue.use(Radio);
 Vue.use(RadioGroup);
-// Vue.use(VueQuillEditor)
-// Vue.use(VueQuillEditor)
-Vue.use(VueQuillEditor)
 Vue.use(Dialog);
 Vue.use(Footer);
 Vue.prototype.$confirm = MessageBox.confirm;
