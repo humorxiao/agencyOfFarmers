@@ -818,3 +818,5 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` EVENT `Procedure_2` ON SCHEDULE EVERY 60 SECOND STARTS '2017-05-22 22:12:23' ON COMPLETION PRESERVE ENABLE DO CALL Procedure_2
 ;;
 DELIMITER ;
+
+ALTER table `order_info` add `order_sendtime` varchar(20) default null;
